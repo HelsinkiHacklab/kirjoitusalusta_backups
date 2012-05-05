@@ -1,6 +1,19 @@
 #!/bin/bash -x
+WGET='wget -nH --cut-dirs=3 -E -k -r -np --force-html --no-check-certificate --base=http://kirjoitusalusta.fi --domains=kirjoitusalusta.fi'
+# Dump the motherpad and follow links in it
+mkdir hacklab
 wget -E --no-check-certificate -q -O /dev/stdout http://kirjoitusalusta.fi/ep/pad/export/hacklab/latest?format=html | sed -r -e "s%\"https?://kirjoitusalusta.fi/([^\"]+)\"%\"http://kirjoitusalusta.fi/ep/pad/export/\1/latest?format=html\"%g"  >hacklab/latest\?format\=html.html
-wget -nH --cut-dirs=3 -E -k -r -np --force-html --no-check-certificate --base=http://kirjoitusalusta.fi --input-file hacklab/latest\?format\=html.html
+$WGET --input-file hacklab/latest\?format\=html.html
+
+# Find links in child pads, dump them to single file and run wget again
+echo >urllist.html
+for file in $( find . -name '*.html' | grep -v urllist\.html )
+do
+    grep "kirjoitusalusta.fi" "$file" | sed -r -e "s%\"https?://kirjoitusalusta.fi/([^\"]+)\"%\"http://kirjoitusalusta.fi/ep/pad/export/\1/latest?format=html\"%g" >>urllist.html
+done
+
+$WGET --input-file urllist.html
+#rm urllist.html
 
 # rename the dumped files
 for file in $( find . -name '*.html' | grep 'latest' )
