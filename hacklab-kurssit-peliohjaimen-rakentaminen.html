@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-us" />
+<title>/hacklab-kurssit-peliohjaimen-rakentaminen</title>
+</head>
+<body><b><u>Peliohjaimen rakentaminen -kurssi Helsinki Hacklabillä</u></b><br
+/><br
+/><b>Kurssin tavoite</b><br
+/><ul><li>perusteet, kuinka Arduino UNO R3:lla tehdään USB-peliohjain tai näppäimistö<ul><li>pitäisi toimia Windowsissa, OS X:ssä, Linuxilla ja PS3:lla (varauksin)</li
+><li><a href="http://arduino.cc/en/Main/ArduinoBoardUno">http://arduino.cc/en/Main/ArduinoBoardUno</a></li></ul
+></li
+><li>osallistuja määrittelee haluamansa ohjaimen tyypin, akselien määrän ja kurssin vetäjien kanssa päätetään tarvittavat osat</li
+><li>esimerkki A, yksinkertainen 'turvanappi' joka aiheuttaa joystick- tai näppäinpainallukset<ul><li><a href="http://biltema.fi/fi/Autoilu---MP/Autotarvikkeet/Autosahko/Virtakatkaisin/Vipukytkin-suojakannella-43042/">http://biltema.fi/fi/Autoilu---MP/Autotarvikkeet/Autosahko/Virtakatkaisin/Vipukytkin-suojakannella-43042/</a></li></ul
+></li
+><li>esimerkki B, täysi HOTAS-systeemi hall-antureilla ja painesensoreilla<ul><li><a href="http://www.f-16.net/attachments/f_16_hotas_001_925.jpg">http://www.f-16.net/attachments/f_16_hotas_001_925.jpg</a></li></ul
+></li
+><li>materiaaleina käytämme laserleikattua akryyliä, kahvoihin värjättyä polymorph muovia, alumiiniputkia jne. mitä varastosta löytyy ja mitä osallistujat ovat tuoneet mukanaan</li
+><li>kurssilla ei tarvioida, keskitymme ohjaimen varsinaiseen rakentamiseen</li
+><li>materiaalimaksu on noin 30..80 euroa, riippuen mitä antureita Arduinon lisäksi ohjaimeensa haluaa</li
+><li>tarkoituksena ei ole vielä tehdä sitä lopullista, vaan enemmänkin prototyyppi, jotta osaa jatkossa tehdä omin päin lisää</li
+><li>labille voi tiistaisin tulla jatkamaan, jos jää kesken</li
+><li>la 24.3.2012 Kotiohjaamopäivät Suomen Ilmailumuseolla, tänne voi tulla esittelemään tuotostaan<br/><br
+/></li></ul
+><b>Aika ja paikka</b><br
+/><ul><li>lauantaina 10.3.2012 ja sunnuntaina 11.3.2012<ul><li>aamupäivä 10-12, lounas 12-13, iltapäivä 13-17, yritä päästä ajoissa paikalle</li></ul
+></li
+><li>Helsinki Hacklab<ul><li>Vallilassa, Nilsiänkatu 10, B-rappu, ovessa numero johon soittamalla tullaan avaaman</li
+><li><a href="http://helsinki.hacklab.fi/yhteystiedot/">http://helsinki.hacklab.fi/yhteystiedot/</a><br/><br
+/></li></ul
+></li></ul
+><b>Ilmoittautuminen</b><br
+/><ul><li>kerro ilmoittautumisen yhteydessä minkälaista ohjainta olisit tekemässä, niin katsellaan miten onnistuu ja mitä tarvikkeita tarvitset</li
+><li><a href="https://docs.google.com/spreadsheet/viewform?formkey=dC1lZkFiNWNYQXZJZ3RLZnlBSng4RUE6MA">https://docs.google.com/spreadsheet/viewform?formkey=dC1lZkFiNWNYQXZJZ3RLZnlBSng4RUE6MA</a></li
+><li>jos et saa kuittausta imoittautumiseesi vuorokauden kuluessa, lähetä mailia hallitus@hacklab.fi<br/><br
+/></li></ul
+><b>Muuta</b><br
+/><ul><li>kurssi on kaikille avoin, mutta kurssilla tarvitaan materiaaleja:<ul><li>Arduino UNO R3, hinta 20-30 e</li
+><li>nappeja, kytkimiä, ledejä, antureita, hinta 10-50 e</li
+><li>polymorph-muovia suositellaan kahvoiksi, hinta 5-10 e</li></ul
+></li
+><li>tilatut materiaalit maksetaan paikan päällä, varaa käteistä mukaan<br/><br
+/></li></ul
+>--<br
+/><b>Helsinki Hacklab</b>: <a href="http://helsinki.hacklab.fi/">http://helsinki.hacklab.fi/</a><br
+/><br
+/><br
+/><b>Suovulan hankinta TODO</b><br
+/><ul><li><s>Biltema: turvavipukytkimiä ja katsoa mitä muuta voisi löytyä</s></li
+><li><s>Partco:</s><ul><li><a href="http://www.partco.biz/verkkokauppa/product_info.php?&products_id=15991"><s>http://www.partco.biz/verkkokauppa/product_info.php?&amp;products_id=15991</s></a></li
+><li><a href="http://www.partco.biz/verkkokauppa/product_info.php?products_id=1443"><s>http://www.partco.biz/verkkokauppa/product_info.php?products_id=1443</s></a></li
+><li><a href="http://www.partco.biz/verkkokauppa/product_info.php?products_id=15707"><s>http://www.partco.biz/verkkokauppa/product_info.php?products_id=15707</s></a></li
+><li><a href="http://www.partco.biz/verkkokauppa/product_info.php?products_id=7391"><s>http://www.partco.biz/verkkokauppa/product_info.php?products_id=7391</s></a></li
+><li><a href="http://www.partco.biz/verkkokauppa/product_info.php?products_id=7368"><s>http://www.partco.biz/verkkokauppa/product_info.php?products_id=7368</s></a></li></ul
+></li
+><li>Hobby Point: värejä jauheena<br/><br
+/></li></ul
+>int sensorPinX = A0; // potikka X<br
+/>int sensorPinY = A1; // potikka Y<br
+/>int ledPinX = 10; // ledi X<br
+/>int ledPinY = 11; // ledi Y<br
+/>int sensorValueX = 0; // 0-1023<br
+/>int sensorValueY = 0;<br
+/><br
+/>void setup() {<br
+/>&nbsp; pinMode(ledPinX, OUTPUT); // ledi X<br
+/>&nbsp; pinMode(ledPinY, OUTPUT); // ledi y<br
+/>&nbsp; pinMode(sensorPinX, INPUT); // potikka<br
+/>&nbsp; pinMode(sensorPinY, INPUT); // potikka<br
+/>&nbsp; Serial.begin(115200);<br
+/>}<br
+/><br
+/>void loop() {<br
+/>&nbsp; sensorValueX = analogRead(sensorPinX);<br
+/>&nbsp; sensorValueY = analogRead(sensorPinY);<br
+/>&nbsp; analogWrite(ledPinX,sensorValueX/4);<br
+/>&nbsp; analogWrite(ledPinY,sensorValueY/4);&nbsp;<br
+/>&nbsp; Serial.print(millis());<br
+/>&nbsp; Serial.print(" x= ");<br
+/>&nbsp; Serial.print(sensorValueX);<br
+/>&nbsp; Serial.print(" y= ");<br
+/>&nbsp; Serial.print(sensorValueY);<br
+/>&nbsp; Serial.println();<br
+/>}<br
+/><br
+/>ppppppp<br
+/><br
+/>float dx = 0;<br
+/>float dy = 0;<br
+/>int w = 640;<br
+/>int h = 480;<br
+/>int x = w / 2;<br
+/>int y = h / 2;<br
+/>float koko = 0;<br
+/><br
+/>void setup() {<br
+/>&nbsp; size(w,h);<br
+/>&nbsp; smooth();<br
+/>}<br
+/><br
+/>void draw() {<br
+/>&nbsp; if (mousePressed) {<br
+/>&nbsp;&nbsp;&nbsp; dx = 0;<br
+/>&nbsp;&nbsp;&nbsp; dy = 0;<br
+/>&nbsp;&nbsp;&nbsp; x = 215;<br
+/>&nbsp;&nbsp;&nbsp; y = 200;<br
+/>&nbsp;&nbsp;&nbsp; background(random(56), random(84), random(72));<br
+/>&nbsp; }<br
+/>&nbsp; if (keyPressed &amp;&amp; (key == CODED)) { // if key is coded<br
+/>&nbsp;&nbsp;&nbsp; if (keyCode == LEFT) { // jos on vasen<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dx -= 0.1;<br
+/>&nbsp;&nbsp;&nbsp; } else if (keyCode == RIGHT) { // jos on oikea<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dx += 0.1;&nbsp;&nbsp;&nbsp;<br
+/>&nbsp;&nbsp;&nbsp; }&nbsp;<br
+/>&nbsp;&nbsp;&nbsp; else if (keyCode == UP) { // jos on ylos<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dy -= 0.1;&nbsp;&nbsp;&nbsp;<br
+/>&nbsp;&nbsp;&nbsp; }&nbsp;<br
+/>&nbsp;&nbsp;&nbsp; else if (keyCode == DOWN) {<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dy += 0.1;<br
+/>&nbsp;&nbsp;&nbsp; }<br
+/>&nbsp;&nbsp;<br
+/>&nbsp; }<br
+/>&nbsp; x += dx;<br
+/>&nbsp; y += dy;<br
+/>&nbsp; if (x &gt;= w){<br
+/>&nbsp;&nbsp;&nbsp; x = 0;<br
+/>&nbsp; }<br
+/>&nbsp; else if (x &lt;= 0){<br
+/>&nbsp;&nbsp;&nbsp; x = w;<br
+/>&nbsp; }<br
+/>&nbsp; if (y &gt;= h){<br
+/>&nbsp;&nbsp;&nbsp; y = 0;<br
+/>&nbsp; }<br
+/>&nbsp; else if (y &lt;= 0){<br
+/>&nbsp;&nbsp;&nbsp; y = h;<br
+/>&nbsp; }<br
+/>&nbsp; fill(random(200), random(201), random(221));<br
+/>&nbsp; noStroke();<br
+/>&nbsp; koko = (3 * koko + random(30)) / 4;<br
+/>&nbsp; ellipse(x,y,koko,koko);<br
+/>&nbsp; delay(10);<br
+/>}<br
+/><br
+/><br
+/><br
+/><br
+/></body>
+</html>
