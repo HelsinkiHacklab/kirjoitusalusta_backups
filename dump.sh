@@ -13,7 +13,7 @@ do
 done
 
 $WGET --input-file urllist.html
-#rm urllist.html
+rm urllist.html
 
 # rename the dumped files
 for file in $( find . -name '*.html' | grep 'latest' )
@@ -24,6 +24,12 @@ done
 
 # and rewrite the links in hacklab.html to point to the renamed files
 sed -i -r -e "s%http://kirjoitusalusta.fi/ep/pad/export/([^/]+)/latest\?format=html%\1.html%g" hacklab.html
+
+# and rewrite links in the other files too
+for file in $( find . -name '*.html')
+do
+    sed -i -r -e "s%\"https?://kirjoitusalusta.fi/([^\"]+)\"%\"\1.html\"%g" "$file"
+done
 
 # Autocommit
 git add hacklab*.html
