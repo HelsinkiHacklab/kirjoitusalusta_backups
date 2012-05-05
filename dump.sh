@@ -9,6 +9,9 @@ do
     rmdir `echo "$file" | sed -r -e "s%/latest.*\.html%/%g"`
 done
 
+# and rewrite the links in hacklab.html to point to the renamed files
+sed -i -r -e "s%http://kirjoitusalusta.fi/ep/pad/export/([^/]+)/latest\?format=html%\1.html%g" hacklab.html
+
 # Autocommit
 git add hacklab*.html
 git commit -m 'dumped with script'
