@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-us" />
+<title>/hacklab-monorail</title>
+</head>
+<body><b>Status 18.4.2012.</b><br
+/>Still blending, prototyyppijunaa varten tarvii asioita<br
+/><br
+/><b>History</b><br
+/><br
+/>Ajatus syntyi Tampereella 6-8.1.2012 muutaman bissen innoittamana. Kuinka siirtää tavaroita labillä nostamatta persettä penkistä. Aluksi ajateltiin normaalia sähköjunaa mutta tilanpuutteen vuoksi siirryttiin monoraili ideaan.<br
+/><br
+/><br
+/><b>Toteutus</b><br
+/><br
+/>Kiinnitetään kattoon verhotangot joissa roikkuen yksiraiteinen junarobotti voisi kulkea labin huoneiden välillä.<br
+/><br
+/><b>Prototyyppijunaa varten tarvitaan:</b><br
+/><ul><li>erilaisia kiskoja</li
+><li>laakereita</li
+><li>nauhaa jota voidaan käyttää sähköjen vetämiseen kiskoille (teippiä tms.)<br/><br
+/></li></ul
+><b>Juna</b><br
+/><ul><li>itse junan voi toteuttaa 3D printtaamalla/laserleikkaamalla palat<ul><li>paino roikkuu laakereiden varassa kiskolla</li
+><li>sähköt otetaan kiskosta esim: kevyillä "jousitetuilla" liitinkarvoilla</li
+><li>liikkuu kiskon alapuolella olevalla moottorilla</li
+><li>Moottori pyörittää kumipyöriä jotka puristavat kiskoa sivusta<ul><li>vai alapuolelta? (riippuu kiskosta)</li
+><li>Sivuista saisi radan puristuksen molemmilta puolilta, ja moottorin tasapainoitettua keskelle sopivalla hihnavedolla.&nbsp; Alapuoleltakin tietty voi ajaa, tosin lisää vähän kitkaa ripustussysteemiin.<br/><br
+/></li></ul
+></li></ul
+></li></ul
+><b>Hallinta</b><br
+/>Raspberry Pi junassa - voi samalla pyörittää koko varastomuistia, wifillä tarjoaa ohjauswebbisivun.<br
+/><ul><li>ottaako virran kiskoista ja onko paristovarmennettu?<ul><li>Virran voisi ottaa kiskoista, mutta tietysti charging station olisi myös kätevä, ja vähentäisi radan monimutkaisuutta, sekä vähentäisi huonon kontaktin tuomat virrankatkokset</li></ul
+></li
+><li>datan backup miten?<ul><li>USB tikku / SD kortti kiintolevynä tjms.&nbsp; Jos kaikki tieto korruptoituu, uuden katsauksen varastojärjestyksestä voi tehdä ajamalla radan läpi ja skannaamalla radan alla varastossa olevien laatikoiden QR koodit.<br/><br
+/></li></ul
+></li></ul
+>Kuinka sensorit ym. kiinnitetään rasperryyn?<br
+/><ul><li>Raspberryssä on kourallinen generic IO pinnejä, jos ei riitä niin jotain multiplekseriä tai tarvittaessa apu-ardu.<br/><br
+/></li></ul
+>Ei muita junia -&gt; vähemmän rakentamista, ei liikenteenohjausta.<br
+/><ul><li>rakennetaanko juna kuitenkin vaunuina?<ul><li>modulaarinen rakenne mahdollistaa korjauksen ilman että juna menettää kokonaan toimintansa, toisaalta voi myös aiheuttaa ongelmia jolloin olisi nopeampaa vain korjata koko juna</li
+><li>mahdollistaa muut laajennukset kuin tavaran poiminnan, esim erillinen kameravaunu.</li
+><li>Junassa olisi yksi yksikkö, joka pystyy nostamaan laatikon (ja joka myös sisältää webbikameran) - ei tarvita vaunuja.&nbsp; Laajennukset myös lisättävissä suoraan pääyksikköön.&nbsp; Tulevaisuudessa jos nousee tarve pidemmälle junalle voi aina lisätä yksikköjä.<br/><br
+/></li></ul
+></li></ul
+><b>Kuljetus</b><br
+/>Hyvä jos voisi käyttää jotain halpoja, standardikokoisia laatikoita, mielellään jotain jota jo on käytössä labilla -&gt; karkkilaatikot.<br
+/>Karkkilaatikoissa on overhanging ulkoreuna, jonka alta saa hyvän otteen esim alumiiniputkista tehdyllä neliöllä jota pienentää kun tartutaan laatikosta (alumiinit kiinni kulmissa epäkeskopyörissä tjms).&nbsp; Alumiini päälystetty jonkinlaisella no-slip päällysteellä (esim kumilevy tjms, paljas alumiini aika liukasta).<br
+/><br
+/>Jokin pienempi laatikko-koko (parin milkoonalaatikon kokoinen) olisi myös kätevä, tarkempaa tavaroiden lajittelemista varten.&nbsp; Tarvittaessa tosin karkkilaatikot voi jakaa lokeroihin, tai voivat sisältää pienempiä laatikoita (tosin ne katoavat helposti).&nbsp; Nosto-systeemi toimii monelle eri koolle, mahdollisesti myös ei-neliömäisille laatikoille, kunhan laatikoissa on ulkonevat yläreunukset. (esim hammarplast laatikoille).<br
+/><br
+/>Tarvitsee junasta roikkuvan (ylös ja alas liikkuvan) nosto-osan, jonka varassa laatikoita voisi myös kuljettaa.<br
+/><br
+/><br
+/><br
+/><b>Varastointi</b><br
+/>Laatikot&nbsp; varastoidaan asettamalla ne alas monorail kiskon alla olevalle katonrajassa olevalle hyllylle / tasanteelle. Tasanne suojattu sivuilta&nbsp; esim läpinäkyvällä muovilla tjms, romahdusten estämiseksi (turvallisuus&nbsp; tärkeätä, ei haluta 3 kg muuntajia päähän, eikä 500g muuntajiakaan).<br
+/><br
+/>Tarvittaessa&nbsp; ja tilan riittäessä laatikoita voi kerrostaakkin, mutta tämä on&nbsp; ongelmallista koska laatikon noutaminen vaatii silloin pienoista hanoin&nbsp; torni-tyylisä laatikkojen liikuttamista, ja laatikon täsmällinen&nbsp; sijoitus toisen laatikon päälle voi olla vaikeata, jolloin laatikko&nbsp; lähtee helposti liusumaan.&nbsp; Tosin tämä on helppo tapa lisätä varastotilaa, joten varaudutaan jos mahdollista siihen että laatikkoja mahtuu kahteen kerrokseen.<br
+/><br
+/><br
+/><br
+/><b>Radan veto</b><br
+/>Rata kulkee kattoa pitkin, radan alla hyllytilaa / putoamissuoja, paitsi asema-alueella.<br
+/><ul><li>onko mahdollista tehdä tästä jonkinlainen piirros<ul><li>Ok, teen labilla esim torstaina<br/><br
+/></li></ul
+></li></ul
+>Asemat oleskeluhuoneessa, elektroniikkahuoneessa ja työstöhuoneessa.<br
+/>Kyseisten huoneiden välillä on lasiseinät, niihin saa katonrajaan helposti sopivat aukot.<br
+/>Kyseisiin huoneisiin saa myös katonrajaan varasto-tasanteita.<br
+/><br
+/>Asemat työskentelytilojen yhteydessä, oleskeluhuoneessa kahvipöydällä ja / tai oranssilla pöydällä.<br
+/><br
+/>Vaihteiden tekemisen voi välttää tekemällä koko radan pitkäksi viivaksi, joka kulkee jokaisen asema-alueen yli.<br
+/><br
+/>Koko järjestelmä mahdollisimman yksinkertainen jos käytössä on vain yksi junayksikkö, jossa myös on kaikki äly, ja ainoastaan yksi kisko, ei vaihteita.<br
+/><br
+/><br
+/><br
+/><b>Logistiikka</b><br
+/>Jokaisen laatikon kannessa jonkinlainen QR tai viivakoodi, sekä selväkielinen laatikon nimi.&nbsp; Junan nosturi-osan alla kamera + junassa esim raspberry pi jolla se pystyy lukemaan QR koodit.&nbsp;<br
+/><ul><li>minkälainen lukija, riittääkö usb webcam?<ul><li>USB webcam pitäisi riittää.&nbsp; Softana esim open-CV.<br/><br
+/></li></ul
+></li></ul
+>Asema-alueilla on teipattu laskeutumispaikoille QR koodit jokaiselle laituripaikalle (esim kolme laituripaikkaa), jotta järjestelmä näkee onko laituripaikka tyhjä, ja laskeutumispaikkojen ympärille esim keltamustateippiä varoittamaan käyttäjiä pitämään ne tyhjänä.<br
+/><br
+/>Varastotasanteille voidaan myös teipata sopivin välimatkoin QR koodia siihen mihin laatikoita voi asettaa.<br
+/><br
+/>Olisi hyvä jos QR koodi ja etiketti voisi olla laatikon sivussa, koska kannet sekottuvat helposti, mutta laatikot eivät oikeastaan ollenkaan.&nbsp; Vaikeuttaa jonkin verran kameran käyttöä tosin.<br
+/><br
+/><br
+/><b>Käyttö</b><br
+/><br
+/>Webbikäyttöliittymällä tilataan haluttu laatikko halutulle asemalle haluttuun ruutuun.<br
+/>Sitä kautta tilataan myös halutun aseman siivous, jolloin kaikki asemalla laskeutumispaikoilla olevat laatikot viedään säilöön.&nbsp; Vaihtoehtoisesti erityinen poistoruutu, jonka juna käy aina silloin tällöin tarkistamassa, ja tyhjää jos siinä on jotain.&nbsp; Poistoruudun tyhjentämiseen voisi olla vaikkapa ihan fyysinen nappi asemalla, jolloin junan ei tarvitsisi itse käydä omatoimisesti poistoruutuja tarkistamassa.<br
+/><br
+/>Koska junassa on alapuolella kamera, voi se ottaa laatikoista jonkinmoisen kuvan aina kun se varastoi ne, joita voi katsoa varastoa selatessa.&nbsp; Tosin kansi on usein jokseenkin sumea, ja päällä QR koodi.&nbsp; Mutta kuvaa voisi parantaa esim valaisemalla laatikkoa sivusta valkoledeillä kun sitä nostetaan, tjms.&nbsp; Tämä tosin on ihan vaan hifistelyä.&nbsp;<br
+/><ul><li>ir ledit valaisee myös riippuen kamerasta<br/><br
+/></li></ul
+>Webbikäyttöliittymän lisäksi voisi ehkä olla LCD näytöllä toimiva elektroninen pikakäyttöliittymä, tosin webbikäli helpompi tehdä jos kuitenkin esim raspberry pi:llä ohjataan systeemiä.<br
+/><ul><li>Junassa voisi olla joku näyttö kertomassa mitä se on tekemässä<ul><li>voi toki toteuttaa myös ledeillä jne. mutta näyttö olisi siistimpi!<ul><li>Jep, kuulostaa hyvältä.&nbsp; Voisi olla myös text-to-speech jos riittää prosessoriteho "Toimitan Mutterilaatikkoa Elektroniikkahuoneen Asemapaikalle 1" :P<br/><br
+/></li></ul
+></li></ul
+></li></ul
+><b>Turvallisuus</b><br
+/>Paitsi laituri-alueilla, radan alla aina tukevasti kiinnitetty varasto-tasanne.<br
+/><br
+/>Junan liikkuessa vilkkuvalot, laiturialueilla piipitys, varsinkin jos ollaan nostamassa tai laskemassa laatikkoa.&nbsp; Piippaaja ja vilkkuvalo laskeutuvassa nosturiosassa.<br
+/><br
+/>Ei suostu nostamaan laatikkoa jos se on liian painava.<br
+/><ul><li>minkälaisella sensorilla tämä havaitaan<ul><li>Hyvä kysymys.&nbsp; Jonkun elektronisen vaa-an voisi ehkä purkaa.&nbsp; Joka tapauksessa, voidaan jättää toistaiseksi optionaaliseksi.</li></ul
+></li></ul
+>Pysähtyy jos kulkueste.<br
+/><ul><li>miten tätä tarkkaillaan niin että kun kulkueste on poistettu juna osaa jatkaa matkaa?<ul><li>Voidaan toteuttaa yksinkertaisesti esimerkiksi söbötistä tutuilla microswitcheihin liitetyillä bumppereilla</li></ul
+></li></ul
+>Ulkoinen hätäpysäytys.<br
+/>juna voisi myös hidastaa vauhtia jos se havaitsee liikettä?<br
+/><ul><li>Voisi myös toimia, jos saadaan jotenkin kätevästi toteutettua<br/><br
+/></li></ul
+>Junayksikössä pysäytysnappi huoltoja varten.<br
+/><br
+/><br
+/><b>Viansieto ja huolto</b><br
+/>Lepoasema jossain jossa junayksikköön pääsee helposti käsiksi.<br
+/>Wifi reconnect.<br
+/>Kaikkiin radan osiin pääsy ainakin tikkaiden avulla ja vähän sivuluukkuja avaamalla.<br
+/><br
+/><br
+/><br
+/><b>Kiskot</b><br
+/>mistä saa sopivaa verhotankoa tarkoitukseen? tämä siis sillä oletuksella että toteutus olisi jotenkin näin: <a href="http://ota.kupoli.net/~anacron/monorail/monor.png">http://ota.kupoli.net/~anacron/monorail/monor.png</a><br
+/><ul><li>laakerit joiden varassa paino roikkuu I-kiskossa<ul><li>mistä löytää tarpeeksi isoa ja halpaa I kiskoa tarkoitukseen?</li
+><li>standardikisko on 13mm uralla jonka syvyys on 2.5mm joten laakerit pitää olla todella pieniä ja esim. M3 ruuvin kannan koko on ongelmallisen iso (jotain 1,65mm pienimmillään?)</li
+><li>suovulalla jossain vaiheessa oikein pieniä laakereita &lt;- mistä näitä saa?</li></ul
+></li
+><li>T- kisko toimisi myös mutta miten se kiinnitetään kattoon + sama ongelma tarpeeksi ison löytämisessä?</li
+><li>206950 PERUSKISKO<b> </b><a href="http://tinyurl.com/79doe43"><b>http://tinyurl.com/79doe43</b></a><ul><li>mahtuisi todennäköisesti isompi laakeri sisään, mutta tuettu vain toiselta puolelta</li
+><li>voi olla turhan kallista?</li></ul
+></li
+><li>U:n mallinenkin "kisko" käy kunhan se on tarpeeksi leveää niin että kiinnitys kattoon tulee U:n sisään ja yläpuolelle mahtuu laakerit, sivuille voi vetää sähköt ja alas moottorin<br/><br
+/></li></ul
+><b>Sähköt?</b><br
+/><ul><li>esimerkissä ideana on sähköistää tangot niin että toiselle puolelle tulee + ja toiselle -<ul><li>pystyykö toteuttamaan teipillä</li
+><li>minkälainen rakenne tulee "liitinkarvoihin"</li
+><li>sähköt voi vetää myös johdolla samaan tyyliin kuin ratikoissa otetaan sähköt</li
+><li>akkukäyttöisyys?</li
+><li>Mikälaista jännitettä pitää saada aikaiseksi?<br/><br
+/></li></ul
+></li></ul
+></body>
+</html>

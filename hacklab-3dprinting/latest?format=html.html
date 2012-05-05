@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-us" />
+<title>/hacklab-3dprinting</title>
+</head>
+<body><b><u>3D Printing at Helsinki Hacklab</u></b><br
+/><br
+/>Helsinki Hacklab has a 3D printer named Torsti, of type RepRap Mendel with gen3 electronics.<br
+/><br
+/>Printer status atm: (updated 28.2.2012)<br
+/>works okay, use 180 decrees for faberdashery pla!<br
+/><s>zzorn ordered more PLA from faberdashery so now we have lot's of pretty colors to choose from! also we are now collecting a fee from printing so we can fix the printer when needed &amp; get some more PLA</s><br
+/><br
+/><s>Torsti is printing very bad quality at the moment, so <b>don't use it!!!</s></b><br
+/><s>X-axis screw needs to be replaced -&gt; done with Harald (pictures can be found at hacknas)</s><br
+/><s>extrusion gear not spinning, probably the cause of bad printing! we might try to do something about it at thursday</s><br
+/>Should work now, fixed with harald, needs x-axis calibration tough.<br
+/><br
+/><b>What you should check before printing</b><br
+/><ul><li>Check that there's nothing blocking the motors under the unit (power cables or something else)</li
+><li>Check that the endstops are working, especially the Z-endstop<br/><br
+/></li></ul
+><b>Printing instructions</b><br
+/><ul><li>See documentation on Torsti <s>(TODO: Move here?)</s></li></ul
+>1) Turn the ATX power on<br
+/>2) Open Skeinforge and use it to convert your .stl file to gcode. Click "craft" to select your model. You can see the conversion process in a terminal window.<br
+/>3) Open RepSnapper to print your model from gcode. In the simple tab, choose "connect" to printer and when connected, click "Load GCode" and choose the generated file. It might take a while to load (see the processbar at the top) you need to move the viewpoint to refresh the view (zoom in and out for example)<br
+/>4) Go to Interactive tab and switch the heat on (180 to 200 deg with PLA material) it always depends with the material you are using, so do try it out! cheap PLA tends to need more temp.<br
+/>5) Lower the extruder so that it is <u>just</u> above the print surface and use the X/Y controls (+1/+10) to move the extruder to good place to start your print (depends on the center point of your loaded gcode) by default you should center the head to the center of platform<br
+/>6) Click on "Zero XY" and "Zero Z" to assign the starting point of your print<br
+/>7) Go to print tab and print<br
+/><br
+/><b>Tip to get a good start with printing</b><br
+/>Current firmware doesn't extrude any plastic before it actually starts to print. This should be done to get a stable flow of extruding the plastic. For example - Ultimaker first extrudes a tiny bit of PLA before it starts to print the real model, it will make a square around the print. The square is done because when starting to extrude it usually takes a moment to get the flow and basicly you lose some bits of your base from the model if your printer isn't extruding properly, in some cases this might make the whole print to fail.<br
+/><br
+/>When you start to print with Torsti, you might notice that it's not actually extruding the plastic when it starts to print, you should wait that it starts to <u>actually</u> print the first layer. When the printing quality looks good hit the "reset printing" button at the print tab, quickly clean the platform with a knife etc. and when the printer starts doing the same thing again now it should start with a good print right away.<br
+/><br
+/><b>Printer not working?</b><br
+/><i>1 ) No power?</i><br
+/><br
+/>Check if the power outlet is switched on. Easy way to see if you get power is to check if stepper drivers are on. They have green/orange leds on board and are located in front of the unit. If power outlet is turned on but you still don't get power check that ATX power supply is switched on, there's a power switch behind the unit. Don't trust that the fan should be running when the unit has power switched on, the fan in this unit might be stopped if there's no load so check the power some other way. If the printer was turned off from the power outlet while printing (when something went wrong) ATX might not turn on before you take the jumpercable off from the ATX connector and put it back (That is short green wire forced into ATX connector to pin 14? and GND).<br
+/><br
+/>2) <i>No connection to printer with Repsnapper (no connection sound) even cables and everything else seems to be ok.</i><br
+/><br
+/>Try reseting the printers mainboard, there's a yellow reset switch in the board.<br
+/><br
+/>3) Stepper is jammed? One stepper is not moving either direction it might be in wrong angle. You can feel stepper buzz when pressing finger on its axel. But watch out, steppers might be burning hot!&nbsp; Unpower Reprap and try to push/pull it manually to correct position. Repower and test.<br
+/><br
+/><b>Upgrades done for Torsti lately:</b><br
+/>- Added snap on filament holder at the top of the unit<br
+/>- Cables from steppers re-routed so they won't heat up as much<br
+/>- New print platform and mechanical springs added<br
+/>- Z endstop holder fixed<br
+/>- Extruder cables (heat control) fixed but they should be replaced by new ones<br
+/>- fan secured with a bolt and a washer<br
+/>- un used cable ends secured with heat shrink tubing<br
+/>- 11.10. more cable re-routing, added rubber pads under the legs, filament holder printed<br
+/>- software moved to another computer, laptop HD was in very bad condition<br
+/>- right side of x-axis stuff taken apart, cleaned, properly tighten and put back together by anacron &amp; harald. works better, but now left side seems loose compared to right side.<br
+/>- extruding didn't work at all. Extruder taken apart, steppermotor tested by Suovula and put back together by anacron &amp; harald, works now.<br
+/><br
+/><b>To do:</b><br
+/><ul><li><s>platform not straight, needs to be calibrated</s></li
+><li>whole printer might not be straight, needs to be checked</li
+><li>printingboard support should be moved a bit down so extruder wont touch it while printing high models.</li
+><li>better filament spool holder(in progress)</li
+><li>better fan mounting and cable re-routing(fan mounted, cable management in progress)</li
+><li>heatsinks for steppermotors(needs something good to attach the heatsinks)</li
+><li>firmware upgrade to Teacup or FiveD (so replicatorG and other latest software could be used) <a href="http://sourceforge.net/projects/reprap/files/Gen3%20Firmware/v1.2/">http://sourceforge.net/projects/reprap/files/Gen3%20Firmware/v1.2/</a></li
+><li><br/></li></ul
+><b>Creating models (General stuff)</b><br
+/><ul><li>OpenScad<ul><li>Programmatic creation of shapes.&nbsp; Powerful, but a bit complicated.&nbsp; Works well.</li
+><li>buggy interface (doesn't draw everything correctly)<ul><li>Use render() call on strategic places or always render whole thing to GCAL (the preview can explode if the CSG tree gets too complex)</li></ul
+></li></ul
+></li
+><li>Freecad<ul><li>supposed to be better than OpenScad?</li
+><li>not as simple as OpenScad, has more "easy to use" tools etc. (this is either con or pro)</li></ul
+></li
+><li>Using Google Sketchup to create and print 3D models<ul><li>Very intuitive user interface</li
+><li>Use the plugin <a href="http://www.guitar-list.com/download-software/convert-sketchup-skp-files-dxf-or-stl">http://www.guitar-list.com/download-software/convert-sketchup-skp-files-dxf-or-stl</a> to export the 3D model to SPL format</li
+><li>Brett's rewrite of skp-to-dxf allows "Right click to export": <a href="http://brettbeauregard.com/download/skp_to_Custom.rb">http://brettbeauregard.com/download/skp_to_Custom.rb</a> rm: <a href="http://brettbeauregard.com/blog/2011/06/sketchup-to-stl-plugin-with-no-dialogs/comment-page-1/#comment-19324">http://brettbeauregard.com/blog/2011/06/sketchup-to-stl-plugin-with-no-dialogs/comment-page-1/#comment-19324</a></li
+><li>use manifold plugin for finding errors from your model <a href="http://forums.sketchucation.com/viewtopic.php?f=323&t=25466">http://forums.sketchucation.com/viewtopic.php?f=323&amp;t=25466</a></li
+><li>there's also stl importer plugin available</li
+><li>if you want to import vector graphics you need to buy pro version or you can download the evalution version of Sketchup 7 pro and then get a free plugin to import dxf format. It's supposed to work even after you lose the pro evalution and the Sketchup converts back to free version. You can probably save the imported vectors to skp and open them with latest version of sketchup.</li></ul
+></li
+><li>Blender<ul><li>hard to learn but otherwise a great tool for 3D printing.&nbsp;</li
+><li>Supports stl export without a any extra plugins</li
+><li>there's a gcode simulator plugin for blender at thingiverse, looks good and is probably helping a lot when creating a print.</li></ul
+></li
+><li>Alibre<ul><li>costs some money but should be very good for modeling, it's a pro cad tool after all.</li
+><li><br/></li></ul
+></li
+><li>Creating Gcode for printing<ul><li><a href="http://slic3r.org/">http://slic3r.org/</a></li
+><li>Skeinforge<br/><br
+/><br/><br
+/><br/><br
+/><br/><br
+/></li></ul
+></li></ul
+></body>
+</html>

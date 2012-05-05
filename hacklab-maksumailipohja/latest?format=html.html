@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-us" />
+<title>/hacklab-maksumailipohja</title>
+</head>
+<body><b>(HUOM: Muista sanity checkata meilissa olevat tilinumerot ennen lähettämistä, kirjoitusalusta on potentiaalisesti kenen tahansa editoitavissa)</b><br
+/><br
+/><b>Tämä informaatiomeili menee kaikille jäsenille, riippumatta ovatko maksaneet.</b><br
+/><br
+/>Subject:&nbsp; Helsinki Hacklabin jäsen- ja muiden maksujen viitenumerot | Reference numbers for payments to Helsinki Hacklab<br
+/><br
+/>(English version below)<br
+/><br
+/>Tervehdys Helsinki Hacklabin jäsen {{ member.member_id }} !<br
+/><br
+/>Monet jäsenet ovat kyselleet maksutietojaan hallitukselta, siksi tämä lähtee nyt kaikille.<br
+/><br
+/>Hacklabin kaikki maksut hoidetaan viitenumeroilla (siksi että se on halvempaa ja tekee helpommaksi yksilöidä maksut ja maksajat). Tässä kaikki henkilökohtaiset viittenumerosi joita saatat tarvita:<br
+/><br
+/>&nbsp; - Vuosimaksu {{ member.calculate_membership_fee_id }}<br
+/>&nbsp; - Tilamaksu {{ member.calculate_space_rent_id }}<br
+/>&nbsp; - Tilanmaksajien avainpantti {{ member.calculate_key_deposit_id }}<br
+/><br
+/>Hacklabin tilinumero on {{ hacklab.account }}<br
+/><br
+/>Mikäli et ole tilankäyttäjä et tarvitse tilamaksun etkä avainpantin viitettä.<br
+/><br
+/>Oletusarvoisesti samaa viitettä voi käyttää myös ensi vuonna (tai joka kuukausi tilamaksun tapauksessa). Asiasta tiedotetaan erikseen mikäli tilanne muutuu.<br
+/><br
+/>Tämä viesti on lähetetty automaattisesti kaikille jäsenille, riippumatta siitä onko jotain maksuja rästissä vai ei. Tarkistathan että olet suorittanut omat maksusi, näin Helsinki Hacklab pystyy toimimaan jatkossakin.<br
+/><br
+/>Kiitos ja ystävällisin terveisin,<br
+/>Helsinki Hacklab ry:n Hallitus<br
+/><br
+/>--------<br
+/><br
+/>Greetings Helsinki Hacklab member {{ member.member_id }} !<br
+/><br
+/>Many members have asked about payment information, so here it is for everyone.<br
+/><br
+/>All payments to Helsinki Hacklab must use bank reference numbers (as this is cheaper and allows for easier identification of payer).&nbsp; Here are your personal reference numbers for the different payments to Helsinki Hacklab:<br
+/><br
+/>&nbsp; - Annual membership fee {{ member.calculate_membership_fee_id }}<br
+/>&nbsp; - Space usage fee {{ member.calculate_space_rent_id }}<br
+/>&nbsp; - Key<b> </b>deposit<b> </b>for space users {{{ member.calculate_key_deposit_id }}<br
+/><br
+/>The bank account number for Helsinki hHacklab is {{ hacklab.account }}<br
+/><br
+/>If you are not a space user you don't need the space usage or key deposit references.<br
+/><br
+/>By default the same reference numbers can also be used next year (or each month in the case of a space user).&nbsp; We will notify you by email if the situation changes.<br
+/><br
+/>This message has been automatically sent to all members, regardless of whether they have payments due or not.&nbsp; Please verify that you have paid your fees, to ensure the future operation of Helsinki Hacklab.<br
+/><br
+/>Thank you and best regards,<br
+/>Board of Helsinki Hacklab.<br
+/><br
+/></body>
+</html>

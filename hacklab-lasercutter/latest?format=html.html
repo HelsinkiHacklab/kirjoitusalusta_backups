@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-us" />
+<title>/hacklab-lasercutter</title>
+</head>
+<body><b><u>Laser engraver/cutter | Laserkaiverrin/leikkuri</u></b><br
+/><br
+/>"Do not look into the laser with the remaining eye"<br
+/><br
+/><a href="http://www.ruuvipenkki.fi/2011/11/06/kiinalainen-laserleikkuri">http://www.ruuvipenkki.fi/2011/11/06/kiinalainen-laserleikkuri</a><br
+/><br
+/><b>Alkusanat | First things</b><br
+/><br
+/><b>Ehdottomasti ei-turvallinen käyttää mikäli ei tunne juuri ko. yksilöä. | Definitely not safe to operate unless you know this particular individual unit.</b><br
+/><br
+/>Herkkä tarkkuusinstrumentti, älä töni tai koske muutenkaan. <b>|</b> Sensitive precision instrument, do not move or even touch.<br
+/><br
+/><b>Status 2012-3-31</b><br
+/>keskustelua samanlaisesta laserista #reprapilla: <a href="http://kirjoitusalusta.fi/hacklab-lasercutter-anacron">http://kirjoitusalusta.fi/hacklab-lasercutter-anacron</a><br
+/><br
+/>Otto (Mäkelä) ja Rambo tuntevat laitteen ATM parhaiten. <b>|</b> Ask Rambo or Otto (Mäkelä) if you want to know something.<br
+/><br
+/>Rest in finnish only.<br
+/><br
+/><ul><li>Sijoitettu ja testattu (lähes) toimivaksi</li
+><li>peileihin on näköjään pakko koskea (Kiinasta tuli ohjeet)</li
+><li>yhden peilin kiinnitys on huteran oloinen pelti, mikäli ko peiliin joutuu koskemaan anyway niin vaihdetaan tilalle koneistettua alumiinia. Epäilen että peltiä on "säädetty" suuntaan johon siinä ei ole sääntöjä vääntämällä se.</li
+><li>Mukana tuleva softa on todella kamala, CorelDraw (X5) lisenssi jos löytyisi niin elämä helpottuisi merkittävästi ennen kuin saadaan modattua laite järkevämmällä softalle.<br/><br
+/></li></ul
+><b>Status 2012-01-08/09</b><br
+/><br
+/><ul><li>2012-01-08/09 Säädimme Suovulan kanssa peilejä paremmin kohdistukseen. Onko joku käynyt salaa fiksaamassa laitetta, sillä nyt "Test"-nappi toimii?! Emme vielä testanneet lopputulosta muulla kuin paperilla ja 4 mA virralla, mutta säätämisellä hävisi säteen hiipumisongelma sädettä X-akselilla (oikealle) siirrettäessä! Joku muu voisi testailla miten tämä vaikutti tehoihin muita materiaaleja leikatessa... valitettavasti heti säätöjen aluksi onnistuimme myös saamaan kakkospeiliin nokea (paperi paloi puhki kun test-nappi yllättäen toimikin), eli jos joku keksii kuinka tuon saa puhdistettua olisi hyvä juttu!<ul><li>Alkoholin (järeämmät liuottimet sensijaan on no-no) ja pehmeän kankaan pitäisi tehota<br/><br
+/></li></ul
+></li></ul
+><b>Status 2012.01.10</b><br
+/><br
+/><ul><li>Testattu kirkkaan ja värillisen akryylin sekä 4mm vanerin kanssa, akryylille löytyi aika helposti suht hyvät säädöt ja leikkaa kauniisti, puun(vaneri) kanssa savu aiheuttaa säteen leviämistä ja laajaa hiiltymistä.<ul><li>Ja hiiltymisen takia ei leikkaa... pohdittu painetyppisyötön lisäämistä jotta savukaasut saisi pois säteen tieltä.</li></ul
+></li
+><li>havaittu että ilmeisesti maksimi outline-leikkausnopeus jota voi käyttää on 20mm(per sec?), isommilla ohjainlauta sekoaa ja lähtee viemää sädettä tangentin suuntaan....</li
+><li>Säde on yhä Z-akselin suhteen vinossa (ei sinänsä mitään uutta), haittaa laatua paksummissa materiaaleissa.</li
+><li>HPGL importti toimi ainakin Inkscapella tehdyn rattaan kanssa<br/><br
+/></li></ul
+><b>Status 2012.01.14</b><br
+/><br
+/><ul><li>"HPGL import" toimii siis siten että HPGL muutetaan 1bittiseksi bittikartaksi<ul><li>Otto mahdollisesti optimoinut prosessia mutta tämä ainakin toimii:&nbsp;<ul><li>Ota viivapiirroksesi (Varmista että tekstit on patheja eikä teksti-olioita, varmista että muut hassut muodot on oikeasti muotoja eikä esim taustan värinen objekti oikeanvärisen objektin päällä) ja tallenna se HPGL-muotoon (esim Inkscapessa save-as)</li
+><li>Vaihda HPGL tiedostonimen päätteeksi .plt</li
+><li>Avaa Moshidraw ja ota "new from blank" (ohjelman käynnistyessä tuleva blank ei toimi, älä kysy miksi)</li
+><li>Image Converter</li
+><li>Load (TODO tarkista nimi) ja kaivele tiedostosi</li
+><li>"nappi jossa nuoli oikealle" oletusvalinnat on hyvät (eli 1bit -&gt; 1bit)</li
+><li>tallenna convertoitu kuva BMP:nä</li
+><li>Avaa bmp paintissa</li
+><li>edit -&gt; select all</li
+><li>edit -&gt; copy</li
+><li>draw(?) ja paste image, valitse tiedostonimeksi luomasi BMP tai kirjoita uusi tiedostonimi (toimiikohan tämä ? tähän mennessä on vain ylikirjoitettu sitä vanhaa BMP:tä)</li
+><li>nyt se on pastettu, sekä koko että sijainti on tödnäk täysin väärin, älä klikkaa mihinkään muokkausalueelle ettei poista valintaa objektista, sen sijaan oikean puolen valinnoista säädä koko ja x/y sopiviksi.</li
+><li>nyt voi sitten jatkaa Moshin normaalin (epä)logiikan mukaan</li></ul
+></li></ul
+></li
+><li>Otto asennellut turvakytkimen kanteen mutta sitä ei ole vielä johdotettu</li
+><li>Rambo kolvaillu rele-virityksen + merkkivalon, seuraavaksi pitäisi silpoa jostain uusi paneelinpohja, leikkailla siihen reiät mA-mittaria ja PWM-potikkaa, tattia. tatin sen on/off kytkintä ja fire-nappia varten että vois johdottaa homman uusiksi.</li
+><li>Piirilevyn kupari ei lähde laserilla mutta suojalakka lähtee joten mikä tahansa kuparilevy johon halvinta lakkaa päälle ja sitten poltetaan laserilla pois lakka niistä kohdin jotka halutaan syövyttää (prosessia pikatestattu, näyttäisi pelaavan, ruuvipenkissä muut saaneet myös vähintäänkin kelvollisia tuloksia).<br/><br
+/></li></ul
+><b>Status 2012-01-17</b><br
+/><br
+/><ul><li>Kannen turvakytkin nyt kytketty "laser switchin" rinnalle sokeripalalla, eli nyt ei laseria saa päälle jos kansi on auki. Rambon valitsemat isommat kytkimet vaativat melko erikoiset reiät jotta ne saa asennettua. Tein etupanelin mallin paperista johon joku voisi niitä mallata. Ongelma on nähdäkseni että turvatatissa ei ole power-valoa, vai oliko ajatus että tatti tulisi vanhan virtakytkimen eteen?<ul><li>Voi laittaa eteen, laittaa erillisen power-valon tai pärjätä ilman power-valoa (näkee siitä tatistakin onko virta päällä vai ei ja laser-enable on se tärkein varoitusvalo).<br/><br
+/></li></ul
+></li></ul
+><b>Status 2012-01-22</b><br
+/><br
+/><ul><li>Testailin kuvioiden tekemistä eri materiaaleihin<ul><li>Sopiva kivilaatu (gneissi tms.) lasittuu kauniisti, mutta sopimaton vain lohkeilee</li
+><li>Lasilevyn pintaan tulee siisti jälki jo 20mm/4mA, hitaampi säde tai isompi teho aiheuttaa lasin sisälle halkeamia, jätin näytelevyn laitteen viereen</li
+><li>eloksoituun alumiiniin tulee erittäin siisti kuvio 15mA teholla, kun eloksointi palaa pois<br/><br
+/></li></ul
+></li></ul
+><b>Status 2012-03-25</b><br
+/>&nbsp;LK:n ikkunatuuletin menee uusiksi koska imuteho ei riitä. Siispä Harald rakentaa kolmannen tällä kertaa toivottavasti toimivan imurin. Projekti sivu:<br
+/>&nbsp;<a href="http://kirjoitusalusta.fi/hacklab-lasercutter-imuri">http://kirjoitusalusta.fi/hacklab-lasercutter-imuri</a><br
+/>&nbsp;<br
+/><br
+/><b>Modattavaa</b><br
+/><br
+/><ul><li>Sovitinlevy jotta saadaan suurempi osa savunpoiston imusta ottamaan koneen sisältä eikä sivusta (tosin merkittävästi suurempi ongelma on läbin alipaine eli ulos puhallettu käry tulee takaisin sisään, pitää virittää pidempi putki jolla käryt saadaan kauemmas omista ikkunoista)</li
+><li>webbikamera kannen yläpuolelle että ei tarvitse luottaa oranssin plexin suojakertoimeen ja silti näkee mitä on tekeillä.</li
+><li>webbikamera sisälle joka katsoo alaviistosta leikkauksen etenemistä (näkee milloin tulee läpi)</li
+><li>puoliläpäisevää kultakalvoa (rambolla on) ikkunaplexin alapuolelle lisäturvaksi (tämän jälkeen ulkopuolinen web-kamera lienee aika tarpeeton) ?<ul><li>Tulee turhan tumma yhdistettynä stock oranssiin plexiin, pitää miettiä vaihtoehtoja.</li></ul
+></li
+><li>kanteen interlock laser-enable kytkimen kanssa ja kirkas merkkivalo. Eli laser-enable&nbsp; kytkimen vaihto momentary-nappiin ja releellä pito interlockin kanssa&nbsp; (eli kun piiri katkeaa niin se myös pysyy poikki kunnes painetaan päälle uudelleen) ja merkkiledi tilasta.<ul><li>Tämä etenee.</li></ul
+></li
+><li>suojakannellinen fire-nappi.<ul><li>Tämäkin etenee</li></ul
+></li
+><li>laserputken hyvin varovainen kiertäminen, siten että poistoputki on ylöspäin eikä putken sisälle jää ilmakuplaa joka saattaa vaurioittaa sitä isoilla tehoilla, katso alla oleva rabbit laserin linkki</li
+><li>"sammutusjärjestelmä", sodastream CO2 tankki johon viritetään palloventtiili että saa kahvasta kääntämällä CO2:sta laserkammioon.</li
+><li>puhallin leikkuupäähän joka tunkee savun muualle sirottamasta sädettä.</li
+><li>peilin (huteran) kiinnityspellin tilalle koneistettua alumiinia (en ole kyllä varma onko tuo syy kohdistusongelmiin)<ul><li>ei näköjään ollut, pienennetään prioriteettia.</li></ul
+></li
+><li>tutkitaan mahdollisuutta laittaa säteen polulle puolipeili, jolla saisi tavallisen laserpointterin säteen kohdistamisiin. Tarkoitus, että kun laser-enable menee päälle, peili kääntyy nevadaan vaikka olisikin läpäisevä ison laserin suunnasta</li
+><li>Geneerinen stepperi-ohjainlauta kiinalaisen poropietarin tilalle jotta voisi käyttää järkevämpää softaa.<ul><li>laserin tehosäätö digipotikaksi (ja virtamittaukseen kanssa joku digitaalinen metodi että voi aktiivisesti säätää virtaa tarpeen mukaan)</li
+><li>mikrosteppaustuellinen lauta samalla vaivalla sitten (ainakin Lauri Jämsä sanoo "Kiinalainen ohjauskortti osaa mikrostepata askelmoottoreita, joten MoshiDrawilla päästään noin 0,025 millimetrin toistotarkkuuteen")</li
+><li>TinyG ? <a href="https://www.synthhttp://www.google.fi/http://www.google.fi/etos.com/http://www.google.fi/blog/projects/tinyg/">https://www.synthhttp://www.google.fi/http://www.google.fi/etos.com/http://www.google.fi/blog/projects/tinyg/</a> tosin akseleita on tarpeettoman paljon.</li
+><li>Makerbotin driveri x2 + ardu/armi: <a href="http://store.makerbot.com/stepper-motor-driver-v3-3.html">http://store.makerbot.com/stepper-motor-driver-v3-3.html</a></li
+><li>LaosLaser: <a href="http://wiki.laoslaser.org/index.php/OpensourceLasercutterdriver">http://wiki.laoslaser.org/index.php/OpensourceLasercutterdriver</a><br/><br
+/></li></ul
+></li></ul
+><b>Linkkejä</b><br
+/><br
+/><ul><li><a href="http://www.rabbitlaserusa.com/Manuals/BeamAlignment.html">http://www.rabbitlaserusa.com/Manuals/BeamAlignment.html</a></li
+><li><a href="http://www.andyslater.com/laser-cutting/beam-path.html">http://www.andyslater.com/laser-cutting/beam-path.html</a></li
+><li><a href="http://hflaser.com/blog/archives/134">http://hflaser.com/blog/archives/134</a></li
+><li><a href="http://www.fullspectrumengineering.com/laseralignment.html">http://www.fullspectrumengineering.com/laseralignment.html</a><br/><br
+/></li
+><li><a href="http://www.trotec.net/020+Products/_en-US/500+Consumables.htm">http://www.trotec.net/020+Products/_en-US/500+Consumables.htm</a> Pitäisi vaan löytää näille myyjiä; muita kokeiltavia kaiverruskohteita: lasi, kivi (kiiltävät luonnonkivet, kaupallinen materiaali sisältää usein muovikovetteita!), metallifoliot, polyasetaali (Delrin, POM), anodisoitu alumiini<ul><li><a href="http://www.trotec.net/055+Services/_en-US/020+Shopfinder.htm?id=68">http://www.trotec.net/055+Services/_en-US/020+Shopfinder.htm?id=68</a> kysyin tuolta Seri-Decosta saako heiltä leimasinkumia ja MetalFixiä, palaavat asiaan hintojen kera<br/><br
+/></li></ul
+></li
+><li><a href="http://www.sawmillcreek.org/showthread.php?80652-Acrylic-fumes-safety-MSDS">http://www.sawmillcreek.org/showthread.php?80652-Acrylic-fumes-safety-MSDS</a><ul><li><a href="http://en.wikipedia.org/wiki/Methyl_methacrylate">http://en.wikipedia.org/wiki/Methyl_methacrylate</a> &lt;- tämä on se neste mitä tulee kun akryyli depolymerisoituu ja joka höyrystyy käryksi<br/><br
+/></li></ul
+></li></ul
+></body>
+</html>

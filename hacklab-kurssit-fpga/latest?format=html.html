@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-us" />
+<title>/hacklab-kurssit-fpga</title>
+</head>
+<body><b><u>dEEP FPGA -kurssia Helsinki Hacklabillä</u></b><br
+/><br
+/>Suovulan muistipointteja kirjasta Real World FPGA Design with Verilog:<br
+/><br
+/><br
+/><b>Latches vs. Flipflops</b><br
+/><ul><li>generally both will sample the input signal at clock egde, but latch is transparent when clock signal is low</li
+><li><i><u>Transparent Latch</u></i><ul><li>Reset Set Latch, RTL: LATRS</li
+><li>Verilog:<ul><li><b>always</b> @ (data_in <b>or</b> clock)</li
+><li><b>if</b> (!clock) begin<ul><li>data_out &lt;= data_in;</li></ul
+></li
+><li><b>end</b></li></ul
+></li></ul
+></li
+><li><i><u>D Flipflop</u></i><ul><li>Data Flip-flop with Reset and Set, RTL: DFFERS</li
+><li>Verilog:<ul><li><b>always</b> @ (<b>posedge</b> clock)</li
+><li><b>begin</b><ul><li>data_out &lt;= data_in;</li></ul
+></li
+><li><b>end</b></li></ul
+></li
+><li>VHDL:<ul><li>begin dff: process (D, CLK)<ul><li>begin<ul><li>if (rising_edge(CLK)) then<ul><li>Q &lt;= D;</li></ul
+></li
+><li>end if;</li></ul
+></li></ul
+></li
+><li>end process dff;<br/><br
+/><br/><br
+/></li></ul
+></li></ul
+></li></ul
+><b>Synchronization</b><br
+/><ul><li>s.59 "Each FPGA input should drive one and exactly one flipflop."</li
+><li>s.4 "Always synchronize inputs that are not phase related to the system clock."</li
+><li>s.4 "Use double-synchronizing flipflops for external signals to minimize metastability problems."<ul><li>Verilog:<ul><li><b>always</b> @ (<b>posedge</b> clock)</li
+><li><b>begin</b><ul><li>button_sync1 &lt;= button_in;</li
+><li>button_sync2 &lt;= button_sync1;</li></ul
+></li
+><li><b>end</b><br/><br
+/><br/><br
+/></li></ul
+></li></ul
+></li
+><li>Onko ylläolevat järkeviä päätelmiä?<ul><li>Karttu antaa hyväksyntänsä!<br/><br
+/><br/><br
+/></li></ul
+></li></ul
+><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u><br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
+/><br
+/><b>CPLD-ohjelmointi JTAGWhisperer-ohjelmalla</b><br
+/><br
+/>Esimerkit Windowsiin, mutta kaikki ohjelmat ovat saatavilla myös muihin käyttöjärjestelmiin.<br
+/><br
+/><i><u>1. JTAGWhisperer-ohjelma Arduinoon</u></i><br
+/><br
+/><ul><li>lataa JTAGWhisperer osoitteesta <a href="https://github.com/sowbug/JTAGWhisperer">https://github.com/sowbug/JTAGWhisperer</a><br/><br
+/></li
+><li>pura zip-paketti Arduinon libraries-hakemistoon<ul><li>purkaantuu oletuksena hakemistoon sowbug-JTAGWhisperer-0200a39, hakemiston nimi pitää muuttaa pelkäksi JTAGWhisperer:ksi</li></ul
+></li></ul
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
+/><ul><li>Arduino IDE:ssä pitäisi nyt näkyä File-&gt;Examples-&gt;JTAGWhisperer-&gt;JTAGWhisperer<ul><li>avaa tämä, käännä ja uploadaa Arduinoon<br/><br
+/><br/><br
+/></li></ul
+></li></ul
+><i><u>2. Python-ympäristön asennus</u></i><br
+/><br
+/><ul><li>Lataa ja asenna Python 2.7 (ei 3.x !) sivulta&nbsp;</li></ul
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="http://www.python.org/download/">http://www.python.org/download/</a> (python-2.7.2.msi)<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
+/><ul><li>Lataa ja asenna Pythonin sarjaporttikirjasto pyserial sivulta</li></ul
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="http://sourceforge.net/projects/pyserial/">http://sourceforge.net/projects/pyserial/</a> (pyserial-2.5.win32.exe)<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
+/><br
+/><u>3<i>. Python-skriptin ja Arduinon yhteistyön testaus</u></i><br
+/><br
+/><ul><li>Windowsin command promptiin<br/><br
+/></li
+><li>Siirry JTAGWhisperer-kirjaston hakemistoon</li></ul
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C:\Users\Jari\Documents\Arduino\libraries\JTAGWhisperer<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;<br
+/><ul><li>Anna komento (COM8 = Arduinon sarjaportin numero)</li></ul
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c:\python27\python send_xsvf -p COM8 xsvf\XC9572XL\DeviceID.xsvf<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;<br
+/><ul><li>Homma epäonnistuu, koska ei ole CPLD:tä perässä, mutta pitäisi tulostua suunnilleen:<br/><br
+/></li></ul
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ready to send file of size 90 bytes.<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Device is ready.<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sent:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 64 bytes,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 26 remaining<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMPORTANT: SDR check failed.<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMPORTANT: Failure at instruction #7<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMPORTANT: Processed 7 instructions.<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMPORTANT: Checksum 6c2/21.<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Received device quit: Exiting!<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Expected checksum: 10c1/5a.<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Elapsed time: 0.04 seconds.<br
+/><br
+/><ul><li>Osa näistä tulosteista tulee Arduinon ohjelmalta, joten Python-skripti ja Arduino keskustelevat.<br/><br
+/><br/><br
+/></li></ul
+><i><u>4. CPLD:n kytkeminen Arduinoon</u></i><br
+/><br
+/><ul><li>Kytke piuhat Arduinosta CPLD:hen JTAGWhispererin readme.md-tiedostossa kuvatun mukaisesti:<br/><br
+/></li></ul
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Arduino pin&nbsp; 8 = TMS<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Arduino pin&nbsp; 9 = TDI<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Arduino pin 10 = TDO<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Arduino pin 11 = TCK<br
+/><br
+/><ul><li>Myös CPLD:n ja Arduinon maat pitää kytkeä yhteen.</li></ul
+>&nbsp;&nbsp;&nbsp;&nbsp;<br
+/>&nbsp;&nbsp;&nbsp;<br
+/><i><u>5. CPLD:n ohjelmointi</u></i><br
+/><br
+/><ul><li>Tee iMPACTilla XSVF-muotoinen ohjelmointitiedosto</li
+><li>Ohjelmoi se sisään samalla komennolla kuin kohdassa 3</li
+><li>Tuloste pitäisi olla tämän tapainen:<br/><br
+/></li></ul
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ready to send file of size 103964 bytes.<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Device is ready.<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sent:&nbsp;&nbsp; 103964 bytes,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0 remaining<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMPORTANT: XCOMPLETE<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMPORTANT: Processed 11582 instructions.<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMPORTANT: Checksum 6e06ac/1961c.<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Received device quit: Exiting!<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Expected checksum: 6e06ac/1961c.<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Elapsed time: 43.77 seconds.<br
+/><br
+/><ul><li>Rivi "IMPORTANT: XCOMPLETE" on merkki siitä, että ohjelmointi meni loppuun saakka.<br/><br
+/><br/><br
+/><br/><br
+/></li></ul
+></body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-us" />
+<title>/hacklab-arduinokurssi</title>
+</head>
+<body><b><u>Helsinki Hacklab - Arduino-workshop</u></b><br
+/><br
+/><b>Hyviä kytekntäkalvoja löytyy täältä: </b><a href="http://www.oomlout.com/a/products/ardx/"><b>http://www.oomlout.com/a/products/ardx/</b></a><br
+/><br
+/><br
+/><b>Newbie-lecture</b><br
+/><ul><li>Useful for introducing new people to Arduino, and e.g. for conventions and such.</li
+><li>Connecting LED to 5V and GND on arduino with a resistor</li
+><li>Connecting the LED to pin 13 and making it blink<ul><li>Edit the program, change blinking time and pattern</li></ul
+></li
+><li>Introduce RGB LED, wire it up with resistors to pins 9, 10, 11</li
+><li>For some sculpting fun, introduce polymorh plastic and make diffusers to the RGB leds (if they are clear plastic) - good for a bit of a break : <a href="http://letsmakerobots.com/node/11563?page=1">http://letsmakerobots.com/node/11563?page=1</a></li
+><li>Introduce PWM, make the RGB led fade</li
+><li>If there is still interest and time, introduce inputs, e.g. potentiometer, and use it to control led fade speed or color or other variables.<br/><br
+/><br/><br
+/></li></ul
+><b>TODO:&nbsp;</b><br
+/><ul><li>Arduino environment can cause problems, check board type and serial port combination with blinking LED example as soon as possible (hint: unplug/plug USB cable)<ul><li>Have 2 extra computers ready in case people forget to bring own ones or they run into environment problems</li></ul
+></li
+><li>Common cathode LEDs would be a bit easier to grasp.</li
+><li>Better examples<ul><li>Remember to specify pinmode in the start, it's missing for some arduino examples and causes loss of time on debugging</li
+><li>Some examples of function use for things like setColor(), and different color fades - making it easier to create more interesting programs faster<ul><li>Maybe even write the animation library that takes care of fading and tweening pins between values.</li></ul
+></li></ul
+></li
+><li>Mount some of the arduinos (in a removable way) on wood panels together with a breadboard<br/><br
+/></li></ul
+><b>Group workshop session</b><br
+/><ul><li>After people have learned the basics</li
+><li>Idea is to have the people build some interesting device with many parts together</li
+><li>Split into 2-3 person groups, each group works on some specific part of the final device</li
+><li>The general subdivision of the device can be done in advance by the organizers, as well as the interfaces between the parts.</li
+><li>Each part could have an own arduino board for easiest division of work.<ul><li>But could also be a function or set of functions in arduino environment, and a breadboard with interfaces to the arduino -&gt; more useful for actual devices, and easier for participants to replicate<ul><li>Requires merge of the code (opportunity to learn github, but for sake of simplicity could be done using etherpad).&nbsp; Merge could be done by one of the organizers if necessary.</li
+><li>Initial base code could also be copied from etherpad..</li></ul
+></li></ul
+></li
+><li>In subsequent workshop, people could create a circuit board and build a copy off the device for themselves</li
+><li>Device ideas:<ul><li>Wake up light alarm clock with moodlight, brighlight, and birdsound, etc.<ul><li>Has modes that can be switched between manually, or set to activate at certain times of the day</li
+><li>Session 1<ul><li>Clock display on LED segments or LCD panel<ul><li>Possibly clock crystal to keep accurate time</li></ul
+></li
+><li>Driving 12 volt halogen light, also power input for the clock (arduino can run off 12V)<ul><li>Maybe use 12V Led light instead of halogen, halogen grows pretty hot and needs correctly designed case</li
+><li>Might use power LEDs, or LED light strips (available..) + some bright warm white leds</li></ul
+></li
+><li>RGB Moodlight, and modes for it</li
+><li>UI for doing clock settings and mood selection and editing<ul><li>Set wakeup time</li
+><li>Select mood</li
+><li>Edit mood?</li
+><li>Button panel</li
+><li>Display UI on LCD panel or alphanumeric LED segments</li></ul
+></li
+><li>Sound part<ul><li>Read sounds from SD card, or generate them on arduino</li
+><li>Trigger them randomly depending on mood settings and events</li></ul
+></li></ul
+></li
+><li>Session 2<ul><li>Finishing whatever was unfinished from session 1</li
+><li>Designing and building the enclosure</li
+><li>Designing and etching the PCBs<ul><li>Maybe use frizing?</li
+><li>Drilling and soldering the PCBs</li></ul
+></li
+><li>Program AVR chips with the sketch on a programmer</li></ul
+></li></ul
+></li
+><li>Reactor panel?</li
+><li><br/><br/><br
+/><br/><br
+/><br/><br
+/><br/><br
+/></li></ul
+></li></ul
+><b>Secondbie-lecture&nbsp;</b><br
+/><ul><li>For people that already have been on the newbie lecture, or know the basics</li
+><li>Main goal is to learn more about sensors and input, as well as various interesting things that can be controlled or done with arduinos<ul><li>Photoresistor</li
+><li>Buttons</li
+><li>Potentiometer</li
+><li>Servo</li
+><li>Sound</li
+><li>Using LCD displays</li></ul
+></li
+><li>Example projects<ul><li>Spelit -type of reaction speed game<br/><br
+/><br/><br
+/></li></ul
+></li></ul
+><b>Advanced lectures</b><br
+/><ul><li>For people that already have some electronics and programming knowledge<ul><li>How to drive stepper motors in microstepping mode (software PWM)</li
+><li>How to emulate keyboard/joystick with Arduino UNO (USB-HID)</li
+><li>Playing sound and samples from an SD card or similar (Project: Talking robot!)<br/><br
+/><br/><br
+/><br/><br
+/></li></ul
+></li></ul
+><b>Ostoslistaa:</b><br
+/><ul><li>~5 Photoresistors</li
+><li>~10 Common cathode RGB LEDs (or alternatively compensate for common anode in example code)</li
+><li>~5 potentiometers</li
+><li>~5 servos</li
+><li>~10 push buttons for breadboard</li
+><li>Sound output circuits?</li
+><li>Small speakers x 5<br/><br
+/><br/><br
+/><br/><br
+/></li></ul
+>Sound and servo shields for arduino could be suitable PCB projects<br
+/><br
+/><br
+/><br
+/><br
+/><b>Tutorial &amp; project idea linkgs:&nbsp;</b><br
+/><ul><li>Simple tutorials with printable breadboard overlays:<ul><li><a href="http://www.oomlout.com/a/products/ardx/">http://www.oomlout.com/a/products/ardx/</a></li></ul
+></li
+><li>Tutorials for various projects (including animatronics):&nbsp;<ul><li><a href="http://www.pyroelectro.com/category/tutorials/">http://www.pyroelectro.com/category/tutorials/</a><br/><br
+/><br/><br
+/><br/><br
+/></li></ul
+></li></ul
+>TODO: Move to hackweekend planning page:<br
+/><br
+/><b>PCB making and soldering lecture</b><br
+/><ul><li>We'll design a PCB with eagle, and make it with UV mask and copper etching technique, then drill holes and solder in components.</li
+><li>A few example schemes given</li
+><li>Could be held on a hackweekend<br/><br
+/></li></ul
+><b>3D printing workshop</b><br
+/><ul><li>Learn to create and print a 3D model<ul><li>could turn out to be very popular, be prepared (two printers needed?)</li></ul
+></li
+><li>Also something for the hackweekend.<br/><br
+/></li></ul
+><b>Robot workshop</b>&nbsp;<br
+/><ul><li>Building a simple robot</li
+><li>For hackweekend?<br/><br
+/><br/><br
+/><br/><br
+/><br/><br
+/><br/><br
+/><br/><br
+/></li></ul
+><b><u>Last years notes:</u></b><br
+/><br
+/><b>Git Projekti</b>: <a href="https://github.com/HelsinkiHacklab/arduinon-perusteet">https://github.com/HelsinkiHacklab/arduinon-perusteet</a><br
+/><br
+/>Pidetään myös altpartyillä<br
+/><ul><li>temmi pitää yhteyttä alt-orgiin<br/><br
+/></li></ul
+>Osaanottajamäärää rajoittaa lähinnä tila ja opetusläppärit - tällä hetkellä 6 kpl.<br
+/><ul><li>Optionaalisesti voi olla kaksi henkilöä / läppäri<br/><br
+/></li></ul
+>Kurssin kohderyhmä ja oletettu osaamistaso<br
+/><ul><li>mikro-ohjaimista kiinnostunut mutta muuten taidoton</li
+><li>saattaa osata ohjelmoida tai ainakin ymmärtää ohjelmoinnin perusteista ettei DWIM-kieliä ole olemassa<br/><br
+/></li></ul
+>Opetusohjelmasta:<br
+/><ul><li>Jaettu jaksoihin jossa jokaisessa kytkentä, ohjelma, ja lyhyt teoria speaking pointti</li
+><li>Jokaisen sähkökytkennän esittely lyhyesti teorioineen</li
+><li>Joka sähkökytkennällä on oma koodinpalansa joka myös esitellään siinä samassa</li
+><li>Jaksot rakentavat edellisen kytkennän päälle, lopputuloksena Aika Makee Säädettävä Äänellinen Värivalovilkutusvehje</li
+><li>Jokaisen jakson jälkeen on hyvä antaa aikaa oppilaiden tehdä hands on kokeilua ja sulattaa tietoa.<br/><br
+/></li></ul
+><b>Opetusohjelma</b><br
+/><ul><li><b>Yksinkertainen led kytkentä (the very basics) - Slidet [ ] Schema [x] Koodi [NA] - 00_Basic_Led</b><ul><li><b>Kytkentä:</b>&nbsp; Arduinon +5v ja groundin väliin etuvastuksella (ei väliä kummalla&nbsp; puolella vastus on tai kummin päin, ledillä on väliä kummin päin on (jos&nbsp; väärin päin niin ei syty))<ul><li>Ledin pitäisi loistaa, hyvä!&nbsp; Ensimmäinen askel tehty</li
+><li>Jos ei, tarkista ledin suunta, poweri, kytkennät, ledin toimivuus</li
+><li><a href="http://www.kpsec.freeuk.com/components/led.htm">http://www.kpsec.freeuk.com/components/led.htm</a> &lt;- basic stuffaa</li></ul
+></li
+><li><b>Teoria</b>: Pari lausetta siitä mikä on vastus, mikä on LED, ja mikä on etuvastus.</li></ul
+></li
+><li><b>Vilkkuled - Slidet [ ] Schema [x] Koodi [x] - 01_LED</b><ul><li><b>Kytkentä: </b>Kytketään ledi output pinniin (digital 13 tjms) ja groundin väliin etuvastuksella</li
+><li><b>Ohjelma: </b>Arduino ympäristöstä avataan esimerkeistä blinking led ohjelma</li
+><li>Arduino ohjelma uploadataan arduinolle<ul><li>Ledin pitäisi vilkkua</li
+><li>Jos ei, tarkista ledin suunta, kytkennät, että ohjelma uploadaantuu</li></ul
+></li
+><li><b>Teoria</b>:&nbsp; Mikä on mikrokontrolleri (pieni ohjelmoitava tietokone jossa suoraan&nbsp; output pinnejä), mikä on arduino (open source piirilevy&nbsp; mikrokontrollerilla ja ympäristö sen ohjelmoimiseen).&nbsp; Mikä on tietokoneohjelma (sarja käskyjä - katso esimerkkiohjelma).&nbsp; Mikä on workflow - kirjoitetaan ohjelma, painetaan nappia, ja ohjelma siirty mikrokontrollerille jos kaapeli on kytkettynä ja asetukset oikein).</li
+><li><b>Hands on</b>: Säädetään vilkkumisnopeutta muuttamalla ohjelmaa, tehdään eri vilkkupatterneja, kokeillaan RGB ledeillä</li></ul
+></li
+><li><b>RGB Led - Slidet [ ] Schema [x] Koodi [x] - 02_RGB_LED</b><ul><li><b>Teoria</b>: Esitellään&nbsp; RGB Led (common anode) - Kolme eri väristä lediä samassa kuoressa,&nbsp; yhteisellä maapinnillä.&nbsp; Sekoittamalla saadaan&nbsp; useimmat värit.&nbsp; Kuva mikä jalka on mikin.</li
+><li><b>Kytkentä</b>: kytketään pisin jalka GND ja kolme muuta pinniä mikrokontrollerin output portteihin (esim 9,10,11).</li
+><li><b>Ohjelma</b>: Ladataan kurssin esimerkkikansiosta RGB led vilkutin ohjelma</li
+><li><b>Hands on</b>: Kokeillaan värien kombinaatioita</li></ul
+></li
+><li><b>Fade-LED - Slidet [ ] Schema [02] Koodi [x] 03_RGB_Fade_LED</b><ul><li><b>Kytkentä: </b>Kytketään RGB led pinneihin joka on merkitty PWM:llä (9,10,11), etuvastuksen kanssa.</li
+><li><b>Ohjelma: </b>Kurssin hakemistosta ladataan RGB PWM ohjelma ja uploadataan<ul><li>Ledin pitäisi sykkiä eri värisenä</li></ul
+></li
+><li><b>Teoria</b>:&nbsp; PWM Tarkoittaa sitä että nopeasti vaihdetaan virta päälle ja pois ja&nbsp; vaihdetaan osuutta kuinka pitkään ledi on joka jaksossa päällä.&nbsp;&nbsp; Käytännöllisin tapa himmentää ledejä jos halutaan tarkkaa kontrollia&nbsp; himmennysasteelle.&nbsp;&nbsp;</li
+><li><b>Esitys</b>: Havainnollistetaan oskiloskoopilla tuotettua PWM signaalia</li
+><li><b>Hands on</b>: Vaihdellaan nopeutta, muutellaan ohjelmaa, kokeillaan eri värejä, tehdään rgb ledi demoja</li></ul
+></li
+><li><b>Säätöpyörä - Slidet [ ] Schema [ ] Koodi [ ]</b><ul><li><b>Kytkentä</b>: Säätövastus (toinen puoli +5v, toinen GND, keskimmäinen analog input pinniin.&nbsp; LEDi PWM pinniin</li
+><li><b>Teoria</b>: Analog input</li
+><li><b>Ohjelma</b>: Ohjelma joka säätää ledin valoisuuttaa potentiometrillä</li
+><li><b>Hands on</b>: Sovellusta aikaisempiin ohjelmiin</li></ul
+></li
+><li><b>Ääni mukaan - Slidet [ ] Schema [ ] Koodi [ ]</b><ul><li><b>Kytkentä</b>: Kytketään kaiutin plussan ja fetin drainin väliin kytkien fetin gate PWM pinniin ja source maahan&nbsp;<ul><li>Aikaisemman kytkennän voi jättää paikoilleen</li></ul
+></li
+><li><b>Ohjelma</b>: Ladataan kurssin hakemistosta äänellinen led vilkutusohjelma</li
+><li><b>Teoria</b>:&nbsp; Ääni on ilman värähtelyä, kaiutin liikuttaa ilmaa ja tuottaa&nbsp; ääniaaltoja.&nbsp; Isompien virtojen kontrolloimiseen tarvitaan FET:ejä,&nbsp; arduino tuottaa vain noin 20 ma joka riittää LEDille, muttei minkäänlaiselle kaiuttimelle.</li
+><li><b>Hands on</b>: Minkälaisia ääniä pystyt tuottamaan?<br/><br
+/><br/><br
+/></li></ul
+></li
+><li><b>Painonappi (Vois jättää pois, ei lisää kovin paljoa, ja aika tylsähkö)</b><ul><li><b>Kytkentä</b>: Painonappi groundin ja jonkun pinnin väliin, muu kytkentä ennallaan</li
+><li><b>Ohjelma</b>: Painonapilla esim käynnistetään äänieffekti tjms.&nbsp; Debounssaus?</li
+><li><b>Teoria</b>:&nbsp; Painonappi ei suoraan liitä tai katkaise, vaan tuottaa mikrosekunttien&nbsp; pituista värähtelyä on ja off tilojen välillä kun liitos muodostuu tai&nbsp; katkeaa (bouncing).&nbsp; Tämän takia tarvitaan sovelluksesta riippuen&nbsp; debounssaus softassa.</li
+><li><b>Hands on</b>: Sovelletaan aikaisempaan ohjelmaan</li
+><li>mä haluisin painonappeja ainakin sikäli että esittelisin joka kytkennän ohjauksen ensin painonapilla manuaalisesti ennen kun käydään siihen kytkentään liittyvä koodi läpi ja tässä mielessä vois olla ihan loogista lyhyesti esitellä myös miten 1/0 signaaleja luetaan inputtina - temmi<br/><br
+/><br/><br
+/><br/><br
+/></li></ul
+></li></ul
+><b>Materiaali</b><br
+/><ul><li>Hacklab koulutusläppäri - löytyy 6 kpl&nbsp;<ul><li>Joku live-cd installatio, joss esim:<ul><li>Ubuntu</li
+><li>Arduino ympäristö</li
+><li>avr-gcc yms</li></ul
+></li></ul
+></li
+><li>Koekytkentälevy - zzorn tilannut 5 kpl pientä - saapuivat</li
+><li>Arduino&nbsp;<ul><li>Dist tilannut 5 kpl</li
+><li>Olis kätevää jos sekä arduino että koekytkentälevy olis kiinnitetty pienelle puulevylle tjms niin että projekti pysyy kasassa kannatetaan</li></ul
+></li
+><li>Hyppylankoja - on<ul><li>Mä toin kaks pakettia niitä labille, saa käyttää vapaasti. Löytyy varmaan mun laatikosta -kim</li
+><li>Rambo toi yhden paketin hyppylankoja tilalle viime viikolla yleiseen käyttöön, sen voi yhtä hyvin pyhittää tälle.</li
+><li>Dist tuo labille jonkunmoisen läjän noita halpisjohtoja.</li></ul
+></li
+><li>Usb johtoja<ul><li>Messmer hankki</li></ul
+></li
+><li>Komponentteja:<ul><li>Tavallisia punaisia ledejä noin tusina<ul><li>Löytyy esim zzornilta</li></ul
+></li
+><li>RGB Ledejä noin tusina (common anode - järkevämpiä käyttää)<ul><li>sureelectronicsista 100 kpl / 33$&nbsp;<ul><li>zzorn tilasi, saapuivat</li></ul
+></li></ul
+></li
+><li>Vastuksia jotka sopivat yllä mainittuihin ledeihin<ul><li>Tulivat RGB LEdien mukana</li></ul
+></li
+><li>Potentiometrejä 6 kpl lineaarisia 100 kohm, 1M tjms, jotka saa reikälevyyn kiinni</li
+><li>Kytkimiä noin tusina jotka saa reikälevyyn</li
+><li>Pieniä kaiuttimia, juotetut hyppylangat x 6</li
+><li>FETejä kaiuttimien ohjaamiseen x 6 - <b>TODO: Mikä malli olis sopiva?</b><br/><br
+/><br/><br
+/><br/><br
+/><br/><br
+/><br/><br
+/></li></ul
+></li></ul
+>Ennen kurssin alkua kaikilta osallistujilta ja/tai huoltajilta kuittaus että&nbsp; on lukenut elektroniikkatilan säännöt (tai mitä tässä nyt sovelletaan)&nbsp; ja ymmärtää ne. Ihan vaan ettei kukaan pistä esim. 9V pattereita&nbsp; oikosulkuun ja räjäytä tjsp....&nbsp;<br
+/><br
+/>(Jossain (jatkokurssin) vaihees ois kiva näyttää mitä käy kun käyttää huonoa kaapelia jne niin rupee tulee siirtovirheitä, sit vois selittää että digitaalinen on oikeesti analogista ja ottaa häiriötä ympäriltään jne)<br
+/><br
+/><br
+/><br
+/><br
+/><br
+/><br
+/><br
+/><br
+/><br
+/><br
+/><br
+/><br
+/></body>
+</html>
