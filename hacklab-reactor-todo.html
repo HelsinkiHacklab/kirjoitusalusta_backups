@@ -12,8 +12,11 @@
 ><li>Merkitse nimimerkkisi taskin perään jos olet sitä tekemässä, ja muista päivittää statusta jos et ehdikkään tehdä sitä.</li
 ><li>Viivaa taski yli kun se on tehty.</li
 ><li>Taskit pitäisi priorisoida!<br/><br
+/><br/><br
 /></li></ul
-><b>Muu rekvisiitta</b><br
+><b>2012.05.10 ATM ykkösprioriteetti on mittarit, Suovulaa saa auttaa tässä. Kakkosena kolme puuttuvaa "jakkaraa" kannesta. Kolmosena&nbsp; äänet ja geigermittarin rebuild.</b><br
+/><br
+/><b>Muu rekvisiitta</b><br
 /><ul><li>leimasimet<ul><li>laserkumia on nyt</li
 ><li>Ja toki ne kuviot puuttuu, pitää piirrellä.<ul><li><a href="http://ww2army.com/images/4000-4999/4743/6.jpg">http://ww2army.com/images/4000-4999/4743/6.jpg</a></li></ul
 ></li></ul
@@ -25,9 +28,10 @@
 ></li
 ><li>Valkoisia suojahaalareita hienoilla logoilla on yhä ALTtien jäljiltä mutta vois tehdä pari lisää (erityisesti jos jostain löytyy isompia kokoja)<ul><li><a href="http://www.flickr.com/photos/10924806@N04/6289360917/">http://www.flickr.com/photos/10924806@N04/6289360917/</a></li></ul
 ></li
-><li>Geiger-mittari<ul><li>Pitää korjata, ehkäpä rakentaa kokonaan uusi kotelo<ul><li>joku 3S LiPo akku virtalähteeksi ? (enemmän tehoa kaiuttimeen :)</li></ul
+><li>Geiger-mittari<ul><li>Pitää korjata, <s>ehkäpä</s> rakentaa kokonaan uusi kotelo<ul><li>joku 3S LiPo akku virtalähteeksi ? (enemmän tehoa kaiuttimeen :)</li></ul
 ></li
-><li>Mielellään sais vaihtaa sen rambon ardun tilalle esim ATTiny:n kun <b>oikeasti</b> ei tarvita kuin 1 PWM ulos, 1 Digital out ja 1 analog in.</li
+><li>Mielellään sais vaihtaa sen rambon ardun tilalle esim ATTiny:n kun <b>oikeasti</b> ei tarvita kuin 1 PWM ulos, 1 Digital out ja 1 analog in.<ul><li>ATTiny hankittu ja teoriassa ohjelmoitu mutta ei tuntunut toimivan, saa debugata, saa myös vaihtaa mikrokontrollerin toiseen jos tinyn kanssa leikkiminen ei innosta.</li></ul
+></li
 ><li>softa: <a href="https://github.com/HelsinkiHacklab/reactor/tree/master/software/geiger">https://github.com/HelsinkiHacklab/reactor/tree/master/software/geiger</a></li></ul
 ></li></ul
 >&nbsp;&nbsp;&nbsp;&nbsp;<br
@@ -52,14 +56,17 @@
 /><br/><br
 /></li></ul
 ><b>Simulaatio &lt;-&gt; ardubus middleware (inzka+rambo)</b><br
-/><ul><li>Kuuntelee simulaation signaaleja ja kutsuu sen perusteella ardubus (ja video/audio serviceiden ellei ne kuuntele simulaatiosignaaleja suoraan) metodeita</li
-><li>Tulkkaa ardubus:in low-level pin yms signaalit simulaatiolle johonkin abstraktoidumpaan muotoon.</li
+/><ul><li>Kuuntelee simulaation signaaleja ja kutsuu sen perusteella ardubus (ja video/audio serviceiden) metodeita</li
+><li>Tulkkaa ardubus:in low-level pin yms signaalit ja kutsuu niiden perusteella simulaatiosta metodeita.</li
 ><li>Tehtävä erillisenä middlewarena koska tämän pitää puhua myös noisemakerin ja (tulevan) videoserverin kanssa sekä arDuBUSsin molempien (simulaatio ja oikea) versioiden kanssa</li
-><li>50-60% valmiudessa.<br/><br
+><li>~80% valmiudessa. Tärkeimpiä puutteita:&nbsp;<ul><li>mittarien ohjaus oikealla hardwarella (koska siitä puuttuu mittarit kokonaan ATM)</li
+><li>reaktorieventtien mappaus sampleihin ja looppeihin (aika turha tehdä ennenkuin on paremmat samplet ja loopit joihin mäpätä.)<br/><br
 /><br/><br
 /></li></ul
+></li></ul
 ><b>Reaktoripaneelien simulaatioversio (jautero + rambo)</b><br
-/><ul><li>QML/PyQT UI jossa kytkimet, valot ja mittarit (rambo,jautero)<ul><li>sauvojen ohjauspaneeli 95% valmis, toimii middlewaren kanssa simulaation ohjaamiseen</li
+/><ul><li>QML/PyQT UI jossa kytkimet, valot ja mittarit (rambo,jautero)<ul><li>2012.05.07: Valmiuksista voi vähentää 10% koska pin yms mäppäykset pitää tehdä uudestaan</li
+><li>sauvojen ohjauspaneeli 95% valmis, toimii middlewaren kanssa simulaation ohjaamiseen</li
 ><li>reaktorikansi: 90% valmis, savukoneen ohjaus puuttuu, ledit vääränvärisiä (tuskin haittaa) ja stomp-pinninumerot ei matchaa oikeaan hardikseen.<ul><li>Silti vähintäänkin käyttökelpoinen simulaation ja middlewaren alustavaan testaukseen</li></ul
 ></li
 ><li>mimic paneeli: ei edes aloitettu</li
@@ -68,26 +75,26 @@
 ><li>Puhuu samaa DBUSsia kuin ardubridget (rambo)<br/><br
 /></li></ul
 ><b>Ardubus muutokset (rambo+inzka)</b><br
-/><ul><li>Ardu-koodin generointi konffitiedostoista (helpottaa pin-mäppäystä oleellisesti)</li
+/><ul><li><s>Ardu-koodin generointi konffitiedostoista (helpottaa pin-mäppäystä oleellisesti)</s></li
 ><li>pudota bps:sää ja optimoi se ardun kelloon sopivaksi (nonstandard bps)</li
-><li>Ardun tunnistus softalla (sketchissä ardun nimi), enumeroidaan sarjaporteista</li
-><li>konffaus YAMLilla (helppo tapa hanskata monimutkaisemmat mäppäykset)</li
+><li><s>Ardun tunnistus softalla (sketchissä ardun nimi), enumeroidaan sarjaporteista</s></li
+><li><s>konffaus YAMLilla (helppo tapa hanskata monimutkaisemmat mäppäykset)</s></li
 ><li>hexanumeroiden käyttö nykyisten byte-säätöjen sijaan (siellä on turhan paljon rumuutta kiertämässä sitä että niissä byteissä voi olla mukana newlinejä...)<br/><br
 /></li></ul
 ><b>HW muutokset/TODO</b><br
-/><ul><li>Kaikki<ul><li>Paksut kaapelit/kiskot GND ja +5V busseille ja joku järkevä tapa liittää siihen virtaa tarvitsevia laitteita. Lattakaapelit ei välttämättä olis huono idea (PC-molexit lienee kanssa ihan kova idea, sitten vois tehdä sekä 5V että 12V bussit)<ul><li>Virranottopisteiden viereen isot konkat.</li></ul
+/><ul><li>Kaikki<ul><li><s>Paksut kaapelit/kiskot GND ja +5V busseille ja joku järkevä tapa liittää siihen virtaa tarvitsevia laitteita. Lattakaapelit ei välttämättä olis huono idea (PC-molexit lienee kanssa ihan kova idea, sitten vois tehdä sekä 5V että 12V bussit)</s><ul><li><s>Virranottopisteiden viereen isot konkat.</s></li></ul
 ></li
 ><li>Kun kolvaukset on mitattu toimiviksi niin tehdään vedonpoistot kuumaliimalla (ei tartte itse juotosta liimalla peittää kenttäkorjausten vaikeuttamiseksi, mutta johto siitä vierestä kiinni paneeliin)</li
 ><li>Kaikki ardut kiinni ym. virtabussin maahan ja 5V:hen</li></ul
 ></li
-><li>Reactor control panel<ul><li>Valotaulu (33lediä)<ul><li><s>Ledien johdotus uusiksi (siellä on looppeja), common-anode, eli +5V yhteiseen ja maat erikseen lattakaapeleihin joissa puristusliittimet (2x12 liittimet x2), ylijääville 15kanavalle keksitään jotain käyttöä jossain välissä.</s></li
+><li>Reactor control panel<ul><li>Valotaulu (37lediä)<ul><li><s>Ledien johdotus uusiksi (siellä on looppeja), common-anode, eli +5V yhteiseen ja maat erikseen lattakaapeleihin joissa puristusliittimet (2x12 liittimet x2), ylijääville 15kanavalle keksitään jotain käyttöä jossain välissä.</s></li
 ><li><s>Vaihdetaan ohjaukseen rambon RGB-board (JBOLeds-moodissa, 48 PWM kanavaa)</s></li
 ><li>Vaihdettu käyttöön rambon RGB boardi ja selvitetty mikä ledi on mikäkin indexi (ja rukattu johdotuksia)</li
-><li>TODO: YAML-mäppäystiedosto jossa on sauvanro-&gt;ledinro tieto (sauvanro siis simulaation indexi)</li
-><li>TODO: Johdotetaan distin(?) megan joka toimii servo-ohjaimena I2C:n alaisuuteen.</li></ul
+><li><s>TODO: YAML-mäppäystiedosto jossa on sauvanro-&gt;ledinro tieto (sauvanro siis simulaation indexi)</s></li
+><li><s>TODO: Johdotetaan distin(?) megan joka toimii servo-ohjaimena I2C:n alaisuuteen.</s></li></ul
 ></li
-><li>Mittaritaulu<ul><li>Ledit (32kpl)<ul><li>Jokaisen lediryhmän luokse konkka (nice-to-have)</li
-><li>Vaihdettu ohjaukseen rambon RGB-board (JBOLeds-moodissa, 48 PWM kanavaa), johdotettu uudestaan jotta troubleshootin olisi helpompaa</li></ul
+><li>Mittaritaulu<ul><li><s>Ledit (32kpl)</s><ul><li><s>Jokaisen lediryhmän luokse konkka (nice-to-have)</s></li
+><li><s>Vaihdettu ohjaukseen rambon RGB-board (JBOLeds-moodissa, 48 PWM kanavaa), johdotettu uudestaan jotta troubleshootin olisi helpompaa</s></li></ul
 ></li
 ><li>Mittarit<ul><li>"air-core", suovula vastaa, <a href="hacklab-sim-gauges.html">http://kirjoitusalusta.fi/hacklab-sim-gauges</a><ul><li>tavalla tai toisella...</li></ul
 ></li
@@ -95,14 +102,17 @@
 ></li></ul
 ></li></ul
 ></li
-><li>Kytkintaulu<ul><li>Yksi kytkin rikki, vaihdetaan ? vaihdetaanko kaikki (näyttäisi aika B-laadulta noi) ??</li
+><li>Kytkintaulu<ul><li>Yksi kytkin rikki, vaihdetaan<ul><li>Se vaihdettu, löytyi toinenkin rikkinäinen jota ei ole vaihdettu.</li></ul
+></li
+><li>Kytkimet mäpätty ardubussissa oletettavasti oikein (voidaan testata sitten kun meillä on taas jotain jolla nähdä sauvojen asennot)</li
 ><li>Solosen toimittama superhieno säteilyvalo integroitava</li
-><li>Johdot sinänsä ok ja sopivat siihen rambon megaa hyvin, I2C on vapaana ja (käytetään I2C I/O expanderiin ja mittaritaulun lediboardin ohjaamiseen).</li
-><li>Johdottamattomien kytkinten johdotus<ul><li>Megaan ei mahdu enää inputteja mutta PCA9535 breakoutteja on <a href="https://github.com/rambo/pca9535">https://github.com/rambo/pca9535</a> näitä käyttäessä kytkimille on tuotava jokaiselle erikseen 100k pull-up 5V:hen joka huolehtii siitä että kun kytkin ei ole kytkemässä maahan niin I/O näkee varmasti 5V:tä.</li></ul
-></li></ul
+><li><s>Johdottamattomien kytkinten johdotus</s><ul><li><s>Megaan ei mahdu enää inputteja mutta PCA9535 breakoutteja on </s><a href="https://github.com/rambo/pca9535"><s>https://github.com/rambo/pca9535</s></a><s> näitä käyttäessä kytkimille on tuotava jokaiselle erikseen 100k pull-up 5V:hen joka huolehtii siitä että kun kytkin ei ole kytkemässä maahan niin I/O näkee varmasti 5V:tä.</s></li></ul
+></li
+><li>Valokoteloihin ledit</li></ul
 ></li></ul
 ></li
-><li>Kansi<ul><li>Johdotusten tarkistus<ul><li>Jostain pitää lisäksi pölliä arduino mega, esim se distin joka on nyt "turha" koska ei ole enää servoja.</li></ul
+><li>Kansi<ul><li><s>Johdotusten tarkistus</s><ul><li><s>Jostain pitää lisäksi pölliä arduino mega, esim se distin joka on nyt "turha" koska ei ole enää servoja.</s></li
+><li>Johdot testattu, kytketty ja mäpätty.</li></ul
 ></li
 ><li>Savukoneen ohjauspiirin testaus (rambo hoitaa Kirkkonummella)</li
 ><li>Ledien asennus (nice-to-have, tehdään jos aikaa jää)</li></ul
@@ -125,10 +135,12 @@
 ><li><s>Siisti tuki SIGHUP:ille ja muille signaaleille</s><ul><li><s>Samaan vaivaan DBUS metodit "shutdown" ja "reload" niin ei tartte välttämättä pidejä selvitellä, senkun kutsuu metodia (vois jopa melkein olla signaali niin menis vielä kätevämmin "kutsujan" puolelta)</s></li></ul
 ></li
 ><li>Joku helppo tapa ajaa asiat oikeassa järjestyksessä ylös ja alas niiltä osin kuin käyttiksen palat ei asiasta puolestamme huolehdi</li
-><li>Gracefull virhetilanteiden hanskaus (jos esim service johon meillä on proxy-olio olemassa kävi välillä alhaalla ei proxy enää ole validi, metodin kutsu palauttaa exceptionin, tästä pitäisi tajuta luoda uusi proxy)<br/><br
+><li>Gracefull virhetilanteiden hanskaus&nbsp;<ul><li><s>Jos esim service johon meillä on proxy-olio olemassa kävi välillä alhaalla ei proxy enää ole validi, metodin kutsu palauttaa exceptionin, tästä pitäisi tajuta luoda uusi proxy</s><br/><br
 /></li></ul
+></li></ul
 ><b>Game-engine</b><br
-/><ul><li>Kehittää randomilla puolueen tehovaatimuksia ja vahtii että ne täytetään<ul><li>Pisteytys (piste per sekunti kun ollaan puolueen asettamissa rajoissa ? kertoimella sen mukaan miten lähellä ideaalitilaa ollaan ?)</li></ul
+/><ul><li>Kehittää randomilla puolueen tehovaatimuksia ja vahtii että ne täytetään<ul><li>Pisteytys (piste per sekunti kun ollaan puolueen asettamissa rajoissa ? kertoimella sen mukaan miten lähellä ideaalitilaa ollaan ?)</li
+><li>Miten puoleen vaatimukset esitetään pelaajalle kun ei ole coms-consolea ?</li></ul
 ></li
 ><li>Sitten joskus kun muut konsolit on kuosissa (joka siis aloitetaan vasta sitten kun tanssilattia ja rod-control on 100%) niin voidaan miettiä näitä pump-failure yms random-eventtejä.<br/><br
 /></li></ul
