@@ -47,7 +47,7 @@
 /><br
 />Mittaustuloksia: <a href="https://docs.google.com/spreadsheet/ccc?key=0Agpa1i4rTzqSdHhDSkprNjJEOEl1cnlPalUwaHRYMmc">https://docs.google.com/spreadsheet/ccc?key=0Agpa1i4rTzqSdHhDSkprNjJEOEl1cnlPalUwaHRYMmc</a><br
 /><br
-/>Hall-anturit ovat on/off-tyyppisiä, avokollektorilähtöisiä. Antavat yhden pulssin per moottorin kierros, ilmeisesti kvadratuuria (ei mitattu). Saadaan 75 pulssia per pyörän kierros. Pyörän halkaisija n. 85 mm ==&gt; robotin etenemä 3.5 mm/pulssi.<br
+/>Hall-anturit ovat on/off-tyyppisiä, avokollektorilähtöisiä. Antavat yhden pulssin per moottorin kierros, kvadratuuria. Saadaan 75 pulssia per pyörän kierros. Pyörän halkaisija n. 85 mm ==&gt; robotin etenemä 3.5 mm/pulssi.<br
 /><br
 />Piirilevyllä oleva moottorin liitin:<br
 />&nbsp;_________________<br
@@ -60,6 +60,11 @@
 />&nbsp;&nbsp;&nbsp; 4 = +5 V (ru)<br
 />&nbsp;&nbsp;&nbsp; 5 = moottori (pu)<br
 />&nbsp;&nbsp;&nbsp; 6 = moottori (mu)<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;<br
+/>17.5. Katkaistu moottorien johdot ja lisätty päihin liittimet (Harwin 2x4). Liittimen nastajärjestys (M1,M2 = moottori, musta johto = M2):<br
+/><br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hall1 Hall2&nbsp; M2&nbsp; M1<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +5V&nbsp;&nbsp; NC&nbsp;&nbsp; NC&nbsp; GND<br
 />&nbsp;&nbsp;&nbsp;&nbsp;<br
 /><br
 /><u>Kaukosäädin</u><br
@@ -74,7 +79,7 @@
 />Painike POWER:&nbsp; address = 0x20, command = 0x1F<br
 />Painike DOCKING: address = 0x20, command = 0x1A<br
 /><br
-/>Tehty proof-of-concept-ohjelma C8051F330:lle, joka lähettää IR-ledillä NEC-protokollan mukaiset käskyt. Robotti tottelee, eli protokolla hallussa.<br
+/>6.5. Tehty proof-of-concept-ohjelma C8051F330:lle, joka lähettää IR-ledillä NEC-protokollan mukaiset käskyt. Robotti tottelee, eli protokolla hallussa.<br
 /><br
 /><br
 />___________________________________________<br
