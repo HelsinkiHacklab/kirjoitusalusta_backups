@@ -1,5 +1,7 @@
 #!/bin/bash -x
 WGET='wget -nH --cut-dirs=3 -E -k -r -np --force-html --no-check-certificate --base=http://kirjoitusalusta.fi --domains=kirjoitusalusta.fi'
+# Make sure you have most recent version locally
+git pull
 # Dump the motherpad and follow links in it
 mkdir hacklab
 wget -E --no-check-certificate -q -O /dev/stdout http://kirjoitusalusta.fi/ep/pad/export/hacklab/latest?format=html | sed -r -e "s%\"https?://kirjoitusalusta.fi/([^\"]+)\"%\"http://kirjoitusalusta.fi/ep/pad/export/\1/latest?format=html\"%g"  >hacklab/latest\?format\=html.html
@@ -37,3 +39,5 @@ rm *.1.html *.2.html *.3.html
 # Autocommit
 git add hacklab*.html "4x4-RBG-LED-Board--I2C-.html"
 git commit -m 'dumped with script'
+git push
+
