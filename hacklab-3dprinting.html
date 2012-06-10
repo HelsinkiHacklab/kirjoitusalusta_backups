@@ -71,14 +71,26 @@
 ><li>firmware upgrade to Teacup or FiveD (so replicatorG and other latest software could be used) <a href="http://sourceforge.net/projects/reprap/files/Gen3%20Firmware/v1.2/">http://sourceforge.net/projects/reprap/files/Gen3%20Firmware/v1.2/</a></li
 ><li><br/></li></ul
 ><b>Creating models (General stuff)</b><br
-/><ul><li>OpenScad<ul><li>Programmatic creation of shapes.&nbsp; Powerful, but a bit complicated.&nbsp; Works well.</li
-><li>buggy interface (doesn't draw everything correctly)<ul><li>Use render() call on strategic places or always render whole thing to GCAL (the preview can explode if the CSG tree gets too complex)</li></ul
+/><ul><li>General:<ul><li>Solid modelling tools generally produce clean and printable model, mesh modelling tools require extra steps to clean the model</li></ul
+></li
+><li>Solid modeling tools:<ul><li>OpenScad<ul><li>Programmatic creation of solid shapes.&nbsp; Powerful, but a bit complicated.&nbsp; Works well.</li
+><li>buggy preview rendering (doesn't draw everything correctly)<ul><li>Use render() call on strategic places or always render whole thing to GCAL (the preview can explode if the CSG tree gets too complex)</li></ul
+></li
+><li>Lots of existing code:<ul><li>github.com/solidcode/MCAD</li
+><li>Thingiverse.com</li></ul
+></li
+><li>Forks<ul><li>github.com/solidcode</li></ul
 ></li></ul
+></li
+><li>ShapeSmith<ul><li>Parametric solid modelling</li
+><li>WebGL UI, online or local</li
+><li>New, limited features</li></ul
 ></li
 ><li>Freecad<ul><li>supposed to be better than OpenScad?</li
 ><li>not as simple as OpenScad, has more "easy to use" tools etc. (this is either con or pro)</li></ul
+></li></ul
 ></li
-><li>Using Google Sketchup to create and print 3D models<ul><li>Very intuitive user interface</li
+><li>Mesh modellers<ul><li>Using Google Sketchup to create and print 3D models<ul><li>Very intuitive user interface</li
 ><li>Use the plugin <a href="http://www.guitar-list.com/download-software/convert-sketchup-skp-files-dxf-or-stl">http://www.guitar-list.com/download-software/convert-sketchup-skp-files-dxf-or-stl</a> to export the 3D model to SPL format</li
 ><li>Brett's rewrite of skp-to-dxf allows "Right click to export": <a href="http://brettbeauregard.com/download/skp_to_Custom.rb">http://brettbeauregard.com/download/skp_to_Custom.rb</a> rm: <a href="http://brettbeauregard.com/blog/2011/06/sketchup-to-stl-plugin-with-no-dialogs/comment-page-1/#comment-19324">http://brettbeauregard.com/blog/2011/06/sketchup-to-stl-plugin-with-no-dialogs/comment-page-1/#comment-19324</a></li
 ><li>use manifold plugin for finding errors from your model <a href="http://forums.sketchucation.com/viewtopic.php?f=323&t=25466">http://forums.sketchucation.com/viewtopic.php?f=323&amp;t=25466</a></li
@@ -87,13 +99,16 @@
 ></li
 ><li>Blender<ul><li>hard to learn but otherwise a great tool for 3D printing.&nbsp;</li
 ><li>Supports stl export without a any extra plugins</li
+><li>Has a great clay/freeform tool</li
 ><li>there's a gcode simulator plugin for blender at thingiverse, looks good and is probably helping a lot when creating a print.</li></ul
 ></li
-><li>Alibre<ul><li>costs some money but should be very good for modeling, it's a pro cad tool after all.</li
+><li>Alibre</li
+><li>costs some money but should be very good for modeling, it's a pro cad tool after all.</li
 ><li><br/></li></ul
 ></li
 ><li>Creating Gcode for printing<ul><li><a href="http://slic3r.org/">http://slic3r.org/</a></li
-><li>Skeinforge<br/><br
+><li>Skeinforge</li
+><li>Cura: <a href="https://github.com/daid/Cura/wiki">https://github.com/daid/Cura/wiki</a><br/><br
 /><br/><br
 /><br/><br
 /><br/><br
