@@ -37,7 +37,7 @@ done
 rm *.1.html *.2.html *.3.html
 
 # Autocommit
-git add hacklab*.html "4x4-RBG-LED-Board--I2C-.html"
+git add hacklab*.html "4x4-RBG-LED-Board--I2C-.html" "5w-warkfest.html"
 git commit -m 'dumped with script'
 git push
 
