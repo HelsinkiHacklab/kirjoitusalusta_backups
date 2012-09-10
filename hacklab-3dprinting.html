@@ -9,8 +9,19 @@
 /><br
 />Helsinki Hacklab has a 3D printer named Torsti, of type RepRap Mendel with gen3 electronics.<br
 /><br
-/>Printer status atm: (updated 28.2.2012)<br
-/>works okay, use 180 decrees for faberdashery pla!<br
+/><br
+/><br
+/>Printer status atm: (updated 5.9.2012)<br
+/>upgrade almost done, couple wires missing, meanwhile you are able to use dah's printer if you know how to...<br
+/><br
+/><b>Electronics upgrade!</b> by: anacron &amp; Extechop<br
+/><b>current status:</b> pins installed, <b>okay to use </b>before next step.<br
+/><ul><li>notes:<ul><li><a href="http://makarainen.net/output/DSC_0097.JPG">http://makarainen.net/output/DSC_0097.JPG</a></li
+><li><a href="http://reprap.org/wiki/Sprinter_on_gen3">http://reprap.org/wiki/Sprinter_on_gen3</a></li
+><li>&nbsp;anacron &gt;&gt; oliks noista jotain kaavioo et mitkä piuhat vaihtaa paikkaa / Kliment &gt;&gt;&nbsp; 5V+ ja GND</li
+><li><br/></li></ul
+></li></ul
+>works okay, use 180 decrees for faberdashery pla!<br
 /><s>zzorn ordered more PLA from faberdashery so now we have lot's of pretty colors to choose from! also we are now collecting a fee from printing so we can fix the printer when needed &amp; get some more PLA</s><br
 /><br
 /><s>Torsti is printing very bad quality at the moment, so <b>don't use it!!!</s></b><br
@@ -40,15 +51,23 @@
 /><b>Printer not working?</b><br
 /><i>1 ) No power?</i><br
 /><br
-/>Check if the power outlet is switched on. Easy way to see if you get power is to check if stepper drivers are on. They have green/orange leds on board and are located in front of the unit. If power outlet is turned on but you still don't get power check that ATX power supply is switched on, there's a power switch behind the unit. Don't trust that the fan should be running when the unit has power switched on, the fan in this unit might be stopped if there's no load so check the power some other way. If the printer was turned off from the power outlet while printing (when something went wrong) ATX might not turn on before you take the jumpercable off from the ATX connector and put it back (That is short green wire forced into ATX connector to pin 14? and GND).<br
+/><ul><li>Check if the power outlet is switched on.<br/><br
+/></li></ul
+>Easy way to see if you get power is to check if stepper drivers are on. They have green/orange leds on board and are located in front of the unit.&nbsp;<br
 /><br
-/>2) <i>No connection to printer with Repsnapper (no connection sound) even cables and everything else seems to be ok.</i><br
+/><ul><li>If power outlet is turned on but you still don't get power check that ATX power supply is switched on, there's a power switch behind the unit. Powersupply cooling <b>fan in this unit might be stopped</b> if there's no load so check the power some other way.&nbsp;<br/><br
+/></li
+><li>If the printer was turned off from the power outlet while printing (when something went wrong) ATX might not turn on before you take the jumpercable off from the ATX connector and put it back (That is the short green wire forced into ATX connector to pin 14? and GND).<br/><br
+/></li></ul
+>2) <i>No connection to printer with Repsnapper (no connection sound) even cables and everything else seems to be ok.</i><br
 /><br
-/>Try reseting the printers mainboard, there's a yellow reset switch in the board.<br
+/><ul><li>Try reseting the printers mainboard, there's a yellow reset switch in the board.<br/><br
+/></li></ul
+>3) Stepper is jammed?&nbsp;<br
 /><br
-/>3) Stepper is jammed? One stepper is not moving either direction it might be in wrong angle. You can feel stepper buzz when pressing finger on its axel. But watch out, steppers might be burning hot!&nbsp; Unpower Reprap and try to push/pull it manually to correct position. Repower and test.<br
-/><br
-/><b>Upgrades done for Torsti lately:</b><br
+/><ul><li>One of the steppers is not moving either direction? it might be in wrong angle. You can feel stepper buzz when pressing finger on its axel. But watch out, steppers might be burning hot!&nbsp; Unpower Reprap and try to push/pull it manually to correct position. Repower and test.<br/><br
+/></li></ul
+><b>Upgrades done for Torsti lately:</b><br
 />- Added snap on filament holder at the top of the unit<br
 />- Cables from steppers re-routed so they won't heat up as much<br
 />- New print platform and mechanical springs added<br
@@ -68,12 +87,13 @@
 ><li>better filament spool holder(in progress)</li
 ><li>better fan mounting and cable re-routing(fan mounted, cable management in progress)</li
 ><li>heatsinks for steppermotors(needs something good to attach the heatsinks)</li
-><li>firmware upgrade to Teacup or FiveD (so replicatorG and other latest software could be used) <a href="http://sourceforge.net/projects/reprap/files/Gen3%20Firmware/v1.2/">http://sourceforge.net/projects/reprap/files/Gen3%20Firmware/v1.2/</a></li
-><li><br/></li></ul
+><li>firmware upgrade to Teacup or FiveD (so replicatorG and other latest software could be used) <a href="http://sourceforge.net/projects/reprap/files/Gen3%20Firmware/v1.2/">http://sourceforge.net/projects/reprap/files/Gen3%20Firmware/v1.2/</a><br/><br
+/><br/><br
+/></li></ul
 ><b>Creating models (General stuff)</b><br
-/><ul><li>General:<ul><li>Solid modelling tools generally produce clean and printable model, mesh modelling tools require extra steps to clean the model</li></ul
+/><ul><li><b>General:</b><ul><li>Solid modelling tools generally produce clean and printable model, mesh modelling tools require extra steps to clean the model</li></ul
 ></li
-><li>Solid modeling tools:<ul><li>OpenScad<ul><li>Programmatic creation of solid shapes.&nbsp; Powerful, but a bit complicated.&nbsp; Works well.</li
+><li><b>Solid modeling tools:</b><ul><li>OpenScad<ul><li>Programmatic creation of solid shapes.&nbsp; Powerful, but a bit complicated.&nbsp; Works well.</li
 ><li>buggy preview rendering (doesn't draw everything correctly)<ul><li>Use render() call on strategic places or always render whole thing to GCAL (the preview can explode if the CSG tree gets too complex)</li></ul
 ></li
 ><li>Lots of existing code:<ul><li>github.com/solidcode/MCAD</li
@@ -90,7 +110,7 @@
 ><li>not as simple as OpenScad, has more "easy to use" tools etc. (this is either con or pro)</li></ul
 ></li></ul
 ></li
-><li>Mesh modellers<ul><li>Using Google Sketchup to create and print 3D models<ul><li>Very intuitive user interface</li
+><li><b>Mesh modellers</b><ul><li>Using Google Sketchup to create and print 3D models<ul><li>Very intuitive user interface</li
 ><li>Use the plugin <a href="http://www.guitar-list.com/download-software/convert-sketchup-skp-files-dxf-or-stl">http://www.guitar-list.com/download-software/convert-sketchup-skp-files-dxf-or-stl</a> to export the 3D model to SPL format</li
 ><li>Brett's rewrite of skp-to-dxf allows "Right click to export": <a href="http://brettbeauregard.com/download/skp_to_Custom.rb">http://brettbeauregard.com/download/skp_to_Custom.rb</a> rm: <a href="http://brettbeauregard.com/blog/2011/06/sketchup-to-stl-plugin-with-no-dialogs/comment-page-1/#comment-19324">http://brettbeauregard.com/blog/2011/06/sketchup-to-stl-plugin-with-no-dialogs/comment-page-1/#comment-19324</a></li
 ><li>use manifold plugin for finding errors from your model <a href="http://forums.sketchucation.com/viewtopic.php?f=323&t=25466">http://forums.sketchucation.com/viewtopic.php?f=323&amp;t=25466</a></li
@@ -103,10 +123,10 @@
 ><li>there's a gcode simulator plugin for blender at thingiverse, looks good and is probably helping a lot when creating a print.</li></ul
 ></li
 ><li>Alibre</li
-><li>costs some money but should be very good for modeling, it's a pro cad tool after all.</li
-><li><br/></li></ul
+><li>costs some money but should be very good for modeling, it's a pro cad tool after all.<br/><br
+/></li></ul
 ></li
-><li>Creating Gcode for printing<ul><li><a href="http://slic3r.org/">http://slic3r.org/</a></li
+><li><b>Creating Gcode for printing</b><ul><li><a href="http://slic3r.org/">http://slic3r.org/</a> recommended but not usable with Torsti (but it will be soon!)</li
 ><li>Skeinforge</li
 ><li>Cura: <a href="https://github.com/daid/Cura/wiki">https://github.com/daid/Cura/wiki</a><br/><br
 /><br/><br

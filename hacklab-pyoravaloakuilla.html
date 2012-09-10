@@ -5,8 +5,7 @@
 <meta http-equiv="Content-Language" content="en-us" />
 <title>/hacklab-pyoravaloakuilla</title>
 </head>
-<body><br
-/><b><u>Ledivalot pyörään dynamo+akku</u></b><br
+<body><b><u>Ledivalot pyörään dynamo+akku</u></b><br
 />Uudet ideat korjailut tervetulleita<br
 /><br
 />Ajatuksena tehdä pyörää varten ledivalot jotka pysyvät päällä ajon aikan ja pysähtymisen jälkeen ilman välkkymisiä tai himmenemisiä johtuen hitaasta nopeudesta.<br
@@ -25,8 +24,6 @@
 ><li>Dynamo saturoituu 400 - 500 mA, joten jos kuormana on yksi teholedi niin ulos saadaan vain ledille tarvittava teho. Kun ledejä on 5kpl niin sama toistuu, mutta ulos otetaan 5x led. kynnys jännite X 500mA(tietenkin viidelle ledille tarvitaan n. 20km/h) ja jos ledejä on 30kpl niin teoriassa ne palavat hyvin 100km nopeudessa<br/><br
 /></li
 ><li>akun lataaminen suoraan dynamolta toimii, mutta tuhoaa akun<br/><br
-/></li
-><li>akun laittaminen suojadiodilla regulaattorin ja tasasuuntaajan väliin nostaa open circuit jänniteen akun jännitteen tasolle =&gt; akku ei "kulu" jos nopeutta on riittävästi<br/><br
 /></li
 ><li>dynamosta tulee open circuit jännitettä n. 1voltti per km/h&nbsp;</li
 ><li>dynamon rakenne itsessään rajoittaa saatavan tehon joten sitä on huijattava saadakseen lisää(helpointa lienee etsiä töpseliä)<br/><br
@@ -105,14 +102,14 @@
 ></li
 ><li>akkujen päälle kytkentä automaattisesti kun virta dynamolta ja viiveellä akku pois<br/><br
 /></li
-><li>voiko dynamoa emuloida vai onko vaan tehtävä ständi porakone pyörityksellä</li
+><li>voiko dynamoa emuloida vai onko vaan tehtävä ständi porakone pyörityksellä(boxi tehty110712)</li
 ><li>kuinka helposti saa arduinon seuramaan virrantuottoa<br/><br
 /></li></ul
 ><b>Tehtävää</b><br
 /><br
-/><ul><li>pienennä piirilevyä alkuun 2x3cm mittaan</li
-><li>testaa flyback -topologian toimintaa</li
-><li>h-bridge jos ei toimi tee joku toinen versio</li
+/><ul><li>pienennä piirilevyä alkuun 2x3cm mittaan, (päästy 3x4cm)</li
+><li>testaa flyback -topologian toimintaa, (kokeiltu ei toimi odotetusti)</li
+><li>h-bridge jos ei toimi tee joku toinen versio(schotky -versiot)</li
 ><li>etsi muoviputkea 18650 kennolle(battery holder)</li
 ><li><br/></li
 ><li><br/><br/><br
@@ -169,6 +166,20 @@
 />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (0)-----------------|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp; |---------------------------------+<br
 />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +------------+<br
 /><br
+/><br
+/><b>Rakennettu "dynamo boxi"&nbsp; </b>(Creepylle kiitokset "roskista"!)<br
+/><br
+/>Lyhyesti sanottuna testipenkki, jossa voi koe ponnistaa polkupyörän dynamolle tehtyjä kytkentöjä, mitata sekä muutenkin seurata mitä laitteessa tapahtuu.<br
+/><br
+/>"Boxi" on tehty pöydälle mahtuvaksi ja liikkuvat osat on suojattu vaneri lootalla sekä dynamon ulostulo ylijännitesuojalla joka&nbsp; tullaan tekemään kahdella 30v 3A. zenerillä näin lootan käyttö on turvallisempaa sekä helpompaa verrattuna vanteeseen kiinnitetyn dynamon pyörittämiseen. Dynamoa pyöritetään tavallisella porakoneella ketjun välityksellä. Tällä hetkellä välitys suhde on 1:1, joka ei oikein toimi kun porakoneen oma nopeus säätö ei tuota matalilla kierroksilla vääntöä lisäksi ongelmana on toisen rattaan epäkeskoinen kiinnitys, joka aiheuttaa ketjun paikoiltaan hyppäämisen (kierrosnopeus vastaa luonnossa 40 - 60km/h nopeutta). Tuossa tuli testattua sekin että vaneri loota kestää.<br
+/><br
+/>Open Circuit -jännite ilman zenereitä tai kuormaa nousee korkeaksi kuten jokainen polkupyörän napadynamon toimintaan tutustunut tietää ja piirin kytkeminen&nbsp; tuossa vaiheessa on helpoin tapa kärventää testattava laite tai kokeilla toimiiko piirin ylivirtasuoja, en kuitenkaan suosittele.<br
+/><br
+/>Välitykset pitää vielä vaihtaa ja samalla tehdä paremmin keskitetty ratasadapteri, jolloin ulos on helpompi saada todellisuutta vastaavia tuloksia. Nyt on helppo tehdä maksimi ja minimi mittauksia.<br
+/><br
+/>Pientä säätöä siis tarvitaan...<br
+/><br
+/>Boxi Labbilaisille käytettävissä jos on intoa dynamon testailuun.&nbsp;<br
 /><br
 /><b>Mitä seuraavaksi?</b><br
 /><br

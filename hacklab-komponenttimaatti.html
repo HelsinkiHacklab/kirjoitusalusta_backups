@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-us" />
+<title>/hacklab-komponenttimaatti</title>
+</head>
+<body><b>Mistä kyse</b><br
+/>Labilla on ollut puhetta että olisi hienoa jos meillä olisi automaatti josta voisi ostaa suoraan puuttuvia elektroniikkatarpeita kuten vaikkapa arduinoja ja servoja.<br
+/><br
+/>nyt tämä projekti olisi varsin helppo toteuttaa, ostetaan tuo muusikoiden netissä oleva karkkiautomaatti pois ja modataan siitä elektroniikkaa myyvä härveli.<br
+/><br
+/><b>Haluaisitko myydä komponentteja maatissa?</b><br
+/>laita nimeä alle + mitä haluat myydä, niin hoidetaan asiaa eteenpäin<br
+/><br
+/><a href="http://muusikoiden.net/tori/nayta.php?id=655136"><s>http://muusikoiden.net/tori/nayta.php?id=655136</s></a><br
+/><a href="http://www.huuto.net/kohteet/karkkiautomaatti/228753918"><s>http://www.huuto.net/kohteet/karkkiautomaatti/228753918</s></a><br
+/>OSTETTU - toimitus 24.7. klo 12-13<br
+/><br
+/><b>Ketkä ovat valmiita lahjoittamaan rahaa maatin ostoa varten</b><br
+/><ul><li>jautero 50e</li
+><li>kimi - 20e</li
+><li>anacron - 30e<br/><br
+/><ul><li>rahat ehkä mahdollista saada takaisin jos esim hacklab lunastaa?<ul><li>rahoja kerätään takaisin myymällä koneessa karkkia pienellä provikalla<br/><br
+/><br/><br
+/></li></ul
+></li></ul
+></li></ul
+><b>Tarvittavat muutokset</b><br
+/>Automaatti soveltuu lähes sellaisenaan komponenttien vähittäismyyntiin mutta ainoana ongelmana on se että kun joku tuote maksaa enemmän kuin muutaman euron, kuten vaikkapa arduino, niin se on kolikoina varsin ikävä summa, eli coin mechin tilalle tai lisäksi pitäisi vaihtaa joku muu rahastusmekaniikka.<br
+/><br
+/>Yksi mielenkiintoisimmista ideoista on ollut laittaa digitaalinen QR koodi josta saa paypal linkin jolla tuotteen pystyy sitten maksamaan. Mutta näistä voidaan ideoida lisää ja toteutuskykyä varmasti kyllä labilta löytyy jos tämä päätetään nyt hankkia.<br
+/><br
+/>&nbsp;&nbsp;&nbsp; Tai sit hankitaan labille kolikoita... :D<br
+/><ul><li>&nbsp;&nbsp;&nbsp; Teoreettisesti rahan voisi rikkoa limukassasta sillä oletuksella että myös maatista tyhjennettäisiin rahat samaan kassaan, ongelmalliseksi homma menee jos maatissa on monen tahon rahoja.<br/><br
+/></li></ul
+><b>Kolikkolaskurin korvaus</b><br
+/><ul><li>QR koodi paypal linkillä<ul><li>kuinka laite saa tiedon siitä että paypal maksu on mennyt perille ja pystyy tiputtamaan tuotteen ongelmitta? ts. jos netti ei toimi, miten automaatti toimii?<ul><li>paypal käyttää instant payment notificationia (IPN), joka pingaa maksussa määriteltyä urlia maksun tiedoilla kun maksu on mennyt läpi</li
+><li>automaattiin voi laittaa 3G/4G USB-tikun, jos ei halua olla riippuvainen labran netistä. Toisaalta, onko automaatin pakko toimia, jos labran netti on alhaalla? Käyttöä toki helpottaa, jos automaatti osaa antaa selkeän diagnostiikkaviestin.</li></ul
+></li></ul
+></li
+><li>Toisaalta, miksi korvata kolikkolaskuria? Laitetaan viereen automaatti, joka vaihtaa esimerkiksi 20 euron setelin 19 euron kolikoksi. ;)<ul><li>joopajoo, mutta mistäs tällänen saadaan :)<ul><li>Mikä vika seteliautomaatissa? niitä on kans semmosia missä känny+kolikko+setelit samassa.onhan niitä, mutta mistä sellainen saadaan ja paljon maksaa<br/><br
+/></li></ul
+></li></ul
+></li
+><li>Credittipohjainen maksu paypalin kautta<ul><li>maksetaan summa X paypalin kautta joka siirtyy automaatin laskuriin IPN protokollan kautta(ei ehkä mahdollista?), kun summa on oikea voidaan maksaa haluttu tuote, pitäisi olla mahdollista käyttää sekä paypalia ja kolikoita samaan aikaan, ei tarvittaisi kuin yksi QR koodi joka ohjaa paypal sivulle johon syötetään tarvittava summa<ul><li>IPN protocollan pitäisi syöttää pulsseja coinmechiin? tähän voisi käyttää esim. rasperry pi:tä, siihen saa suoraan 3G tikun nettiä varten ja gpio portin kautta signaalin sylkeminen coinmechille.<ul><li>mahdollinen ongelma riippuen siitä mitä dataa IPN antaa ulos<br/><br
+/></li></ul
+></li></ul
+></li></ul
+></li></ul
+><b>Muita huomioita</b><br
+/><ul><li>Luottohenkilöllä avain maattiin ongelmatilanteiden varalle, vaikkahan niitä nyt ei ikinä tietenkään tule...</li
+><li>Automaattiin ei toki itsestään ilmesty ne komponentit, eli jonkun tahon pitäisi niitä sinne hankkia, esimerkiksi labi voisi hankkia sinne yhtä tuotetta josta voitaisiin myös haluttaessa kerätä pieni kate hacklabin toimintaa varten, mutta tämän lisäksi jos joku hacklabilainen haluaa vaikkapa myydä jotain omia komponenttejaan/muuta kiinnostavaa niin hänelle voidaan varata tila kaapista.</li
+><li>Jos tilaa voi varata "omien tuotteiden myyntiin" niin sille pitää kehittää myös joku toimintamalli.<br/><br
+/><br/><br
+/></li></ul
+><b>Toimintamalli A myyntiä varten</b><br
+/>tässä yksi ehdotus, muita voi ehdottaa.<br
+/><br
+/><ul><li>Hacklabille varataan X määrä lokeroita, näistä tuotteista joko kerätään provikkaa hacklabin menoja varten tai sitten myydään ilman provikkaa?<br/><br
+/></li
+><li>Hacklabilaiset jotka haluavat myydä "romujaan" voivat saada käyttöönsä X ajaksi lokeron/lokeroita<ul><li>Jos lokeroita ei ole tarpeeksi, halukkaille annetaan rajoitettu aika jonka aikana lokeroita saa pitää käytössään. Kun aika umpeutuu tai tuotteet on myyty loppuun, saa seuraava lokeron käyttöönsä.</li
+><li>Jos myynnistä kerätään provikkaa hacklabia varten se voidaan toteuttaa joko niin että vain myydyistä tuotteista kerätään provikkaa tai sitten kertamaksua vastaan saa lokeron käyttöönsä X ajaksi (saako tänä aikana täyttää lokeroa sitä mukaan kun se tyhjenee)<br/><br
+/></li></ul
+></li></ul
+><b>Myyntiaika 1kk/hinta?</b> (jos hylly tyhjenee sitä saa käydä täyttämässä)<br
+/><b>Korvaus per myyty tuote </b>(hyllyä ei saa täyttää kun tuotteet loppuvat)<br
+/><ul><li>rajoitetaanko maatin myynti vain elektroniikkaan, vai saako hacklabilaiset rahastaa laiskemmilta labilaisilta hakemalla karkkia kaupasta ja laittamalla voitolla sitä myyntiin ;)<br/><br
+/></li></ul
+><b>Toimintamalli B ?</b><br
+/><br
+/><br
+/><b>Jatkoideoita</b><br
+/><br
+/><ul><li>Isommat tuotteet voi laittaa lukolliseen lokerikkoon ja automaatista voi sitten ostaa avaimia siihen: <a href="http://www.huuto.net/kohteet/ostos-lokerikko/228564643">http://www.huuto.net/kohteet/ostos-lokerikko/228564643</a><ul><li>Kuinka avaimien palautus hoituu?&nbsp;</li
+><li>maatissa vain 10 lokeroa, yksi avain vie koko lokeron.&nbsp;<ul><li>Tosin tärkeitä tuotteita ei välttämättä tule kovin montaa, esim. neljä lokeroa voisi helposti pyhittää pelkille avaimille.<br/><br
+/></li></ul
+></li></ul
+></li></ul
+></body>
+</html>
