@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-us" />
+<title>/hacklab-ledmatrix7x31</title>
+</head>
+<body><b>7x31 led matrix</b><br
+/><br
+/>Because that's what Styrge built, now we recycle the frame for something more usefull. It will be treated as 8x32 for simplified control, the last row&amp;column just do not actually do anything.<br
+/><br
+/><b>Phase 1: single color, no PWM</b><br
+/><br
+/>Call it proof-of-concept, will be wired with cheap-ass leds just to test the ideas we have.<br
+/><br
+/>Rows are handled by NPN-transistors, columns by shift-register boards originally designed for the infamour reactor simulator (each board has 4 595 regs and resistors for the leds so 32 bits per board). <a href="https://github.com/HelsinkiHacklab/reactor/blob/master/blueprints/shift_reg.brd">https://github.com/HelsinkiHacklab/reactor/blob/master/blueprints/shift_reg.brd</a><br
+/><br
+/>If zzorn manages to wire up all the leds so that the columns can just be connected with IDC-connectors to the shift-reg board I (rambo) can get rest of this working in couple of hours.<br
+/><br
+/><b>Phase 2: PWM:d RGB</b><br
+/><br
+/>The fun part...<br
+/><br
+/>Wired so that we have high-power (2A) PNP transistor feeding the Common-Anode of a row<br
+/>and 3x4 shift-registers to sink the colors (again same board as above, resistor values as per color).<br
+/><br
+/>Driving this will be interesting, we'll be using XMegas and leverage the DMA, suovula and zzorn have some idea of how to keep calculating the bit-patterns for PWM in between the DMA pushing data to the shift-regs.&nbsp;<br
+/><br
+/>This is not only quite insane amount of soldering quite challenging code-wise as well...<br
+/><br
+/>Bought 3 x 100 RGB leds from ebay, delivery 10-?? days&nbsp; --zzorn<br
+/><br
+/>RGB LED sourcing:<br
+/><a href="http://www.ebay.com/itm/100pcs-x-5mm-4-pin-RGB-Diffused-Common-Anode-LED-Red-Green-Blue-/261083069774">http://www.ebay.com/itm/100pcs-x-5mm-4-pin-RGB-Diffused-Common-Anode-LED-Red-Green-Blue-/261083069774</a><br
+/><br
+/>Other possibility <a href="http://www.satisled.com/Wholesale-Discount-led-lamps-rgb-full-color_c27.html">http://www.satisled.com/Wholesale-Discount-led-lamps-rgb-full-color_c27.html</a><br
+/><br
+/></body>
+</html>

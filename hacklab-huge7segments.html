@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-us" />
+<title>/hacklab-huge7segments</title>
+</head>
+<body>Basic idea is to create <b>big</b> 7-segment displays using led-strip -modules like this <a href="http://dx.com/p/diy-5w-6000k-475-550lm-led-white-light-rectangle-strip-dc-12-14v-146071">http://dx.com/p/diy-5w-6000k-475-550lm-led-white-light-rectangle-strip-dc-12-14v-146071</a><br
+/><br
+/>Those will take pretty hefty transistors to drive them (it seems there are no large arrays available that can take ~5W per channel), discrete options:<br
+/><ul><li><a href="http://www.digikey.com/product-detail/en/FZT7053TA/FZT7053TACT-ND/2334461">http://www.digikey.com/product-detail/en/FZT7053TA/FZT7053TACT-ND/2334461</a></li
+><li><a href="http://www.digikey.com/product-detail/en/2SD2143TL/2SD2143TLCT-ND/1158654">http://www.digikey.com/product-detail/en/2SD2143TL/2SD2143TLCT-ND/1158654</a></li
+><li><a href="http://www.digikey.com/product-detail/en/SI5440DC-T1-GE3/SI5440DC-T1-GE3CT-ND/2442000">http://www.digikey.com/product-detail/en/SI5440DC-T1-GE3/SI5440DC-T1-GE3CT-ND/2442000</a></li
+><li><a href="http://www.digikey.com/product-detail/en/SIB422EDK-T1-GE3/SIB422EDK-T1-GE3CT-ND/2442103">http://www.digikey.com/product-detail/en/SIB422EDK-T1-GE3/SIB422EDK-T1-GE3CT-ND/2442103</a><ul><li>Dual version is only slightly more expensive <a href="http://www.digikey.com/product-detail/en/SIS902DN-T1-GE3/SIS902DN-T1-GE3CT-ND/2442151">http://www.digikey.com/product-detail/en/SIS902DN-T1-GE3/SIS902DN-T1-GE3CT-ND/2442151</a><ul><li>One that can handle 2*10W <a href="http://www.digikey.com/product-detail/en/SI7272DP-T1-GE3/SI7272DP-T1-GE3CT-ND/2442043">http://www.digikey.com/product-detail/en/SI7272DP-T1-GE3/SI7272DP-T1-GE3CT-ND/2442043</a><br/><br
+/></li></ul
+></li></ul
+></li></ul
+><b>Control/driver board</b><br
+/><br
+/>The dirver/control board itself will have:<br
+/><ul><li>shift-register</li
+><li>the driver-transistors for 7 segments and the last bit can be wired for single led driven directly from the reg (dot)</li
+><li>+/- connectors for the led strips</li
+><li>LED Power +/GND connectors (in this case 12V)</li
+><li>5V/GND connector for logic</li
+><li>daisy-chaining connector for the shift-register, see for example: <a href="https://github.com/HelsinkiHacklab/reactor/blob/master/blueprints/shift_reg.brd">https://github.com/HelsinkiHacklab/reactor/blob/master/blueprints/shift_reg.brd</a></li
+><li>Optionally it could also have an ATTIny to act as I2C interface to the shift-reg(s)<ul><li>Or even ATMega88, in that case we would have both TWI and SPI in hardware so we could drive a lot of shift-registers very fast (think PWM for brightness control)<br/><br
+/></li></ul
+></li></ul
+>Due to size reasons (see below) SMD components are preferred.<br
+/><br
+/><br
+/><b>Physical assembly</b><br
+/><br
+/>Made on layers from lasercut acrylic (except maybe the bottommost layer needs to be some sort of metal so we can spread the heat from the led-strips around a bit [and it wouldn't hurt to be able to sink heat from the driver transistors as well])<br
+/><br
+/>Bottom: thin square the size of the display, this is where the led-strips and control board mounts to.<br
+/>Layer1: Thick (basically determined by control-board thickness, though if it becomes too thick or othetwise a problem the board can be mounted elsewhere) opaque black acrylic square with cutouts for the led strips and the control board<br
+/>Layer2: thin translucent but diffuse square of colored acrylic to give color to the digits and diffuse the led-strips<br
+/>Top: thing opaque cover plate, square with cutouts for the segments.<br
+/><br
+/>All of these layers will have at least 3 holes to a side to keep them together with screws.<br
+/><br
+/>We can cut the acrylic at the Aalto Fablab (our own lasercutter won't handle pieces this big)<br
+/><br
+/><b>Other ideas</b><br
+/><br
+/>Matrix display: <a href="hacklab-ledmatrix7x31.html">http://kirjoitusalusta.fi/hacklab-ledmatrix7x31</a><br
+/><br
+/><br
+/><br
+/></body>
+</html>
