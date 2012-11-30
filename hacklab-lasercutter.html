@@ -21,6 +21,10 @@
 /><br
 />Anacron on varmaan nykyään säätänyt enemmän kuin rambo/otto, en nyt muista ketkä kaikki olivat tehneet puolijärjestelmällisiä kokeita materiaaleilla/tehoilla/liikenopeuksilla.<br
 /><br
+/><b>Status 2012-10-02</b><br
+/><br
+/>HPGL "import" näköjään konvertoi kuitenkin bitmapiksi ja vieläpä siten että sivun koko ei ole tiedossa, parempi tulos tulee yhä alla kuvatulla menetelmällä. Muista varata riittävästi tyhjää työstöalueen reunoille (muuten tulee "data conversion error")&nbsp;<br
+/><br
 /><b>Status 2012-09-11</b><br
 /><br
 />Asennettu kanteen sisäpuolelle kirkkaat ledivalot, nyt näkee sisälle myös ilman kameraa. TODO: erillinen kytkin valoille, ovat kohtuuttoman kirkkaat kun kansi on auki (lisäksi lämpenevät aika hyvin mutta sitä varten koko kansi saa toimia heatsinkkinä, ovat piitahnalla kiinni)<br
@@ -48,7 +52,8 @@
 />Parempi ohje asioiden piirtelyyn vektorileikkausta varten by rambo, tarvitset Inkscape:n ja Gimp:in<br
 /><br
 /><ul><li>Piirrä leikkausviivat Inkscapessa, käytä kaikkina yksikköinä <b>aina</b> millimetrejä (file-&gt;document properties -valikosta voi vaihtaa oletusyksikön) ja viivanleveytenä 0.2mm (ja&nbsp; mikäli muutat viivanleveyttä objektissa tarkista sen sijainti sivulla uudestaan).<ul><li>käytä viivan värinä mustaa.</li
-><li>TODO: testaa 0.01mm viivanleveys (Ponoko-yhteensopiva)</li></ul
+><li>TODO: testaa 0.01mm viivanleveys (Ponoko-yhteensopiva)<ul><li>tämä aliasoitui exportissa liian haaleaksi ja 1bit muunnos hukkasi kokonaan, 0.1mm toimi.</li></ul
+></li></ul
 ></li
 ><li>Laita eri vaiheissa leikattavat viivat omiin layereihinsä, Moshi ei tajua tehdä ulompien viivojen sisällä olevia ensin valmiiksi joten joudut tekemään ne ensin omana jobinaan ja sitten ulkoreunat omanaan.<ul><li>Poista aina päällekkäiset leikkausviivat (object -&gt; object to path ja sitten path editorilla rukkaamaan) jo ennen vaiheisiin/jobeihin erottelua.</li></ul
 ></li
@@ -166,7 +171,10 @@
 /></li></ul
 ></li></ul
 ></li></ul
-><b>Linkkejä</b><br
+><b>TODO</b><br
+/>Etsi samanlaista lattakaapelia jota on käytetty laserleikkurissa stepperinohjaukseen (12 johtimista,valkeaa) liittimineen, pituudella ei ole väliä!<br
+/><br
+/><b>Linkkejä</b><br
 /><br
 /><ul><li><a href="http://www.rabbitlaserusa.com/Manuals/BeamAlignment.html">http://www.rabbitlaserusa.com/Manuals/BeamAlignment.html</a></li
 ><li><a href="http://www.andyslater.com/laser-cutting/beam-path.html">http://www.andyslater.com/laser-cutting/beam-path.html</a></li

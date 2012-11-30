@@ -5,16 +5,18 @@
 <meta http-equiv="Content-Language" content="en-us" />
 <title>/hacklab-huge7segments</title>
 </head>
-<body>Basic idea is to create <b>big</b> 7-segment displays using led-strip -modules like this <a href="http://dx.com/p/diy-5w-6000k-475-550lm-led-white-light-rectangle-strip-dc-12-14v-146071">http://dx.com/p/diy-5w-6000k-475-550lm-led-white-light-rectangle-strip-dc-12-14v-146071</a><br
-/><br
-/>Those will take pretty hefty transistors to drive them (it seems there are no large arrays available that can take ~5W per channel), discrete options:<br
-/><ul><li><a href="http://www.digikey.com/product-detail/en/FZT7053TA/FZT7053TACT-ND/2334461">http://www.digikey.com/product-detail/en/FZT7053TA/FZT7053TACT-ND/2334461</a></li
-><li><a href="http://www.digikey.com/product-detail/en/2SD2143TL/2SD2143TLCT-ND/1158654">http://www.digikey.com/product-detail/en/2SD2143TL/2SD2143TLCT-ND/1158654</a></li
-><li><a href="http://www.digikey.com/product-detail/en/SI5440DC-T1-GE3/SI5440DC-T1-GE3CT-ND/2442000">http://www.digikey.com/product-detail/en/SI5440DC-T1-GE3/SI5440DC-T1-GE3CT-ND/2442000</a></li
-><li><a href="http://www.digikey.com/product-detail/en/SIB422EDK-T1-GE3/SIB422EDK-T1-GE3CT-ND/2442103">http://www.digikey.com/product-detail/en/SIB422EDK-T1-GE3/SIB422EDK-T1-GE3CT-ND/2442103</a><ul><li>Dual version is only slightly more expensive <a href="http://www.digikey.com/product-detail/en/SIS902DN-T1-GE3/SIS902DN-T1-GE3CT-ND/2442151">http://www.digikey.com/product-detail/en/SIS902DN-T1-GE3/SIS902DN-T1-GE3CT-ND/2442151</a><ul><li>One that can handle 2*10W <a href="http://www.digikey.com/product-detail/en/SI7272DP-T1-GE3/SI7272DP-T1-GE3CT-ND/2442043">http://www.digikey.com/product-detail/en/SI7272DP-T1-GE3/SI7272DP-T1-GE3CT-ND/2442043</a><br/><br
+<body>Basic idea is to create <b>big</b> 7-segment displays using led-strip -modules like these&nbsp;<br
+/><ul><li><a href="http://dx.com/p/diy-5w-6000k-475-550lm-led-white-light-rectangle-strip-dc-12-14v-146071">http://dx.com/p/diy-5w-6000k-475-550lm-led-white-light-rectangle-strip-dc-12-14v-146071</a></li
+><li><a href="http://dx.com/p/diy-3w-3000k-285-315lm-cob-led-rectangle-strip-dc-12-14v-142034?item=21">http://dx.com/p/diy-3w-3000k-285-315lm-cob-led-rectangle-strip-dc-12-14v-142034?item=21</a></li
+><li><a href="http://dx.com/p/2-5w-12x5050-smd-led-white-light-car-decoration-daytime-running-flexible-strip-lamp-12v-145721?item=71">http://dx.com/p/2-5w-12x5050-smd-led-white-light-car-decoration-daytime-running-flexible-strip-lamp-12v-145721?item=71</a></li
+><li><a href="http://dx.com/p/24-led-car-flexible-bar-diy-led-auto-lamps-24cm-bar-length-113323?item=85">http://dx.com/p/24-led-car-flexible-bar-diy-led-auto-lamps-24cm-bar-length-113323?item=85</a></li
+><li><a href="http://dx.com/p/72w-soft-flexible-cuttable-white-300-led-smd-lamp-tape-strip-5m-dc-12v-126238?item=4">http://dx.com/p/72w-soft-flexible-cuttable-white-300-led-smd-lamp-tape-strip-5m-dc-12v-126238?item=4</a> (probably best choice, not insanely bright and 5m gets us 10 digits if we use 7cm segments [7 digits for 10cm segments, which would be ~110ma per strip, much more manageable])<br/><br
 /></li></ul
-></li></ul
-></li></ul
+>The 3+W ones will take pretty hefty transistors to drive them, the usual "500mA" darlington arrays cannot handle full current on all channels (500mA peak current on 7 channels is limited to 10% duty cycle), some discrete options (mosfets are better anyway):<br
+/><ul><li><a href="http://fi.rsdelivers.com/product/international-rectifier/irf8734pbf/mosfet-n-channel-30v-21a-hexfet-soic8/6886891.aspx">http://fi.rsdelivers.com/product/international-rectifier/irf8734pbf/mosfet-n-channel-30v-21a-hexfet-soic8/6886891.aspx</a></li
+><li><a href="http://fi.rsdelivers.com/product/vishay/si1912edh-t1-e3/mosfet-n-channel-20v-113a-sc-70-6/7103235.aspx">http://fi.rsdelivers.com/product/vishay/si1912edh-t1-e3/mosfet-n-channel-20v-113a-sc-70-6/7103235.aspx</a></li
+><li><a href="http://fi.rsdelivers.com/product/on-semiconductor/mc1413dg/darlington-array-x7-npn-50v-05a-soic16/5164979.aspx">http://fi.rsdelivers.com/product/on-semiconductor/mc1413dg/darlington-array-x7-npn-50v-05a-soic16/5164979.aspx</a> (7ch, can handle ~150mA per channel when all are fully on)<br/><br
+/></li></ul
 ><b>Control/driver board</b><br
 /><br
 />The dirver/control board itself will have:<br

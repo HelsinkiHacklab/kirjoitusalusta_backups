@@ -1,0 +1,436 @@
+<!DOCTYPE html PUBLIC
+	  "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fi" xml:lang="fi">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="fi-fi" />
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+    <title>EtherPad: hacklab-immerlighter / Latest text of pad hacklab-immerlighter</title>
+    <base href="" />
+
+    <!-- CSS -->
+    <link href="http://www.kirjoitusalusta.fi/static/compressed/b551c5e3fb39001db66e471d65b43e1d.css" rel="stylesheet" type="text/css" />
+
+    
+<style type="text/css" title="dynamicsyntax"></style>
+
+
+    <!-- javascript -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17968704-1']);
+  _gaq.push(['_setDomainName', '.kirjoitusalusta.fi']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+    <script type="text/javascript">
+  // <![CDATA[
+var clientVars = {"historicalAuthorData":{"g.ffnk68zeiczjus9s":{"colorId":4},"g.gf7c77xlaoarasy5":{"colorId":18,"name":"zz"},"g.p5ebcaukxcqgzn67":{"colorId":1}},"totalRevs":38,"hooks":{},"disableRightBar":false,"revNum":38,"initialStyledContents":{"atext":{"text":"// Remember ~ 1.5k pullups for I2C data and clock lines!\n\n#include \x3cWire.h>\n#define BASE_I2C_ADDRESS B1000000\n#define PRESCALE_REG 0xFE\nint MAX_VALUE = 4096;\nint i2cAddress = 0;\nint i2cAddress2 = 0;\nint ledMapping[] = {\n   6, 5, 7,\n   3, 2, 4,\n   1, 14, 0,\n   12, 13, 11,\n   9, 10, 8,\n   15};\nvoid setup()\n{\n  // Connect debug line\n  Serial.begin(9600);\n  Serial.println(\"Led blinker starting\");\n  Wire.begin();\n  \n  int chipAddress1 = 1;\n  int chipAddress2 = 2;\n  i2cAddress = (chipAddress1 & B00111111) | BASE_I2C_ADDRESS;\n  i2cAddress2 = (chipAddress2 & B00111111) | BASE_I2C_ADDRESS;\n  \n  resetDriver();\n  clearLeds(i2cAddress);\n  clearLeds(i2cAddress2);\n}\n\nvoid loop()\n{\n  \n  int top = MAX_VALUE - 1;  \n  \n  /*\n  // Clear\n  for (int i = 0; i \x3c 16; i++) {\n    setLedValue(i2cAddress, i, 0);\n  }\n  */\n /*\n // Walk\n  for (int i = 0; i \x3c 16; i++) {\n    setLedValue(i2cAddress, i, top);\n    delay(2500);\n    setLedValue(i2cAddress, i, 0);\n    delay(500);\n  }\n  */\n  for (int v = 0; v \x3c top; v += 10) {\n    for (int led = 0; led \x3c 5; led++) {\n      setColor(i2cAddress, led, v, v/(5+4*led), v/40-led*10);\n      setColor(i2cAddress2, led, top-v, v/(5+4*led), v/40-led*10);\n    }\n    setLedValue(i2cAddress, 15, sin(v*0.01) * 4096);\n    setLedValue(i2cAddress2, 15, sin(v*0.01) * 4096);\n    \n    delay(3);\n  }\n  delay(1000);\n  for (int v = top-1; v > 0; v -= 10) {\n    for (int led = 0; led \x3c 5; led++) {\n      setColor(i2cAddress, led, v, v/(5+4*led), v/40-led*10);\n      setColor(i2cAddress2, led, top - v, v/(5+4*led), v/40-led*10);\n    }\n    \n    setLedValue(i2cAddress, 15, sin(v*0.01) * 4096);\n    setLedValue(i2cAddress2, 15, sin(v*0.01) * 4096);\n    delay(4);\n  }\n  clearLeds(i2cAddress);\n  delay(1000);\n}\n\n\nvoid setColor(int address, int rgbled, int red, int green, int blue) {\n  setLedValue(address, rgbled * 3, red);\n  setLedValue(address, rgbled * 3 + 1, green);\n  setLedValue(address, rgbled * 3 + 2, blue);\n}\n\n\nvoid resetDriver() {\n  \n  readDriverData(i2cAddress);\n  \n  delay(1);\n  \n  byte mode1Reg = 0;\n  byte mode2Reg = 1;\n  \n  delay(2);\n  // Reset\n  writeI2cRegister(i2cAddress, mode1Reg, (byte)0x01);  \n  delay(2);\n  // Set prescale\n  writeI2cRegister(i2cAddress, mode1Reg, (byte)0x110000);  // Sleep on\n  delay(2);\n  writeI2cRegister(i2cAddress, 254, 3);\n  delay(2);\n  // Set auto increment on\n  writeI2cRegister(i2cAddress, mode1Reg, (byte)B00100001);\n  \n  writeI2cRegister(i2cAddress, mode2Reg, (byte)B00100);\n  delay(1);\n  \n  \n  \n  readDriverData(i2cAddress);\n  \n}\nvoid readDriverData(int address) {\n  delay(500);\n  // Read mode \n  Serial.print(\"Reading data from led driver with address \");\n  Serial.println(address);\n  delay(10);\n  int numToRead = 32;\n  Wire.requestFrom(address, numToRead);\n  int reg = 0;\n  while(Wire.available() > 0) {\n    int data = Wire.read();\n    Serial.print(reg); \n    Serial.print(\": \"); \n    Serial.println(data); \n    delay(1);\n    reg++;\n  }\n  delay(500);\n}\nvoid writeI2cRegister(int address, byte reg, byte data) {\n  Serial.print(\"Writing \");\n  Serial.print(data);\n  Serial.print(\" to register \");\n  Serial.print(reg);\n  Serial.print(\" on device \");\n  Serial.println(address);\n  \n  Wire.beginTransmission(address);\n  Wire.write(reg);\n  Wire.write(data);\n  int result = Wire.endTransmission();\n  if (result == 0) Serial.println(\"Sent successfully\");\n  else {\n    Serial.print(\"Write error: \");\n    Serial.println(result);\n  }\n}\nvoid setLedValue(int address, int led, int value) {\n  value = constrain(value, 0, MAX_VALUE);\n  //int phaseShift = address * 13 + led * 17;\n  int phaseShift = 0;\n  setLedLightPeriod(address, ledMapping[led], phaseShift, (value + phaseShift) & (MAX_VALUE - 1));\n/*\n  Serial.print(\"Setting LED \");\n  Serial.print(led);\n  Serial.print(\" to \");\n  Serial.println(value);\n  */\n}\nvoid clearLeds(int address) {\n  for (int i = 0; i \x3c 16; i++) {\n    setLedLightPeriod(address, i, 0, MAX_VALUE);\n  }\n}\nvoid setLedLightPeriod(int address, int led, word onPoint, word offPoint) {\n  int ledReg = 6;\n  \n  if (led >=0 && led \x3c 16)    {\n    \n    Wire.beginTransmission(address);\n    Wire.write(ledReg + 4 * led);\n    \n    Wire.write(lowByte(onPoint));\n    Wire.write(highByte(onPoint));\n    Wire.write(lowByte(offPoint));\n    Wire.write(highByte(offPoint));\n    \n    int result = Wire.endTransmission();\n    if (result != 0) {\n      Serial.print(\"Led data write error: \");\n      Serial.println(result);\n    }\n  }\n}\n\n","attribs":"*0|58+3dl|1+1"},"historicalAuthorData":{"g.gf7c77xlaoarasy5":{"colorId":18,"name":"zz"}},"apool":{"numToAttrib":{"0":["author","g.gf7c77xlaoarasy5"]},"nextNum":1}},"viewId":"hacklab-immerlighter","fullWidth":false,"initialChangesets":[{"start":0,"forwardsChangesets":[],"timeDeltas":[],"granularity":100,"actualEndNum":0,"apool":{"numToAttrib":{},"nextNum":0},"backwardsChangesets":[]},{"start":0,"forwardsChangesets":["Z:1>3c5*0|58+3c5$// R\n\n#include \x3cWire.h>\n#define BASE_I2C_ADDRESS B1000000\n#define PRESCALE_REG 0xFE\nint MAX_VALUE = 4096;\nint i2cAddress = 0;\nint i2cAddress2 = 0;\nint ledMapping[] = {\n   6, 5, 7,\n   3, 2, 4,\n   1, 14, 0,\n   12, 13, 11,\n   9, 10, 8,\n   15};\nvoid setup()\n{\n  // Connect debug line\n  Serial.begin(9600);\n  Serial.println(\"Led blinker starting\");\n  Wire.begin();\n  \n  int chipAddress1 = 1;\n  int chipAddress2 = 2;\n  i2cAddress = (chipAddress1 & B00111111) | BASE_I2C_ADDRESS;\n  i2cAddress2 = (chipAddress2 & B00111111) | BASE_I2C_ADDRESS;\n  \n  resetDriver();\n  clearLeds(i2cAddress);\n  clearLeds(i2cAddress2);\n}\n\nvoid loop()\n{\n  \n  int top = MAX_VALUE - 1;  \n  \n  /*\n  // Clear\n  for (int i = 0; i \x3c 16; i++) {\n    setLedValue(i2cAddress, i, 0);\n  }\n  */\n /*\n // Walk\n  for (int i = 0; i \x3c 16; i++) {\n    setLedValue(i2cAddress, i, top);\n    delay(2500);\n    setLedValue(i2cAddress, i, 0);\n    delay(500);\n  }\n  */\n  for (int v = 0; v \x3c top; v += 10) {\n    for (int led = 0; led \x3c 5; led++) {\n      setColor(i2cAddress, led, v, v/(5+4*led), v/40-led*10);\n      setColor(i2cAddress2, led, top-v, v/(5+4*led), v/40-led*10);\n    }\n    setLedValue(i2cAddress, 15, sin(v*0.01) * 4096);\n    setLedValue(i2cAddress2, 15, sin(v*0.01) * 4096);\n    \n    delay(3);\n  }\n  delay(1000);\n  for (int v = top-1; v > 0; v -= 10) {\n    for (int led = 0; led \x3c 5; led++) {\n      setColor(i2cAddress, led, v, v/(5+4*led), v/40-led*10);\n      setColor(i2cAddress2, led, top - v, v/(5+4*led), v/40-led*10);\n    }\n    \n    setLedValue(i2cAddress, 15, sin(v*0.01) * 4096);\n    setLedValue(i2cAddress2, 15, sin(v*0.01) * 4096);\n    delay(4);\n  }\n  clearLeds(i2cAddress);\n  delay(1000);\n}\n\n\nvoid setColor(int address, int rgbled, int red, int green, int blue) {\n  setLedValue(address, rgbled * 3, red);\n  setLedValue(address, rgbled * 3 + 1, green);\n  setLedValue(address, rgbled * 3 + 2, blue);\n}\n\n\nvoid resetDriver() {\n  \n  readDriverData(i2cAddress);\n  \n  delay(1);\n  \n  byte mode1Reg = 0;\n  byte mode2Reg = 1;\n  \n  delay(2);\n  // Reset\n  writeI2cRegister(i2cAddress, mode1Reg, (byte)0x01);  \n  delay(2);\n  // Set prescale\n  writeI2cRegister(i2cAddress, mode1Reg, (byte)0x110000);  // Sleep on\n  delay(2);\n  writeI2cRegister(i2cAddress, 254, 3);\n  delay(2);\n  // Set auto increment on\n  writeI2cRegister(i2cAddress, mode1Reg, (byte)B00100001);\n  \n  writeI2cRegister(i2cAddress, mode2Reg, (byte)B00100);\n  delay(1);\n  \n  \n  \n  readDriverData(i2cAddress);\n  \n}\nvoid readDriverData(int address) {\n  delay(500);\n  // Read mode \n  Serial.print(\"Reading data from led driver with address \");\n  Serial.println(address);\n  delay(10);\n  int numToRead = 32;\n  Wire.requestFrom(address, numToRead);\n  int reg = 0;\n  while(Wire.available() > 0) {\n    int data = Wire.read();\n    Serial.print(reg); \n    Serial.print(\": \"); \n    Serial.println(data); \n    delay(1);\n    reg++;\n  }\n  delay(500);\n}\nvoid writeI2cRegister(int address, byte reg, byte data) {\n  Serial.print(\"Writing \");\n  Serial.print(data);\n  Serial.print(\" to register \");\n  Serial.print(reg);\n  Serial.print(\" on device \");\n  Serial.println(address);\n  \n  Wire.beginTransmission(address);\n  Wire.write(reg);\n  Wire.write(data);\n  int result = Wire.endTransmission();\n  if (result == 0) Serial.println(\"Sent successfully\");\n  else {\n    Serial.print(\"Write error: \");\n    Serial.println(result);\n  }\n}\nvoid setLedValue(int address, int led, int value) {\n  value = constrain(value, 0, MAX_VALUE);\n  //int phaseShift = address * 13 + led * 17;\n  int phaseShift = 0;\n  setLedLightPeriod(address, ledMapping[led], phaseShift, (value + phaseShift) & (MAX_VALUE - 1));\n/*\n  Serial.print(\"Setting LED \");\n  Serial.print(led);\n  Serial.print(\" to \");\n  Serial.println(value);\n  */\n}\nvoid clearLeds(int address) {\n  for (int i = 0; i \x3c 16; i++) {\n    setLedLightPeriod(address, i, 0, MAX_VALUE);\n  }\n}\nvoid setLedLightPeriod(int address, int led, word onPoint, word offPoint) {\n  int ledReg = 6;\n  \n  if (led >=0 && led \x3c 16)    {\n    \n    Wire.beginTransmission(address);\n    Wire.write(ledReg + 4 * led);\n    \n    Wire.write(lowByte(onPoint));\n    Wire.write(highByte(onPoint));\n    Wire.write(lowByte(offPoint));\n    Wire.write(highByte(offPoint));\n    \n    int result = Wire.endTransmission();\n    if (result != 0) {\n      Serial.print(\"Led data write error: \");\n      Serial.println(result);\n    }\n  }\n}\n","Z:3c6>f=4*0+f$emember ~ 1.5k ","Z:3cl>n=j*0+n$pullups for data and cl"],"timeDeltas":[310879,6,10],"granularity":10,"actualEndNum":30,"apool":{"numToAttrib":{"0":["author","g.gf7c77xlaoarasy5"]},"nextNum":1},"backwardsChangesets":["Z:3c6\x3c3c5|58-3c5$","Z:3cl\x3cf=4-f$","Z:3d8\x3cn=j-n$"]},{"start":30,"forwardsChangesets":["Z:3d8>2=16*0+2$oc","Z:3da>2=18*0+2$k ","Z:3dc>1=v*0+1$I","Z:3dd>1=w*0+1$2","Z:3de>2=x*0+2$C ","Z:3dg>1=1e*0+1$l","Z:3dh>3=1f*0+3$ine","Z:3dk>1=1i*0+1$s","Z:3dl>1=1j*0+1$!"],"timeDeltas":[0,1,2,0,1,0,1,0,1],"granularity":1,"actualEndNum":39,"apool":{"numToAttrib":{"0":["author","g.gf7c77xlaoarasy5"]},"nextNum":1},"backwardsChangesets":["Z:3da\x3c2=16-2$","Z:3dc\x3c2=18-2$","Z:3dd\x3c1=v-1$","Z:3de\x3c1=w-1$","Z:3dg\x3c2=x-2$","Z:3dh\x3c1=1e-1$","Z:3dk\x3c3=1f-3$","Z:3dl\x3c1=1i-1$","Z:3dm\x3c1=1j-1$"]},{"start":0,"forwardsChangesets":["Z:1>3c5*0|58+3c5$// R\n\n#include \x3cWire.h>\n#define BASE_I2C_ADDRESS B1000000\n#define PRESCALE_REG 0xFE\nint MAX_VALUE = 4096;\nint i2cAddress = 0;\nint i2cAddress2 = 0;\nint ledMapping[] = {\n   6, 5, 7,\n   3, 2, 4,\n   1, 14, 0,\n   12, 13, 11,\n   9, 10, 8,\n   15};\nvoid setup()\n{\n  // Connect debug line\n  Serial.begin(9600);\n  Serial.println(\"Led blinker starting\");\n  Wire.begin();\n  \n  int chipAddress1 = 1;\n  int chipAddress2 = 2;\n  i2cAddress = (chipAddress1 & B00111111) | BASE_I2C_ADDRESS;\n  i2cAddress2 = (chipAddress2 & B00111111) | BASE_I2C_ADDRESS;\n  \n  resetDriver();\n  clearLeds(i2cAddress);\n  clearLeds(i2cAddress2);\n}\n\nvoid loop()\n{\n  \n  int top = MAX_VALUE - 1;  \n  \n  /*\n  // Clear\n  for (int i = 0; i \x3c 16; i++) {\n    setLedValue(i2cAddress, i, 0);\n  }\n  */\n /*\n // Walk\n  for (int i = 0; i \x3c 16; i++) {\n    setLedValue(i2cAddress, i, top);\n    delay(2500);\n    setLedValue(i2cAddress, i, 0);\n    delay(500);\n  }\n  */\n  for (int v = 0; v \x3c top; v += 10) {\n    for (int led = 0; led \x3c 5; led++) {\n      setColor(i2cAddress, led, v, v/(5+4*led), v/40-led*10);\n      setColor(i2cAddress2, led, top-v, v/(5+4*led), v/40-led*10);\n    }\n    setLedValue(i2cAddress, 15, sin(v*0.01) * 4096);\n    setLedValue(i2cAddress2, 15, sin(v*0.01) * 4096);\n    \n    delay(3);\n  }\n  delay(1000);\n  for (int v = top-1; v > 0; v -= 10) {\n    for (int led = 0; led \x3c 5; led++) {\n      setColor(i2cAddress, led, v, v/(5+4*led), v/40-led*10);\n      setColor(i2cAddress2, led, top - v, v/(5+4*led), v/40-led*10);\n    }\n    \n    setLedValue(i2cAddress, 15, sin(v*0.01) * 4096);\n    setLedValue(i2cAddress2, 15, sin(v*0.01) * 4096);\n    delay(4);\n  }\n  clearLeds(i2cAddress);\n  delay(1000);\n}\n\n\nvoid setColor(int address, int rgbled, int red, int green, int blue) {\n  setLedValue(address, rgbled * 3, red);\n  setLedValue(address, rgbled * 3 + 1, green);\n  setLedValue(address, rgbled * 3 + 2, blue);\n}\n\n\nvoid resetDriver() {\n  \n  readDriverData(i2cAddress);\n  \n  delay(1);\n  \n  byte mode1Reg = 0;\n  byte mode2Reg = 1;\n  \n  delay(2);\n  // Reset\n  writeI2cRegister(i2cAddress, mode1Reg, (byte)0x01);  \n  delay(2);\n  // Set prescale\n  writeI2cRegister(i2cAddress, mode1Reg, (byte)0x110000);  // Sleep on\n  delay(2);\n  writeI2cRegister(i2cAddress, 254, 3);\n  delay(2);\n  // Set auto increment on\n  writeI2cRegister(i2cAddress, mode1Reg, (byte)B00100001);\n  \n  writeI2cRegister(i2cAddress, mode2Reg, (byte)B00100);\n  delay(1);\n  \n  \n  \n  readDriverData(i2cAddress);\n  \n}\nvoid readDriverData(int address) {\n  delay(500);\n  // Read mode \n  Serial.print(\"Reading data from led driver with address \");\n  Serial.println(address);\n  delay(10);\n  int numToRead = 32;\n  Wire.requestFrom(address, numToRead);\n  int reg = 0;\n  while(Wire.available() > 0) {\n    int data = Wire.read();\n    Serial.print(reg); \n    Serial.print(\": \"); \n    Serial.println(data); \n    delay(1);\n    reg++;\n  }\n  delay(500);\n}\nvoid writeI2cRegister(int address, byte reg, byte data) {\n  Serial.print(\"Writing \");\n  Serial.print(data);\n  Serial.print(\" to register \");\n  Serial.print(reg);\n  Serial.print(\" on device \");\n  Serial.println(address);\n  \n  Wire.beginTransmission(address);\n  Wire.write(reg);\n  Wire.write(data);\n  int result = Wire.endTransmission();\n  if (result == 0) Serial.println(\"Sent successfully\");\n  else {\n    Serial.print(\"Write error: \");\n    Serial.println(result);\n  }\n}\nvoid setLedValue(int address, int led, int value) {\n  value = constrain(value, 0, MAX_VALUE);\n  //int phaseShift = address * 13 + led * 17;\n  int phaseShift = 0;\n  setLedLightPeriod(address, ledMapping[led], phaseShift, (value + phaseShift) & (MAX_VALUE - 1));\n/*\n  Serial.print(\"Setting LED \");\n  Serial.print(led);\n  Serial.print(\" to \");\n  Serial.println(value);\n  */\n}\nvoid clearLeds(int address) {\n  for (int i = 0; i \x3c 16; i++) {\n    setLedLightPeriod(address, i, 0, MAX_VALUE);\n  }\n}\nvoid setLedLightPeriod(int address, int led, word onPoint, word offPoint) {\n  int ledReg = 6;\n  \n  if (led >=0 && led \x3c 16)    {\n    \n    Wire.beginTransmission(address);\n    Wire.write(ledReg + 4 * led);\n    \n    Wire.write(lowByte(onPoint));\n    Wire.write(highByte(onPoint));\n    Wire.write(lowByte(offPoint));\n    Wire.write(highByte(offPoint));\n    \n    int result = Wire.endTransmission();\n    if (result != 0) {\n      Serial.print(\"Led data write error: \");\n      Serial.println(result);\n    }\n  }\n}\n","Z:3c6>f=4*0+f$emember ~ 1.5k ","Z:3cl>n=j*0+n$pullups for data and cl"],"timeDeltas":[310879,6,10],"granularity":10,"actualEndNum":30,"apool":{"numToAttrib":{"0":["author","g.gf7c77xlaoarasy5"]},"nextNum":1},"backwardsChangesets":["Z:3c6\x3c3c5|58-3c5$","Z:3cl\x3cf=4-f$","Z:3d8\x3cn=j-n$"]},{"start":30,"forwardsChangesets":["Z:3d8>2=16*0+2$oc","Z:3da>2=18*0+2$k ","Z:3dc>1=v*0+1$I","Z:3dd>1=w*0+1$2","Z:3de>2=x*0+2$C ","Z:3dg>1=1e*0+1$l","Z:3dh>3=1f*0+3$ine","Z:3dk>1=1i*0+1$s","Z:3dl>1=1j*0+1$!"],"timeDeltas":[0,1,2,0,1,0,1,0,1],"granularity":1,"actualEndNum":39,"apool":{"numToAttrib":{"0":["author","g.gf7c77xlaoarasy5"]},"nextNum":1},"backwardsChangesets":["Z:3da\x3c2=16-2$","Z:3dc\x3c2=18-2$","Z:3dd\x3c1=v-1$","Z:3de\x3c1=w-1$","Z:3dg\x3c2=x-2$","Z:3dh\x3c1=1e-1$","Z:3dk\x3c3=1f-3$","Z:3dl\x3c1=1i-1$","Z:3dm\x3c1=1j-1$"]}],"sliderEnabled":true,"colorPalette":["#ffc7c7","#fff1c7","#e3ffc7","#c7ffd5","#c7ffff","#c7d5ff","#e3c7ff","#ffc7f1","#ff8f8f","#ffe38f","#c7ff8f","#8fffab","#8fffff","#8fabff","#c78fff","#ff8fe3","#d97979","#d9c179","#a9d979","#79d991","#79d9d9","#7991d9","#a979d9","#d979c1","#d9a9a9","#d9cda9","#c1d9a9","#a9d9b5","#a9d9d9","#a9b5d9","#c1a9d9","#d9a9cd"],"supportsSlider":true,"currentTime":1353708477447,"savedRevisions":[],"initialPadContents":"// Remember ~ 1.5k pullups for I2C data and clock lines!\n\n#include \x3cWire.h>\n#define BASE_I2C_ADDRESS B1000000\n#define PRESCALE_REG 0xFE\nint MAX_VALUE = 4096;\nint i2cAddress = 0;\nint i2cAddress2 = 0;\nint ledMapping[] = {\n   6, 5, 7,\n   3, 2, 4,\n   1, 14, 0,\n   12, 13, 11,\n   9, 10, 8,\n   15};\nvoid setup()\n{\n  // Connect debug line\n  Serial.begin(9600);\n  Serial.println(\"Led blinker starting\");\n  Wire.begin();\n  \n  int chipAddress1 = 1;\n  int chipAddress2 = 2;\n  i2cAddress = (chipAddress1 & B00111111) | BASE_I2C_ADDRESS;\n  i2cAddress2 = (chipAddress2 & B00111111) | BASE_I2C_ADDRESS;\n  \n  resetDriver();\n  clearLeds(i2cAddress);\n  clearLeds(i2cAddress2);\n}\n\nvoid loop()\n{\n  \n  int top = MAX_VALUE - 1;  \n  \n  /*\n  // Clear\n  for (int i = 0; i \x3c 16; i++) {\n    setLedValue(i2cAddress, i, 0);\n  }\n  */\n /*\n // Walk\n  for (int i = 0; i \x3c 16; i++) {\n    setLedValue(i2cAddress, i, top);\n    delay(2500);\n    setLedValue(i2cAddress, i, 0);\n    delay(500);\n  }\n  */\n  for (int v = 0; v \x3c top; v += 10) {\n    for (int led = 0; led \x3c 5; led++) {\n      setColor(i2cAddress, led, v, v/(5+4*led), v/40-led*10);\n      setColor(i2cAddress2, led, top-v, v/(5+4*led), v/40-led*10);\n    }\n    setLedValue(i2cAddress, 15, sin(v*0.01) * 4096);\n    setLedValue(i2cAddress2, 15, sin(v*0.01) * 4096);\n    \n    delay(3);\n  }\n  delay(1000);\n  for (int v = top-1; v > 0; v -= 10) {\n    for (int led = 0; led \x3c 5; led++) {\n      setColor(i2cAddress, led, v, v/(5+4*led), v/40-led*10);\n      setColor(i2cAddress2, led, top - v, v/(5+4*led), v/40-led*10);\n    }\n    \n    setLedValue(i2cAddress, 15, sin(v*0.01) * 4096);\n    setLedValue(i2cAddress2, 15, sin(v*0.01) * 4096);\n    delay(4);\n  }\n  clearLeds(i2cAddress);\n  delay(1000);\n}\n\n\nvoid setColor(int address, int rgbled, int red, int green, int blue) {\n  setLedValue(address, rgbled * 3, red);\n  setLedValue(address, rgbled * 3 + 1, green);\n  setLedValue(address, rgbled * 3 + 2, blue);\n}\n\n\nvoid resetDriver() {\n  \n  readDriverData(i2cAddress);\n  \n  delay(1);\n  \n  byte mode1Reg = 0;\n  byte mode2Reg = 1;\n  \n  delay(2);\n  // Reset\n  writeI2cRegister(i2cAddress, mode1Reg, (byte)0x01);  \n  delay(2);\n  // Set prescale\n  writeI2cRegister(i2cAddress, mode1Reg, (byte)0x110000);  // Sleep on\n  delay(2);\n  writeI2cRegister(i2cAddress, 254, 3);\n  delay(2);\n  // Set auto increment on\n  writeI2cRegister(i2cAddress, mode1Reg, (byte)B00100001);\n  \n  writeI2cRegister(i2cAddress, mode2Reg, (byte)B00100);\n  delay(1);\n  \n  \n  \n  readDriverData(i2cAddress);\n  \n}\nvoid readDriverData(int address) {\n  delay(500);\n  // Read mode \n  Serial.print(\"Reading data from led driver with address \");\n  Serial.println(address);\n  delay(10);\n  int numToRead = 32;\n  Wire.requestFrom(address, numToRead);\n  int reg = 0;\n  while(Wire.available() > 0) {\n    int data = Wire.read();\n    Serial.print(reg); \n    Serial.print(\": \"); \n    Serial.println(data); \n    delay(1);\n    reg++;\n  }\n  delay(500);\n}\nvoid writeI2cRegister(int address, byte reg, byte data) {\n  Serial.print(\"Writing \");\n  Serial.print(data);\n  Serial.print(\" to register \");\n  Serial.print(reg);\n  Serial.print(\" on device \");\n  Serial.println(address);\n  \n  Wire.beginTransmission(address);\n  Wire.write(reg);\n  Wire.write(data);\n  int result = Wire.endTransmission();\n  if (result == 0) Serial.println(\"Sent successfully\");\n  else {\n    Serial.print(\"Write error: \");\n    Serial.println(result);\n  }\n}\nvoid setLedValue(int address, int led, int value) {\n  value = constrain(value, 0, MAX_VALUE);\n  //int phaseShift = address * 13 + led * 17;\n  int phaseShift = 0;\n  setLedLightPeriod(address, ledMapping[led], phaseShift, (value + phaseShift) & (MAX_VALUE - 1));\n/*\n  Serial.print(\"Setting LED \");\n  Serial.print(led);\n  Serial.print(\" to \");\n  Serial.println(value);\n  */\n}\nvoid clearLeds(int address) {\n  for (int i = 0; i \x3c 16; i++) {\n    setLedLightPeriod(address, i, 0, MAX_VALUE);\n  }\n}\nvoid setLedLightPeriod(int address, int led, word onPoint, word offPoint) {\n  int ledReg = 6;\n  \n  if (led >=0 && led \x3c 16)    {\n    \n    Wire.beginTransmission(address);\n    Wire.write(ledReg + 4 * led);\n    \n    Wire.write(lowByte(onPoint));\n    Wire.write(highByte(onPoint));\n    Wire.write(lowByte(offPoint));\n    Wire.write(highByte(offPoint));\n    \n    int result = Wire.endTransmission();\n    if (result != 0) {\n      Serial.print(\"Led data write error: \");\n      Serial.println(result);\n    }\n  }\n}\n","padIdForUrl":"hacklab-immerlighter"};
+  // ]]>
+</script>
+    <script type="text/javascript" src="http://www.kirjoitusalusta.fi/static/compressed/280a28a317ae35527a244df56efbf0f4.js"></script>
+    
+
+  </head>
+
+  <body id="padbody" class="limwidth nonpropad nonprouser">
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div id="padpage">
+    <div id="padtop">
+      <div id="topbar">
+	
+	<div id="topbarleft"><!-- --></div>
+	
+	
+	<div id="topbarright"><!-- --></div>
+	
+	
+	<div id="topbarcenter">
+
+	  <a href="http://www.kirjoitusalusta.fi/" id="topbarBrand">Kirjoitusalusta.fi</a>
+        
+
+            
+	<div id="fullscreen" onclick="$('body').toggleClass('maximized');">Koko ruutu</div>
+
+	  <a href="javascript:void(0);" onclick="$('body').toggleClass('maximized');" id="topbarmaximize" title="Koon säätö"></a>
+	</div>
+        
+	<div id="specialkeyarea"><!-- --></div>
+      </div>
+      <div id="alertbar">
+	<div id="servermsg">
+	  <h3>Server Notice<span id="servermsgdate"><!-- --></span>:</h3>
+	  <a id="hidetopmsg" href="javascript: void pad.hideServerMessage()">hide</a>
+	  <p id="servermsgtext"><!-- --></p>
+	</div>
+      </div>
+      <div id="navigation">
+        
+      </div>
+
+      <div id="docbar" class="menu">
+	<table border="0" cellpadding="0" cellspacing="0" width="100%" id="docbartable">
+	  <tr>
+	    <td><img src="../pad/roundcorner_left.gif"></td>
+            
+  <td id="docbarpadtitle" title="Julkinen ty&ouml;tila: Julkinen ty&ouml;tila"><span>Julkinen ty&ouml;tila</span></td>
+
+	    <td width="100%">&nbsp;</td>
+            
+	    
+	    <td><img src="../pad/roundcorner_right_orange.gif"></td>
+	  </tr>
+	</table>
+        
+        
+        
+      </div><!-- /docbar -->
+    </div>
+
+    
+  <div id="timeslider-wrapper">
+  <div id="error" style="display: none">Yhteydessä on häiriöitä. <a href="latest.html">Yhdistä uudelleen</a>.</div>
+  <div id="timeslider" unselectable="on" style="display: none">
+    <div id="timeslider-left"></div>
+    <div id="timeslider-right"></div>
+    <div id="timer">11/24/2012 00:07:57</div>
+    <div id="timeslider-slider">
+      <div id="ui-slider-handle">
+
+      </div>
+      <div id="ui-slider-bar">
+
+      </div>
+    </div>
+    <div id="playpause_button">
+      <div id="playpause_button_icon" class=""></div>
+    </div>
+    <div id="steppers">
+      <div class="stepper" id="leftstar"></div>
+      <div class="stepper" id="rightstar"></div>
+      <div class="stepper" id="leftstep"></div>
+      <div class="stepper" id="rightstep"></div>
+    </div>
+  </div>
+  </div>
+
+
+    <div id="padmain">
+      <script>
+	$(document).ready(function () {
+	  makeResizableHPane("#padeditor", "#vdraggie", "#padsidebar", 0, 0, 10, -22);
+	});
+      </script>
+      <div id="padeditor">
+	<div id="editbar" class="disabledtoolbar">
+          <div id="editbarinner">
+	    
+	    <div id="editbarleft"><!-- --></div>
+	    
+	    <div id="editbarright"><!-- --></div>      
+	    
+	    <div id="editbarinner">
+	      <table cellpadding="0" cellspacing="0" border = "0" id="editbartable">
+		<tr>
+		  
+  <td>
+    <h1>
+      Julkinen ty&ouml;tila
+      <span id="revision_label">Latest text of pad hacklab-immerlighter</span>
+      <span id="revision_date">
+	Tallennettu
+	Marraskuu
+	24,
+	2012
+      </span>
+    </h1>
+  </td>
+  
+
+		  
+		  <td width="100%">&nbsp;</td>
+		</tr>
+	      </table>
+	      <table cellpadding="0" cellspacing="0" border = "0" id="editbarsavetable">
+		<tr>
+		  
+		  
+  
+<td>&nbsp;&nbsp;</td>
+<td><img src="../pad/editbar_groupleft.gif" width="2" height="24"></td>
+<td class="editbarbutton editbargroupsfirst">
+  <a href="http://www.kirjoitusalusta.fi/ep/copyPad?old=hacklab-immerlighter/latest&amp;old_rev=undefined" title="Copy pad"><img src="../copyPad/editbar_copy.gif"></a>
+</td>
+<!--
+<td class="editbarbutton">
+  <a href="/ep/search?linksto=hacklab-immerlighter/latest" title="Find links to this pad (including copies of this pad)"><img src="/static/html/plugins/copyPad/editbar_find_links.gif"></a>
+</td>
+-->
+<td><img src="../pad/editbar_groupright.gif" width="2" height="24"></td>
+<td>&nbsp;&nbsp;</td>
+ 
+
+		</tr>
+	      </table>
+	      
+	      
+	    </div>
+          </div>
+	</div>
+	<div id="editorcontainerbox">
+  <div id="padcontent">
+    <div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">// Remember ~ 1.5k pullups for I2C data and clock lines!</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">#include &lt;Wire.h&gt;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">#define BASE_I2C_ADDRESS B1000000</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">#define PRESCALE_REG 0xFE</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">int MAX_VALUE = 4096;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">int i2cAddress = 0;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">int i2cAddress2 = 0;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">int ledMapping[] = {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp; 6, 5, 7,</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp; 3, 2, 4,</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp; 1, 14, 0,</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp; 12, 13, 11,</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp; 9, 10, 8,</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp; 15};</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">void setup()</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">{</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; // Connect debug line</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Serial.begin(9600);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Serial.println(&#34;Led blinker starting&#34;);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Wire.begin();</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; int chipAddress1 = 1;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; int chipAddress2 = 2;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; i2cAddress = (chipAddress1 &amp; B00111111) | BASE_I2C_ADDRESS;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; i2cAddress2 = (chipAddress2 &amp; B00111111) | BASE_I2C_ADDRESS;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; resetDriver();</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; clearLeds(i2cAddress);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; clearLeds(i2cAddress2);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">void loop()</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">{</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; int top = MAX_VALUE - 1;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; /*</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; // Clear</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; for (int i = 0; i &lt; 16; i++) {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; setLedValue(i2cAddress, i, 0);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; */</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;/*</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;// Walk</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; for (int i = 0; i &lt; 16; i++) {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; setLedValue(i2cAddress, i, top);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; delay(2500);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; setLedValue(i2cAddress, i, 0);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; delay(500);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; */</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; for (int v = 0; v &lt; top; v += 10) {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; for (int led = 0; led &lt; 5; led++) {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; setColor(i2cAddress, led, v, v/(5+4*led), v/40-led*10);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; setColor(i2cAddress2, led, top-v, v/(5+4*led), v/40-led*10);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; setLedValue(i2cAddress, 15, sin(v*0.01) * 4096);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; setLedValue(i2cAddress2, 15, sin(v*0.01) * 4096);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; delay(3);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; delay(1000);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; for (int v = top-1; v &gt; 0; v -= 10) {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; for (int led = 0; led &lt; 5; led++) {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; setColor(i2cAddress, led, v, v/(5+4*led), v/40-led*10);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; setColor(i2cAddress2, led, top - v, v/(5+4*led), v/40-led*10);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; setLedValue(i2cAddress, 15, sin(v*0.01) * 4096);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; setLedValue(i2cAddress2, 15, sin(v*0.01) * 4096);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; delay(4);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; clearLeds(i2cAddress);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; delay(1000);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">void setColor(int address, int rgbled, int red, int green, int blue) {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; setLedValue(address, rgbled * 3, red);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; setLedValue(address, rgbled * 3 + 1, green);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; setLedValue(address, rgbled * 3 + 2, blue);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">void resetDriver() {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; readDriverData(i2cAddress);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; delay(1);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; byte mode1Reg = 0;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; byte mode2Reg = 1;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; delay(2);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; // Reset</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; writeI2cRegister(i2cAddress, mode1Reg, (byte)0x01);&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; delay(2);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; // Set prescale</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; writeI2cRegister(i2cAddress, mode1Reg, (byte)0x110000);&nbsp; // Sleep on</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; delay(2);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; writeI2cRegister(i2cAddress, 254, 3);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; delay(2);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; // Set auto increment on</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; writeI2cRegister(i2cAddress, mode1Reg, (byte)B00100001);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; writeI2cRegister(i2cAddress, mode2Reg, (byte)B00100);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; delay(1);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; readDriverData(i2cAddress);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">}</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">void readDriverData(int address) {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; delay(500);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; // Read mode&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Serial.print(&#34;Reading data from led driver with address &#34;);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Serial.println(address);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; delay(10);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; int numToRead = 32;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Wire.requestFrom(address, numToRead);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; int reg = 0;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; while(Wire.available() &gt; 0) {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; int data = Wire.read();</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; Serial.print(reg);&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; Serial.print(&#34;: &#34;);&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; Serial.println(data);&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; delay(1);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; reg++;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; delay(500);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">}</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">void writeI2cRegister(int address, byte reg, byte data) {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Serial.print(&#34;Writing &#34;);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Serial.print(data);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Serial.print(&#34; to register &#34;);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Serial.print(reg);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Serial.print(&#34; on device &#34;);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Serial.println(address);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Wire.beginTransmission(address);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Wire.write(reg);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Wire.write(data);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; int result = Wire.endTransmission();</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; if (result == 0) Serial.println(&#34;Sent successfully&#34;);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; else {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; Serial.print(&#34;Write error: &#34;);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; Serial.println(result);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">}</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">void setLedValue(int address, int led, int value) {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; value = constrain(value, 0, MAX_VALUE);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; //int phaseShift = address * 13 + led * 17;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; int phaseShift = 0;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; setLedLightPeriod(address, ledMapping[led], phaseShift, (value + phaseShift) &amp; (MAX_VALUE - 1));</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">/*</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Serial.print(&#34;Setting LED &#34;);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Serial.print(led);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Serial.print(&#34; to &#34;);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; Serial.println(value);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; */</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">}</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">void clearLeds(int address) {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; for (int i = 0; i &lt; 16; i++) {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; setLedLightPeriod(address, i, 0, MAX_VALUE);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">}</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">void setLedLightPeriod(int address, int led, word onPoint, word offPoint) {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; int ledReg = 6;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; if (led &gt;=0 &amp;&amp; led &lt; 16)&nbsp;&nbsp;&nbsp; {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; Wire.beginTransmission(address);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; Wire.write(ledReg + 4 * led);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; Wire.write(lowByte(onPoint));</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; Wire.write(highByte(onPoint));</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; Wire.write(lowByte(offPoint));</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; Wire.write(highByte(offPoint));</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; int result = Wire.endTransmission();</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; if (result != 0) {</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Serial.print(&#34;Led data write error: &#34;);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Serial.println(result);</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp;&nbsp;&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-gf7c77xlaoarasy5">}</span></div>
+<div class="ace-line">&nbsp;</div>
+
+  </div>
+</div>
+      </div><!-- /padeditor -->
+
+      <div id="vdraggie"><!-- --></div>
+
+      <div id="padsidebar">
+  <div id="padsidebarfull">
+    <div id="rightbar">
+      <a id="viewlatest" href="latest.html">
+      Näytetään uusin sisältö</a><br>
+      <a class="tlink" href="latest.html" thref="/ep/pad/view/hacklab-immerlighter/rev.%revision%">Linkki tähän versioon</a>
+      <br><a class="tlink" href="../ro.k9blx3L7J1p4zmqupw6oR/latest.html" thref="/ep/pad/view/ro.k9blx3L7J1p4zmqupw6oR/rev.%revision%">Linkki katselutilaan</a><br><a href="../hacklab-immerlighter.1.html">Siirry muokkaustilaan</a>
+      <h2>Lataa muodossa:</h2>
+      <img src="http://www.kirjoitusalusta.fi/static/img/may09/html.gif"><a class="tlink" href="latest%3Fformat=html.html" thref="/ep/pad/export/hacklab-immerlighter/rev.%revision%?format=html">HTML</a><br>
+      <img src="http://www.kirjoitusalusta.fi/static/img/may09/txt.gif" ><a class="tlink" href="latest%3Fformat=html.html" thref="/ep/pad/export/hacklab-immerlighter/rev.%revision%?format=txt" >Pelkkä teksti</a><br>
+      <img src="http://www.kirjoitusalusta.fi/static/img/may09/doc.gif" ><a class="tlink" href="latest%3Fformat=html.html" thref="/ep/pad/export/hacklab-immerlighter/rev.%revision%?format=doc" >Microsoft Word</a><br>
+      <img src="http://www.kirjoitusalusta.fi/static/img/may09/pdf.gif" ><a class="tlink" href="latest%3Fformat=html.html" thref="/ep/pad/export/hacklab-immerlighter/rev.%revision%?format=pdf" >PDF</a>
+    </div>
+    <div id="legend">
+      <h2>Kirjoittajat</h2>
+      <table id="authorstable" border="0" cellspacing="0" cellpadding="0">
+      </table>
+    </div>
+  </div>
+</div> 
+    </div><!-- /padmain -->
+
+  </div><!-- /padpage -->
+
+  
+
+ 
+
+  </body>
+</html>
+ 

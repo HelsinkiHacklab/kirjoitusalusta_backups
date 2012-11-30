@@ -5,7 +5,9 @@
 <meta http-equiv="Content-Language" content="en-us" />
 <title>/hacklab-reactor-todo</title>
 </head>
-<body><b>Taskilista Helsinki Hacklabin reactori simulaattorille ( </b><a href="hacklab-reactor.html"><b>http://kirjoitusalusta.fi/hacklab-reactor</b></a><b> )</b><br
+<body><b>Taskilista Helsinki Hacklabin reactori simulaattorille&nbsp;</b><br
+/><b>(</b><a href="hacklab-reactor.html"><b>http://kirjoitusalusta.fi/hacklab-reactor</b></a><b> )</b><br
+/><br
 /><br
 /><b>Miten käyttää</b><br
 /><ul><li>Lisää taskit jotka pitää vielä tehdä</li
@@ -14,11 +16,36 @@
 ><li>Taskit pitäisi priorisoida!<br/><br
 /><br/><br
 /></li></ul
-><b>2012.05.10 ATM ykkösprioriteetti on mittarit, Suovulaa saa auttaa tässä. Kakkosena&nbsp;&nbsp; äänet ja geigermittarin rebuild.</b><br
+>Lista päivitetty 2012.10.21<br
+/><br
+/><b>Koodi</b><br
+/><ul><li>reset signaali sais resetoida myös ne ardut (siihen on jo arDuBUS -tuki)</li
+><li>decay todennäköisyys kun sauva on kohdalla &gt;0.0<br/><br
+/></li></ul
+><b>Konsolit</b><br
+/><ul><li>aircore-ohjainten ardujen reset linjat yhteen ja nappi johonkin (voi myös vetää siihen master-ardun resettiin)</li
+><li>7-segment näytön ohjaus (nyt taas pelkkiä siirtorekistereitä, turkulaiset vei pikahackatyn ohjauslogiikan mennessään) ja regu (vaatii minimissään 5.0V jännitettä, mieluummin ~6V, eli reguloidaan ATX:n 12V:stä)</li
+><li>7-segment näytön magneettikiinnitys</li
+><li>7-segment näytön vanhennus<br/><br
+/></li></ul
+><b>Muu rekvisiitta</b><br
+/><ul><li><br/><br/><br
+/><br/><br
+/><br/><br
+/><br/><br
+/><br/><br
+/><br/><br
+/><br/><br
+/><br/><br
+/></li></ul
+>2012.10.03: allaoleva lista on wanha, päivitetään kun joudetaan.<br
+/><br
+/><br
 /><br
 /><b>Muu rekvisiitta</b><br
 /><ul><li>leimasimet<ul><li>laserkumia on nyt</li
-><li>Ja toki ne kuviot puuttuu, pitää piirrellä.<ul><li><a href="http://ww2army.com/images/4000-4999/4743/6.jpg">http://ww2army.com/images/4000-4999/4743/6.jpg</a></li></ul
+><li>Ja toki ne kuviot puuttuu, pitää piirrellä.<ul><li><a href="http://ww2army.com/images/4000-4999/4743/6.jpg">http://ww2army.com/images/4000-4999/4743/6.jpg</a><ul><li><a href="http://tkln.tunk.org/reaktori/drawing.svg">http://tkln.tunk.org/reaktori/drawing.svg</a></li></ul
+></li></ul
 ></li></ul
 ></li
 ><li>asustus: valkoinen takki, housut ja päähine<ul><li><a href="http://www.iaea.org/newscenter/focus/images/e1-420x300.jpg">http://www.iaea.org/newscenter/focus/images/e1-420x300.jpg</a></li
@@ -28,17 +55,12 @@
 ></li
 ><li>Valkoisia suojahaalareita hienoilla logoilla on yhä ALTtien jäljiltä mutta vois tehdä pari lisää (erityisesti jos jostain löytyy isompia kokoja)<ul><li><a href="http://www.flickr.com/photos/10924806@N04/6289360917/">http://www.flickr.com/photos/10924806@N04/6289360917/</a></li></ul
 ></li
-><li>Geiger-mittari<ul><li>Pitää korjata, <s>ehkäpä</s> rakentaa kokonaan uusi kotelo<ul><li>joku 3S LiPo akku virtalähteeksi ? (enemmän tehoa kaiuttimeen :)</li></ul
-></li
-><li>Mielellään sais vaihtaa sen rambon ardun tilalle esim ATTiny:n kun <b>oikeasti</b> ei tarvita kuin 1 PWM ulos, 1 Digital out ja 1 analog in.<ul><li>ATTiny hankittu ja teoriassa ohjelmoitu mutta ei tuntunut toimivan, saa debugata, saa myös vaihtaa mikrokontrollerin toiseen jos tinyn kanssa leikkiminen ei innosta.</li></ul
-></li
-><li>softa: <a href="https://github.com/HelsinkiHacklab/reactor/tree/master/software/geiger">https://github.com/HelsinkiHacklab/reactor/tree/master/software/geiger</a></li></ul
+><li>Geiger-mittari<ul><li>on kuosissa</li></ul
 ></li></ul
 >&nbsp;&nbsp;&nbsp;&nbsp;<br
 /><br
 /><b>Äänet</b><br
-/><ul><li>Näitä tarttis oikeasti saada paremmiksi. "2012.02.04 rambo: looppaavat äänet mielellään lyhyinä looppeina joita voi sitten loopata niin monta kertaa kuin on tarpeen"</li
-><li><a href="hacklab-reactor-sounds.html">http://kirjoitusalusta.fi/hacklab-reactor-sounds</a><br/><br
+/><ul><li><a href="hacklab-reactor-sounds.html">http://kirjoitusalusta.fi/hacklab-reactor-sounds</a><br/><br
 /><br/><br
 /></li></ul
 ><b>Itse simulaatiosofta (rambo+dist+zzorn)</b><br

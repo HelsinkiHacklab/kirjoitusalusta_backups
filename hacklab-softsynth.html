@@ -1,0 +1,712 @@
+<!DOCTYPE html PUBLIC
+	  "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fi" xml:lang="fi">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="fi-fi" />
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+    <title>EtherPad: hacklab-softsynth / Latest text of pad hacklab-softsynth</title>
+    <base href="" />
+
+    <!-- CSS -->
+    <link href="http://www.kirjoitusalusta.fi/static/compressed/b551c5e3fb39001db66e471d65b43e1d.css" rel="stylesheet" type="text/css" />
+
+    
+<style type="text/css" title="dynamicsyntax"></style>
+
+
+    <!-- javascript -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17968704-1']);
+  _gaq.push(['_setDomainName', '.kirjoitusalusta.fi']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+    <script type="text/javascript">
+  // <![CDATA[
+var clientVars = {"historicalAuthorData":{"g.z0nuy1ydeo6iixvz":{"colorId":10,"name":"zzorn"},"g.1kocl3pe5edxflrf":{"colorId":16},"g.h56memawqr9079l8":{"colorId":27,"name":"sarana"},"g.9bl1w67c9tyk3yne":{"colorId":19,"name":"Harald"},"g.9hgz6yehdlrhqtp0":{"colorId":5,"name":"jari"}},"totalRevs":1026,"hooks":{},"disableRightBar":false,"revNum":1026,"initialStyledContents":{"atext":{"text":"\nThe idea is to create a software synth using the arduino or some similar microcontrollerboard.\n\nIt has a number of virtual modules in the user interface, each with a potentiometer for adjusting a parameter, and some visualization of the current module mode, the selected parameter, and the current parameter value.  Visualization could be done with leds and laser printed transparencies if the parameters and modes are more or less fixed (the transparencies can always be upgraded), or some kinds of screens.\n\nReference material:\nhttps://en.wikipedia.org/wiki/Modular_synthesizer\n\nModule types\n*Oscilator\n*Parameters\n*Wave type\n*Sine\n*Triangle\n*Sawtooth forward\n*Sawtooth backward\n*Square\n*Frequency\n*Can range from very low frequencies (0.01 Hz or so) to audio frequencies (10+khz).\n*Amplitude\n*Randomness / jitter\n*Randomness is band limited to the selected frequency, and follows the wave type.\n*TODO: What parameter to use for adding non-band limited noise, or different noise types?  Maybe we'll need some noise type parameter / mode as well?\n*Pulse width?\n*Offset?\n\n\n\n\n\nModule interface\n\nEach module could have one rotary encoder (with press button), a 2x8 character LCD screen (around 2+€ on ebay when bought in bulk), and maybe some rgb illumination (ideally a modified LCD backlight) to visualize e.g. module type.  Using a LCD allows easy addition of more module types later, and also allows the system to be used for other purposes.\n\nThe flow of data between modules could be visualized with led illuminated traces in the control panel, e.g. when a control is manipulated its input and output are shown, and it could be possible to change (or mix in) inputs by pressing / turning the knobs for the other modulators.\n \n\n\n\nMozzi + LCD + Knob\nProblem: LCD library uses delays / timing, mozzi turns them off.\n\n\n#include \x3cMozziGuts.h>\n#include \x3cOscil.h>\n#include \x3ctables/cos2048_int8.h> // table for Oscils to play\n#include \x3cutils.h>\n#include \x3cfixedMath.h>\n#include \x3cEventDelay.h>\n#include \x3cSmooth.h>\n\n#include \x3cLiquidCrystal.h>\n\n#define CONTROL_RATE 256 // powers of 2 please\n\n\n\nint buttonPin = A0;\nint knobA = A1;\nint knobB = A2;\nint lastAPos = LOW;\nint knobPos = 0;\n\nlong lastReadTime = 0;\nlong counter = 0;\n\nboolean oldButtonState = false;\n\n// initialize the library with the numbers of the interface pins\nLiquidCrystal lcd(12, 11, 5, 4, 3, 2);\n\n\nOscil\x3cCOS2048_NUM_CELLS, AUDIO_RATE> aCarrier(COS2048_DATA);\nOscil\x3cCOS2048_NUM_CELLS, AUDIO_RATE> aModulator(COS2048_DATA);\nOscil\x3cCOS2048_NUM_CELLS, CONTROL_RATE> kModIndex(COS2048_DATA);\n\n// The ratio of deviation to modulation frequency is called the \"index of modulation\". ( I = d / Fm )\n// It will vary according to the frequency that is modulating the carrier and the amount of deviation.\n// so deviation d = I * Fm\n// haven't quite worked this out properly yet...\n\nQ8n8 mod_index;// = float_to_Q8n8(2.0f); // constant version\nQ16n16 deviation;\n\nQ16n16 carrier_freq, mod_freq;\n\n// FM ratio between oscillator frequencies, stays the same through note range\nQ8n8 mod_to_carrier_ratio = float_to_Q8n8(3.f);\n\nEventDelay kNoteChangeDelay(CONTROL_RATE);\n\n// for note changes\nQ7n8 target_note, note0, note1, note_upper_limit, note_lower_limit, note_change_step, smoothed_note;\n\n// using Smooth on midi notes rather than frequency, \n// because fractional frequencies need larger types than Smooth can handle\n// Inefficient, but...until there is a better Smooth....\nSmooth \x3cint> kSmoothNote(0.95f);\n\nvoid setup(){\n  kNoteChangeDelay.set(768*2); // ms countdown, taylored to resolution of CONTROL_RATE\n  kModIndex.setFreq(.768f); // sync with kNoteChangeDelay\n  target_note = note0;\n  note_change_step = Q7n0_to_Q7n8(3);\n  note_upper_limit = Q7n0_to_Q7n8(50);\n  note_lower_limit = Q7n0_to_Q7n8(16);\n  note0 = note_lower_limit;\n  note1 = note_lower_limit + Q7n0_to_Q7n8(5);\n  startMozzi(CONTROL_RATE);\n\n  setupUi();\n\n}\n\nvoid setFreqs(Q8n8 midi_note){\n  carrier_freq = Q16n16_mtof(Q8n8_to_Q16n16(midi_note)); // convert midi note to fractional frequency\n  mod_freq = ((carrier_freq>>8) * mod_to_carrier_ratio)  ; // (Q16n16>>8) * Q8n8 = Q16n16, beware of overflow\n  deviation = ((mod_freq>>16) * mod_index); // (Q16n16>>16) * Q8n8 = Q24n8, beware of overflow\n  aCarrier.setFreq_Q16n16(carrier_freq);\n  aModulator.setFreq_Q16n16(mod_freq);\n}\n\nvoid updateControl(){\n\n  checkUiInput();\n\n  // change note\n  if(kNoteChangeDelay.ready()){\n    if (target_note==note0){\n      note1 += note_change_step;\n      target_note=note1;\n    }\n    else{ \n      note0 += note_change_step;\n      target_note=note0;\n    }\n\n    // change direction\n    if(note0>note_upper_limit) note_change_step = Q7n0_to_Q7n8(-3);\n    if(note0\x3cnote_lower_limit) note_change_step = Q7n0_to_Q7n8(3);\n    \n    // reset eventdelay\n    kNoteChangeDelay.start();\n  }\n  \n  // vary the modulation index\n  mod_index = (Q8n8)350+kModIndex.next() + knobPos * 50;\n  \n  // here's where the smoothing happens\n  smoothed_note = kSmoothNote.next(target_note);\n  setFreqs(smoothed_note);\n\n  counter++;\n}\n\n\nint updateAudio(){\n  Q15n16 modulation = deviation * aModulator.next() >> 8;\n  return (int)aCarrier.phMod(modulation);\n}\n\n\nvoid loop(){\n  audioHook();\n}\n\n\n\n\n\n\nvoid setupUi() {\n  // set up the LCD's number of columns and rows: \n  lcd.begin(16, 2);\n\n  // Print a message to the LCD.\n  lcd.print(\"Hello, World!\");\n  \n  pinMode(buttonPin, INPUT);\n  digitalWrite(buttonPin, HIGH);\n\n  pinMode(knobA, INPUT);\n  digitalWrite(knobA, HIGH);\n  pinMode(knobB, INPUT);\n  digitalWrite(knobB, HIGH);\n}\n\nvoid checkUiInput() {\n  boolean changes = false;\n  \n  boolean state = digitalRead(buttonPin);\n  if (oldButtonState != state) {    \n    onKnobPressChange(state);\n    oldButtonState = state;\n    changes = true;\n  }\n  \n  \n  long now = counter;\n  if (lastReadTime + 2 >= now || now \x3c lastReadTime + 100 ) {    \n    lastReadTime = now;\n    \n    int aPos = digitalRead(knobA);\n    if ((lastAPos == LOW) && (aPos == HIGH)) {\n      int delta = 0;\n      if (digitalRead(knobB) == LOW) {\n        delta = -1;\n      } else {\n        delta = 1;\n      }\n\n      knobPos += delta;\n      \n      onKnobTurn(delta, knobPos);\n      changes = true;\n    } \n    lastAPos = aPos; \n  }\n  \n  if (changes) {\n    doUiOutput();\n  }\n}\n\n\nvoid onKnobPressChange(boolean knobPressState) {\n    // Do state change stuff\n}\n\nvoid onKnobTurn(int delta, int knobPos) {\n      // TODO : Handle knob change here\n}\n\n\nvoid doUiOutput() {\n  lcd.setCursor(0, 1);\n  lcd.print(knobPos);\n  lcd.print(\" \");\n  if (oldButtonState) lcd.print(\"BUTTON UP\");\n  else lcd.print(\"BUTTON DOWN\");\n\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nVErsion 2:\n\n\n\n\n\n\n/*  Example of simple FM with the phase modulation technique,\n *  using Mozzi sonification library.\n *\n *  Demonstrates Oscil::phMod() for phase modulation, \n *  Smooth() for smoothing control signals, \n *  and Mozzi's fixed point number types for fractional frequencies.\n *\n *  Also shows the limitations of Mozzi's 16384Hz Sample rate,\n *  as aliasing audibly intrudes as the sound gets brighter around \n *  midi note 48.\n *  \n *  Circuit: Audio output on digital pin 9.\n *\n *  Mozzi help/discussion/announcements:\n *  https://groups.google.com/forum/#!forum/mozzi-users\n *\n *  Tim Barrass 2012.\n *  This example code is in the public domain.\n */\n\n#include \x3ctables/cos8192_int8.h> // table for Oscils to play\n\n#include \x3cMozziGuts.h>\n#include \x3cOscil.h>\n#include \x3ctables/cos2048_int8.h> // table for Oscils to play\n#include \x3cutils.h>\n#include \x3cfixedMath.h>\n#include \x3cEventDelay.h>\n#include \x3cSmooth.h>\n\n#include \x3cLiquidCrystal.h>\n\n#define CONTROL_RATE 64 // powers of 2 please\n\n\n\nint buttonPin = A0;\nint knobA = A1;\nint knobB = A2;\nint lastAPos = LOW;\nint knobPos = 0;\n\nint parameter = 0;\nint parameterCount = 3;\nint parameterValues[] = {100, 10, 20};\nint parameterMin[] = {0, 0, 0};\nint parameterMax[] = {1000, 200, 30};\nString parameterNames[] = {\"Intensity\", \"Wave Freq\", \"Vibrato Freq\"};\n\nlong lastReadTime = 0;\nlong counter = 0;\n\nboolean oldButtonState = false;\n\n// initialize the library with the numbers of the interface pins\nLiquidCrystal lcd(12, 11, 5, 4, 3, 2);\n\n\nOscil\x3cCOS8192_NUM_CELLS, AUDIO_RATE> sineWave(COS8192_DATA);\nOscil\x3cCOS8192_NUM_CELLS, AUDIO_RATE> vibrato(COS8192_DATA);\n\nlong intensity = 300;\n\n\nvoid setup(){\n  startMozzi(CONTROL_RATE);\n  sineWave.setFreq(mtof(84.f));\n  vibrato.setFreq(15.f);\n\n  setupUi();\n\n}\n\nvoid updateControl(){\n\n  checkUiInput();\n\n  intensity = parameterValues[0];    \n  sineWave.setFreq(mtof(1.0f * parameterValues[1]));\n  vibrato.setFreq(1.0f * parameterValues[2]);\n\n}\n\n\nint updateAudio(){\n    long vibratoVal = intensity * vibrato.next();\n    return (int)sineWave.phMod(vibratoVal);\n}\n\n\nvoid loop(){\n  audioHook();\n  counter++;\n  checkUiInput();\n}\n\n\n\n\n\n\nvoid setupUi() {\n  // set up the LCD's number of columns and rows: \n  lcd.begin(16, 2);\n\n  // Print a message to the LCD.\n  lcd.print(\"Hello, World!\");\n  \n  pinMode(buttonPin, INPUT);\n  digitalWrite(buttonPin, HIGH);\n\n  pinMode(knobA, INPUT);\n  digitalWrite(knobA, HIGH);\n  pinMode(knobB, INPUT);\n  digitalWrite(knobB, HIGH);\n}\n\nvoid checkUiInput() {\n  boolean changes = false;\n  \n  boolean state = digitalRead(buttonPin);\n  if (oldButtonState != state) {    \n    onKnobPressChange(state);\n    oldButtonState = state;\n    changes = true;\n  }\n  \n  \n  long now = counter;\n  if (lastReadTime + 10000L >= now) {    \n    lastReadTime = now;\n    \n    int aPos = digitalRead(knobA);\n    if ((lastAPos == LOW) && (aPos == HIGH)) {\n      int delta = 0;\n      if (digitalRead(knobB) == LOW) {\n        delta = -1;\n      } else {\n        delta = 1;\n      }\n\n      knobPos += delta;\n      \n      onKnobTurn(delta, knobPos);\n      changes = true;\n    } \n    lastAPos = aPos; \n  }\n  \n  if (changes) {\n    doUiOutput();\n  }\n}\n\n\nvoid onKnobPressChange(boolean knobPressState) {\n    // Do state change stuff\n    if (knobPressState) {\n      parameter++;\n      if (parameter \x3c 0) parameter += parameterCount;\n      parameter %= parameterCount;\n    }  \n}\n\nvoid onKnobTurn(int delta, int knobPos) {\n      // TODO : Handle knob change here\n      \n  if (!oldButtonState) {\n    parameter += delta;\n    if (parameter \x3c 0) parameter += parameterCount;\n    parameter %= parameterCount;\n  }\n  else {\n    parameterValues[parameter] += delta;\n\n    if (parameterValues[parameter] \x3c parameterMin[parameter]) parameterValues[parameter] = parameterMin[parameter];\n    if (parameterValues[parameter] > parameterMax[parameter]) parameterValues[parameter] = parameterMax[parameter];\n  }\n  \n}\n\n\nvoid doUiOutput() {\n  \n  lcd.setCursor(0, 0);\n  lcd.print(parameterNames[parameter]);\n  lcd.print(\"                \");\n  \n  lcd.setCursor(0, 1);\n  lcd.print(parameterValues[parameter]);\n  lcd.print(\"                \");\n}\n\n\n\n\n\n\n\n\n\n","attribs":"|1+1*0|7+g5*0*1+c*0|1+1*0*2*3+1*0|1+a*0*2*4+1*0|1+b*0*2*5+1*0|1+a*0*2*6+1*0|1+5*0*2*6+1*0|1+9*0*2*6+1*0|1+h*0*2*6+1*0|1+i*0*2*6+1*0|1+7*0*2*5+1*0|1+a*0*2*6+1*0|1+2b*0*2*5+1*0|1+a*0*2*5+1*0|1+k*0*2*6+1*0|1+29*0*2*6+1*0|1+45*0*2*5+1*0|1+d*0*2*5+1*0|6+d*0*1+g*0|4+9t*0+7t|1+1+1*7|4+4*7*1|1+j*7*1+7*7|br+6uz|2+2"},"historicalAuthorData":{"g.1kocl3pe5edxflrf":{"colorId":16},"g.z0nuy1ydeo6iixvz":{"colorId":10,"name":"zzorn"}},"apool":{"numToAttrib":{"0":["author","g.z0nuy1ydeo6iixvz"],"1":["bold","true"],"2":["insertorder","first"],"3":["list","bullet1"],"4":["list","bullet2"],"5":["list","bullet3"],"6":["list","bullet4"],"7":["author","g.1kocl3pe5edxflrf"]},"nextNum":8}},"viewId":"hacklab-softsynth","fullWidth":false,"initialChangesets":[{"start":1000,"forwardsChangesets":[],"timeDeltas":[],"granularity":100,"actualEndNum":1000,"apool":{"numToAttrib":{},"nextNum":0},"backwardsChangesets":[]},{"start":1000,"forwardsChangesets":["Z:5iy>p|14=1co=z*0+p$timing, mozzi turns them ","Z:5jn\x3chr|13=1c5*1|1=j*1=7=1h*0+4|1=1|k-hz-3|5u=3n6*0|6+6*0+1$off.\n\n\n\n\n\nV"],"timeDeltas":[6,2823],"granularity":10,"actualEndNum":1020,"apool":{"numToAttrib":{"0":["author","g.1kocl3pe5edxflrf"],"1":["bold","true"],"2":["bold",""]},"nextNum":3},"backwardsChangesets":["Z:5jn\x3cp|14=1co=z-p$","Z:51w>hr|13=1c5*2|1=j*2=7=1h-4|1=1*0|k+hz*0+3|5u=3n6|6-6-1$\n\n/*  Example of simple FM with the phase modulation technique,\n *  using Mozzi sonification library.\n *\n *  Demonstrates Oscil::phMod() for phase modulation, \n *  Smooth() for smoothing control signals, \n *  and Mozzi's fixed point number types for fractional frequencies.\n *\n *  Also shows the limitations of Mozzi's 16384Hz Sample rate,\n *  as aliasing audibly intrudes as the sound gets brighter around \n *  midi note 48.\n *  \n *  Circuit: Audio output on digital pin 9.\n *\n *  Mozzi help/discussion/announcements:\n *  https://groups.google.com/forum/#!forum/mozzi-users\n *\n *  Tim Barrass 2012.\n *  This example code is in the public domain.\n */"]},{"start":1020,"forwardsChangesets":["Z:51w>4|75=51t=1*0+4$Ersi","Z:520>3|75=51t=5*0+3$on ","Z:523>1|75=51t=8*0+1$2","Z:524>1|75=51t=9*0+1$:","Z:525>5|75=51t=a*0|5+5$\n\n\n\n\n","Z:52a>2|7a=528*0|2+2$\n\n","Z:52c>35k|7c=52a*0|5j+35k$/*  Example of simple FM with the phase modulation technique,\n *  using Mozzi sonification library.\n *\n *  Demonstrates Oscil::phMod() for phase modulation, \n *  Smooth() for smoothing control signals, \n *  and Mozzi's fixed point number types for fractional frequencies.\n *\n *  Also shows the limitations of Mozzi's 16384Hz Sample rate,\n *  as aliasing audibly intrudes as the sound gets brighter around \n *  midi note 48.\n *  \n *  Circuit: Audio output on digital pin 9.\n *\n *  Mozzi help/discussion/announcements:\n *  https://groups.google.com/forum/#!forum/mozzi-users\n *\n *  Tim Barrass 2012.\n *  This example code is in the public domain.\n */\n\n#include \x3ctables/cos8192_int8.h> // table for Oscils to play\n\n#include \x3cMozziGuts.h>\n#include \x3cOscil.h>\n#include \x3ctables/cos2048_int8.h> // table for Oscils to play\n#include \x3cutils.h>\n#include \x3cfixedMath.h>\n#include \x3cEventDelay.h>\n#include \x3cSmooth.h>\n\n#include \x3cLiquidCrystal.h>\n\n#define CONTROL_RATE 64 // powers of 2 please\n\n\n\nint buttonPin = A0;\nint knobA = A1;\nint knobB = A2;\nint lastAPos = LOW;\nint knobPos = 0;\n\nint parameter = 0;\nint parameterCount = 3;\nint parameterValues[] = {100, 10, 20};\nint parameterMin[] = {0, 0, 0};\nint parameterMax[] = {1000, 200, 30};\nString parameterNames[] = {\"Intensity\", \"Wave Freq\", \"Vibrato Freq\"};\n\nlong lastReadTime = 0;\nlong counter = 0;\n\nboolean oldButtonState = false;\n\n// initialize the library with the numbers of the interface pins\nLiquidCrystal lcd(12, 11, 5, 4, 3, 2);\n\n\nOscil\x3cCOS8192_NUM_CELLS, AUDIO_RATE> sineWave(COS8192_DATA);\nOscil\x3cCOS8192_NUM_CELLS, AUDIO_RATE> vibrato(COS8192_DATA);\n\nlong intensity = 300;\n\n\nvoid setup(){\n  startMozzi(CONTROL_RATE);\n  sineWave.setFreq(mtof(84.f));\n  vibrato.setFreq(15.f);\n\n  setupUi();\n\n}\n\nvoid updateControl(){\n\n  checkUiInput();\n\n  intensity = parameterValues[0];    \n  sineWave.setFreq(mtof(1.0f * parameterValues[1]));\n  vibrato.setFreq(1.0f * parameterValues[2]);\n\n}\n\n\nint updateAudio(){\n    long vibratoVal = intensity * vibrato.next();\n    return (int)sineWave.phMod(vibratoVal);\n}\n\n\nvoid loop(){\n  audioHook();\n  counter++;\n  checkUiInput();\n}\n\n\n\n\n\n\nvoid setupUi() {\n  // set up the LCD's number of columns and rows: \n  lcd.begin(16, 2);\n\n  // Print a message to the LCD.\n  lcd.print(\"Hello, World!\");\n  \n  pinMode(buttonPin, INPUT);\n  digitalWrite(buttonPin, HIGH);\n\n  pinMode(knobA, INPUT);\n  digitalWrite(knobA, HIGH);\n  pinMode(knobB, INPUT);\n  digitalWrite(knobB, HIGH);\n}\n\nvoid checkUiInput() {\n  boolean changes = false;\n  \n  boolean state = digitalRead(buttonPin);\n  if (oldButtonState != state) {    \n    onKnobPressChange(state);\n    oldButtonState = state;\n    changes = true;\n  }\n  \n  \n  long now = counter;\n  if (lastReadTime + 10000L >= now) {    \n    lastReadTime = now;\n    \n    int aPos = digitalRead(knobA);\n    if ((lastAPos == LOW) && (aPos == HIGH)) {\n      int delta = 0;\n      if (digitalRead(knobB) == LOW) {\n        delta = -1;\n      } else {\n        delta = 1;\n      }\n\n      knobPos += delta;\n      \n      onKnobTurn(delta, knobPos);\n      changes = true;\n    } \n    lastAPos = aPos; \n  }\n  \n  if (changes) {\n    doUiOutput();\n  }\n}\n\n\nvoid onKnobPressChange(boolean knobPressState) {\n    // Do state change stuff\n    if (knobPressState) {\n      parameter++;\n      if (parameter \x3c 0) parameter += parameterCount;\n      parameter %= parameterCount;\n    }  \n}\n\nvoid onKnobTurn(int delta, int knobPos) {\n      // TODO : Handle knob change here\n      \n  if (!oldButtonState) {\n    parameter += delta;\n    if (parameter \x3c 0) parameter += parameterCount;\n    parameter %= parameterCount;\n  }\n  else {\n    parameterValues[parameter] += delta;\n\n    if (parameterValues[parameter] \x3c parameterMin[parameter]) parameterValues[parameter] = parameterMin[parameter];\n    if (parameterValues[parameter] > parameterMax[parameter]) parameterValues[parameter] = parameterMax[parameter];\n  }\n  \n}\n\n\nvoid doUiOutput() {\n  \n  lcd.setCursor(0, 0);\n  lcd.print(parameterNames[parameter]);\n  lcd.print(\"                \");\n  \n  lcd.setCursor(0, 1);\n  lcd.print(parameterValues[parameter]);\n  lcd.print(\"                \");\n}\n\n\n\n\n\n\n\n"],"timeDeltas":[1,0,1,0,1,1,0],"granularity":1,"actualEndNum":1027,"apool":{"numToAttrib":{"0":["author","g.1kocl3pe5edxflrf"]},"nextNum":1},"backwardsChangesets":["Z:520\x3c4|75=51t=1-4$","Z:523\x3c3|75=51t=5-3$","Z:524\x3c1|75=51t=8-1$","Z:525\x3c1|75=51t=9-1$","Z:52a\x3c5|75=51t=a|5-5$","Z:52c\x3c2|7a=528|2-2$","Z:87w\x3c35k|7c=52a|5j-35k$"]},{"start":0,"forwardsChangesets":["Z:1>5ix|1+1*0|7+g5*0*1+c*0|1+1*0*2*3+1*0|1+a*0*2*4+1*0|1+b*0*2*5+1*0|1+a*0*2*6+1*0|1+5*0*2*6+1*0|1+9*0*2*6+1*0|1+h*0*2*6+1*0|1+i*0*2*6+1*0|1+7*0*2*5+1*0|1+a*0*2*6+1*0|1+2b*0*2*5+1*0|1+a*0*2*5+1*0|1+k*0*2*6+1*0|1+29*0*2*6+1*0|1+45*0*2*5+1*0|1+d*0*2*5+1*0|6+d*0*1+g*0|4+9t*0+7t|1+1+1*7|6k+46v|1+1$\nThe idea is to create a software synth using the arduino or some similar microcontrollerboard.\n\nIt has a number of virtual modules in the user interface, each with a potentiometer for adjusting a parameter, and some visualization of the current module mode, the selected parameter, and the current parameter value.  Visualization could be done with leds and laser printed transparencies if the parameters and modes are more or less fixed (the transparencies can always be upgraded), or some kinds of screens.\n\nReference material:\nhttps://en.wikipedia.org/wiki/Modular_synthesizer\n\nModule types\n*Oscilator\n*Parameters\n*Wave type\n*Sine\n*Triangle\n*Sawtooth forward\n*Sawtooth backward\n*Square\n*Frequency\n*Can range from very low frequencies (0.01 Hz or so) to audio frequencies (10+khz).\n*Amplitude\n*Randomness / jitter\n*Randomness is band limited to the selected frequency, and follows the wave type.\n*TODO: What parameter to use for adding non-band limited noise, or different noise types?  Maybe we'll need some noise type parameter / mode as well?\n*Pulse width?\n*Offset?\n\n\n\n\n\nModule interface\n\nEach module could have one rotary encoder (with press button), a 2x8 character LCD screen (around 2+€ on ebay when bought in bulk), and maybe some rgb illumination (ideally a modified LCD backlight) to visualize e.g. module type.  Using a LCD allows easy addition of more module types later, and also allows the system to be used for other purposes.\n\nThe flow of data between modules could be visualized with led illuminated traces in the control panel, e.g. when a control is manipulated its input and output are shown, and it could be possible to change (or mix in) inputs by pressing / turning the knobs for the other modulators.\n \n\n\n\nMozzi + LCD + Knob\nProblem: LCD library uses delays / \n\n\n/*  Example of simple FM with the phase modulation technique,\n *  using Mozzi sonification library.\n *\n *  Demonstrates Oscil::phMod() for phase modulation, \n *  Smooth() for smoothing control signals, \n *  and Mozzi's fixed point number types for fractional frequencies.\n *\n *  Also shows the limitations of Mozzi's 16384Hz Sample rate,\n *  as aliasing audibly intrudes as the sound gets brighter around \n *  midi note 48.\n *  \n *  Circuit: Audio output on digital pin 9.\n *\n *  Mozzi help/discussion/announcements:\n *  https://groups.google.com/forum/#!forum/mozzi-users\n *\n *  Tim Barrass 2012.\n *  This example code is in the public domain.\n */\n\n#include \x3cMozziGuts.h>\n#include \x3cOscil.h>\n#include \x3ctables/cos2048_int8.h> // table for Oscils to play\n#include \x3cutils.h>\n#include \x3cfixedMath.h>\n#include \x3cEventDelay.h>\n#include \x3cSmooth.h>\n\n#include \x3cLiquidCrystal.h>\n\n#define CONTROL_RATE 256 // powers of 2 please\n\n\n\nint buttonPin = A0;\nint knobA = A1;\nint knobB = A2;\nint lastAPos = LOW;\nint knobPos = 0;\n\nlong lastReadTime = 0;\nlong counter = 0;\n\nboolean oldButtonState = false;\n\n// initialize the library with the numbers of the interface pins\nLiquidCrystal lcd(12, 11, 5, 4, 3, 2);\n\n\nOscil\x3cCOS2048_NUM_CELLS, AUDIO_RATE> aCarrier(COS2048_DATA);\nOscil\x3cCOS2048_NUM_CELLS, AUDIO_RATE> aModulator(COS2048_DATA);\nOscil\x3cCOS2048_NUM_CELLS, CONTROL_RATE> kModIndex(COS2048_DATA);\n\n// The ratio of deviation to modulation frequency is called the \"index of modulation\". ( I = d / Fm )\n// It will vary according to the frequency that is modulating the carrier and the amount of deviation.\n// so deviation d = I * Fm\n// haven't quite worked this out properly yet...\n\nQ8n8 mod_index;// = float_to_Q8n8(2.0f); // constant version\nQ16n16 deviation;\n\nQ16n16 carrier_freq, mod_freq;\n\n// FM ratio between oscillator frequencies, stays the same through note range\nQ8n8 mod_to_carrier_ratio = float_to_Q8n8(3.f);\n\nEventDelay kNoteChangeDelay(CONTROL_RATE);\n\n// for note changes\nQ7n8 target_note, note0, note1, note_upper_limit, note_lower_limit, note_change_step, smoothed_note;\n\n// using Smooth on midi notes rather than frequency, \n// because fractional frequencies need larger types than Smooth can handle\n// Inefficient, but...until there is a better Smooth....\nSmooth \x3cint> kSmoothNote(0.95f);\n\nvoid setup(){\n  kNoteChangeDelay.set(768*2); // ms countdown, taylored to resolution of CONTROL_RATE\n  kModIndex.setFreq(.768f); // sync with kNoteChangeDelay\n  target_note = note0;\n  note_change_step = Q7n0_to_Q7n8(3);\n  note_upper_limit = Q7n0_to_Q7n8(50);\n  note_lower_limit = Q7n0_to_Q7n8(16);\n  note0 = note_lower_limit;\n  note1 = note_lower_limit + Q7n0_to_Q7n8(5);\n  startMozzi(CONTROL_RATE);\n\n  setupUi();\n\n}\n\nvoid setFreqs(Q8n8 midi_note){\n  carrier_freq = Q16n16_mtof(Q8n8_to_Q16n16(midi_note)); // convert midi note to fractional frequency\n  mod_freq = ((carrier_freq>>8) * mod_to_carrier_ratio)  ; // (Q16n16>>8) * Q8n8 = Q16n16, beware of overflow\n  deviation = ((mod_freq>>16) * mod_index); // (Q16n16>>16) * Q8n8 = Q24n8, beware of overflow\n  aCarrier.setFreq_Q16n16(carrier_freq);\n  aModulator.setFreq_Q16n16(mod_freq);\n}\n\nvoid updateControl(){\n\n  checkUiInput();\n\n  // change note\n  if(kNoteChangeDelay.ready()){\n    if (target_note==note0){\n      note1 += note_change_step;\n      target_note=note1;\n    }\n    else{ \n      note0 += note_change_step;\n      target_note=note0;\n    }\n\n    // change direction\n    if(note0>note_upper_limit) note_change_step = Q7n0_to_Q7n8(-3);\n    if(note0\x3cnote_lower_limit) note_change_step = Q7n0_to_Q7n8(3);\n    \n    // reset eventdelay\n    kNoteChangeDelay.start();\n  }\n  \n  // vary the modulation index\n  mod_index = (Q8n8)350+kModIndex.next() + knobPos * 50;\n  \n  // here's where the smoothing happens\n  smoothed_note = kSmoothNote.next(target_note);\n  setFreqs(smoothed_note);\n\n  counter++;\n}\n\n\nint updateAudio(){\n  Q15n16 modulation = deviation * aModulator.next() >> 8;\n  return (int)aCarrier.phMod(modulation);\n}\n\n\nvoid loop(){\n  audioHook();\n}\n\n\n\n\n\n\nvoid setupUi() {\n  // set up the LCD's number of columns and rows: \n  lcd.begin(16, 2);\n\n  // Print a message to the LCD.\n  lcd.print(\"Hello, World!\");\n  \n  pinMode(buttonPin, INPUT);\n  digitalWrite(buttonPin, HIGH);\n\n  pinMode(knobA, INPUT);\n  digitalWrite(knobA, HIGH);\n  pinMode(knobB, INPUT);\n  digitalWrite(knobB, HIGH);\n}\n\nvoid checkUiInput() {\n  boolean changes = false;\n  \n  boolean state = digitalRead(buttonPin);\n  if (oldButtonState != state) {    \n    onKnobPressChange(state);\n    oldButtonState = state;\n    changes = true;\n  }\n  \n  \n  long now = counter;\n  if (lastReadTime + 2 >= now || now \x3c lastReadTime + 100 ) {    \n    lastReadTime = now;\n    \n    int aPos = digitalRead(knobA);\n    if ((lastAPos == LOW) && (aPos == HIGH)) {\n      int delta = 0;\n      if (digitalRead(knobB) == LOW) {\n        delta = -1;\n      } else {\n        delta = 1;\n      }\n\n      knobPos += delta;\n      \n      onKnobTurn(delta, knobPos);\n      changes = true;\n    } \n    lastAPos = aPos; \n  }\n  \n  if (changes) {\n    doUiOutput();\n  }\n}\n\n\nvoid onKnobPressChange(boolean knobPressState) {\n    // Do state change stuff\n}\n\nvoid onKnobTurn(int delta, int knobPos) {\n      // TODO : Handle knob change here\n}\n\n\nvoid doUiOutput() {\n  lcd.setCursor(0, 1);\n  lcd.print(knobPos);\n  lcd.print(\" \");\n  if (oldButtonState) lcd.print(\"BUTTON UP\");\n  else lcd.print(\"BUTTON DOWN\");\n\n}\n\n\n\n\n\n\n\n\n\n\n"],"timeDeltas":[1125110],"granularity":1000,"actualEndNum":1000,"apool":{"numToAttrib":{"0":["author","g.z0nuy1ydeo6iixvz"],"1":["bold","true"],"2":["insertorder","first"],"3":["list","bullet1"],"4":["list","bullet2"],"5":["list","bullet3"],"6":["list","bullet4"],"7":["author","g.1kocl3pe5edxflrf"]},"nextNum":8},"backwardsChangesets":["Z:5iy\x3c5ix|7k-5ix$"]},{"start":1000,"forwardsChangesets":[],"timeDeltas":[],"granularity":100,"actualEndNum":1000,"apool":{"numToAttrib":{},"nextNum":0},"backwardsChangesets":[]},{"start":1000,"forwardsChangesets":["Z:5iy>p|14=1co=z*0+p$timing, mozzi turns them ","Z:5jn\x3chr|13=1c5*1|1=j*1=7=1h*0+4|1=1|k-hz-3|5u=3n6*0|6+6*0+1$off.\n\n\n\n\n\nV"],"timeDeltas":[6,2823],"granularity":10,"actualEndNum":1020,"apool":{"numToAttrib":{"0":["author","g.1kocl3pe5edxflrf"],"1":["bold","true"],"2":["bold",""]},"nextNum":3},"backwardsChangesets":["Z:5jn\x3cp|14=1co=z-p$","Z:51w>hr|13=1c5*2|1=j*2=7=1h-4|1=1*0|k+hz*0+3|5u=3n6|6-6-1$\n\n/*  Example of simple FM with the phase modulation technique,\n *  using Mozzi sonification library.\n *\n *  Demonstrates Oscil::phMod() for phase modulation, \n *  Smooth() for smoothing control signals, \n *  and Mozzi's fixed point number types for fractional frequencies.\n *\n *  Also shows the limitations of Mozzi's 16384Hz Sample rate,\n *  as aliasing audibly intrudes as the sound gets brighter around \n *  midi note 48.\n *  \n *  Circuit: Audio output on digital pin 9.\n *\n *  Mozzi help/discussion/announcements:\n *  https://groups.google.com/forum/#!forum/mozzi-users\n *\n *  Tim Barrass 2012.\n *  This example code is in the public domain.\n */"]},{"start":1020,"forwardsChangesets":["Z:51w>4|75=51t=1*0+4$Ersi","Z:520>3|75=51t=5*0+3$on ","Z:523>1|75=51t=8*0+1$2","Z:524>1|75=51t=9*0+1$:","Z:525>5|75=51t=a*0|5+5$\n\n\n\n\n","Z:52a>2|7a=528*0|2+2$\n\n","Z:52c>35k|7c=52a*0|5j+35k$/*  Example of simple FM with the phase modulation technique,\n *  using Mozzi sonification library.\n *\n *  Demonstrates Oscil::phMod() for phase modulation, \n *  Smooth() for smoothing control signals, \n *  and Mozzi's fixed point number types for fractional frequencies.\n *\n *  Also shows the limitations of Mozzi's 16384Hz Sample rate,\n *  as aliasing audibly intrudes as the sound gets brighter around \n *  midi note 48.\n *  \n *  Circuit: Audio output on digital pin 9.\n *\n *  Mozzi help/discussion/announcements:\n *  https://groups.google.com/forum/#!forum/mozzi-users\n *\n *  Tim Barrass 2012.\n *  This example code is in the public domain.\n */\n\n#include \x3ctables/cos8192_int8.h> // table for Oscils to play\n\n#include \x3cMozziGuts.h>\n#include \x3cOscil.h>\n#include \x3ctables/cos2048_int8.h> // table for Oscils to play\n#include \x3cutils.h>\n#include \x3cfixedMath.h>\n#include \x3cEventDelay.h>\n#include \x3cSmooth.h>\n\n#include \x3cLiquidCrystal.h>\n\n#define CONTROL_RATE 64 // powers of 2 please\n\n\n\nint buttonPin = A0;\nint knobA = A1;\nint knobB = A2;\nint lastAPos = LOW;\nint knobPos = 0;\n\nint parameter = 0;\nint parameterCount = 3;\nint parameterValues[] = {100, 10, 20};\nint parameterMin[] = {0, 0, 0};\nint parameterMax[] = {1000, 200, 30};\nString parameterNames[] = {\"Intensity\", \"Wave Freq\", \"Vibrato Freq\"};\n\nlong lastReadTime = 0;\nlong counter = 0;\n\nboolean oldButtonState = false;\n\n// initialize the library with the numbers of the interface pins\nLiquidCrystal lcd(12, 11, 5, 4, 3, 2);\n\n\nOscil\x3cCOS8192_NUM_CELLS, AUDIO_RATE> sineWave(COS8192_DATA);\nOscil\x3cCOS8192_NUM_CELLS, AUDIO_RATE> vibrato(COS8192_DATA);\n\nlong intensity = 300;\n\n\nvoid setup(){\n  startMozzi(CONTROL_RATE);\n  sineWave.setFreq(mtof(84.f));\n  vibrato.setFreq(15.f);\n\n  setupUi();\n\n}\n\nvoid updateControl(){\n\n  checkUiInput();\n\n  intensity = parameterValues[0];    \n  sineWave.setFreq(mtof(1.0f * parameterValues[1]));\n  vibrato.setFreq(1.0f * parameterValues[2]);\n\n}\n\n\nint updateAudio(){\n    long vibratoVal = intensity * vibrato.next();\n    return (int)sineWave.phMod(vibratoVal);\n}\n\n\nvoid loop(){\n  audioHook();\n  counter++;\n  checkUiInput();\n}\n\n\n\n\n\n\nvoid setupUi() {\n  // set up the LCD's number of columns and rows: \n  lcd.begin(16, 2);\n\n  // Print a message to the LCD.\n  lcd.print(\"Hello, World!\");\n  \n  pinMode(buttonPin, INPUT);\n  digitalWrite(buttonPin, HIGH);\n\n  pinMode(knobA, INPUT);\n  digitalWrite(knobA, HIGH);\n  pinMode(knobB, INPUT);\n  digitalWrite(knobB, HIGH);\n}\n\nvoid checkUiInput() {\n  boolean changes = false;\n  \n  boolean state = digitalRead(buttonPin);\n  if (oldButtonState != state) {    \n    onKnobPressChange(state);\n    oldButtonState = state;\n    changes = true;\n  }\n  \n  \n  long now = counter;\n  if (lastReadTime + 10000L >= now) {    \n    lastReadTime = now;\n    \n    int aPos = digitalRead(knobA);\n    if ((lastAPos == LOW) && (aPos == HIGH)) {\n      int delta = 0;\n      if (digitalRead(knobB) == LOW) {\n        delta = -1;\n      } else {\n        delta = 1;\n      }\n\n      knobPos += delta;\n      \n      onKnobTurn(delta, knobPos);\n      changes = true;\n    } \n    lastAPos = aPos; \n  }\n  \n  if (changes) {\n    doUiOutput();\n  }\n}\n\n\nvoid onKnobPressChange(boolean knobPressState) {\n    // Do state change stuff\n    if (knobPressState) {\n      parameter++;\n      if (parameter \x3c 0) parameter += parameterCount;\n      parameter %= parameterCount;\n    }  \n}\n\nvoid onKnobTurn(int delta, int knobPos) {\n      // TODO : Handle knob change here\n      \n  if (!oldButtonState) {\n    parameter += delta;\n    if (parameter \x3c 0) parameter += parameterCount;\n    parameter %= parameterCount;\n  }\n  else {\n    parameterValues[parameter] += delta;\n\n    if (parameterValues[parameter] \x3c parameterMin[parameter]) parameterValues[parameter] = parameterMin[parameter];\n    if (parameterValues[parameter] > parameterMax[parameter]) parameterValues[parameter] = parameterMax[parameter];\n  }\n  \n}\n\n\nvoid doUiOutput() {\n  \n  lcd.setCursor(0, 0);\n  lcd.print(parameterNames[parameter]);\n  lcd.print(\"                \");\n  \n  lcd.setCursor(0, 1);\n  lcd.print(parameterValues[parameter]);\n  lcd.print(\"                \");\n}\n\n\n\n\n\n\n\n"],"timeDeltas":[1,0,1,0,1,1,0],"granularity":1,"actualEndNum":1027,"apool":{"numToAttrib":{"0":["author","g.1kocl3pe5edxflrf"]},"nextNum":1},"backwardsChangesets":["Z:520\x3c4|75=51t=1-4$","Z:523\x3c3|75=51t=5-3$","Z:524\x3c1|75=51t=8-1$","Z:525\x3c1|75=51t=9-1$","Z:52a\x3c5|75=51t=a|5-5$","Z:52c\x3c2|7a=528|2-2$","Z:87w\x3c35k|7c=52a|5j-35k$"]}],"sliderEnabled":true,"colorPalette":["#ffc7c7","#fff1c7","#e3ffc7","#c7ffd5","#c7ffff","#c7d5ff","#e3c7ff","#ffc7f1","#ff8f8f","#ffe38f","#c7ff8f","#8fffab","#8fffff","#8fabff","#c78fff","#ff8fe3","#d97979","#d9c179","#a9d979","#79d991","#79d9d9","#7991d9","#a979d9","#d979c1","#d9a9a9","#d9cda9","#c1d9a9","#a9d9b5","#a9d9d9","#a9b5d9","#c1a9d9","#d9a9cd"],"supportsSlider":true,"currentTime":1352237651587,"savedRevisions":[],"initialPadContents":"\nThe idea is to create a software synth using the arduino or some similar microcontrollerboard.\n\nIt has a number of virtual modules in the user interface, each with a potentiometer for adjusting a parameter, and some visualization of the current module mode, the selected parameter, and the current parameter value.  Visualization could be done with leds and laser printed transparencies if the parameters and modes are more or less fixed (the transparencies can always be upgraded), or some kinds of screens.\n\nReference material:\nhttps://en.wikipedia.org/wiki/Modular_synthesizer\n\nModule types\n*Oscilator\n*Parameters\n*Wave type\n*Sine\n*Triangle\n*Sawtooth forward\n*Sawtooth backward\n*Square\n*Frequency\n*Can range from very low frequencies (0.01 Hz or so) to audio frequencies (10+khz).\n*Amplitude\n*Randomness / jitter\n*Randomness is band limited to the selected frequency, and follows the wave type.\n*TODO: What parameter to use for adding non-band limited noise, or different noise types?  Maybe we'll need some noise type parameter / mode as well?\n*Pulse width?\n*Offset?\n\n\n\n\n\nModule interface\n\nEach module could have one rotary encoder (with press button), a 2x8 character LCD screen (around 2+€ on ebay when bought in bulk), and maybe some rgb illumination (ideally a modified LCD backlight) to visualize e.g. module type.  Using a LCD allows easy addition of more module types later, and also allows the system to be used for other purposes.\n\nThe flow of data between modules could be visualized with led illuminated traces in the control panel, e.g. when a control is manipulated its input and output are shown, and it could be possible to change (or mix in) inputs by pressing / turning the knobs for the other modulators.\n \n\n\n\nMozzi + LCD + Knob\nProblem: LCD library uses delays / timing, mozzi turns them off.\n\n\n#include \x3cMozziGuts.h>\n#include \x3cOscil.h>\n#include \x3ctables/cos2048_int8.h> // table for Oscils to play\n#include \x3cutils.h>\n#include \x3cfixedMath.h>\n#include \x3cEventDelay.h>\n#include \x3cSmooth.h>\n\n#include \x3cLiquidCrystal.h>\n\n#define CONTROL_RATE 256 // powers of 2 please\n\n\n\nint buttonPin = A0;\nint knobA = A1;\nint knobB = A2;\nint lastAPos = LOW;\nint knobPos = 0;\n\nlong lastReadTime = 0;\nlong counter = 0;\n\nboolean oldButtonState = false;\n\n// initialize the library with the numbers of the interface pins\nLiquidCrystal lcd(12, 11, 5, 4, 3, 2);\n\n\nOscil\x3cCOS2048_NUM_CELLS, AUDIO_RATE> aCarrier(COS2048_DATA);\nOscil\x3cCOS2048_NUM_CELLS, AUDIO_RATE> aModulator(COS2048_DATA);\nOscil\x3cCOS2048_NUM_CELLS, CONTROL_RATE> kModIndex(COS2048_DATA);\n\n// The ratio of deviation to modulation frequency is called the \"index of modulation\". ( I = d / Fm )\n// It will vary according to the frequency that is modulating the carrier and the amount of deviation.\n// so deviation d = I * Fm\n// haven't quite worked this out properly yet...\n\nQ8n8 mod_index;// = float_to_Q8n8(2.0f); // constant version\nQ16n16 deviation;\n\nQ16n16 carrier_freq, mod_freq;\n\n// FM ratio between oscillator frequencies, stays the same through note range\nQ8n8 mod_to_carrier_ratio = float_to_Q8n8(3.f);\n\nEventDelay kNoteChangeDelay(CONTROL_RATE);\n\n// for note changes\nQ7n8 target_note, note0, note1, note_upper_limit, note_lower_limit, note_change_step, smoothed_note;\n\n// using Smooth on midi notes rather than frequency, \n// because fractional frequencies need larger types than Smooth can handle\n// Inefficient, but...until there is a better Smooth....\nSmooth \x3cint> kSmoothNote(0.95f);\n\nvoid setup(){\n  kNoteChangeDelay.set(768*2); // ms countdown, taylored to resolution of CONTROL_RATE\n  kModIndex.setFreq(.768f); // sync with kNoteChangeDelay\n  target_note = note0;\n  note_change_step = Q7n0_to_Q7n8(3);\n  note_upper_limit = Q7n0_to_Q7n8(50);\n  note_lower_limit = Q7n0_to_Q7n8(16);\n  note0 = note_lower_limit;\n  note1 = note_lower_limit + Q7n0_to_Q7n8(5);\n  startMozzi(CONTROL_RATE);\n\n  setupUi();\n\n}\n\nvoid setFreqs(Q8n8 midi_note){\n  carrier_freq = Q16n16_mtof(Q8n8_to_Q16n16(midi_note)); // convert midi note to fractional frequency\n  mod_freq = ((carrier_freq>>8) * mod_to_carrier_ratio)  ; // (Q16n16>>8) * Q8n8 = Q16n16, beware of overflow\n  deviation = ((mod_freq>>16) * mod_index); // (Q16n16>>16) * Q8n8 = Q24n8, beware of overflow\n  aCarrier.setFreq_Q16n16(carrier_freq);\n  aModulator.setFreq_Q16n16(mod_freq);\n}\n\nvoid updateControl(){\n\n  checkUiInput();\n\n  // change note\n  if(kNoteChangeDelay.ready()){\n    if (target_note==note0){\n      note1 += note_change_step;\n      target_note=note1;\n    }\n    else{ \n      note0 += note_change_step;\n      target_note=note0;\n    }\n\n    // change direction\n    if(note0>note_upper_limit) note_change_step = Q7n0_to_Q7n8(-3);\n    if(note0\x3cnote_lower_limit) note_change_step = Q7n0_to_Q7n8(3);\n    \n    // reset eventdelay\n    kNoteChangeDelay.start();\n  }\n  \n  // vary the modulation index\n  mod_index = (Q8n8)350+kModIndex.next() + knobPos * 50;\n  \n  // here's where the smoothing happens\n  smoothed_note = kSmoothNote.next(target_note);\n  setFreqs(smoothed_note);\n\n  counter++;\n}\n\n\nint updateAudio(){\n  Q15n16 modulation = deviation * aModulator.next() >> 8;\n  return (int)aCarrier.phMod(modulation);\n}\n\n\nvoid loop(){\n  audioHook();\n}\n\n\n\n\n\n\nvoid setupUi() {\n  // set up the LCD's number of columns and rows: \n  lcd.begin(16, 2);\n\n  // Print a message to the LCD.\n  lcd.print(\"Hello, World!\");\n  \n  pinMode(buttonPin, INPUT);\n  digitalWrite(buttonPin, HIGH);\n\n  pinMode(knobA, INPUT);\n  digitalWrite(knobA, HIGH);\n  pinMode(knobB, INPUT);\n  digitalWrite(knobB, HIGH);\n}\n\nvoid checkUiInput() {\n  boolean changes = false;\n  \n  boolean state = digitalRead(buttonPin);\n  if (oldButtonState != state) {    \n    onKnobPressChange(state);\n    oldButtonState = state;\n    changes = true;\n  }\n  \n  \n  long now = counter;\n  if (lastReadTime + 2 >= now || now \x3c lastReadTime + 100 ) {    \n    lastReadTime = now;\n    \n    int aPos = digitalRead(knobA);\n    if ((lastAPos == LOW) && (aPos == HIGH)) {\n      int delta = 0;\n      if (digitalRead(knobB) == LOW) {\n        delta = -1;\n      } else {\n        delta = 1;\n      }\n\n      knobPos += delta;\n      \n      onKnobTurn(delta, knobPos);\n      changes = true;\n    } \n    lastAPos = aPos; \n  }\n  \n  if (changes) {\n    doUiOutput();\n  }\n}\n\n\nvoid onKnobPressChange(boolean knobPressState) {\n    // Do state change stuff\n}\n\nvoid onKnobTurn(int delta, int knobPos) {\n      // TODO : Handle knob change here\n}\n\n\nvoid doUiOutput() {\n  lcd.setCursor(0, 1);\n  lcd.print(knobPos);\n  lcd.print(\" \");\n  if (oldButtonState) lcd.print(\"BUTTON UP\");\n  else lcd.print(\"BUTTON DOWN\");\n\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nVErsion 2:\n\n\n\n\n\n\n/*  Example of simple FM with the phase modulation technique,\n *  using Mozzi sonification library.\n *\n *  Demonstrates Oscil::phMod() for phase modulation, \n *  Smooth() for smoothing control signals, \n *  and Mozzi's fixed point number types for fractional frequencies.\n *\n *  Also shows the limitations of Mozzi's 16384Hz Sample rate,\n *  as aliasing audibly intrudes as the sound gets brighter around \n *  midi note 48.\n *  \n *  Circuit: Audio output on digital pin 9.\n *\n *  Mozzi help/discussion/announcements:\n *  https://groups.google.com/forum/#!forum/mozzi-users\n *\n *  Tim Barrass 2012.\n *  This example code is in the public domain.\n */\n\n#include \x3ctables/cos8192_int8.h> // table for Oscils to play\n\n#include \x3cMozziGuts.h>\n#include \x3cOscil.h>\n#include \x3ctables/cos2048_int8.h> // table for Oscils to play\n#include \x3cutils.h>\n#include \x3cfixedMath.h>\n#include \x3cEventDelay.h>\n#include \x3cSmooth.h>\n\n#include \x3cLiquidCrystal.h>\n\n#define CONTROL_RATE 64 // powers of 2 please\n\n\n\nint buttonPin = A0;\nint knobA = A1;\nint knobB = A2;\nint lastAPos = LOW;\nint knobPos = 0;\n\nint parameter = 0;\nint parameterCount = 3;\nint parameterValues[] = {100, 10, 20};\nint parameterMin[] = {0, 0, 0};\nint parameterMax[] = {1000, 200, 30};\nString parameterNames[] = {\"Intensity\", \"Wave Freq\", \"Vibrato Freq\"};\n\nlong lastReadTime = 0;\nlong counter = 0;\n\nboolean oldButtonState = false;\n\n// initialize the library with the numbers of the interface pins\nLiquidCrystal lcd(12, 11, 5, 4, 3, 2);\n\n\nOscil\x3cCOS8192_NUM_CELLS, AUDIO_RATE> sineWave(COS8192_DATA);\nOscil\x3cCOS8192_NUM_CELLS, AUDIO_RATE> vibrato(COS8192_DATA);\n\nlong intensity = 300;\n\n\nvoid setup(){\n  startMozzi(CONTROL_RATE);\n  sineWave.setFreq(mtof(84.f));\n  vibrato.setFreq(15.f);\n\n  setupUi();\n\n}\n\nvoid updateControl(){\n\n  checkUiInput();\n\n  intensity = parameterValues[0];    \n  sineWave.setFreq(mtof(1.0f * parameterValues[1]));\n  vibrato.setFreq(1.0f * parameterValues[2]);\n\n}\n\n\nint updateAudio(){\n    long vibratoVal = intensity * vibrato.next();\n    return (int)sineWave.phMod(vibratoVal);\n}\n\n\nvoid loop(){\n  audioHook();\n  counter++;\n  checkUiInput();\n}\n\n\n\n\n\n\nvoid setupUi() {\n  // set up the LCD's number of columns and rows: \n  lcd.begin(16, 2);\n\n  // Print a message to the LCD.\n  lcd.print(\"Hello, World!\");\n  \n  pinMode(buttonPin, INPUT);\n  digitalWrite(buttonPin, HIGH);\n\n  pinMode(knobA, INPUT);\n  digitalWrite(knobA, HIGH);\n  pinMode(knobB, INPUT);\n  digitalWrite(knobB, HIGH);\n}\n\nvoid checkUiInput() {\n  boolean changes = false;\n  \n  boolean state = digitalRead(buttonPin);\n  if (oldButtonState != state) {    \n    onKnobPressChange(state);\n    oldButtonState = state;\n    changes = true;\n  }\n  \n  \n  long now = counter;\n  if (lastReadTime + 10000L >= now) {    \n    lastReadTime = now;\n    \n    int aPos = digitalRead(knobA);\n    if ((lastAPos == LOW) && (aPos == HIGH)) {\n      int delta = 0;\n      if (digitalRead(knobB) == LOW) {\n        delta = -1;\n      } else {\n        delta = 1;\n      }\n\n      knobPos += delta;\n      \n      onKnobTurn(delta, knobPos);\n      changes = true;\n    } \n    lastAPos = aPos; \n  }\n  \n  if (changes) {\n    doUiOutput();\n  }\n}\n\n\nvoid onKnobPressChange(boolean knobPressState) {\n    // Do state change stuff\n    if (knobPressState) {\n      parameter++;\n      if (parameter \x3c 0) parameter += parameterCount;\n      parameter %= parameterCount;\n    }  \n}\n\nvoid onKnobTurn(int delta, int knobPos) {\n      // TODO : Handle knob change here\n      \n  if (!oldButtonState) {\n    parameter += delta;\n    if (parameter \x3c 0) parameter += parameterCount;\n    parameter %= parameterCount;\n  }\n  else {\n    parameterValues[parameter] += delta;\n\n    if (parameterValues[parameter] \x3c parameterMin[parameter]) parameterValues[parameter] = parameterMin[parameter];\n    if (parameterValues[parameter] > parameterMax[parameter]) parameterValues[parameter] = parameterMax[parameter];\n  }\n  \n}\n\n\nvoid doUiOutput() {\n  \n  lcd.setCursor(0, 0);\n  lcd.print(parameterNames[parameter]);\n  lcd.print(\"                \");\n  \n  lcd.setCursor(0, 1);\n  lcd.print(parameterValues[parameter]);\n  lcd.print(\"                \");\n}\n\n\n\n\n\n\n\n\n","padIdForUrl":"hacklab-softsynth"};
+  // ]]>
+</script>
+    <script type="text/javascript" src="http://www.kirjoitusalusta.fi/static/compressed/280a28a317ae35527a244df56efbf0f4.js"></script>
+    
+
+  </head>
+
+  <body id="padbody" class="limwidth nonpropad nonprouser">
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div id="padpage">
+    <div id="padtop">
+      <div id="topbar">
+	
+	<div id="topbarleft"><!-- --></div>
+	
+	
+	<div id="topbarright"><!-- --></div>
+	
+	
+	<div id="topbarcenter">
+
+	  <a href="http://www.kirjoitusalusta.fi/" id="topbarBrand">Kirjoitusalusta.fi</a>
+        
+
+            
+	<div id="fullscreen" onclick="$('body').toggleClass('maximized');">Koko ruutu</div>
+
+	  <a href="javascript:void(0);" onclick="$('body').toggleClass('maximized');" id="topbarmaximize" title="Koon säätö"></a>
+	</div>
+        
+	<div id="specialkeyarea"><!-- --></div>
+      </div>
+      <div id="alertbar">
+	<div id="servermsg">
+	  <h3>Server Notice<span id="servermsgdate"><!-- --></span>:</h3>
+	  <a id="hidetopmsg" href="javascript: void pad.hideServerMessage()">hide</a>
+	  <p id="servermsgtext"><!-- --></p>
+	</div>
+      </div>
+      <div id="navigation">
+        
+      </div>
+
+      <div id="docbar" class="menu">
+	<table border="0" cellpadding="0" cellspacing="0" width="100%" id="docbartable">
+	  <tr>
+	    <td><img src="../pad/roundcorner_left.gif"></td>
+            
+  <td id="docbarpadtitle" title="Julkinen ty&ouml;tila: Julkinen ty&ouml;tila"><span>Julkinen ty&ouml;tila</span></td>
+
+	    <td width="100%">&nbsp;</td>
+            
+	    
+	    <td><img src="../pad/roundcorner_right_orange.gif"></td>
+	  </tr>
+	</table>
+        
+        
+        
+      </div><!-- /docbar -->
+    </div>
+
+    
+  <div id="timeslider-wrapper">
+  <div id="error" style="display: none">Yhteydessä on häiriöitä. <a href="latest.html">Yhdistä uudelleen</a>.</div>
+  <div id="timeslider" unselectable="on" style="display: none">
+    <div id="timeslider-left"></div>
+    <div id="timeslider-right"></div>
+    <div id="timer">11/06/2012 23:34:11</div>
+    <div id="timeslider-slider">
+      <div id="ui-slider-handle">
+
+      </div>
+      <div id="ui-slider-bar">
+
+      </div>
+    </div>
+    <div id="playpause_button">
+      <div id="playpause_button_icon" class=""></div>
+    </div>
+    <div id="steppers">
+      <div class="stepper" id="leftstar"></div>
+      <div class="stepper" id="rightstar"></div>
+      <div class="stepper" id="leftstep"></div>
+      <div class="stepper" id="rightstep"></div>
+    </div>
+  </div>
+  </div>
+
+
+    <div id="padmain">
+      <script>
+	$(document).ready(function () {
+	  makeResizableHPane("#padeditor", "#vdraggie", "#padsidebar", 0, 0, 10, -22);
+	});
+      </script>
+      <div id="padeditor">
+	<div id="editbar" class="disabledtoolbar">
+          <div id="editbarinner">
+	    
+	    <div id="editbarleft"><!-- --></div>
+	    
+	    <div id="editbarright"><!-- --></div>      
+	    
+	    <div id="editbarinner">
+	      <table cellpadding="0" cellspacing="0" border = "0" id="editbartable">
+		<tr>
+		  
+  <td>
+    <h1>
+      Julkinen ty&ouml;tila
+      <span id="revision_label">Latest text of pad hacklab-softsynth</span>
+      <span id="revision_date">
+	Tallennettu
+	Marraskuu
+	6,
+	2012
+      </span>
+    </h1>
+  </td>
+  
+
+		  
+		  <td width="100%">&nbsp;</td>
+		</tr>
+	      </table>
+	      <table cellpadding="0" cellspacing="0" border = "0" id="editbarsavetable">
+		<tr>
+		  
+		  
+  
+<td>&nbsp;&nbsp;</td>
+<td><img src="../pad/editbar_groupleft.gif" width="2" height="24"></td>
+<td class="editbarbutton editbargroupsfirst">
+  <a href="http://www.kirjoitusalusta.fi/ep/copyPad?old=hacklab-softsynth/latest&amp;old_rev=undefined" title="Copy pad"><img src="../copyPad/editbar_copy.gif"></a>
+</td>
+<!--
+<td class="editbarbutton">
+  <a href="/ep/search?linksto=hacklab-softsynth/latest" title="Find links to this pad (including copies of this pad)"><img src="/static/html/plugins/copyPad/editbar_find_links.gif"></a>
+</td>
+-->
+<td><img src="../pad/editbar_groupright.gif" width="2" height="24"></td>
+<td>&nbsp;&nbsp;</td>
+ 
+
+		</tr>
+	      </table>
+	      
+	      
+	    </div>
+          </div>
+	</div>
+	<div id="editorcontainerbox">
+  <div id="padcontent">
+    <div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-z122z0nuy1ydeo6iixvz122z">The idea is to create a software synth using the arduino or some similar microcontrollerboard.</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-z122z0nuy1ydeo6iixvz122z">It has a number of virtual modules in the user interface, each with a potentiometer for adjusting a parameter, and some visualization of the current module mode, the selected parameter, and the current parameter value.&nbsp; Visualization could be done with leds and laser printed transparencies if the parameters and modes are more or less fixed (the transparencies can always be upgraded), or some kinds of screens.</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-z122z0nuy1ydeo6iixvz122z">Reference material:</span></div>
+<div class="ace-line"><span class="author-g-z122z0nuy1ydeo6iixvz122z url"><a href="https://en.wikipedia.org/wiki/Modular_synthesizer">https://en.wikipedia.org/wiki/Modular_synthesizer</a></span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-z122z0nuy1ydeo6iixvz122z b"><b>Module types</b></span></div>
+<div class="ace-line"><ul class="list-bullet1"><li><span class="author-g-z122z0nuy1ydeo6iixvz122z">Oscilator</span></li></ul></div>
+<div class="ace-line"><ul class="list-bullet2"><li><span class="author-g-z122z0nuy1ydeo6iixvz122z">Parameters</span></li></ul></div>
+<div class="ace-line"><ul class="list-bullet3"><li><span class="author-g-z122z0nuy1ydeo6iixvz122z">Wave type</span></li></ul></div>
+<div class="ace-line"><ul class="list-bullet4"><li><span class="author-g-z122z0nuy1ydeo6iixvz122z">Sine</span></li></ul></div>
+<div class="ace-line"><ul class="list-bullet4"><li><span class="author-g-z122z0nuy1ydeo6iixvz122z">Triangle</span></li></ul></div>
+<div class="ace-line"><ul class="list-bullet4"><li><span class="author-g-z122z0nuy1ydeo6iixvz122z">Sawtooth forward</span></li></ul></div>
+<div class="ace-line"><ul class="list-bullet4"><li><span class="author-g-z122z0nuy1ydeo6iixvz122z">Sawtooth backward</span></li></ul></div>
+<div class="ace-line"><ul class="list-bullet4"><li><span class="author-g-z122z0nuy1ydeo6iixvz122z">Square</span></li></ul></div>
+<div class="ace-line"><ul class="list-bullet3"><li><span class="author-g-z122z0nuy1ydeo6iixvz122z">Frequency</span></li></ul></div>
+<div class="ace-line"><ul class="list-bullet4"><li><span class="author-g-z122z0nuy1ydeo6iixvz122z">Can range from very low frequencies (0.01 Hz or so) to audio frequencies (10+khz).</span></li></ul></div>
+<div class="ace-line"><ul class="list-bullet3"><li><span class="author-g-z122z0nuy1ydeo6iixvz122z">Amplitude</span></li></ul></div>
+<div class="ace-line"><ul class="list-bullet3"><li><span class="author-g-z122z0nuy1ydeo6iixvz122z">Randomness / jitter</span></li></ul></div>
+<div class="ace-line"><ul class="list-bullet4"><li><span class="author-g-z122z0nuy1ydeo6iixvz122z">Randomness is band limited to the selected frequency, and follows the wave type.</span></li></ul></div>
+<div class="ace-line"><ul class="list-bullet4"><li><span class="author-g-z122z0nuy1ydeo6iixvz122z">TODO: What parameter to use for adding non-band limited noise, or different noise types?&nbsp; Maybe we&#39;ll need some noise type parameter / mode as well?</span></li></ul></div>
+<div class="ace-line"><ul class="list-bullet3"><li><span class="author-g-z122z0nuy1ydeo6iixvz122z">Pulse width?</span></li></ul></div>
+<div class="ace-line"><ul class="list-bullet3"><li><span class="author-g-z122z0nuy1ydeo6iixvz122z">Offset?</span></li></ul></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-z122z0nuy1ydeo6iixvz122z b"><b>Module interface</b></span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-z122z0nuy1ydeo6iixvz122z">Each module could have one rotary encoder (with press button), a 2x8 character LCD screen (around 2+€ on ebay when bought in bulk), and maybe some rgb illumination (ideally a modified LCD backlight) to visualize e.g. module type.&nbsp; Using a LCD allows easy addition of more module types later, and also allows the system to be used for other purposes.</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-z122z0nuy1ydeo6iixvz122z">The flow of data between modules could be visualized with led illuminated traces in the control panel, e.g. when a control is manipulated its input and output are shown, and it could be possible to change (or mix in) inputs by pressing / turning the knobs for the other modulators.</span></div>
+<div class="ace-line"><span class="">&nbsp;</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf b"><b>Mozzi + LCD + Knob</b></span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf b"><b>Problem</b></span><span class="author-g-1kocl3pe5edxflrf">: LCD library uses delays / timing, mozzi turns them off.</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#include &lt;MozziGuts.h&gt;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#include &lt;Oscil.h&gt;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#include &lt;tables/cos2048_int8.h&gt; // table for Oscils to play</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#include &lt;utils.h&gt;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#include &lt;fixedMath.h&gt;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#include &lt;EventDelay.h&gt;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#include &lt;Smooth.h&gt;</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#include &lt;LiquidCrystal.h&gt;</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#define CONTROL_RATE 256 // powers of 2 please</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">int buttonPin = A0;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">int knobA = A1;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">int knobB = A2;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">int lastAPos = LOW;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">int knobPos = 0;</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">long lastReadTime = 0;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">long counter = 0;</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">boolean oldButtonState = false;</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">// initialize the library with the numbers of the interface pins</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">LiquidCrystal lcd(12, 11, 5, 4, 3, 2);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">Oscil&lt;COS2048_NUM_CELLS, AUDIO_RATE&gt; aCarrier(COS2048_DATA);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">Oscil&lt;COS2048_NUM_CELLS, AUDIO_RATE&gt; aModulator(COS2048_DATA);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">Oscil&lt;COS2048_NUM_CELLS, CONTROL_RATE&gt; kModIndex(COS2048_DATA);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">// The ratio of deviation to modulation frequency is called the &#34;index of modulation&#34;. ( I = d / Fm )</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">// It will vary according to the frequency that is modulating the carrier and the amount of deviation.</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">// so deviation d = I * Fm</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">// haven&#39;t quite worked this out properly yet...</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">Q8n8 mod_index;// = float_to_Q8n8(2.0f); // constant version</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">Q16n16 deviation;</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">Q16n16 carrier_freq, mod_freq;</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">// FM ratio between oscillator frequencies, stays the same through note range</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">Q8n8 mod_to_carrier_ratio = float_to_Q8n8(3.f);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">EventDelay kNoteChangeDelay(CONTROL_RATE);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">// for note changes</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">Q7n8 target_note, note0, note1, note_upper_limit, note_lower_limit, note_change_step, smoothed_note;</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">// using Smooth on midi notes rather than frequency,&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">// because fractional frequencies need larger types than Smooth can handle</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">// Inefficient, but...until there is a better Smooth....</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">Smooth &lt;int&gt; kSmoothNote(0.95f);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">void setup(){</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; kNoteChangeDelay.set(768*2); // ms countdown, taylored to resolution of CONTROL_RATE</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; kModIndex.setFreq(.768f); // sync with kNoteChangeDelay</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; target_note = note0;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; note_change_step = Q7n0_to_Q7n8(3);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; note_upper_limit = Q7n0_to_Q7n8(50);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; note_lower_limit = Q7n0_to_Q7n8(16);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; note0 = note_lower_limit;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; note1 = note_lower_limit + Q7n0_to_Q7n8(5);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; startMozzi(CONTROL_RATE);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; setupUi();</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">void setFreqs(Q8n8 midi_note){</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; carrier_freq = Q16n16_mtof(Q8n8_to_Q16n16(midi_note)); // convert midi note to fractional frequency</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; mod_freq = ((carrier_freq&gt;&gt;8) * mod_to_carrier_ratio)&nbsp; ; // (Q16n16&gt;&gt;8) * Q8n8 = Q16n16, beware of overflow</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; deviation = ((mod_freq&gt;&gt;16) * mod_index); // (Q16n16&gt;&gt;16) * Q8n8 = Q24n8, beware of overflow</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; aCarrier.setFreq_Q16n16(carrier_freq);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; aModulator.setFreq_Q16n16(mod_freq);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">void updateControl(){</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; checkUiInput();</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; // change note</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; if(kNoteChangeDelay.ready()){</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; if (target_note==note0){</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; note1 += note_change_step;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; target_note=note1;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; else{&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; note0 += note_change_step;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; target_note=note0;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; }</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; // change direction</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; if(note0&gt;note_upper_limit) note_change_step = Q7n0_to_Q7n8(-3);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; if(note0&lt;note_lower_limit) note_change_step = Q7n0_to_Q7n8(3);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; // reset eventdelay</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; kNoteChangeDelay.start();</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; // vary the modulation index</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; mod_index = (Q8n8)350+kModIndex.next() + knobPos * 50;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; // here&#39;s where the smoothing happens</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; smoothed_note = kSmoothNote.next(target_note);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; setFreqs(smoothed_note);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; counter++;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">int updateAudio(){</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; Q15n16 modulation = deviation * aModulator.next() &gt;&gt; 8;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; return (int)aCarrier.phMod(modulation);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">void loop(){</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; audioHook();</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">void setupUi() {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; // set up the LCD&#39;s number of columns and rows:&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; lcd.begin(16, 2);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; // Print a message to the LCD.</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; lcd.print(&#34;Hello, World!&#34;);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; pinMode(buttonPin, INPUT);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; digitalWrite(buttonPin, HIGH);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; pinMode(knobA, INPUT);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; digitalWrite(knobA, HIGH);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; pinMode(knobB, INPUT);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; digitalWrite(knobB, HIGH);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">void checkUiInput() {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; boolean changes = false;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; boolean state = digitalRead(buttonPin);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; if (oldButtonState != state) {&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; onKnobPressChange(state);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; oldButtonState = state;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; changes = true;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; long now = counter;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; if (lastReadTime + 2 &gt;= now || now &lt; lastReadTime + 100 ) {&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; lastReadTime = now;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; int aPos = digitalRead(knobA);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; if ((lastAPos == LOW) &amp;&amp; (aPos == HIGH)) {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int delta = 0;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (digitalRead(knobB) == LOW) {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; delta = -1;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } else {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; delta = 1;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; knobPos += delta;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; onKnobTurn(delta, knobPos);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; changes = true;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; }&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; lastAPos = aPos;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; if (changes) {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; doUiOutput();</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">void onKnobPressChange(boolean knobPressState) {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; // Do state change stuff</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">void onKnobTurn(int delta, int knobPos) {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // TODO : Handle knob change here</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">void doUiOutput() {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; lcd.setCursor(0, 1);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; lcd.print(knobPos);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; lcd.print(&#34; &#34;);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; if (oldButtonState) lcd.print(&#34;BUTTON UP&#34;);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; else lcd.print(&#34;BUTTON DOWN&#34;);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">VErsion 2:</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">/*&nbsp; Example of simple FM with the phase modulation technique,</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;*&nbsp; using Mozzi sonification library.</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;*</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;*&nbsp; Demonstrates Oscil::phMod() for phase modulation,&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;*&nbsp; Smooth() for smoothing control signals,&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;*&nbsp; and Mozzi&#39;s fixed point number types for fractional frequencies.</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;*</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;*&nbsp; Also shows the limitations of Mozzi&#39;s 16384Hz Sample rate,</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;*&nbsp; as aliasing audibly intrudes as the sound gets brighter around&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;*&nbsp; midi note 48.</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;*&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;*&nbsp; Circuit: Audio output on digital pin 9.</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;*</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;*&nbsp; Mozzi help/discussion/announcements:</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;*&nbsp; </span><span class="author-g-1kocl3pe5edxflrf url"><a href="https://groups.google.com/forum/#">https://groups.google.com/forum/#</a></span><span class="author-g-1kocl3pe5edxflrf">!forum/mozzi-users</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;*</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;*&nbsp; Tim Barrass 2012.</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;*&nbsp; This example code is in the public domain.</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;*/</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#include &lt;tables/cos8192_int8.h&gt; // table for Oscils to play</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#include &lt;MozziGuts.h&gt;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#include &lt;Oscil.h&gt;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#include &lt;tables/cos2048_int8.h&gt; // table for Oscils to play</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#include &lt;utils.h&gt;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#include &lt;fixedMath.h&gt;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#include &lt;EventDelay.h&gt;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#include &lt;Smooth.h&gt;</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#include &lt;LiquidCrystal.h&gt;</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">#define CONTROL_RATE 64 // powers of 2 please</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">int buttonPin = A0;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">int knobA = A1;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">int knobB = A2;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">int lastAPos = LOW;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">int knobPos = 0;</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">int parameter = 0;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">int parameterCount = 3;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">int parameterValues[] = {100, 10, 20};</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">int parameterMin[] = {0, 0, 0};</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">int parameterMax[] = {1000, 200, 30};</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">String parameterNames[] = {&#34;Intensity&#34;, &#34;Wave Freq&#34;, &#34;Vibrato Freq&#34;};</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">long lastReadTime = 0;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">long counter = 0;</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">boolean oldButtonState = false;</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">// initialize the library with the numbers of the interface pins</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">LiquidCrystal lcd(12, 11, 5, 4, 3, 2);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">Oscil&lt;COS8192_NUM_CELLS, AUDIO_RATE&gt; sineWave(COS8192_DATA);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">Oscil&lt;COS8192_NUM_CELLS, AUDIO_RATE&gt; vibrato(COS8192_DATA);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">long intensity = 300;</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">void setup(){</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; startMozzi(CONTROL_RATE);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; sineWave.setFreq(mtof(84.f));</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; vibrato.setFreq(15.f);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; setupUi();</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">void updateControl(){</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; checkUiInput();</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; intensity = parameterValues[0];&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; sineWave.setFreq(mtof(1.0f * parameterValues[1]));</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; vibrato.setFreq(1.0f * parameterValues[2]);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">int updateAudio(){</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; long vibratoVal = intensity * vibrato.next();</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; return (int)sineWave.phMod(vibratoVal);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">void loop(){</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; audioHook();</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; counter++;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; checkUiInput();</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">void setupUi() {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; // set up the LCD&#39;s number of columns and rows:&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; lcd.begin(16, 2);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; // Print a message to the LCD.</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; lcd.print(&#34;Hello, World!&#34;);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; pinMode(buttonPin, INPUT);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; digitalWrite(buttonPin, HIGH);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; pinMode(knobA, INPUT);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; digitalWrite(knobA, HIGH);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; pinMode(knobB, INPUT);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; digitalWrite(knobB, HIGH);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">void checkUiInput() {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; boolean changes = false;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; boolean state = digitalRead(buttonPin);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; if (oldButtonState != state) {&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; onKnobPressChange(state);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; oldButtonState = state;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; changes = true;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; long now = counter;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; if (lastReadTime + 10000L &gt;= now) {&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; lastReadTime = now;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; int aPos = digitalRead(knobA);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; if ((lastAPos == LOW) &amp;&amp; (aPos == HIGH)) {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int delta = 0;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (digitalRead(knobB) == LOW) {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; delta = -1;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } else {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; delta = 1;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; knobPos += delta;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; onKnobTurn(delta, knobPos);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; changes = true;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; }&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; lastAPos = aPos;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; if (changes) {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; doUiOutput();</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">void onKnobPressChange(boolean knobPressState) {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; // Do state change stuff</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; if (knobPressState) {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; parameter++;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (parameter &lt; 0) parameter += parameterCount;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; parameter %= parameterCount;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; }&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">void onKnobTurn(int delta, int knobPos) {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // TODO : Handle knob change here</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; if (!oldButtonState) {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; parameter += delta;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; if (parameter &lt; 0) parameter += parameterCount;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; parameter %= parameterCount;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; else {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; parameterValues[parameter] += delta;</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; if (parameterValues[parameter] &lt; parameterMin[parameter]) parameterValues[parameter] = parameterMin[parameter];</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;&nbsp; if (parameterValues[parameter] &gt; parameterMax[parameter]) parameterValues[parameter] = parameterMax[parameter];</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">void doUiOutput() {</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; lcd.setCursor(0, 0);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; lcd.print(parameterNames[parameter]);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; lcd.print(&#34;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#34;);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; lcd.setCursor(0, 1);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; lcd.print(parameterValues[parameter]);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">&nbsp; lcd.print(&#34;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#34;);</span></div>
+<div class="ace-line"><span class="author-g-1kocl3pe5edxflrf">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+
+  </div>
+</div>
+      </div><!-- /padeditor -->
+
+      <div id="vdraggie"><!-- --></div>
+
+      <div id="padsidebar">
+  <div id="padsidebarfull">
+    <div id="rightbar">
+      <a id="viewlatest" href="latest.html">
+      Näytetään uusin sisältö</a><br>
+      <a class="tlink" href="latest.html" thref="/ep/pad/view/hacklab-softsynth/rev.%revision%">Linkki tähän versioon</a>
+      <br><a class="tlink" href="../ro.kzWzT91rC-DQlpbfnu/latest.html" thref="/ep/pad/view/ro.kzWzT91rC-DQlpbfnu/rev.%revision%">Linkki katselutilaan</a><br><a href="../hacklab-softsynth.1.html">Siirry muokkaustilaan</a>
+      <h2>Lataa muodossa:</h2>
+      <img src="http://www.kirjoitusalusta.fi/static/img/may09/html.gif"><a class="tlink" href="latest%3Fformat=html.html" thref="/ep/pad/export/hacklab-softsynth/rev.%revision%?format=html">HTML</a><br>
+      <img src="http://www.kirjoitusalusta.fi/static/img/may09/txt.gif" ><a class="tlink" href="latest%3Fformat=html.html" thref="/ep/pad/export/hacklab-softsynth/rev.%revision%?format=txt" >Pelkkä teksti</a><br>
+      <img src="http://www.kirjoitusalusta.fi/static/img/may09/doc.gif" ><a class="tlink" href="latest%3Fformat=html.html" thref="/ep/pad/export/hacklab-softsynth/rev.%revision%?format=doc" >Microsoft Word</a><br>
+      <img src="http://www.kirjoitusalusta.fi/static/img/may09/pdf.gif" ><a class="tlink" href="latest%3Fformat=html.html" thref="/ep/pad/export/hacklab-softsynth/rev.%revision%?format=pdf" >PDF</a>
+    </div>
+    <div id="legend">
+      <h2>Kirjoittajat</h2>
+      <table id="authorstable" border="0" cellspacing="0" cellpadding="0">
+      </table>
+    </div>
+  </div>
+</div> 
+    </div><!-- /padmain -->
+
+  </div><!-- /padpage -->
+
+  
+
+ 
+
+  </body>
+</html>
+ 

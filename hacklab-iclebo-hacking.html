@@ -47,7 +47,7 @@
 /><br
 />Mittaustuloksia: <a href="https://docs.google.com/spreadsheet/ccc?key=0Agpa1i4rTzqSdHhDSkprNjJEOEl1cnlPalUwaHRYMmc">https://docs.google.com/spreadsheet/ccc?key=0Agpa1i4rTzqSdHhDSkprNjJEOEl1cnlPalUwaHRYMmc</a><br
 /><br
-/>Hall-anturit ovat on/off-tyyppisiä, avokollektorilähtöisiä. Antavat yhden pulssin per moottorin kierros, kvadratuuria. Saadaan 75 pulssia per pyörän kierros. Pyörän halkaisija n. 85 mm ==&gt; robotin etenemä 3.5 mm/pulssi.<br
+/>Hall-anturit ovat on/off-tyyppisiä, avokollektorilähtöisiä. Antavat 3 pulssia per moottorin kierros, kvadratuuria. Saadaan n. 225 pulssia per pyörän kierros. Pyörän halkaisija n. 82 mm ==&gt; robotin etenemä 1.1 mm/pulssi.<br
 /><br
 />Piirilevyllä oleva moottorin liitin:<br
 />&nbsp;_________________<br
@@ -81,6 +81,18 @@
 /><br
 />6.5. Tehty proof-of-concept-ohjelma C8051F330:lle, joka lähettää IR-ledillä NEC-protokollan mukaiset käskyt. Robotti tottelee, eli protokolla hallussa.<br
 /><br
+/><br
+/><u>Moottorinohjain</u><br
+/><br
+/>3.11. Moottorinohjaimen hw rakennettu. Koostuu Heikin stepper-ohjainkortista (2 x L6202) ja Veroboardista, jossa on loput tarvittavat osat. Ohjain pystyy vaihtamaan releellä moottorit joko omaan ohjaukseensa tai alkuperäisen imurin ohjaukseen. Liitäntä ohjaavaan älyyn on I2C. Kontrolleri C8051F361.<br
+/><br
+/><br
+/>Ideoita robotin designiksi:<br
+/>Miten olisi nukkumatti? itäsaksalainen lastensankari joka tuli aina jollain jännällä kuluneuvolla. Muistaakseni sillä oli joskus avaruusalus tai reki tms.. kersat tykkäisi<br
+/><br
+/>Aikuisille sain ajatuksen&nbsp; jota kutsun kuudestilaukeavaksi: Karjala six-pack. tai joku muu brandi. Jokaisessa kaljatölkissa on solenoidi joka saa sen hyppäämään kun se laukaistaan<br
+/>Kun yleisö söittaa numeroon / tai jollain muulla mekanismilla kyseinen tölkki hyppää ilmaan<br
+/>voi sitä riemua.&nbsp;<br
 /><br
 />___________________________________________<br
 />"I heard those robot vacuums really suck"<br
