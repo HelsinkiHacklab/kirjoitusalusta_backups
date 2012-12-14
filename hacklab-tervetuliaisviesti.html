@@ -1,197 +1,64 @@
-<!DOCTYPE html PUBLIC
-	  "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" lang="fi" xml:lang="fi">
-  <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <meta http-equiv="Content-Language" content="fi-fi" />
-    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
-    <title>Kirjoitusalusta.fi: Luo uusi tila?</title>
-    <base href="" />
-
-    <!-- CSS -->
-    <link href="static/compressed/bae9ad83f251c03094f37c1acd9035c4.css.html" rel="stylesheet" type="text/css" />
-
-    
-
-    <!-- javascript -->
-<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-17968704-1']);
-  _gaq.push(['_setDomainName', '.kirjoitusalusta.fi']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
-
-
-    <script type="text/javascript">
-  // <![CDATA[
-var clientVars = {"hooks":{}};
-  // ]]>
-</script>
-    <script type="text/javascript" src="static/compressed/3737c1d435394b567219d40d24f601f4.js.html"></script>
-    
-
-  </head>
-
-  <body id="padbody" class="nonpropad">
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <div id="padpage">
-    <div id="padtop">
-      <div id="topbar">
-	
-	<div id="topbarleft"><!-- --></div>
-	
-	
-	<div id="topbarright"><!-- --></div>
-	
-	
-	<div id="topbarcenter">
-
-	  <a href="http://kirjoitusalusta.fi/" id="topbarBrand">Kirjoitusalusta.fi</a>
-        
-
-            
-	<div id="fullscreen" onclick="$('body').toggleClass('maximized');">Koko ruutu</div>
-
-	  <a href="javascript:void(0);" onclick="$('body').toggleClass('maximized');" id="topbarmaximize" title="Koon säätö"></a>
-	</div>
-        
-	<div id="specialkeyarea"><!-- --></div>
-      </div>
-      <div id="alertbar">
-	<div id="servermsg">
-	  <h3>Server Notice<span id="servermsgdate"><!-- --></span>:</h3>
-	  <a id="hidetopmsg" href="javascript: void pad.hideServerMessage()">hide</a>
-	  <p id="servermsgtext"><!-- --></p>
-	</div>
-      </div>
-      <div id="navigation">
-        
-      </div>
-
-      <div id="docbar" class="menu">
-	<table border="0" cellpadding="0" cellspacing="0" width="100%" id="docbartable">
-	  <tr>
-	    <td><img src="static/img/jun09/pad/roundcorner_left.gif.html"></td>
-            
-  <td id="docbarpadtitle"><span>Uuden ty&ouml;tilan luonti</span></td>
-
-	    <td width="100%">&nbsp;</td>
-            
-	    
-	    <td><img src="static/img/jun09/pad/roundcorner_right_orange.gif.html"></td>
-	  </tr>
-	</table>
-        
-        
-        
-      </div><!-- /docbar -->
-    </div>
-
-    
-
-    <div id="padmain">
-      <script>
-	$(document).ready(function () {
-	  makeResizableHPane("#padeditor", "#vdraggie", "#padsidebar", 0, 0, 10, -22);
-	});
-      </script>
-      <div id="padeditor">
-	<div id="editbar" class="disabledtoolbar">
-          <div id="editbarinner">
-	    
-	    <div id="editbarleft"><!-- --></div>
-	    
-	    <div id="editbarright"><!-- --></div>      
-	    
-	    <div id="editbarinner">
-	      <table cellpadding="0" cellspacing="0" border = "0" id="editbartable">
-		<tr>
-		  
-  <td>
-    <h1>http://kirjoitusalusta.fi/hacklab-tervetuliaisviesti-html ei sis&auml;ll&auml; viel&auml; mit&auml;&auml;n</h1>
-  </td>
-
-		  
-		  <td width="100%">&nbsp;</td>
-		</tr>
-	      </table>
-	      <table cellpadding="0" cellspacing="0" border = "0" id="editbarsavetable">
-		<tr>
-		  
-		  
-		</tr>
-	      </table>
-	      
-	      
-	    </div>
-          </div>
-	</div>
-	<div id="editorcontainerbox">
-  <div id="editorcontainer">
-  </div>
-</div>
-      </div><!-- /padeditor -->
-
-      <div id="vdraggie"><!-- --></div>
-
-      <div id="padsidebar">
-  <div id="padsidebarfull">
-  </div>
-</div> 
-    </div><!-- /padmain -->
-
-  </div><!-- /padpage -->
-
-  
-  <script>
-   $(document).ready(function () {
-     padmodals.showModal("#createbox");
-   });
-  </script>
-  <div id="modaloverlay"><div id="modaloverlay-inner"><!-- --></div></div>
-
-  <div id="mainmodals">
-    <div id="createbox" class="modaldialog">
-      <div id="createbox-inner" class="modaldialog-inner">
-	<form action="ep/pad/create.html" method="post">
-	  <input type="hidden" name="padId" value="hacklab-tervetuliaisviesti-html" />
-	  <input type="submit" id="createPad" class="bigbutton" value="Avaa uusi ty&ouml;tila" />
-	</form>
-        <div style="clear: both;"></div>
-      </div>
-    </div>
-  </div>
-
-
-
- 
-
-  </body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-us" />
+<title>/hacklab-tervetuliaisviesti</title>
+</head>
+<body>From: {{ hacklab.board_email }}<br
+/>To: {{ member.email }}, {{ hacklab.board_email }}<br
+/>Subject: Helsinki Hacklabin jäsenhakemus hyväksytty!<br
+/><br
+/>Tervetuloa Helsinki Hacklabin jäseneksi!<br
+/><br
+/>Jäsenenä olet tervetullut kaikkiin Helsinki Hacklabin tilaisuuksiin, kuten tiistaisiin jäseniltoihin, torstaisiin kurssipäiviin, sekä muihin järjestettäviin tapahtumiin.&nbsp; Ajantasaiset tiedot näkyvät tapahtumakalenteristamme {{ hacklab.calendar_url }}<br
+/><br
+/>Sähköisesti hacklabilaisten kanssa voi keskustella Hacklabin sähköpostilistalla ({{ hacklab.member_mailinglist }}), sekä IRC kanavallamme #helsinkihacklab IRCNet-verkossa.<br
+/><br
+/>Helsinki Hacklabin vuosittainen jäsenmaksu on {{ hacklab.annual_fee }}{{ hacklab.preferred_currency }}, joka tulisi suorittaa mahdollisimman pian Helsinki Hacklabin tilille {{ hacklab.account }}.<br
+/>Henkilökohtainen viitenumerosi jäsenmaksulle on {{ member.calculate_membership_fee_id }}.<br
+/>Viitenumero pysyy samana joka vuosi. Käytäthän maksaessasi aina viitenumeroa!<br
+/><br
+/>Jos&nbsp; sinulla on jäsenyyteen tai tähän viestiin liittyviä kysymyksiä, voit lähettää ne Helsinki Hacklabin hallitukselle vastaamalla tähän viestiin tai lähettämällä viestin osoitteeseen&nbsp; {{ hacklab.board_email }}<br
+/><br
+/>-------<br
+/><br
+/>From: {{ hacklab.board_email }}<br
+/>To: {{ member.email }}, {{ hacklab.board_email }}<br
+/>Subject: Helsinki Hacklab membership application approved!<br
+/><br
+/>Helsinki Hacklab welcomes you as a member!<br
+/><br
+/>As a member you are most welcome to attend all events organised by Helsinki Hacklab. These include the weekly member gathering every Tuesday, our courses and workshops held on Thurdays and other events we might come up with. Check our current calendar at {{ hacklab.calendar_url }}<br
+/><br
+/>Electronic communication between our members is handled via our mailing list ({{ hacklab.member_mailinglist }}) and on our IRC channel #helsinkihacklab @ IRCnet.<br
+/><br
+/>The current annual membership fee for Helsinki Hacklab is {{ hacklab.annual_fee }}{{ hacklab.preferred_currency }}. Please pay this as soon as possible to the Helsinki Hacklab bank account, account number {{ hacklab.account }}.<br
+/>Remember to always use your reference number for paying the membership fee, your reference number for the membership fee is {{ member.calculate_membership_fee_id }}.<br
+/>The reference number does stay the same so feel free to save it as a template.<br
+/><br
+/>For questions regarding your membership or this message, please contact the board of Helsinki Hacklab at {{ hacklab.board_email }} or simply reply to this message.<br
+/><br
+/>-------<br
+/><br
+/><b>TODO: Samma på svenska här:</b><br
+/><br
+/>From: {{ hacklab.board_email }}<br
+/>To: {{ member.email }}, {{ hacklab.board_email }}<br
+/>Subject: Ansökan för Helsinki Hacklab medlemskap godkänd!<br
+/><br
+/>Välkommen som medlem till Helsinki Hacklab!<br
+/><br
+/>Som medlem är du alltid välkommen till alla våra evenemang som medlemskväller varje Tisdag, våra Torsdagliga kurser och andra evenemang vi ordnar. Updaterad info på evenemang syns i vår kalendar på {{ hacklab.calendar_url }}<br
+/><br
+/>Elektroniskt kommunikation hanterar vi genom Hacklabs epostlista ({{ hacklab.member_mailinglist }}) och på IRC hos #helsinkihacklab @ IRCnet.<br
+/><br
+/>Den årliga medlemsavgift är {{ hacklab.annual_fee }}{{ hacklab.preferred_currency }} och den ska betalas so snabbt som mögligt till Helsinki Hacklabs konto {{ hacklab.account }}.<br
+/>Din personliga <b>viite</b> för medlemsavgiften är {{ member.calculate_membership_fee_id }} och den&nbsp;<br
+/>Henkilökohtainen viitenumerosi jäsenmaksulle on {{ member.calculate_membership_fee_id }}.<br
+/>Viitenumero pysyy samana joka vuosi. Käytäthän maksaessasi aina viitenumeroa!<br
+/><br
+/>Har du frågor om medlemskap eller denna meddelande, skicka dom gärna till <b>Helsinki Hacklabin hallitukselle på </b>{{ hacklab.board_email }} eller svara till denna meddelanden.<br
+/><br
+/></body>
 </html>
- 
