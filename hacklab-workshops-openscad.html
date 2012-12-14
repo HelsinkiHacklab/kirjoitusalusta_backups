@@ -1,58 +1,197 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-workshops-openscad</title>
-</head>
-<body><b>Introduction to 2D &amp; 3D design with OpenSCAD&nbsp;</b><br
-/><br
-/>Even though all here is in Finnish it's possible to hold this workshop in english if required.<br
-/><br
-/>Kuinka suunnittelen kappaleita jotka on tarkoitus toteuttaa fyysisesti, lopuksi toteutetaan se oma kappale (tulostetaan 3Dtulostimella, tilataan laserleikattuna, tilataan shapewaysiltä tms).<br
-/><br
-/><b>Pohjavaatimukset</b><br
-/><br
-/><ul><li>Jonkinasteinen kokemus omien ohjelmien kirjoittamisesta, tässä ei ole tarkoitus käyttää aikaa ohjelmoinnin perusasioiden opettamiseen. OpenSCAD-kielen syntaksi ja erikoisuudet käydään läpi.<ul><li>Vaihtoehtoisesti jos matematiikan puolelta on boolean algebra ja yhtälöiden ratkaisu (sekä sanallisen ongelman mallintaminen yhtälöiksi) on vahvasti hallussa niin sillä pärjää varmasti.</li></ul
-></li
-><li>Trigonometrian perusteet kannattaa kerrata pikaisesti, yleensä tulee tarvetta jakaa esim reikiä kehälle tasaisin välein yms.&nbsp;</li
-><li>Oma kone jossa OpenSCAD asennettuna (katso että lähtee käyntiin), mielellään sellainen jossa on kohtuullisesti vääntöä sillä mallien laskeminen ja pyörittäminen kysyy sitä jonkinverran.</li
-><li>Mielellään joku ajatus kappaleesta jonka haluaisi mallintaa, kotelo projektille tms<ul><li>Esim "2D" (eli laserleikattu) idea: <a href="http://www.qaiku.com/channels/show/DIY/view/74fe700a28a211e1a47e213affde3d2c3d2c/">http://www.qaiku.com/channels/show/DIY/view/74fe700a28a211e1a47e213affde3d2c3d2c/</a><ul><li>Ja sen toteutus: <a href="http://www.qaiku.com/channels/show/DIY/view/df5bab3237a411e1a079439e5a0ef186f186/">http://www.qaiku.com/channels/show/DIY/view/df5bab3237a411e1a079439e5a0ef186f186/</a><br/><br
-/></li></ul
-></li></ul
-></li></ul
-><b>Ohjelma/rakenne</b><br
-/><ul><li>OpenSCAD lyhyesti</li
-><li>Valmistusmenetelmien läpikäynti<ul><li>Additiiviset<ul><li>3D tulostus muovista pursottamalla (FDM). Reprap, Ultimaker, Makerbot jne</li
-><li>3D tulostus lasersintrauksella (SLS). Shapeways, useita materiaalivaihtoehtoja</li></ul
-></li
-><li>Subtraktiiviset<ul><li>Jyrsitty, 2D ja 3D</li
-><li>Laserleikattu, 2D</li
-><li>Vesileikattu, 2D</li></ul
-></li></ul
-></li
-><li>Muistutus että 2D leikatuista levyistä saa yhdistelemällä hyvinkin monipuolisia kappaleita</li
-><li>Mallinnuksen perusajatus, kuinka jaan tämän ideani mahdollisimman perustekijöihinsä jotta se voidaan mallintaa yksinkertaisia primitiivejä yhdistelemällä: union, difference, intersection</li
-><li>DXF ja STL importit, miksi ja mihin (esim tekstit voi tehdä ensin inkscapella ja sitten importata DXF:llä)</li
-><li>Kappaleen saaminen maailmaan<ul><li>3D tulostus läbillä</li
-><li>Shapeways:ltä tilaaminen (<a href="http://www.shapeways.com/">http://www.shapeways.com/</a> ) - paljon materiaalivaihtoehtoja</li
-><li>Ponokolta (tai Formulor:ilta) tilaaminen (2D)</li
-><li>Aalto fablab<ul><li>Fablab etenee hyvin hitaasti, siellä tulee olemaan mahdollisuus ainakin 3D tulostuoksen (ultimaker) ja 2D laserleikkaukseen (keskikokoinen, mitoitettu siten että ultimakerin isoimmat osat pystyy leikkaamaan)</li></ul
-></li
-><li>Tulevaisuudessa pienet 2D kappaleet mahdollista laserleikata läbillä.</li></ul
-></li
-><li>Muut mallinnusohjelmat<ul><li>Blender</li
-><li>Freecad</li
-><li>Rhino etc. kaupalliset<br/><br
-/></li></ul
-></li></ul
-><b>OpenScad dokumentaatiota</b>:<br
-/><ul><li>Kattava dokumentaatio: <a href="http://en.wikibooks.org/wiki/OpenSCAD_User_Manual/">http://en.wikibooks.org/wiki/OpenSCAD_User_Manual/</a></li
-><li>Lista komennoista ja kielen rakenteista lyhyesti: <a href="http://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Command_Glossary">http://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Command_Glossary</a><br/><br
-/><br/><br
-/><br/><br
-/><br/><br
-/><br/><br
-/></li></ul
-></body>
+<!DOCTYPE html PUBLIC
+	  "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fi" xml:lang="fi">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="fi-fi" />
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+    <title>Kirjoitusalusta.fi: Luo uusi tila?</title>
+    <base href="" />
+
+    <!-- CSS -->
+    <link href="static/compressed/bae9ad83f251c03094f37c1acd9035c4.css.html" rel="stylesheet" type="text/css" />
+
+    
+
+    <!-- javascript -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17968704-1']);
+  _gaq.push(['_setDomainName', '.kirjoitusalusta.fi']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+    <script type="text/javascript">
+  // <![CDATA[
+var clientVars = {"hooks":{}};
+  // ]]>
+</script>
+    <script type="text/javascript" src="static/compressed/3737c1d435394b567219d40d24f601f4.js.html"></script>
+    
+
+  </head>
+
+  <body id="padbody" class="nonpropad">
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div id="padpage">
+    <div id="padtop">
+      <div id="topbar">
+	
+	<div id="topbarleft"><!-- --></div>
+	
+	
+	<div id="topbarright"><!-- --></div>
+	
+	
+	<div id="topbarcenter">
+
+	  <a href="http://kirjoitusalusta.fi/" id="topbarBrand">Kirjoitusalusta.fi</a>
+        
+
+            
+	<div id="fullscreen" onclick="$('body').toggleClass('maximized');">Koko ruutu</div>
+
+	  <a href="javascript:void(0);" onclick="$('body').toggleClass('maximized');" id="topbarmaximize" title="Koon säätö"></a>
+	</div>
+        
+	<div id="specialkeyarea"><!-- --></div>
+      </div>
+      <div id="alertbar">
+	<div id="servermsg">
+	  <h3>Server Notice<span id="servermsgdate"><!-- --></span>:</h3>
+	  <a id="hidetopmsg" href="javascript: void pad.hideServerMessage()">hide</a>
+	  <p id="servermsgtext"><!-- --></p>
+	</div>
+      </div>
+      <div id="navigation">
+        
+      </div>
+
+      <div id="docbar" class="menu">
+	<table border="0" cellpadding="0" cellspacing="0" width="100%" id="docbartable">
+	  <tr>
+	    <td><img src="static/img/jun09/pad/roundcorner_left.gif.html"></td>
+            
+  <td id="docbarpadtitle"><span>Uuden ty&ouml;tilan luonti</span></td>
+
+	    <td width="100%">&nbsp;</td>
+            
+	    
+	    <td><img src="static/img/jun09/pad/roundcorner_right_orange.gif.html"></td>
+	  </tr>
+	</table>
+        
+        
+        
+      </div><!-- /docbar -->
+    </div>
+
+    
+
+    <div id="padmain">
+      <script>
+	$(document).ready(function () {
+	  makeResizableHPane("#padeditor", "#vdraggie", "#padsidebar", 0, 0, 10, -22);
+	});
+      </script>
+      <div id="padeditor">
+	<div id="editbar" class="disabledtoolbar">
+          <div id="editbarinner">
+	    
+	    <div id="editbarleft"><!-- --></div>
+	    
+	    <div id="editbarright"><!-- --></div>      
+	    
+	    <div id="editbarinner">
+	      <table cellpadding="0" cellspacing="0" border = "0" id="editbartable">
+		<tr>
+		  
+  <td>
+    <h1>http://kirjoitusalusta.fi/hacklab-workshops-openscad-html ei sis&auml;ll&auml; viel&auml; mit&auml;&auml;n</h1>
+  </td>
+
+		  
+		  <td width="100%">&nbsp;</td>
+		</tr>
+	      </table>
+	      <table cellpadding="0" cellspacing="0" border = "0" id="editbarsavetable">
+		<tr>
+		  
+		  
+		</tr>
+	      </table>
+	      
+	      
+	    </div>
+          </div>
+	</div>
+	<div id="editorcontainerbox">
+  <div id="editorcontainer">
+  </div>
+</div>
+      </div><!-- /padeditor -->
+
+      <div id="vdraggie"><!-- --></div>
+
+      <div id="padsidebar">
+  <div id="padsidebarfull">
+  </div>
+</div> 
+    </div><!-- /padmain -->
+
+  </div><!-- /padpage -->
+
+  
+  <script>
+   $(document).ready(function () {
+     padmodals.showModal("#createbox");
+   });
+  </script>
+  <div id="modaloverlay"><div id="modaloverlay-inner"><!-- --></div></div>
+
+  <div id="mainmodals">
+    <div id="createbox" class="modaldialog">
+      <div id="createbox-inner" class="modaldialog-inner">
+	<form action="ep/pad/create.html" method="post">
+	  <input type="hidden" name="padId" value="hacklab-workshops-openscad-html" />
+	  <input type="submit" id="createPad" class="bigbutton" value="Avaa uusi ty&ouml;tila" />
+	</form>
+        <div style="clear: both;"></div>
+      </div>
+    </div>
+  </div>
+
+
+
+ 
+
+  </body>
 </html>
+ 

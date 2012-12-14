@@ -1,86 +1,197 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-ledcontrol</title>
-</head>
-<body>Links and info related to creating PWM and other ways to control LED colors.<br
-/><br
-/>Bit Angle Modulation (BAM) vs. PWM:<br
-/><ul><li><a href="http://forum.sparkfun.com/viewtopic.php?f=6&t=3210&start=15">http://forum.sparkfun.com/viewtopic.php?f=6&amp;t=3210&amp;start=15</a></li></ul
->Mirror Imaged Bit Angle Modulation (MIBAM):<br
-/><ul><li><a href="http://www.picbasic.co.uk/forum/showthread.php?t=10564">http://www.picbasic.co.uk/forum/showthread.php?t=10564</a><br/><br
-/></li></ul
->Muita pwm algoritmejä:<br
-/><a href="http://www.google.com/url?sa=t&source=web&cd=1&ved=0CB0QFjAA&url=http%3A%2F%2Fwww.mosaic-industries.com%2FResources%2Fpdf%2Fmi-an-056optimalpwmalgorithm.pdf&rct=j&q=better%20pwm%20algorithm&ei=uL5rTszbE8XEswbtzc3JBA&usg=AFQjCNG70qF9QTR0UJtZKhxj4BQcUUkiAg&cad=rja">http://www.google.com/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CB0QFjAA&amp;url=http%3A%2F%2Fwww.mosaic-industries.com%2FResources%2Fpdf%2Fmi-an-056optimalpwmalgorithm.pdf&amp;rct=j&amp;q=better%20pwm%20algorithm&amp;ei=uL5rTszbE8XEswbtzc3JBA&amp;usg=AFQjCNG70qF9QTR0UJtZKhxj4BQcUUkiAg&amp;cad=rja</a><br
-/><br
-/>Driver IC:s &amp; Ardu-code:<br
-/><ul><li>PCA9635 <a href="https://github.com/rambo/pca9635">https://github.com/rambo/pca9635</a> (I2C)<ul><li>using 3 to drive RGB <a href="https://github.com/rambo/pca9635RGB">https://github.com/rambo/pca9635RGB</a> (a lot of optimizations to be done when I get that far [like writing all changes in single transactions as these ICs support mode where they change outputs synchronously on I2C STOP)</li
-><li><a href="http://fi.rsdelivers.com/product/nxp/pca9635pw-112/led-driver-23-55v-pca9635pw/0510897.aspx">http://fi.rsdelivers.com/product/nxp/pca9635pw-112/led-driver-23-55v-pca9635pw/0510897.aspx</a><br/><br
-/></li></ul
-></li></ul
->RGB Ledejä:<br
-/><ul><li><a href="http://myworld.ebay.com/buynow360/?_trksid=p4340.l2559">http://myworld.ebay.com/buynow360/?_trksid=p4340.l2559</a><ul><li>$25 / 100 diffuse common anode RGB LEDs, jne<br/><br
-/><br/><br
-/></li></ul
-></li></ul
->//// suovulan temppi:<br
-/><br
-/>Gammaramp 2.5&nbsp; [256] ja [1024]<br
-/><a href="http://pastebin.com/C0EBBiyx"><u>http://pastebin.com/C0EBBiyx</u></a><br
-/><br
-/><br
-/>Ledejä esim:<br
-/><a href="http://www.ebay.com/itm/20-Pcs-High-Power-Warm-White-1W-Led-Lamp-Beads-80-90-Lm-/120840008460">http://www.ebay.com/itm/20-Pcs-High-Power-Warm-White-1W-Led-Lamp-Beads-80-90-Lm-/120840008460</a><br
-/>2 ohm vastus, ~4V power supply<br
-/><br
-/>ja <a href="http://www.satisled.com/">http://www.satisled.com/</a><br
-/><br
-/>----------<br
-/><br
-/>// Software PWM<br
-/><br
-/>ISR(TIMER1_OVF_vect) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // interrupt service routine that wraps a user defined function supplied by attachInterrupt<br
-/>&nbsp; //Timer1.isrCallback();<br
-/>}<br
-/><br
-/>void setup() {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/><br
-/>&nbsp; pinMode(13, OUTPUT);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; // Set Timer1, TCNT1, to 16 MHz<br
-/>&nbsp; // This will break Arduino's analogWrite to pins X and Y&nbsp;<br
-/>&nbsp; cli();&nbsp;&nbsp;&nbsp; // disable interrupt<br
-/>&nbsp; TCCR1A = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // No PWM is used.So set this to zero.<br
-/>&nbsp; TCCR1B = 0 &lt;&lt; CS12 | 0 &lt;&lt; CS11 | 1 &lt;&lt; CS10;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Input clock is set to clk_io/1 (No prescaling)<br
-/>&nbsp; TIMSK1 = 1 &lt;&lt; TOIE1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Bit 0 – TOIE1: Timer/Counter1, Overflow Interrupt Enable<br
-/>&nbsp; TCNT1 = 0x0000;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Reset timer counter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; sei();&nbsp; // enable interrupts<br
-/><br
-/>&nbsp;&nbsp;<br
-/>}<br
-/><br
-/>int pwmRampDelta = 1;<br
-/>uint16_t pwmRampValue = 1;<br
-/>uint16_t pwmRampValueMax = 1024;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 0..65535<br
-/><br
-/>void loop() {<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; pwmRampValue += pwmRampDelta;<br
-/>&nbsp; if (pwmRampValue == 0 || pwmRampValue == pwmRampValueMax) {<br
-/>&nbsp;&nbsp;&nbsp; pwmRampDelta = -pwmRampDelta;<br
-/>&nbsp; }<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; uint16_t ticks = TCNT1;<br
-/><br
-/>&nbsp; if (pwmRampValue &lt; ticks) {<br
-/>&nbsp;&nbsp;&nbsp; digitalWrite(13, HIGH);<br
-/>&nbsp; } else {<br
-/>&nbsp;&nbsp;&nbsp; digitalWrite(13, LOW);<br
-/>&nbsp; }&nbsp;<br
-/>&nbsp;&nbsp;<br
-/>}<br
-/><br
-/></body>
+<!DOCTYPE html PUBLIC
+	  "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fi" xml:lang="fi">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="fi-fi" />
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+    <title>Kirjoitusalusta.fi: Luo uusi tila?</title>
+    <base href="" />
+
+    <!-- CSS -->
+    <link href="static/compressed/bae9ad83f251c03094f37c1acd9035c4.css.html" rel="stylesheet" type="text/css" />
+
+    
+
+    <!-- javascript -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17968704-1']);
+  _gaq.push(['_setDomainName', '.kirjoitusalusta.fi']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+    <script type="text/javascript">
+  // <![CDATA[
+var clientVars = {"hooks":{}};
+  // ]]>
+</script>
+    <script type="text/javascript" src="static/compressed/3737c1d435394b567219d40d24f601f4.js.html"></script>
+    
+
+  </head>
+
+  <body id="padbody" class="nonpropad">
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div id="padpage">
+    <div id="padtop">
+      <div id="topbar">
+	
+	<div id="topbarleft"><!-- --></div>
+	
+	
+	<div id="topbarright"><!-- --></div>
+	
+	
+	<div id="topbarcenter">
+
+	  <a href="http://kirjoitusalusta.fi/" id="topbarBrand">Kirjoitusalusta.fi</a>
+        
+
+            
+	<div id="fullscreen" onclick="$('body').toggleClass('maximized');">Koko ruutu</div>
+
+	  <a href="javascript:void(0);" onclick="$('body').toggleClass('maximized');" id="topbarmaximize" title="Koon säätö"></a>
+	</div>
+        
+	<div id="specialkeyarea"><!-- --></div>
+      </div>
+      <div id="alertbar">
+	<div id="servermsg">
+	  <h3>Server Notice<span id="servermsgdate"><!-- --></span>:</h3>
+	  <a id="hidetopmsg" href="javascript: void pad.hideServerMessage()">hide</a>
+	  <p id="servermsgtext"><!-- --></p>
+	</div>
+      </div>
+      <div id="navigation">
+        
+      </div>
+
+      <div id="docbar" class="menu">
+	<table border="0" cellpadding="0" cellspacing="0" width="100%" id="docbartable">
+	  <tr>
+	    <td><img src="static/img/jun09/pad/roundcorner_left.gif.html"></td>
+            
+  <td id="docbarpadtitle"><span>Uuden ty&ouml;tilan luonti</span></td>
+
+	    <td width="100%">&nbsp;</td>
+            
+	    
+	    <td><img src="static/img/jun09/pad/roundcorner_right_orange.gif.html"></td>
+	  </tr>
+	</table>
+        
+        
+        
+      </div><!-- /docbar -->
+    </div>
+
+    
+
+    <div id="padmain">
+      <script>
+	$(document).ready(function () {
+	  makeResizableHPane("#padeditor", "#vdraggie", "#padsidebar", 0, 0, 10, -22);
+	});
+      </script>
+      <div id="padeditor">
+	<div id="editbar" class="disabledtoolbar">
+          <div id="editbarinner">
+	    
+	    <div id="editbarleft"><!-- --></div>
+	    
+	    <div id="editbarright"><!-- --></div>      
+	    
+	    <div id="editbarinner">
+	      <table cellpadding="0" cellspacing="0" border = "0" id="editbartable">
+		<tr>
+		  
+  <td>
+    <h1>http://kirjoitusalusta.fi/hacklab-ledcontrol-html ei sis&auml;ll&auml; viel&auml; mit&auml;&auml;n</h1>
+  </td>
+
+		  
+		  <td width="100%">&nbsp;</td>
+		</tr>
+	      </table>
+	      <table cellpadding="0" cellspacing="0" border = "0" id="editbarsavetable">
+		<tr>
+		  
+		  
+		</tr>
+	      </table>
+	      
+	      
+	    </div>
+          </div>
+	</div>
+	<div id="editorcontainerbox">
+  <div id="editorcontainer">
+  </div>
+</div>
+      </div><!-- /padeditor -->
+
+      <div id="vdraggie"><!-- --></div>
+
+      <div id="padsidebar">
+  <div id="padsidebarfull">
+  </div>
+</div> 
+    </div><!-- /padmain -->
+
+  </div><!-- /padpage -->
+
+  
+  <script>
+   $(document).ready(function () {
+     padmodals.showModal("#createbox");
+   });
+  </script>
+  <div id="modaloverlay"><div id="modaloverlay-inner"><!-- --></div></div>
+
+  <div id="mainmodals">
+    <div id="createbox" class="modaldialog">
+      <div id="createbox-inner" class="modaldialog-inner">
+	<form action="ep/pad/create.html" method="post">
+	  <input type="hidden" name="padId" value="hacklab-ledcontrol-html" />
+	  <input type="submit" id="createPad" class="bigbutton" value="Avaa uusi ty&ouml;tila" />
+	</form>
+        <div style="clear: both;"></div>
+      </div>
+    </div>
+  </div>
+
+
+
+ 
+
+  </body>
 </html>
+ 

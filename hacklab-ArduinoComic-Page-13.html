@@ -1,36 +1,197 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-ArduinoComic-Page-13</title>
-</head>
-<body>PAGE 13: Analog input. Potentiometer<br
-/>Panel 49:<br
-/>Drawing: Character head shot in front of gigantic potentiometer.<br
-/>Word Balloon: A potentiometer, or pot, is a variable resistor. The amount of resistance changes as it is turned, increasing or decreasing depending on which direction it is turned.<br
-/>(In text panel): Now we will set up an analog input. We’ll use a potentiometer.&nbsp;<br
-/><br
-/>Panel 50:<br
-/>Drawing: Breadboard with potentiometer attached to Arduino&nbsp;<br
-/>(In text panel): Attach the middle pin on the potentiometer to analog pin A0. Attach one end of the pot to power, the other to ground.<br
-/><br
-/>Panel 51:<br
-/>Drawing: code for analog read serial output on white shape<br
-/>void setup() {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; Serial.begin(9600);&nbsp;<br
-/>}<br
-/><br
-/>void loop() {<br
-/>&nbsp; Serial.println(analogRead(A0));&nbsp;&nbsp;<br
-/>}<br
-/>(In text panel): First we will look at the range of values we get by turning the pot using the serial monitor. In our code, we initialize the serial object in setup, setting a baud rate of 9600. In loop, we read the value from analog pin a0 and print it to the serial object using the printLn function.<br
-/><br
-/>Panel 52:<br
-/>Drawing: Serial monitor window in Arduino software interface with numbers showing range of values. Arrows point to serial monitor button&nbsp;<br
-/>Labels:<br
-/>Click to open serial window<br
-/>(In text panel): After you have uploaded the script to the Arduino, click the serial monitor button in order to see the values as you turn the pot. A window will open, and you will see values ranging from 0 to 1023 as the pot is turned.<br
-/><br
-/></body>
+<!DOCTYPE html PUBLIC
+	  "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fi" xml:lang="fi">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="fi-fi" />
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+    <title>Kirjoitusalusta.fi: Luo uusi tila?</title>
+    <base href="" />
+
+    <!-- CSS -->
+    <link href="static/compressed/bae9ad83f251c03094f37c1acd9035c4.css.html" rel="stylesheet" type="text/css" />
+
+    
+
+    <!-- javascript -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17968704-1']);
+  _gaq.push(['_setDomainName', '.kirjoitusalusta.fi']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+    <script type="text/javascript">
+  // <![CDATA[
+var clientVars = {"hooks":{}};
+  // ]]>
+</script>
+    <script type="text/javascript" src="static/compressed/3737c1d435394b567219d40d24f601f4.js.html"></script>
+    
+
+  </head>
+
+  <body id="padbody" class="nonpropad">
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div id="padpage">
+    <div id="padtop">
+      <div id="topbar">
+	
+	<div id="topbarleft"><!-- --></div>
+	
+	
+	<div id="topbarright"><!-- --></div>
+	
+	
+	<div id="topbarcenter">
+
+	  <a href="http://kirjoitusalusta.fi/" id="topbarBrand">Kirjoitusalusta.fi</a>
+        
+
+            
+	<div id="fullscreen" onclick="$('body').toggleClass('maximized');">Koko ruutu</div>
+
+	  <a href="javascript:void(0);" onclick="$('body').toggleClass('maximized');" id="topbarmaximize" title="Koon säätö"></a>
+	</div>
+        
+	<div id="specialkeyarea"><!-- --></div>
+      </div>
+      <div id="alertbar">
+	<div id="servermsg">
+	  <h3>Server Notice<span id="servermsgdate"><!-- --></span>:</h3>
+	  <a id="hidetopmsg" href="javascript: void pad.hideServerMessage()">hide</a>
+	  <p id="servermsgtext"><!-- --></p>
+	</div>
+      </div>
+      <div id="navigation">
+        
+      </div>
+
+      <div id="docbar" class="menu">
+	<table border="0" cellpadding="0" cellspacing="0" width="100%" id="docbartable">
+	  <tr>
+	    <td><img src="static/img/jun09/pad/roundcorner_left.gif.html"></td>
+            
+  <td id="docbarpadtitle"><span>Uuden ty&ouml;tilan luonti</span></td>
+
+	    <td width="100%">&nbsp;</td>
+            
+	    
+	    <td><img src="static/img/jun09/pad/roundcorner_right_orange.gif.html"></td>
+	  </tr>
+	</table>
+        
+        
+        
+      </div><!-- /docbar -->
+    </div>
+
+    
+
+    <div id="padmain">
+      <script>
+	$(document).ready(function () {
+	  makeResizableHPane("#padeditor", "#vdraggie", "#padsidebar", 0, 0, 10, -22);
+	});
+      </script>
+      <div id="padeditor">
+	<div id="editbar" class="disabledtoolbar">
+          <div id="editbarinner">
+	    
+	    <div id="editbarleft"><!-- --></div>
+	    
+	    <div id="editbarright"><!-- --></div>      
+	    
+	    <div id="editbarinner">
+	      <table cellpadding="0" cellspacing="0" border = "0" id="editbartable">
+		<tr>
+		  
+  <td>
+    <h1>http://kirjoitusalusta.fi/hacklab-ArduinoComic-Page-13-html ei sis&auml;ll&auml; viel&auml; mit&auml;&auml;n</h1>
+  </td>
+
+		  
+		  <td width="100%">&nbsp;</td>
+		</tr>
+	      </table>
+	      <table cellpadding="0" cellspacing="0" border = "0" id="editbarsavetable">
+		<tr>
+		  
+		  
+		</tr>
+	      </table>
+	      
+	      
+	    </div>
+          </div>
+	</div>
+	<div id="editorcontainerbox">
+  <div id="editorcontainer">
+  </div>
+</div>
+      </div><!-- /padeditor -->
+
+      <div id="vdraggie"><!-- --></div>
+
+      <div id="padsidebar">
+  <div id="padsidebarfull">
+  </div>
+</div> 
+    </div><!-- /padmain -->
+
+  </div><!-- /padpage -->
+
+  
+  <script>
+   $(document).ready(function () {
+     padmodals.showModal("#createbox");
+   });
+  </script>
+  <div id="modaloverlay"><div id="modaloverlay-inner"><!-- --></div></div>
+
+  <div id="mainmodals">
+    <div id="createbox" class="modaldialog">
+      <div id="createbox-inner" class="modaldialog-inner">
+	<form action="ep/pad/create.html" method="post">
+	  <input type="hidden" name="padId" value="hacklab-ArduinoComic-Page-13-html" />
+	  <input type="submit" id="createPad" class="bigbutton" value="Avaa uusi ty&ouml;tila" />
+	</form>
+        <div style="clear: both;"></div>
+      </div>
+    </div>
+  </div>
+
+
+
+ 
+
+  </body>
 </html>
+ 
