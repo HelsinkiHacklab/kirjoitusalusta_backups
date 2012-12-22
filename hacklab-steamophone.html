@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC
+	  "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fi" xml:lang="fi">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="fi-fi" />
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+    <title>EtherPad: hacklab-steamophone / Latest text of pad hacklab-steamophone</title>
+    <base href="" />
+
+    <!-- CSS -->
+    <link href="../b551c5e3fb39001db66e471d65b43e1d.css" rel="stylesheet" type="text/css" />
+
+    
+<style type="text/css" title="dynamicsyntax"></style>
+
+
+    <!-- javascript -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17968704-1']);
+  _gaq.push(['_setDomainName', '.kirjoitusalusta.fi']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+    <script type="text/javascript">
+  // <![CDATA[
+var clientVars = {"historicalAuthorData":{"g.9hgz6yehdlrhqtp0":{"colorId":1,"name":"jari"},"g.3cm1e2z1otl1wi9u":{"colorId":13},"g.xjso1iq8e2gy5z6i":{"colorId":12}},"totalRevs":53,"hooks":{},"disableRightBar":false,"revNum":53,"initialStyledContents":{"atext":{"text":"//Steampunk style microcontroller controlled physical music instrument.\n\n\n\n//Organ pipe part:\n\nSPEED_OF_SOUND_IN_AIR_20C = 343.2;\n\nfunction waveLengthInmmFromFreq(frequency, closed) = (1000.0 * SPEED_OF_SOUND_IN_AIR_20C / frequency) * (closed ? 0.5 : 1.0);\n\n\nmodule organPipe(frequency = 880, diameter=50, closed=true, fanSide=80, fanThickness=20) {\n  wavelength = waveLengthInmmFromFreq(frequency, closed);\n  sideWall = 3;\n  endWall = 5;\n  radius = diameter * 0.5;\n  startLen = 50;\n  windPipeRadius = 10;\n  windPipeLen = 10;\n  fanRadius = fanSide * 0.5;\n  fanAdapterLen = fanRadius;\n\n  difference() {\n    union() {\n      // Pipe\n      translate([0,0,fanThickness + fanAdapterLen + windPipeLen + startLen])\n        cylinder(h = wavelength + endWall, r = radius + sideWall);\n      \n      // Start section\n      translate([0,0,fanThickness + fanAdapterLen + windPipeLen])\n        cylinder(h = startLen, r1 = windPipeRadius + sideWall, r2 = radius + sideWall);\n\n      // Wind section      \n      translate([0,0,fanThickness + fanAdapterLen])\n        cylinder(h = windPipeLen, r1 = windPipeRadius + sideWall, r2 = windPipeRadius + sideWall);\n\n      // Fan adapter      \n      translate([0,0,fanThickness])\n        cylinder(h = fanAdapterLen, r1 = fanRadius + sideWall, r2 = windPipeRadius + sideWall);\n    }\n    \n    // Pipe cavity\n    translate([0,0,fanThickness + fanAdapterLen + windPipeLen + startLen])\n      cylinder(h = wavelength, r = radius);\n      \n    // Start section cavity  \n    translate([0,0,fanThickness + fanAdapterLen + windPipeLen])\n      cylinder(h = startLen, r1 = windPipeRadius, r2 = radius);\n\n    // Wind section      \n    translate([0,0,fanThickness + fanAdapterLen])\n      cylinder(h = windPipeLen, r1 = windPipeRadius, r2 = windPipeRadius);\n\n    // Fan adapter\n    translate([0,0,fanThickness - 1])\n      cylinder(h = fanAdapterLen + 1, r1 = fanRadius, r2 = windPipeRadius);\n  }\n  \n}\n\n\norganPipe(440*4, 50, true);\n\n\n\n\n","attribs":"*0+2*1|4+21*0+2*1|1o+1fq|2+2"},"historicalAuthorData":{"g.3cm1e2z1otl1wi9u":{"colorId":13},"g.xjso1iq8e2gy5z6i":{"colorId":12}},"apool":{"numToAttrib":{"0":["author","g.xjso1iq8e2gy5z6i"],"1":["author","g.3cm1e2z1otl1wi9u"]},"nextNum":2}},"viewId":"hacklab-steamophone","fullWidth":false,"initialChangesets":[{"start":0,"forwardsChangesets":[],"timeDeltas":[],"granularity":100,"actualEndNum":0,"apool":{"numToAttrib":{},"nextNum":0},"backwardsChangesets":[]},{"start":0,"forwardsChangesets":["Z:1>e*0+d|1+1$Steampunk sty\n","Z:f>c=d*0+c$le microcont","Z:r>o=p*0+o$roller controlled physic","Z:1f>o=1d*0|4+o$al music instrument.\n\n\n\n","Z:23>1fq|4=21*0|1o+1fq$Organ pipe part:\n\nSPEED_OF_SOUND_IN_AIR_20C = 343.2;\n\nfunction waveLengthInmmFromFreq(frequency, closed) = (1000.0 * SPEED_OF_SOUND_IN_AIR_20C / frequency) * (closed ? 0.5 : 1.0);\n\n\nmodule organPipe(frequency = 880, diameter=50, closed=true, fanSide=80, fanThickness=20) {\n  wavelength = waveLengthInmmFromFreq(frequency, closed);\n  sideWall = 3;\n  endWall = 5;\n  radius = diameter * 0.5;\n  startLen = 50;\n  windPipeRadius = 10;\n  windPipeLen = 10;\n  fanRadius = fanSide * 0.5;\n  fanAdapterLen = fanRadius;\n\n  difference() {\n    union() {\n      // Pipe\n      translate([0,0,fanThickness + fanAdapterLen + windPipeLen + startLen])\n        cylinder(h = wavelength + endWall, r = radius + sideWall);\n      \n      // Start section\n      translate([0,0,fanThickness + fanAdapterLen + windPipeLen])\n        cylinder(h = startLen, r1 = windPipeRadius + sideWall, r2 = radius + sideWall);\n\n      // Wind section      \n      translate([0,0,fanThickness + fanAdapterLen])\n        cylinder(h = windPipeLen, r1 = windPipeRadius + sideWall, r2 = windPipeRadius + sideWall);\n\n      // Fan adapter      \n      translate([0,0,fanThickness])\n        cylinder(h = fanAdapterLen, r1 = fanRadius + sideWall, r2 = windPipeRadius + sideWall);\n    }\n    \n    // Pipe cavity\n    translate([0,0,fanThickness + fanAdapterLen + windPipeLen + startLen])\n      cylinder(h = wavelength, r = radius);\n      \n    // Start section cavity  \n    translate([0,0,fanThickness + fanAdapterLen + windPipeLen])\n      cylinder(h = startLen, r1 = windPipeRadius, r2 = radius);\n\n    // Wind section      \n    translate([0,0,fanThickness + fanAdapterLen])\n      cylinder(h = windPipeLen, r1 = windPipeRadius, r2 = windPipeRadius);\n\n    // Fan adapter\n    translate([0,0,fanThickness - 1])\n      cylinder(h = fanAdapterLen + 1, r1 = fanRadius, r2 = windPipeRadius);\n  }\n  \n}\n\n\norganPipe(440*4, 50, true);\n\n\n"],"timeDeltas":[6,6,5,9,11],"granularity":10,"actualEndNum":50,"apool":{"numToAttrib":{"0":["author","g.3cm1e2z1otl1wi9u"]},"nextNum":1},"backwardsChangesets":["Z:f\x3ce|1-e$","Z:r\x3cc=d-c$","Z:1f\x3co=p-o$","Z:23\x3co=1d|4-o$","Z:1ht\x3c1fq|4=21|1o-1fq$"]},{"start":50,"forwardsChangesets":["Z:1ht>1|4=21*0+1$/","Z:1hu>1|4=21=1*0+1$/","Z:1hv>1*0+1$/","Z:1hw>1=1*0+1$/"],"timeDeltas":[117331,0,2,1],"granularity":1,"actualEndNum":54,"apool":{"numToAttrib":{"0":["author","g.xjso1iq8e2gy5z6i"]},"nextNum":1},"backwardsChangesets":["Z:1hu\x3c1|4=21-1$","Z:1hv\x3c1|4=21=1-1$","Z:1hw\x3c1-1$","Z:1hx\x3c1=1-1$"]},{"start":0,"forwardsChangesets":["Z:1>e*0+d|1+1$Steampunk sty\n","Z:f>c=d*0+c$le microcont","Z:r>o=p*0+o$roller controlled physic","Z:1f>o=1d*0|4+o$al music instrument.\n\n\n\n","Z:23>1fq|4=21*0|1o+1fq$Organ pipe part:\n\nSPEED_OF_SOUND_IN_AIR_20C = 343.2;\n\nfunction waveLengthInmmFromFreq(frequency, closed) = (1000.0 * SPEED_OF_SOUND_IN_AIR_20C / frequency) * (closed ? 0.5 : 1.0);\n\n\nmodule organPipe(frequency = 880, diameter=50, closed=true, fanSide=80, fanThickness=20) {\n  wavelength = waveLengthInmmFromFreq(frequency, closed);\n  sideWall = 3;\n  endWall = 5;\n  radius = diameter * 0.5;\n  startLen = 50;\n  windPipeRadius = 10;\n  windPipeLen = 10;\n  fanRadius = fanSide * 0.5;\n  fanAdapterLen = fanRadius;\n\n  difference() {\n    union() {\n      // Pipe\n      translate([0,0,fanThickness + fanAdapterLen + windPipeLen + startLen])\n        cylinder(h = wavelength + endWall, r = radius + sideWall);\n      \n      // Start section\n      translate([0,0,fanThickness + fanAdapterLen + windPipeLen])\n        cylinder(h = startLen, r1 = windPipeRadius + sideWall, r2 = radius + sideWall);\n\n      // Wind section      \n      translate([0,0,fanThickness + fanAdapterLen])\n        cylinder(h = windPipeLen, r1 = windPipeRadius + sideWall, r2 = windPipeRadius + sideWall);\n\n      // Fan adapter      \n      translate([0,0,fanThickness])\n        cylinder(h = fanAdapterLen, r1 = fanRadius + sideWall, r2 = windPipeRadius + sideWall);\n    }\n    \n    // Pipe cavity\n    translate([0,0,fanThickness + fanAdapterLen + windPipeLen + startLen])\n      cylinder(h = wavelength, r = radius);\n      \n    // Start section cavity  \n    translate([0,0,fanThickness + fanAdapterLen + windPipeLen])\n      cylinder(h = startLen, r1 = windPipeRadius, r2 = radius);\n\n    // Wind section      \n    translate([0,0,fanThickness + fanAdapterLen])\n      cylinder(h = windPipeLen, r1 = windPipeRadius, r2 = windPipeRadius);\n\n    // Fan adapter\n    translate([0,0,fanThickness - 1])\n      cylinder(h = fanAdapterLen + 1, r1 = fanRadius, r2 = windPipeRadius);\n  }\n  \n}\n\n\norganPipe(440*4, 50, true);\n\n\n"],"timeDeltas":[6,6,5,9,11],"granularity":10,"actualEndNum":50,"apool":{"numToAttrib":{"0":["author","g.3cm1e2z1otl1wi9u"]},"nextNum":1},"backwardsChangesets":["Z:f\x3ce|1-e$","Z:r\x3cc=d-c$","Z:1f\x3co=p-o$","Z:23\x3co=1d|4-o$","Z:1ht\x3c1fq|4=21|1o-1fq$"]},{"start":50,"forwardsChangesets":["Z:1ht>1|4=21*0+1$/","Z:1hu>1|4=21=1*0+1$/","Z:1hv>1*0+1$/","Z:1hw>1=1*0+1$/"],"timeDeltas":[117331,0,2,1],"granularity":1,"actualEndNum":54,"apool":{"numToAttrib":{"0":["author","g.xjso1iq8e2gy5z6i"]},"nextNum":1},"backwardsChangesets":["Z:1hu\x3c1|4=21-1$","Z:1hv\x3c1|4=21=1-1$","Z:1hw\x3c1-1$","Z:1hx\x3c1=1-1$"]}],"sliderEnabled":true,"colorPalette":["#ffc7c7","#fff1c7","#e3ffc7","#c7ffd5","#c7ffff","#c7d5ff","#e3c7ff","#ffc7f1","#ff8f8f","#ffe38f","#c7ff8f","#8fffab","#8fffff","#8fabff","#c78fff","#ff8fe3","#d97979","#d9c179","#a9d979","#79d991","#79d9d9","#7991d9","#a979d9","#d979c1","#d9a9a9","#d9cda9","#c1d9a9","#a9d9b5","#a9d9d9","#a9b5d9","#c1a9d9","#d9a9cd"],"supportsSlider":true,"currentTime":1355987044058,"savedRevisions":[],"initialPadContents":"//Steampunk style microcontroller controlled physical music instrument.\n\n\n\n//Organ pipe part:\n\nSPEED_OF_SOUND_IN_AIR_20C = 343.2;\n\nfunction waveLengthInmmFromFreq(frequency, closed) = (1000.0 * SPEED_OF_SOUND_IN_AIR_20C / frequency) * (closed ? 0.5 : 1.0);\n\n\nmodule organPipe(frequency = 880, diameter=50, closed=true, fanSide=80, fanThickness=20) {\n  wavelength = waveLengthInmmFromFreq(frequency, closed);\n  sideWall = 3;\n  endWall = 5;\n  radius = diameter * 0.5;\n  startLen = 50;\n  windPipeRadius = 10;\n  windPipeLen = 10;\n  fanRadius = fanSide * 0.5;\n  fanAdapterLen = fanRadius;\n\n  difference() {\n    union() {\n      // Pipe\n      translate([0,0,fanThickness + fanAdapterLen + windPipeLen + startLen])\n        cylinder(h = wavelength + endWall, r = radius + sideWall);\n      \n      // Start section\n      translate([0,0,fanThickness + fanAdapterLen + windPipeLen])\n        cylinder(h = startLen, r1 = windPipeRadius + sideWall, r2 = radius + sideWall);\n\n      // Wind section      \n      translate([0,0,fanThickness + fanAdapterLen])\n        cylinder(h = windPipeLen, r1 = windPipeRadius + sideWall, r2 = windPipeRadius + sideWall);\n\n      // Fan adapter      \n      translate([0,0,fanThickness])\n        cylinder(h = fanAdapterLen, r1 = fanRadius + sideWall, r2 = windPipeRadius + sideWall);\n    }\n    \n    // Pipe cavity\n    translate([0,0,fanThickness + fanAdapterLen + windPipeLen + startLen])\n      cylinder(h = wavelength, r = radius);\n      \n    // Start section cavity  \n    translate([0,0,fanThickness + fanAdapterLen + windPipeLen])\n      cylinder(h = startLen, r1 = windPipeRadius, r2 = radius);\n\n    // Wind section      \n    translate([0,0,fanThickness + fanAdapterLen])\n      cylinder(h = windPipeLen, r1 = windPipeRadius, r2 = windPipeRadius);\n\n    // Fan adapter\n    translate([0,0,fanThickness - 1])\n      cylinder(h = fanAdapterLen + 1, r1 = fanRadius, r2 = windPipeRadius);\n  }\n  \n}\n\n\norganPipe(440*4, 50, true);\n\n\n\n","padIdForUrl":"hacklab-steamophone"};
+  // ]]>
+</script>
+    <script type="text/javascript" src="../280a28a317ae35527a244df56efbf0f4.js"></script>
+    
+
+  </head>
+
+  <body id="padbody" class="limwidth nonpropad nonprouser">
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div id="padpage">
+    <div id="padtop">
+      <div id="topbar">
+	
+	<div id="topbarleft"><!-- --></div>
+	
+	
+	<div id="topbarright"><!-- --></div>
+	
+	
+	<div id="topbarcenter">
+
+	  <a href="http://www.kirjoitusalusta.fi/" id="topbarBrand">Kirjoitusalusta.fi</a>
+        
+
+            
+	<div id="fullscreen" onclick="$('body').toggleClass('maximized');">Koko ruutu</div>
+
+	  <a href="javascript:void(0);" onclick="$('body').toggleClass('maximized');" id="topbarmaximize" title="Koon säätö"></a>
+	</div>
+        
+	<div id="specialkeyarea"><!-- --></div>
+      </div>
+      <div id="alertbar">
+	<div id="servermsg">
+	  <h3>Server Notice<span id="servermsgdate"><!-- --></span>:</h3>
+	  <a id="hidetopmsg" href="javascript: void pad.hideServerMessage()">hide</a>
+	  <p id="servermsgtext"><!-- --></p>
+	</div>
+      </div>
+      <div id="navigation">
+        
+      </div>
+
+      <div id="docbar" class="menu">
+	<table border="0" cellpadding="0" cellspacing="0" width="100%" id="docbartable">
+	  <tr>
+	    <td><img src="../pad/roundcorner_left.gif"></td>
+            
+  <td id="docbarpadtitle" title="Julkinen ty&ouml;tila: Julkinen ty&ouml;tila"><span>Julkinen ty&ouml;tila</span></td>
+
+	    <td width="100%">&nbsp;</td>
+            
+	    
+	    <td><img src="../pad/roundcorner_right_orange.gif"></td>
+	  </tr>
+	</table>
+        
+        
+        
+      </div><!-- /docbar -->
+    </div>
+
+    
+  <div id="timeslider-wrapper">
+  <div id="error" style="display: none">Yhteydessä on häiriöitä. <a href="latest.html">Yhdistä uudelleen</a>.</div>
+  <div id="timeslider" unselectable="on" style="display: none">
+    <div id="timeslider-left"></div>
+    <div id="timeslider-right"></div>
+    <div id="timer">12/20/2012 09:04:04</div>
+    <div id="timeslider-slider">
+      <div id="ui-slider-handle">
+
+      </div>
+      <div id="ui-slider-bar">
+
+      </div>
+    </div>
+    <div id="playpause_button">
+      <div id="playpause_button_icon" class=""></div>
+    </div>
+    <div id="steppers">
+      <div class="stepper" id="leftstar"></div>
+      <div class="stepper" id="rightstar"></div>
+      <div class="stepper" id="leftstep"></div>
+      <div class="stepper" id="rightstep"></div>
+    </div>
+  </div>
+  </div>
+
+
+    <div id="padmain">
+      <script>
+	$(document).ready(function () {
+	  makeResizableHPane("#padeditor", "#vdraggie", "#padsidebar", 0, 0, 10, -22);
+	});
+      </script>
+      <div id="padeditor">
+	<div id="editbar" class="disabledtoolbar">
+          <div id="editbarinner">
+	    
+	    <div id="editbarleft"><!-- --></div>
+	    
+	    <div id="editbarright"><!-- --></div>      
+	    
+	    <div id="editbarinner">
+	      <table cellpadding="0" cellspacing="0" border = "0" id="editbartable">
+		<tr>
+		  
+  <td>
+    <h1>
+      Julkinen ty&ouml;tila
+      <span id="revision_label">Latest text of pad hacklab-steamophone</span>
+      <span id="revision_date">
+	Tallennettu
+	Joulukuu
+	20,
+	2012
+      </span>
+    </h1>
+  </td>
+  
+
+		  
+		  <td width="100%">&nbsp;</td>
+		</tr>
+	      </table>
+	      <table cellpadding="0" cellspacing="0" border = "0" id="editbarsavetable">
+		<tr>
+		  
+		  
+  
+<td>&nbsp;&nbsp;</td>
+<td><img src="../pad/editbar_groupleft.gif" width="2" height="24"></td>
+<td class="editbarbutton editbargroupsfirst">
+  <a href="http://www.kirjoitusalusta.fi/ep/copyPad?old=hacklab-steamophone/latest&amp;old_rev=undefined" title="Copy pad"><img src="../copyPad/editbar_copy.gif"></a>
+</td>
+<!--
+<td class="editbarbutton">
+  <a href="/ep/search?linksto=hacklab-steamophone/latest" title="Find links to this pad (including copies of this pad)"><img src="/static/html/plugins/copyPad/editbar_find_links.gif"></a>
+</td>
+-->
+<td><img src="../pad/editbar_groupright.gif" width="2" height="24"></td>
+<td>&nbsp;&nbsp;</td>
+ 
+
+		</tr>
+	      </table>
+	      
+	      
+	    </div>
+          </div>
+	</div>
+	<div id="editorcontainerbox">
+  <div id="padcontent">
+    <div class="ace-line"><span class="author-g-xjso1iq8e2gy5z122z6i">//</span><span class="author-g-3cm1e2z122z1otl1wi9u">Steampunk style microcontroller controlled physical music instrument.</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-xjso1iq8e2gy5z122z6i">//</span><span class="author-g-3cm1e2z122z1otl1wi9u">Organ pipe part:</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">SPEED_OF_SOUND_IN_AIR_20C = 343.2;</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">function waveLengthInmmFromFreq(frequency, closed) = (1000.0 * SPEED_OF_SOUND_IN_AIR_20C / frequency) * (closed ? 0.5 : 1.0);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">module organPipe(frequency = 880, diameter=50, closed=true, fanSide=80, fanThickness=20) {</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp; wavelength = waveLengthInmmFromFreq(frequency, closed);</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp; sideWall = 3;</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp; endWall = 5;</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp; radius = diameter * 0.5;</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp; startLen = 50;</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp; windPipeRadius = 10;</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp; windPipeLen = 10;</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp; fanRadius = fanSide * 0.5;</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp; fanAdapterLen = fanRadius;</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp; difference() {</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp; union() {</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Pipe</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translate([0,0,fanThickness + fanAdapterLen + windPipeLen + startLen])</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cylinder(h = wavelength + endWall, r = radius + sideWall);</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Start section</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translate([0,0,fanThickness + fanAdapterLen + windPipeLen])</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cylinder(h = startLen, r1 = windPipeRadius + sideWall, r2 = radius + sideWall);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Wind section&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translate([0,0,fanThickness + fanAdapterLen])</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cylinder(h = windPipeLen, r1 = windPipeRadius + sideWall, r2 = windPipeRadius + sideWall);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Fan adapter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translate([0,0,fanThickness])</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cylinder(h = fanAdapterLen, r1 = fanRadius + sideWall, r2 = windPipeRadius + sideWall);</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp; // Pipe cavity</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp; translate([0,0,fanThickness + fanAdapterLen + windPipeLen + startLen])</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cylinder(h = wavelength, r = radius);</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp; // Start section cavity&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp; translate([0,0,fanThickness + fanAdapterLen + windPipeLen])</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cylinder(h = startLen, r1 = windPipeRadius, r2 = radius);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp; // Wind section&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp; translate([0,0,fanThickness + fanAdapterLen])</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cylinder(h = windPipeLen, r1 = windPipeRadius, r2 = windPipeRadius);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp; // Fan adapter</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp; translate([0,0,fanThickness - 1])</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cylinder(h = fanAdapterLen + 1, r1 = fanRadius, r2 = windPipeRadius);</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp; }</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">&nbsp;&nbsp;</span></div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">}</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line"><span class="author-g-3cm1e2z122z1otl1wi9u">organPipe(440*4, 50, true);</span></div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+<div class="ace-line">&nbsp;</div>
+
+  </div>
+</div>
+      </div><!-- /padeditor -->
+
+      <div id="vdraggie"><!-- --></div>
+
+      <div id="padsidebar">
+  <div id="padsidebarfull">
+    <div id="rightbar">
+      <a id="viewlatest" href="latest.html">
+      Näytetään uusin sisältö</a><br>
+      <a class="tlink" href="latest.html" thref="/ep/pad/view/hacklab-steamophone/rev.%revision%">Linkki tähän versioon</a>
+      <br><a class="tlink" href="../ro.k9-amzhD5IBQw0mmhw-n/latest.html" thref="/ep/pad/view/ro.k9-amzhD5IBQw0mmhw-n/rev.%revision%">Linkki katselutilaan</a><br><a href="../hacklab-steamophone.1.html">Siirry muokkaustilaan</a>
+      <h2>Lataa muodossa:</h2>
+      <img src="../html.gif"><a class="tlink" href="latest%3Fformat=html.html" thref="/ep/pad/export/hacklab-steamophone/rev.%revision%?format=html">HTML</a><br>
+      <img src="../txt.gif" ><a class="tlink" href="latest%3Fformat=html.html" thref="/ep/pad/export/hacklab-steamophone/rev.%revision%?format=txt" >Pelkkä teksti</a><br>
+      <img src="../doc.gif" ><a class="tlink" href="latest%3Fformat=html.html" thref="/ep/pad/export/hacklab-steamophone/rev.%revision%?format=doc" >Microsoft Word</a><br>
+      <img src="../pdf.gif" ><a class="tlink" href="latest%3Fformat=html.html" thref="/ep/pad/export/hacklab-steamophone/rev.%revision%?format=pdf" >PDF</a>
+    </div>
+    <div id="legend">
+      <h2>Kirjoittajat</h2>
+      <table id="authorstable" border="0" cellspacing="0" cellpadding="0">
+      </table>
+    </div>
+  </div>
+</div> 
+    </div><!-- /padmain -->
+
+  </div><!-- /padpage -->
+
+  
+
+ 
+
+  </body>
+</html>
+ 
