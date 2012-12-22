@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-us" />
+<title>/hacklab-xmega</title>
+</head>
+<body><b><u>Atmelin XMEGA mikrokontrollereihin liittyvää tauhkaa</u></b><br
+/><br
+/>(nämä testattu nyt Mac OS X + CrossPack-AVR-20121207.dmg)<br
+/><br
+/><b><i>Vaihda </i></b><u>32a4</u><b><i> -&gt; </i></b><u>128a1</u><b><i>, jos käytät isoa punaista lautaa!</i></b><br
+/><br
+/><b>Testisoftien kääntö ilman makefilehirvityksiä</b><br
+/><ul><li>compile and link<ul><li><b>avr-gcc</b> -mmcu=atxmega<u>32a4</u>u -I. -O3 -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums -Wall -Wa,-adhlns=./<i>xtest</i>.lst -Wl,-Map=<i>xtest</i>.map,--cref <i>xtest</i>.cpp -o <i>xtest</i>.elf</li></ul
+></li
+><li>store disassembly<ul><li><b>avr-objdump</b> -Dx <i>xtest</i>.elf &gt; <i>xtest</i>.asm</li></ul
+></li
+><li>convert .elf to .hex<ul><li><b>avr-objcopy</b> -O ihex <i>xtest</i>.elf <i>xtest</i>.hex</li></ul
+></li
+><li>upload with AVRISPmkII<ul><li><b>avrdude</b> -c avrisp2 -P usb -p <u>x32a4</u> -U flash:w:<i>xtest</i>.hex<br/><br
+/></li></ul
+></li></ul
+><b>Tällä saadaan DFU-bootloaderi sisään</b><br
+/><ul><li><s>download Atmel AVR1916: USB DFU Boot Loader for Atmel XMEGA</s><ul><li><a href="http://www.atmel.com/Images/AVR1916.zip"><s>http://www.atmel.com/Images/AVR1916.zip</s></a><ul><li><s>XMEGA_bootloaders_v104/binaries/atxmega32a4u_104.hex</s></li
+><li><s>XMEGA_bootloaders_v104/binaries/atxmega128a1u_104.hex</s></li></ul
+></li
+><li><a href="http://www.atmel.com/Images/doc8429.pdf"><s>http://www.atmel.com/Images/doc8429.pdf</s></a><ul><li><s>some documentation</s></li></ul
+></li></ul
+></li
+><li>Suovulan binääripatchätyt bootloaderit<ul><li><a href="https://github.com/HelsinkiHacklab/partyhatwork/tree/master/xmegabootloaders">https://github.com/HelsinkiHacklab/partyhatwork/tree/master/xmegabootloaders</a></li></ul
+></li
+><li>set fuses<ul><li><b>avrdude</b> -c avrisp2 -P usb -p <u>x32a4</u> -U fuse1:w:0x00:m -U fuse2:w:0x9F:m -U fuse4:w:0xFF:m -U fuse5:w:0xF0:m<ul><li>WDWP = 8CLK</li
+><li>WDP = 8CLK</li
+><li>BOOTRST = BOOTLDR &lt;- resetissä bootloaderiin</li
+><li>TOSCSEL = ALTERNATE &lt;- 32768 Hz kellokide PEx ja PEy (32a4)</li
+><li>BODPD&nbsp; = DISABLED</li
+><li>RSTDISBL = UNSET</li
+><li>SUT = 0MS</li
+><li>WDLOCK = UNSET</li
+><li>JTAGEN = DISABLED &lt;- B-portin 4 ylintä bittiä käyttöön (128a1)</li
+><li>BODACT = DISABLED</li
+><li>EESAVE SET</li
+><li>BODLVL 3V0</li></ul
+></li></ul
+></li
+><li>convert hex to bin for avrdude<ul><li><b>avr-objcopy</b> -I ihex -O binary atxmega<u>32a4</u>u_104_P<u>xy</u>.hex atxmega<u>32a4</u>u_104.bin</li></ul
+></li
+><li>program with AVRISPmkII<ul><li><b>avrdude</b> -e -c avrisp2 -P usb -p <i>x</i><u>32a4</u> -U boot:w:atxmega<u>32a4</u>u_104.bin<br/><br
+/></li></ul
+></li></ul
+><b>Tällä saadaan piiri menemään bootissa DFU-moodiin</b><br
+/><ul><li>short pin P<u>xy</u> to GND</li
+><li>connect USB-cable</li
+><li>in Linux<ul><li>lsusb<ul><li>...</li></ul
+></li></ul
+></li
+><li>in Mac OS X<ul><li><b>system_profiler</b> SPUSBDataType<ul><li>Etsi: Vendor ID: <b>0x03eb</b>&nbsp; (Atmel Corporation)</li
+><li>Laiteid:t vaihtelee bootloaderin version mukaan.<ul><li>32A4U sample: "Composite Device:, Product ID: <b>0x2fe4</b>, Vendor ID: <b>0x03eb</b>&nbsp; (Atmel Corporation), Version:&nbsp; 0.04, Speed: Up to 12 Mb/sec, Location ID: 0x1d100000 / 3, Current Available (mA): 500, Current Required (mA): 100"</li
+><li>128A1U sample: "DFU ATXMEGA128A1U:, Product ID: <b>0x2fed</b>, Vendor ID: <b>0x03eb</b>&nbsp; (Atmel Corporation), Version:&nbsp; 0.04, Speed: Up to 12 Mb/sec, Manufacturer: ATMEL, Location ID: 0x1d100000 / 3, Current Available (mA): 500, Current Required (mA): 100"</li></ul
+></li></ul
+></li></ul
+></li
+><li>upload with DFU<ul><li><b>dfu-programmer</b> atxmega<u>32a4</u>u flash xtest.hex<br/><br
+/><br/><br
+/></li></ul
+></li></ul
+>----hombrew updated formula (brew edit dfu-programmer)------<br
+/>require 'formula'<br
+/><br
+/>class DfuProgrammer &lt; Formula<br
+/>&nbsp; head '<a href="https://github.com/nedos/dfu-programmer.git">https://github.com/nedos/dfu-programmer.git</a>'<br
+/>&nbsp; homepage '<a href="https://github.com/nedos/dfu-programmer">https://github.com/nedos/dfu-programmer</a>'<br
+/><br
+/>&nbsp; depends_on 'libusb-compat'<br
+/><br
+/>&nbsp; def install<br
+/>&nbsp;&nbsp;&nbsp; system "./configure", "--disable-debug", "--disable-dependency-tracking",<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "--prefix=#{prefix}"<br
+/>&nbsp;&nbsp;&nbsp; system "make install"<br
+/>&nbsp; end<br
+/>end<br
+/>----/hombrew updated formula------<br
+/><br
+/><br
+/><b>-suovulan dfu-programmer korjaus 128A1U:lle, julkaistaan kun on paremmin testailtu-</b><br
+/><ul><li><a href="https://github.com/nedos/dfu-programmer">https://github.com/nedos/dfu-programmer</a></li
+><li>arguments.h add to <i>enum targets_enum </i>line ~105<ul><li><i>tar_atxmega128a1u,&nbsp;</i></li></ul
+></li
+><li>arguments.c add to <i>static struct target_mapping_structure target_map[]</i> line ~127<ul><li>{ "atxmega128a1u",&nbsp; tar_atxmega128a1u,&nbsp; adc_AVR32, 0x2FED, 0x03eb, 0x20000, 0x2000, true,&nbsp; 128, true,&nbsp; false, 32,&nbsp; 0x0800 },</li></ul
+></li
+><li><b>make</b></li
+><li><b>sudo make</b> install<br/><br
+/><br/><br
+/></li></ul
+><b>Binary batching different sense pin to DFU-bootloaders</b><br
+/><br
+/><i>/usr/local/CrossPack-AVR/avr/include/avr/iox32a4u.h</i><br
+/><i>/usr/local/CrossPack-AVR/avr/include/avr/iox128a1u.h</i><br
+/><br
+/><b>atxmega32a4u_104.hex</b> = <b>pin PC3</b><br
+/><ul><li>800A:&nbsp;&nbsp;&nbsp; 92 F0<b> 06 40</b>&nbsp;&nbsp;&nbsp; sts 0x640, R15&nbsp;&nbsp;&nbsp;&nbsp; // PORTC_DIR(<b>0x0640</b>)</li
+><li>8010:&nbsp;&nbsp;&nbsp; 93 00 <b>06 53</b>&nbsp;&nbsp;&nbsp; sts 0x653, R16&nbsp;&nbsp;&nbsp;&nbsp; // PORTC_PIN3CTRL(<b>0x0653</b>)</li
+><li>801C:&nbsp;&nbsp;&nbsp; 91 00 <b>06 48</b>&nbsp;&nbsp;&nbsp; lds R16, 0x648&nbsp;&nbsp;&nbsp; // PORTC_IN(<b>0x0648</b>)</li
+><li>8020:&nbsp;&nbsp;&nbsp; FF <b>03</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sbrs R16, 3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // PORT_PIN(<b>3</b>)</li
+><li>80DE:&nbsp;&nbsp;&nbsp; 92 F0 <b>06 53</b>&nbsp;&nbsp;&nbsp; sts 0x653, R15&nbsp;&nbsp;&nbsp;&nbsp; // PORTC_PIN3CTRL(<b>0x0653</b>)<br/><br
+/></li></ul
+><i>PC3 -&gt; PD3</i><br
+/>F092<b>4006</b>&nbsp;&nbsp;&nbsp; -&gt;&nbsp;&nbsp;&nbsp; F092<b>6006</b><br
+/>0093<b>5306</b>&nbsp;&nbsp;&nbsp; -&gt;&nbsp;&nbsp;&nbsp; 0093<b>7306</b><br
+/>0091<b>4806</b>&nbsp;&nbsp;&nbsp; -&gt;&nbsp;&nbsp;&nbsp; 0091<b>6806</b><br
+/><b>03</b>FF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt;&nbsp;&nbsp;&nbsp; <b>03</b>FF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
+/>F092<b>5306</b>&nbsp;&nbsp;&nbsp; -&gt;&nbsp;&nbsp;&nbsp; F092<b>7306</b><br
+/><br
+/>Pin 3 -&gt; 0<br
+/>0093<b>7306</b>&nbsp;&nbsp;&nbsp; -&gt;&nbsp;&nbsp;&nbsp; 0093<b>7006</b><br
+/><b>03</b>FF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt;&nbsp;&nbsp;&nbsp; <b>00</b>FF<br
+/>F092<b>7306</b>&nbsp;&nbsp;&nbsp; -&gt;&nbsp;&nbsp;&nbsp; F092<b>7006</b><br
+/><br
+/><i>PF0/5 -&gt; PJ7</i><br
+/>F092<b>A006</b>&nbsp;&nbsp;&nbsp; -&gt;&nbsp;&nbsp;&nbsp; F092<b>000</b>7<br
+/>0093<b>B506</b>&nbsp;&nbsp;&nbsp; -&gt;&nbsp;&nbsp;&nbsp; 0093<b>170</b>7<br
+/>0091<b>A806</b>&nbsp;&nbsp;&nbsp; -&gt;&nbsp;&nbsp;&nbsp; 0091<b>080</b>7<br
+/><b>00</b>FF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt;&nbsp;&nbsp;&nbsp; <b>07</b>FF<br
+/>F092<b>B506</b>&nbsp;&nbsp;&nbsp; -&gt;&nbsp;&nbsp;&nbsp; F092<b>170</b>7<br
+/><br
+/><i>PD0 -&gt; PE0</i><br
+/>F092<b>6006</b>&nbsp;&nbsp;&nbsp; -&gt;&nbsp;&nbsp;&nbsp; F092<b>8006</b><br
+/>0093<b>7006</b>&nbsp;&nbsp;&nbsp; -&gt;&nbsp;&nbsp;&nbsp; 0093<b>9006</b><br
+/>0091<b>6806</b>&nbsp;&nbsp;&nbsp; -&gt;&nbsp;&nbsp;&nbsp; 0091<b>8806</b><br
+/><b>00</b>FF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt;&nbsp;&nbsp;&nbsp; <b>00</b>FF<br
+/>F092<b>7006</b>&nbsp;&nbsp;&nbsp; -&gt;&nbsp;&nbsp;&nbsp; F092<b>9006</b><br
+/><br
+/><br
+/>PORTA_DIR = 0x0600, PORTA_IN = 0x0648, PORTA_PINxCTRL = 0x061x<br
+/>PORTB_DIR = 0x0620, PORTB_IN = 0x0628, PORTB_PINxCTRL = 0x063x<br
+/>PORTC_DIR = 0x0640, PORTC_IN = 0x0648, PORTC_PINxCTRL = 0x065x<br
+/>PORTD_DIR = 0x0660, PORTD_IN = 0x0668, PORTD_PINxCTRL = 0x067x<br
+/>PORTE_DIR = 0x0680, PORTE_IN = 0x0688, PORTE_PINxCTRL = 0x069x<br
+/>PORTF_DIR = 0x06A0, PORTF_IN = 0x06A8, PORTF_PINxCTRL = 0x06Bx<br
+/><br
+/>PORTH_DIR = 0x06E0, PORTH_IN = 0x06E8, PORTH_PINxCTRL = 0x06Fx<br
+/>PORTJ_DIR = 0x0700, PORTJ_IN = 0x0708, PORTJ_PINxCTRL = 0x071x<br
+/>PORTK_DIR = 0x0720, PORTK_IN = 0x0728, PORTK_PINxCTRL = 0x073x<br
+/><br
+/>PORTQ_DIR = 0x07C0, PORTQ_IN = 0x07C8, PORTQ_PINxCTRL = 0x07Dx<br
+/>PORTR_DIR = 0x07E0, PORTR_IN = 0x07E8, PORTR_PINxCTRL = 0x07Fx<br
+/><br
+/><br
+/></body>
+</html>
