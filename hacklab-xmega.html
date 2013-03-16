@@ -28,7 +28,7 @@
 ><li><a href="http://www.atmel.com/Images/doc8429.pdf"><s>http://www.atmel.com/Images/doc8429.pdf</s></a><ul><li><s>some documentation</s></li></ul
 ></li></ul
 ></li
-><li>Suovulan binääripatchätyt bootloaderit<ul><li><a href="https://github.com/HelsinkiHacklab/partyhatwork/tree/master/xmegabootloaders">https://github.com/HelsinkiHacklab/partyhatwork/tree/master/xmegabootloaders</a></li></ul
+><li>Suovulan binääripatchätyt bootloaderit<ul><li><a href="https://github.com/HelsinkiHacklab/partyhatwork/tree/master/software/xmegabootloaders">https://github.com/HelsinkiHacklab/partyhatwork/tree/master/software/xmegabootloaders</a></li></ul
 ></li
 ><li>set fuses<ul><li><b>avrdude</b> -c avrisp2 -P usb -p <u>x32a4</u> -U fuse1:w:0x00:m -U fuse2:w:0x9F:m -U fuse4:w:0xFF:m -U fuse5:w:0xF0:m<ul><li>WDWP = 8CLK</li
 ><li>WDP = 8CLK</li
@@ -145,6 +145,33 @@
 /><br
 />PORTQ_DIR = 0x07C0, PORTQ_IN = 0x07C8, PORTQ_PINxCTRL = 0x07Dx<br
 />PORTR_DIR = 0x07E0, PORTR_IN = 0x07E8, PORTR_PINxCTRL = 0x07Fx<br
+/><br
+/><br
+/><b><u>Atomiset käyskyt jotka löytyvät uudemmista xmegoista:</u></b><br
+/><br
+/>inline uint8_t <b>atomicExchange</b>(volatile uint8_t * ptr, uint8_t val) {<br
+/>&nbsp;&nbsp;&nbsp; // uint8_t tmp = *ptr; *ptr = val; val = tmp;&nbsp;<br
+/>&nbsp;&nbsp;&nbsp; asm volatile ("<b>xch</b>&nbsp;&nbsp;&nbsp; Z, %0" : "=r" (val)&nbsp;&nbsp;&nbsp; : "z" (ptr), "0" (val));<br
+/>&nbsp;&nbsp;&nbsp; return val;<br
+/>}<br
+/><br
+/>inline uint8_t <b>atomicLoadAndSet</b>(volatile uint8_t * ptr, uint8_t val) {<br
+/>&nbsp;&nbsp;&nbsp; // uint8_t tmp = *ptr; *ptr = tmp | val; val = tmp;<br
+/>&nbsp;&nbsp;&nbsp; asm volatile ("<b>las</b>&nbsp;&nbsp;&nbsp; Z, %0" : "=r" (val)&nbsp;&nbsp;&nbsp; : "z" (ptr), "0" (val));<br
+/>&nbsp;&nbsp;&nbsp; return val;<br
+/>}<br
+/><br
+/>inline uint8_t <b>atomicLoadAndClear</b>(volatile uint8_t * ptr, uint8_t val) {<br
+/>&nbsp;&nbsp;&nbsp; // uint8_t tmp = *ptr; *ptr = tmp &amp; ~val; val = tmp;<br
+/>&nbsp;&nbsp;&nbsp; asm volatile ("<b>lac</b>&nbsp;&nbsp;&nbsp; Z, %0" : "=r" (val)&nbsp;&nbsp;&nbsp; : "z" (ptr), "0" (val));<br
+/>&nbsp;&nbsp;&nbsp; return val;<br
+/>}<br
+/><br
+/>inline uint8_t <b>atomicLoadAndToggle</b>(volatile uint8_t * ptr, uint8_t val) {<br
+/>&nbsp;&nbsp;&nbsp; // uint8_t tmp = *ptr; *ptr = tmp ^ val; val = tmp;<br
+/>&nbsp;&nbsp;&nbsp; asm volatile ("<b>lat</b>&nbsp;&nbsp;&nbsp; Z, %0" : "=r" (val)&nbsp;&nbsp;&nbsp; : "z" (ptr), "0" (val));&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
+/>&nbsp;&nbsp;&nbsp; return val;&nbsp;&nbsp;&nbsp;&nbsp;<br
+/>}<br
 /><br
 /><br
 /></body>

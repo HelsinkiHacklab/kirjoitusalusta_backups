@@ -16,20 +16,43 @@
 />see also: <a href="http://www.thingiverse.com/thing:33325">http://www.thingiverse.com/thing:33325</a><br
 /><a href="http://www.flickr.com/photos/netlcom/7639700776/in/pool-hlt">http://www.flickr.com/photos/netlcom/7639700776/in/pool-hlt</a><br
 /><br
+/>Animations triggered over XBee: <a href="http://www.youtube.com/watch?v=EIru0xmfsWs">http://www.youtube.com/watch?v=EIru0xmfsWs</a><br
+/><br
+/><br
+/><s>Rambo has parts for 7 partyhatwork boards (sans XBee/Xmega) </s>(sold out), ~10EUR each,<br
 /><br
 />TODO:<br
 /><ul><li>open a github repo<ul><li><a href="https://github.com/HelsinkiHacklab/partyhatwork">https://github.com/HelsinkiHacklab/partyhatwork</a></li></ul
 ></li
-><li>design a board<ul><li>first revision ordered from china</li></ul
+><li>design a board<ul><li>first revision gotten from china: <a href="https://picasaweb.google.com/117987945710555324615/Photoblog#5822589179809438898">https://picasaweb.google.com/117987945710555324615/Photoblog#5822589179809438898</a></li></ul
 ></li
-><li>write basic software<ul><li>See <a href="hacklab-xmega.html">http://kirjoitusalusta.fi/hacklab-xmega</a> for compiling and flashing</li></ul
+><li>write basic software<ul><li>See <a href="hacklab-xmega.html">http://kirjoitusalusta.fi/hacklab-xmega</a> for compiling and flashing</li
+><li>We need some sort of lightweight library that will take care of the following<ul><li>UARTs (setting them up, reading data on interrupts, sending data in the background)</li
+><li>Timing (delays helpers and keeping track of system time, think millis() and delay() from Arduino)</li
+><li>Simple task-manager<ul><li><a href="http://bleaklow.com/2010/07/20/a_very_simple_arduino_task_manager.html">http://bleaklow.com/2010/07/20/a_very_simple_arduino_task_manager.html</a></li></ul
+></li
+><li>Power-control<ul><li>The idle-task should sleep the processor (woken by timer or serial activity)</li
+><li>The board has sense-resistors for battery voltage (PB1) and enabling high-current charge (drive PB0 LOW)</li></ul
+></li
+><li>USB-Serial profile ? (For debugging, and request 500mA current for high-current charge)</li></ul
+></li
+><li>And an example main program that will<ul><li>Example implementation of the baselevel XBee communication protocol<ul><li>Time sync</li
+><li>Animations (fades etc)</li
+><li>Reports some board ID/Name when queried</li></ul
+></li
+><li>global LED PWM adjust based on battery voltage sense ? (to keep brightness consistent and allow sizing the current-limiting resistors for lower than full-battery voltage)<ul><li>This can be avoided (at cost of higher battery drain) by populating the SOT223 regulator and using SJ2 to choose 3.3V instead of battery voltage for driving LEDs</li></ul
+></li
+><li>XBee watchdog that will reset the XBee (drive PD4 LOW) if the network master cannot be contacted (repeater-mode Xbees seem to be slow to reconnect)</li
+><li>Detect dumb charger or high-current enabled USB connection and enable charge current accordingly (see above)</li></ul
+></li></ul
 ></li
 ><li>test it (@hsf13)</li
 ><li>"encourage" as many people as possible to take part<br/><br
 /></li></ul
 >HAT SPECS:<br
-/><ul><li>at least one rgb led visible to all directions<ul><li>signal: r,g,b(,direction)?<br/><br
+/><ul><li>at least one rgb led visible to all directions<ul><li>signal: r,g,b(,direction)?</li></ul
+></li
+><li>Idea - fortune-cat attached on helmet!<br/><br
 /></li></ul
-></li></ul
 ></body>
 </html>

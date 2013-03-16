@@ -33,12 +33,58 @@
 ><li>Ilmatieteenlaitos saataisi olla kiinnostunut SATS:n mukaan</li
 ><li>aprs linkkiä voisi käyttää paikkatietoon: <a href="http://aprs.fi/#">http://aprs.fi/#</a>!lat=60.17560&amp;lng=24.93420</li
 ><li>Mietittiin että EPROM:ista voisi tehdä hyvin yksinkertaisen ja halvan sensorin kosmiselle säteilylle. Mietitään tätä lisää!<br/><br
-/><br/><br
-/><br/><br
 /></li></ul
 >Progress:<br
 /><br
+/>2013.02.27 Hankin styroxpallon (40 cm halkaisija) kondoliksi. Odroid sopii hyvin sisälle ja&nbsp;<br
+/>tila jää akuilekin. Ajattelin pinnoittaa pallon ulkopinnan avaruushuovalla.&nbsp;<br
+/><br
+/>2013.02.25<br
+/>Saatiin ODROID-X kehitysalusta CRD-systemsiltä projektia varten. Kiitos Tompalle. ARM-pohjainen sillä ajaa helposti LINUXIA kuten Androidia. Kortilta löytyy mm.&nbsp;<br
+/>1.4 GHz 4-core ARM, 304 GPIO-linjaa. 8 I2C lähtöä. 6 USB lähtöä. 5 UART:ia, 5MPix MPIO kamera, SPI, I2S, ja CAM väylätuki. eli ihan heti ei pitäisi linjat loppua ;-) Mitä nyt tarttis tehdä olis kääntää ODROID:n android uudestaan ilman LCD-tukea. LCD moodi syö valtaosan GPIO-liittimen nastoista ja on turha koska kortilta löytyy HDMI - of course<br
+/><br
+/>2013.02.12 ExTechOp (Otto) oli SATS:n toimistolla puhumassa aktiivien kanssa projektin tilasta. Jaettiin nakkeja lupaprosessien sekä vaikeampien komponenttien (kuten täyttökaasun) selvittämiseksi. Laitteen "aivojen" tueksi ajateltiin uusittua breakout-piirilevyä jota voitaisiin ilmeisesti myös käyttää rakettiprojekteissa. Aivoina voisi toimia jokin Cortex-pohjainen lauta ja/tai RasPi (jonka kanssa on kyllä hieman lämmöntuotanto-ongelmia).&nbsp; Tarkemmat muistiinpanot asiasta <a href="http://pollux.ayy.fi/rakettiforum/viewtopic.php?f=33&t=2127">http://pollux.ayy.fi/rakettiforum/viewtopic.php?f=33&amp;t=2127</a><br
+/>Halpoja piirilevyputiikkeja on muun muassa:<br
+/><ul><li><a href="http://www.seeedstudio.com/">http://www.seeedstudio.com/</a> (testattu vaihtoehto, Hacklabin suosikki tällä hetkellä)</li
+><li><a href="http://blog.iteadstudio.com/">http://blog.iteadstudio.com/</a></li
+><li><a href="http://smart-prototyping.com/">http://smart-prototyping.com/</a><br/><br
+/></li></ul
+>2013.02.10 Tampereelaiset on jo rakentaneet kondolin nyt on perkeleen kiire ettei ne saa ensimmäisenä suomen hacklabeistä ihmistä avaruuteen!!<br
+/><br
 />25.10.2012 Käytiin SATS:n järjestämässä kokouksessa (Haald, Otto) aihhesta ja saatiin paljon uutta tietoa aihhesta. Paikalla oli n30 SATS:n, Poluteknisen ilmailukerhon, ja Polluxin jäseniä. Lisäksi Radioamatöörejä ja muita kiiinnostuneita. Katsottiin Sovittin 3 uudesta kokouksesta syksyn aikana joissa keskustellaan lisää tekniikasta. Lisään joitakin linkkejä&nbsp; ja avainsanoja joita bongasin.<br
+/><br
+/>Kontaktit:<br
+/>Hegailijat<br
+/>Atte Korhonen,Toni Kärkkäinen,Markus Kaski<br
+/>SATS:<br
+/>Jorma Otonen, Petri Flander, Timo Toivonen(pollux,sats,pik) iso haisu team, Asko Ström(raketit, pallot,vety,sääpallot), MArkku Luisto (rocket scientist), Marja Komu (opiskelee Aalto1 teamissa avaruustekniikkaa), Markku Suominen (rakettikurssilainen, purjelentäjä)<br
+/>Kerhotila etelä-Haagassa (Alfa projekti)<br
+/><br
+/>POLLUX:<br
+/>'Timo Nikkanen (Aalto1 satelliitti), Lauri Kangas(kamerat), Riika Maria, Panu Lahtinen (mittamies), Antti Niskanen(pollux,sats), Eetu Ahonen, Samuli Vuorinen<br
+/><br
+/>mobotix -suom. UAV-firma<br
+/>Wouxung baufeng - radio saa halvalla, siitä saa VHF-lähetintimen ja muuta kamaa<br
+/>GFS-malli kuvaa pallon lentorataa datan saa ilmaiseksi<br
+/>GY86 gyro 20$ on yksi parhaista§<br
+/><br
+/>näistä puhuttiin avainsanoja: kamikaze-profiili, superpressure ball, USRP,GNU-radio,GPS-crackki,ilmari ja superilmari,APRS-lähetin(aprs.fi)<br
+/><br
+/>Opittiin:<br
+/>luotainpallot tehdään käsin<br
+/>RC-purjeveneiden ohjausjärjestelmää voi käyttää patjavarjon ohjaukseen<br
+/>Hybridiraketit tärisevät laukaisussa niin paljon ettei gyro-ohjausta voida käyttää<br
+/>ritsa on hyvä pallon alas-ampumiseksi puusta<br
+/>gondolin kansi liimataan kiinni<br
+/>jarruvarjo ei ole välttämätön<br
+/>useampi kamera 1 ylös, 1sivulle 1 alas<br
+/>luotainpallot myydään niiden painon mukaan esim&nbsp;<br
+/>400g pallo joitain kymppejä 2kg pallo pari sataa<br
+/>nyrkkisääntö pallon nostokyky on puolet sen massasta<br
+/>raskaat pallot yli 4kg oltava pudotettavissa<br
+/>35 kilometrin korkeudessa 300 kertaa enemmän resettejä<br
+/>amsat amatöörisatelliitti esim ihu2<br
+/>lentosäännöt löytyy ops m1-1 sanalla<br
 /><br
 /></body>
 </html>
