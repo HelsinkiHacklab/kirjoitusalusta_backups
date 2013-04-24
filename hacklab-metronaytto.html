@@ -11,10 +11,14 @@
 /><ul><li><a href="https://www.dropbox.com/sh/ia7ofm5d4jm92lp/vyNNTau_SD">https://www.dropbox.com/sh/ia7ofm5d4jm92lp/vyNNTau_SD</a><br/><br
 /></li></ul
 ><b>Videoita:</b><br
-/><ul><li><a href="http://www.youtube.com/watch?v=HZdKBqu0UWA">http://www.youtube.com/watch?v=HZdKBqu0UWA</a><br/><br
+/><ul><li><a href="http://www.youtube.com/watch?v=HZdKBqu0UWA">http://www.youtube.com/watch?v=HZdKBqu0UWA</a></li
+><li><a href="http://www.youtube.com/watch?v=Wn1OTIk8cpw">http://www.youtube.com/watch?v=Wn1OTIk8cpw</a><br/><br
 /></li></ul
 ><b>Infoa:</b><br
-/><ul><li><a href="http://sooda.dy.fi/tag/metrolaiturinäytöt/">http://sooda.dy.fi/tag/metrolaiturinäytöt/</a><br/><br
+/><ul><li><a href="http://sooda.dy.fi/tag/metrolaiturinäytöt/">http://sooda.dy.fi/tag/metrolaiturinäytöt/</a></li
+><li><a href="https://github.com/sooda/metro_station_display">https://github.com/sooda/metro_station_display</a></li
+><li>soodan disasm: <a href="http://sooda.dy.fi/2013/2/23/metrolaiturinayttojen-softa/files/program.lst">http://sooda.dy.fi/2013/2/23/metrolaiturinayttojen-softa/files/program.lst</a></li
+><li>kontrolleriboksin powerimoduuli PCM15E-1: <a href="http://www.cosel.co.jp/en/products/pdf/SFE_PMC.pdf">http://www.cosel.co.jp/en/products/pdf/SFE_PMC.pdf</a><br/><br
 /></li></ul
 ><b>Lokia:</b><br
 /><ul><li>2013-01-10 Raahattiin kolossi labille ihmeteltiin</li
@@ -23,11 +27,78 @@
 ><li>2013-03-14 'Hacklab' näytöllä!<ul><li><a href="https://www.dropbox.com/s/9qg1ru46afl0pw1/Hacklab2.jpg">https://www.dropbox.com/s/9qg1ru46afl0pw1/Hacklab2.jpg</a></li
 ><li>fonttien renderöinnissä on jotain <b>todella </b>älykästä logiikkaa, se valitsee kirjainten fontin siten, että kirjaimet eivät osu näyttöjen väleihin:</li
 ><li><a href="http://www.youtube.com/watch?v=HZdKBqu0UWA">http://www.youtube.com/watch?v=HZdKBqu0UWA</a></li
-><li>Scroller-koodi, joka näkyy Youtube-videossa, pohjana soodan disassembly:<ul><li><a href="https://dl.dropbox.com/u/39562463/eprom3.asm">https://dl.dropbox.com/u/39562463/eprom3.asm</a><br/><br
+><li>Scroller-koodi, joka näkyy Youtube-videossa, pohjana soodan disassembly:<ul><li><a href="https://dropbox.com/u/39562463/eprom3.asm">https://dropbox.com/u/39562463/eprom3.asm</a></li></ul
+></li></ul
+></li
+><li>2013-03-28 matkittiin modeemia ja saatiin alkuperäistyyliin tekstiä näytölle. Huomattiin, että eeprom-piiri oli resetoitunut tyhjäksi, ja korvattiin se epromilla, johon kirjoitettiin alkuperäinen data. Tekstiä saa ladattua eepromilta, jolloin mukaan tulee kellonaika (joka laskee itsestään alaspäin) ja junavaunugrafiikka, sekä sitä voi syöttää suoraan. Modeemille menevän rs232:n saa suoraan kiinni pc:n sarjaporttiin, 600 baud 7E1. Yhteys on jotenkin epäluotettava, kun joka kerta komennot eivät mene läpi.</li
+><li>2013-04-04 lcd-protokolla selvillä; väylälle omaa dataa teensyltä, alkuperäiseltä kortilta edelleen käyttikset ja 75 hertsin virkistys (?). doksit: <a href="https://github.com/sooda/metro_station_display">https://github.com/sooda/metro_station_display</a> helpointa nypätä i/o-piiri pois ja kytkeä teensyn johdot siihen.<br/><br
+/></li></ul
+><b>Disasm flowchart, ISO, 5355x7578 px:</b><br
+/><ul><li><a href="https://www.dropbox.com/s/85473gzgx2iryui/metro_flowchart.png">https://www.dropbox.com/s/85473gzgx2iryui/metro_flowchart.png</a><ul><li>Download -&gt; omalle koneelle, muuten dropboxi skaalaa pienemmäksi<br/><br
 /></li></ul
 ></li></ul
+><b>Emulaattorilla kaapatut IO-porttitapahtumat (Dezgeg 29.03):</b><br
+/><ul><li>Emulaattorina Win85: <a href="http://pythagoras.physics.upatras.gr/~gmanol/">http://pythagoras.physics.upatras.gr/~gmanol/</a><ul><li>8085-systeemeissä ilmeisesti kaikissa jokseenkin sama memory map (ts. ROM ja reset-vektori alhaalla), niin toimii ihan hyvin</li
+><li>Tukee mielivaltaisia io-laitteita, toteutettuna Windowsin .dll-tiedostoina</li
+><li>DLL-api reverse-engineerattu, ja kehitelty io-tapahtumat tiedostoon tulostava plugin</li></ul
+></li
+><li>Kaappaukset: <a href="http://www.cs.helsinki.fi/u/tmtynkky/boot-io-traces/">http://www.cs.helsinki.fi/u/tmtynkky/boot-io-traces/</a><ul><li>Numeroiduissa tiedostoissa on io-tapahtumat resetistä ULAM-HOG-tekstin tulostamisen loppuun asti, jaoteltuna kolmeen tiedostoon<ul><li>UARTtien ym. alustus, näytön tyhjennys, ja itse tekstin printtaus</li
+><li>Lisäksi kaapattu "Test: SPA n" arvoilla n = 0,1,2, sekä WD-testin kaikki segmentit täyttävä tulostus</li></ul
+></li
+><li>Laitteille ei ole mitään emulointia (read palauttaa aina nollan), niin tietenkään kaikki ei ihan vastaa oikeaa. Mutta toivottavasti edes tuosta saa purettua jotain.<br/><br
+/></li></ul
 ></li></ul
->Tämä voitaisin kirjoittaa puhtaaksi yhdessä jossain välissä:<br
+><b>LCD-väylän formaatti:</b><br
+/>Emulaattorin tulosteesta sai reverse-engineerattua väyläformaatin.<br
+/>Sanomalla esim. sort -u 3-ulam-hog.txt | grep 'out' saa kaikki ohjelmassa käytetyt PC-portti-arvo-kolmikot, joissa on tapahtunut IO-kirjoitus. Tuosta voi sitten päätellä esim. että ohjelman kohdassa PC = 4036 on kirjoitettu porttiin vaan ykkösbittiä. Tuolla tavoin saa filtteröityä pois kaikki ei-databittikirjoitukset.<br
+/><br
+/>Databitit saa siis eristettyä sanomalla "cat 3-ulam-hog.txt | egrep '408a|409b|40b4|40c5'".<br
+/>Yhteen normi-riviin (eli vaikkapa bootin ULAM-HOG) menee 2208 = 4 * 24 * 23 bittiä.<br
+/>Yhdessä paneelissahan on siis 24 saraketta, sarakkeessa 23 erimuotoista kolmiopikseliä, ja normirivillähän on se 4 paneelia. Kuvasta <a href="http://www.cs.helsinki.fi/u/tmtynkky/boot-io-traces/bittijarjestys.jpg">http://www.cs.helsinki.fi/u/tmtynkky/boot-io-traces/bittijarjestys.jpg</a> ilmenee pikseleiden muodot, joskaan suhteet eivät ole ihan oikein.<br
+/><br
+/>Ohjausta varten on jokainen sarake jaettu keskeltä kahtia, joten bittivirta on seuraavanlainen:<br
+/>&nbsp; 1. oikealta vasemmalle jokaisen sarakkeen (5 * 24) 12 ylintä pikseliä<br
+/>&nbsp; 2. vasemmalta oikealle jokaisen sarakkeen (5 * 24) 11 alinta pikseliä<br
+/>&nbsp; Edellä mainitussa kuvassa on numeroitu mikä bitti vastaa mitäkin pikseliä sarakkeessa.<br
+/>&nbsp;&nbsp;<br
+/>&nbsp; <a href="http://www.cs.helsinki.fi/u/tmtynkky/boot-io-traces/printline_decoder.py">http://www.cs.helsinki.fi/u/tmtynkky/boot-io-traces/printline_decoder.py</a> on ohjelma,<br
+/>&nbsp; jolla voi dekoodata bittivirran kuvaksi. Sieltä voi myös viime kädessä lukea miten tuo&nbsp;<br
+/>&nbsp; formaatti menee, mikäli selityksestä ei saanut selvää :). Screenshot:<br
+/>&nbsp; <a href="http://www.cs.helsinki.fi/u/tmtynkky/boot-io-traces/screeshot.png">http://www.cs.helsinki.fi/u/tmtynkky/boot-io-traces/screeshot.png</a><br
+/>&nbsp; Vaatii pygamen, ohjeet kommenteissa.&nbsp;<br
+/><br
+/><b>Fonttidata:</b><br
+/>Yleisesti fontista: merkin maksimileveys on 5 saraketta.<br
+/>Jokaisesta merkistä voi olla useita erileveyksisiä variantteja.<br
+/>Piirtokoodi valitsee fontista sellaiset variaatiot sekä merkkien välisen tyhjän tilan,<br
+/>että teksti mahtuu näytölle mahdollisimman kauniisti.<br
+/>Videosta <a href="http://www.youtube.com/watch?v=HZdKBqu0UWA">http://www.youtube.com/watch?v=HZdKBqu0UWA</a> voi nähdä, että<br
+/>esimerkiksi 'n' - kirjain esiintyy kolmella eri leveydellä.<br
+/>Merkkien kaventaminen tapahtuu jättämällä tietyt sarakkeet piirtämättä kokonaan.<br
+/><br
+/>Osoitteessa 0xD800 on fonttitaulukko. Joka merkille on 24 tavua, indeksoidaan yksinkertaisesti ascii-koodilla. Jokaista merkkiä varten on seuraavanlainen structi:<br
+/>- offset 0: merkin ASCII-koodi<br
+/>- offset 1: seuraavanlainen bittikenttä:<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - 6: onko merkkille fonttidataa vai ei<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - 0-2 ja 3-5: bittimaski välistystä (kerning) varten.<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Toinen merkin vasenta puolta ja toinen oikeaa puolta varten.<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Ei varmaa, että kumpi on kumpi).<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kahden merkin välinen tyhjä sarake voidaan jättää pois,<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mikäli binäärinen AND vasemman merkin oikean puolen bittimaskin<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ja oikean merkin vasemman puolen bittimaskin kanssa on 0<br
+/>- offset 2-3: Tuntematon 16-bittinen sana.<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ainoastaan alemman tavun ylemmällä nybblellä merkitys.<br
+/>- offset 4-13: 5 16-bittistä sanaa, yksi jokaista merkin saraketta kohti.<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ylemmät 4 bittiä sisältävät metadataa,<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; joka kertoo mitkä sarakkeet voidaan tarvittaessa jättää piirtämättä.<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tarkka formaatti tuntematon.<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Alemmat 12 bittiä kertoo mitkä pikselit ovat päällä kyseisen<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sarakkeen yläpuoliskossa (ks. yllä lcd-väylän kuvauksesta)<br
+/>- offset 14-23: 5 16-bittistä sanaa joka saraketta kohti.<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Kertoo vastaavasti kunkin sarakkeen alapuoliskon päällä<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; olevat pikselit.<br
+/><br
+/>Tämä voitaisin kirjoittaa puhtaaksi yhdessä jossain välissä:<br
 /><br
 /><b>Reverse engineering:&nbsp;</b><br
 /><br
@@ -198,7 +269,7 @@
 /><br
 />LCD segment parameter:<br
 />&nbsp;&nbsp;&nbsp; The PrintString takes in HL a word describing which segment to fill. Values used are:<br
-/>&nbsp;&nbsp;&nbsp; (Also, the N and T commands)<br
+/>&nbsp;&nbsp;&nbsp; (Also, the N and T commands)h<br
 />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - 0x101 for the finnish text<br
 />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - 0x201 for the swedish text<br
 />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - 0x301 for the clock?<br
@@ -230,9 +301,6 @@
 />#1ffe-#1fff: Taikanumerot 0x17. Nämä ilmaisevat merkkijononkopiointirutiineille<br
 />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ROM:n loppumisen. Samaan tapaan MHELS-signaturen 0x17<br
 />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; kertoo ROM:n toisen pään, sillä hakurutiini tekee läpikäynnin lopusta alkuun.<br
-/><br
-/>Jonkinnäköinen fonttitaulukko löytyy offsetista 0x6800, 24 tavua/merkki.<br
-/>Sekunttivilkuttimen merkit ovat muuten 0xb5-0xb8<br
 /><br
 />Disclaimer, ylläoleva on *puhtaasti* disassembloimalla saatua tietoa, ihme jos tuolla ei jotain virheitä ole. Assembly-puolen koodista vapaasti saa kysellä, varmaan ehdin vastatakin joskus.<br
 /><br
@@ -267,7 +335,22 @@
 /></li></ul
 >-- jari<br
 /><br
+/>Mä olen purakunut osoitteesta 4000H alkavaa koodia<br
 /><br
+/>L4000: hyppää suoraan L59A1<br
+/>L59A1: kopioi parametrit pinoon jäejestyksessä L, H, DE<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; kutsu rutiinia L56E4<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; poista L, H ja DE pinosta ja palaa<br
+/>L56E4: Varaa tilaa pinosta (lokaaleille muuttujille) 6 tavua (eli 3 sanaa)<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tarkista, että L &lt;=3 ja H&lt;= 2. Jos ei poista 6 tavua pinosta ja palaa<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Jos parametrit on oikein, hyppää labeliin L571B<br
+/>L570E: edellisen apulabeli (nollaa Zero flagin)<br
+/>L5711: L56E4:n apulabel (jos Zero flagi ei asetettu, poista varatut 6 tavua pinosta ja palaa)<br
+/>L5B52: hl &lt;= de paluuarvo Zero flagissa (0=false, 1=true) toteutettu vaihtamalla rekisterit<br
+/>L5B53: de &lt;= hl paluuarvo kuten ylhäällä<br
+/>L5B62: edellisen apulabeli (erisuuruuden tarkastelu jos hl de erimerkkiset)<br
+/><br
+/>--juha<br
 /><br
 /></body>
 </html>
