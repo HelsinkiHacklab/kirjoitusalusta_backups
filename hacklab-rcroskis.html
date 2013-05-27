@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-us" />
+<title>/hacklab-rcroskis</title>
+</head>
+<body><b>RC ohjattu 600l roska-astia</b><br
+/><br
+/>ref Kennel Helsinki<br
+/><br
+/>----<br
+/>Moi&nbsp;<br
+/>Saanen sanoa muutaman sanan.<br
+/>Teimme Robosodan puitteissa joskus vähän vastaavan projektin, mm radio-ohjattava jääkaappi ja pesukone.&nbsp;<br
+/>Käytimme noissa akkuporakoneen moottoreita. Moottorit pitää modata jotta saadaan momenttisäätö pois. Täällä hyvä ohje: <a href="http://www.kolumbus.fi/rex/akkuporan_modaus_ohjeet.html">http://www.kolumbus.fi/rex/akkuporan_modaus_ohjeet.html</a><br
+/>Nopeudensäätimien tyyppiä en muista mutta jokin jenkkiläisen robokaupan säädin, hyvä mutta kallis. Akkuporakonee moottorille voisi riittää hyvin esim. Robbe Rookie 25 säädin. Edullinen pakilla varustettu säädin. Jokaiselle moottorille yksi. Ohjaus noille säätimille esim GWS:n V-tail mikserin kautta, jos radio- ohjaimessa&nbsp; ei ole tuota ominaisuutta. V-mikserillä saadaan aikaiseksi ns. tankki ohjaus.&nbsp; Minulta löytyis ainakin tuo V-mikseri ja varmaan pari rookie säädintäkin lainaan. Rungon moottoreille, pyörille ja muulle roipeelle teimme yksinkertaisesti puusta. Akkuna 12V 18Ah lyijyakku.<br
+/>Muuten olen niin kiinni muissa projekteissa etten pysty auttamaan rakennusprojektissa, vaikka mieli tekisikin.&nbsp;<br
+/><br
+/>T:Petri&nbsp;<br
+/>----<br
+/><br
+/>v-mikseri tehty Arduino softassa (kts padin loppu), H-sillat (aka nopeudensäätimet) on Arduinon päällä shieldissä (12A jatkuvaa virtaa per moottori kertaa 2 moottoria)<br
+/><br
+/>/Rambo<br
+/>----<br
+/><br
+/><b>Tilanne 2013.05.11</b><br
+/><ul><li>Näillä näkymin <b>mekaniikka ei tule tapahtumaan</b> (klo 18 ja kukaan ei ole käynyt läbillä osoittamassa minkäännäköistä kiinnostusta asian konkreettiseen edistämiseen)</li
+><li>Tutkailun jälkeen todettu: Takapyörien (eli vetävien pyörien) z-akselin ympäri pyörimisen lukitseminen on pysyvä muutos (pitää hitsata tai porata laakerien läpi, näihin ei ole "undo- nappia") ja tätä <b>ei kannata tehdä </b>ellei ole 100% varmaa että kaikki muukin tulee valmiiksi ajoissa.</li
+><li>Moottorit laitettu takaisin porakoneiden runkoihin ja johdot tuotu rungosta läpi.<br/><br
+/><br/><br
+/></li></ul
+><b>Tilanne 2013.05.09</b><br
+/><ul><li>Akkuporakoneet purettu<ul><li>Tosin kannattanee laittaa ne moottorit takaisin porien runkoihin ja vetää johdot ulos niin saa helpommin kiinni.</li></ul
+></li
+><li>Rambo testannut Arduinolla RC-vastaanottoa ja porista purettujen moottorien ajoa<ul><li>Hyvin toimii, softa padin lopussa, ardu, shieldi yms pöydällä moottorien vieressä.</li></ul
+></li
+><li>Rambo toimittanut auton akun läbille jota voi käyttää virtalähteenä.</li
+><li>Mekaniikka yhä täysin vaiheessa<ul><li>Rambo sopinnut Stadi Mallarien Henttosen kanssa että la on mahdollista käydä Inarintiellä työstämässä metallia mikäli tarpeen.<br/><br
+/></li></ul
+></li></ul
+><b>Tilanne 2013.05.07</b><br
+/><br
+/>Astia läbillä, ja pohdittu on:<br
+/><br
+/><ul><li>Ei voi laittaa isoja renkaita tai kitkarullia koska näkyy kuvissa (kuvakulma sellaisia)</li
+><li>Omat renkaat ehkä pidoltaan riittävät</li
+><li><br/><br/><br
+/></li></ul
+>Kokeillaan: polkupyörän rattaat kiinni takarenkaisiin josta ketju sisään ja Biltema CD12 ruuvinvääntimellä pyöritellään toista ratasta<br
+/><br
+/>rambolla on pololun motor driver shieldi (muistaakseni VNH5019) jolla voi ohjata ruuvinvääntimien moottoreita kuhan kaivellaan johdot esiin (ja otetaan syöttö autonakusta).<br
+/><br
+/>jaronekolta saatiin lainaa radiolaitteet, kytketään arduun joka tulkkaa signaalit moottoriohjaimelle.<br
+/><br
+/>Otin yhden pyörän irti tarkasteltavaksi (pajassa). jos ruuvivääntimessä on kiristettävä sokka voisi olla mahdollista kiinnittää se suoraan pyörän akseliin ilman välityksiä jolloin vetäviä pyöriä voisi kääntää. Olen helatorstaina paikalla jos rakennetaan hökötys silloin. Mulla on hakatty lennokkisofta odroidille jolla voi ohjata pololulua joystickillä wlanin yli.<br
+/><br
+/>Mitä jos polkupyörän ratas ottaisi suoraan kiinni maahan eikä pyörään?<br
+/><br
+/><a href="http://www.biltema.fi/fi/Tyokalut/Sahkotyokalut/Porakone-akkukayttoinen/Porakone-ja-ruuvinvaannin-CD-12-V-17358/">http://www.biltema.fi/fi/Tyokalut/Sahkotyokalut/Porakone-akkukayttoinen/Porakone-ja-ruuvinvaannin-CD-12-V-17358/</a><br
+/><br
+/><a href="http://www.pololu.com/catalog/product/2502">http://www.pololu.com/catalog/product/2502</a><br
+/><br
+/><br
+/><br
+/>Voisin tuoda torstaina vähän omia robokamoja labille, niistä voisi olla jotain iloa. Löytyy tehokkaita moottorinohjaimia ja yksi robotti minkä saisi esim. suoraan pultattua roskiksen pohjaan kiinni.&nbsp; --Eipou<br
+/><br
+/>Heitin keskiviikkona labille kaksi vanerilevyä ja kaksi noita tusinavääntimiä Biltemasta..<br
+/><br
+/>Moottorit renkaiden vieressä ei mielestäni toimi, koska ne saattaa ottaa kipeetä kuvaustilanteessa ja näkyvätkin aika ilkeästi. Rakennelman olisi hyvä olla sellainen, että koko Labin varikkotiimin ei tarvitse päivystää kuvauspaikalla.<br
+/><br
+/>Hankittavaa olisi ainakin vielä:&nbsp;<br
+/><ul><li>Pyörän ketjua,</li
+><li>4 x identtisiä ketjurattaita&nbsp;<ul><li>Kannattaisko kuitenkin ottaa joku 1:2 välitys tms &lt;- rambo<br/><br
+/></li></ul
+></li></ul
+>Lanttu<br
+/><br
+/>---------BEGIN: Arduino RC vastaanotto ja Pololu ohjaussofta ----<br
+/>// Get this from <a href="https://github.com/pololu/Dual-VNH5019-Motor-Shield">https://github.com/pololu/Dual-VNH5019-Motor-Shield</a><br
+/>#include "DualVNH5019MotorShield.h"<br
+/>DualVNH5019MotorShield md;<br
+/>// Get this from <a href="https://github.com/rambo/PinChangeInt_userData">https://github.com/rambo/PinChangeInt_userData</a><br
+/>#include "PinChangeInt_userData.h"<br
+/><br
+/>#define SERVO_MIDDLE 1500<br
+/><br
+/>// To hold data for reach RC input pin.<br
+/>typedef struct {<br
+/>&nbsp;&nbsp;&nbsp; const uint8_t pin;<br
+/>&nbsp;&nbsp;&nbsp; volatile unsigned long start_micros;<br
+/>&nbsp;&nbsp;&nbsp; volatile unsigned long stop_micros;<br
+/>&nbsp;&nbsp;&nbsp; volatile boolean new_data;<br
+/>&nbsp;&nbsp;&nbsp; uint16_t servo_position; // microseconds<br
+/>} RCInput;<br
+/><br
+/>// Initialize the inputs to an array<br
+/>RCInput inputs[] = {<br
+/>&nbsp;&nbsp;&nbsp; { A4, 0, 0, false, SERVO_MIDDLE }, // Forward/backward<br
+/>&nbsp;&nbsp;&nbsp; { A5, 0, 0, false, SERVO_MIDDLE }, // Left/right<br
+/>};<br
+/>const uint8_t inputs_len = sizeof(inputs) / sizeof(RCInput);<br
+/><br
+/>// Speeds for the left &amp; right motors<br
+/>int16_t left_speed = 0;<br
+/>int16_t right_speed = 0;<br
+/><br
+/>// Called whenever a control pulse ends<br
+/>void rc_pulse_low(void* inptr)<br
+/>{<br
+/>&nbsp;&nbsp;&nbsp; RCInput* input = (RCInput*)inptr;<br
+/>&nbsp;&nbsp;&nbsp; input-&gt;stop_micros = micros();<br
+/>&nbsp;&nbsp;&nbsp; input-&gt;new_data = true;<br
+/>}<br
+/><br
+/>// Called whenever a control pulse starts<br
+/>void rc_pulse_high(void* inptr)<br
+/>{<br
+/>&nbsp;&nbsp;&nbsp; RCInput* input = (RCInput*)inptr;<br
+/>&nbsp;&nbsp;&nbsp; input-&gt;new_data = false;<br
+/>&nbsp;&nbsp;&nbsp; input-&gt;start_micros = micros();<br
+/>}<br
+/><br
+/>// Calculates the servo position, called from the mainloop whenever there is new data<br
+/>void calc_servo_position(void* inptr)<br
+/>{<br
+/>&nbsp;&nbsp;&nbsp; RCInput* input = (RCInput*)inptr;<br
+/>&nbsp;&nbsp;&nbsp; input-&gt;servo_position = (uint16_t)(input-&gt;stop_micros - input-&gt;start_micros);<br
+/>&nbsp;&nbsp;&nbsp; input-&gt;new_data = false;<br
+/>}<br
+/><br
+/>int16_t clip_md_speed(int16_t spd)<br
+/>{<br
+/>&nbsp;&nbsp;&nbsp; if (spd &gt; 400)<br
+/>&nbsp;&nbsp;&nbsp; {<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spd = 400;<br
+/>&nbsp;&nbsp;&nbsp; }<br
+/>&nbsp;&nbsp;&nbsp; if (spd &lt; -400)<br
+/>&nbsp;&nbsp;&nbsp; {<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; spd = -400;<br
+/>&nbsp;&nbsp;&nbsp; }<br
+/>&nbsp;&nbsp;&nbsp; return spd;<br
+/>}<br
+/><br
+/>int16_t map_rc_to_speed(uint16_t servo_position)<br
+/>{<br
+/>&nbsp;&nbsp;&nbsp; return clip_md_speed(servo_position - SERVO_MIDDLE);<br
+/>}<br
+/><br
+/>void stopIfFault()<br
+/>{<br
+/>&nbsp; if (md.getM1Fault())<br
+/>&nbsp; {<br
+/>&nbsp;&nbsp;&nbsp; Serial.println(F("M1 fault"));<br
+/>&nbsp;&nbsp;&nbsp; md.setSpeeds(0,0);<br
+/>&nbsp;&nbsp;&nbsp; while(1);<br
+/>&nbsp; }<br
+/>&nbsp; if (md.getM2Fault())<br
+/>&nbsp; {<br
+/>&nbsp;&nbsp;&nbsp; Serial.println(F("M2 fault"));<br
+/>&nbsp;&nbsp;&nbsp; md.setSpeeds(0,0);<br
+/>&nbsp;&nbsp;&nbsp; while(1);<br
+/>&nbsp; }<br
+/>}<br
+/><br
+/><br
+/>void setup()<br
+/>{<br
+/>&nbsp;&nbsp;&nbsp; Serial.begin(115200);<br
+/>&nbsp;&nbsp;&nbsp; Serial.println(F("RC controlled dual VNH5019 Motor Shield"));<br
+/>&nbsp;&nbsp;&nbsp; md.init();<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;<br
+/>&nbsp;&nbsp;&nbsp; // Attach pin change interrupts for the RCInputs<br
+/>&nbsp;&nbsp;&nbsp; for (uint8_t i=0; i &lt; inputs_len; i++)<br
+/>&nbsp;&nbsp;&nbsp; {<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PCintPort::attachInterrupt(inputs[i].pin, &amp;rc_pulse_high, RISING, &amp;inputs[i]);<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PCintPort::attachInterrupt(inputs[i].pin, &amp;rc_pulse_low, FALLING, &amp;inputs[i]);<br
+/>&nbsp;&nbsp;&nbsp; }<br
+/>&nbsp;&nbsp;&nbsp; Serial.println(F("Booted"));<br
+/>}<br
+/><br
+/>volatile unsigned long last_report_time = millis();<br
+/>int16_t lrspeed = 0;<br
+/>int16_t fbspeed = 0;<br
+/>void loop()<br
+/>{<br
+/>&nbsp;&nbsp;&nbsp; // Stop and hang if motor driver has fault<br
+/>&nbsp;&nbsp;&nbsp; stopIfFault();<br
+/><br
+/>&nbsp;&nbsp;&nbsp; // Check inputs for new data<br
+/>&nbsp;&nbsp;&nbsp; for (uint8_t i=0; i &lt; inputs_len; i++)<br
+/>&nbsp;&nbsp;&nbsp; {<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (inputs[i].new_data)<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; calc_servo_position(&amp;inputs[i]);<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br
+/>&nbsp;&nbsp;&nbsp; }<br
+/><br
+/>&nbsp;&nbsp;&nbsp; lrspeed = map_rc_to_speed(inputs[1].servo_position);<br
+/>&nbsp;&nbsp;&nbsp; if (lrspeed != 0)<br
+/>&nbsp;&nbsp;&nbsp; {<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; left_speed = lrspeed;<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; right_speed = -1 * lrspeed;<br
+/>&nbsp;&nbsp;&nbsp; }<br
+/>&nbsp;&nbsp;&nbsp; else<br
+/>&nbsp;&nbsp;&nbsp; {<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; left_speed = 0;<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; right_speed = 0;<br
+/>&nbsp;&nbsp;&nbsp; }<br
+/>&nbsp;&nbsp;&nbsp; fbspeed = map_rc_to_speed(inputs[0].servo_position);<br
+/>&nbsp;&nbsp;&nbsp; left_speed += fbspeed;<br
+/>&nbsp;&nbsp;&nbsp; right_speed += fbspeed;<br
+/><br
+/><br
+/>&nbsp;&nbsp;&nbsp; // Set speeds<br
+/>&nbsp;&nbsp;&nbsp; left_speed = clip_md_speed(left_speed);<br
+/>&nbsp;&nbsp;&nbsp; right_speed = clip_md_speed(right_speed);<br
+/>&nbsp;&nbsp;&nbsp; md.setSpeeds(left_speed, right_speed);<br
+/><br
+/>&nbsp;&nbsp;&nbsp; // Report positions every second<br
+/>&nbsp;&nbsp;&nbsp; if (millis() - last_report_time &gt; 200)<br
+/>&nbsp;&nbsp;&nbsp; {<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for (uint8_t i=0; i &lt; inputs_len; i++)<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Serial.print(F("Channel "));<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Serial.print(i, DEC);<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Serial.print(F(" position "));<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Serial.print(inputs[i].servo_position, DEC);<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Serial.print(F(" speed "));<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Serial.println(map_rc_to_speed(inputs[i].servo_position), DEC);<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Serial.print(F("Left motor speed "));<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Serial.println(left_speed, DEC);<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Serial.print(F("Right motor speed "));<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Serial.println(right_speed, DEC);<br
+/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last_report_time = millis();<br
+/>&nbsp;&nbsp;&nbsp; }<br
+/>}<br
+/>---------END: Arduino RC vastaanotto ja Pololu ohjaussofta ----<br
+/><br
+/><br
+/></body>
+</html>

@@ -35,8 +35,8 @@
 /><br
 /><b>Status 2012-09-03</b><br
 /><br
-/>uniconvertor:in kääntäminen OSX:lle onnistui, Moshin HPGL tuen todellista tilaa en ole vielä ehtinyt testaamaan, vinkkiä kääntämiseen: <a href="http://www.qaiku.com/home/rambo/show/1bfd9a6cf5bb11e1a6da6903363627ca27ca/">http://www.qaiku.com/home/rambo/show/1bfd9a6cf5bb11e1a6da6903363627ca27ca/</a><br
-/><br
+/>uniconvertor:in kääntäminen OSX:lle onnistui, Moshin HPGL tuen todellista tilaa en ole vielä ehtinyt testaamaan, vinkkiä kääntämiseen: <a href="http://www.qaiku.com/home/rambo/show/1bfd9a6cf5bb11e1a6da6903363627ca27ca/"><s>http://www.qaiku.com/home/rambo/show/1bfd9a6cf5bb11e1a6da6903363627ca27ca/</s></a><br
+/>(qaiku lopetettu :( )<br
 />update: kääntyi vaan ei toiminut, ainakaan inkscapen kanssa :(<br
 /><br
 /><b>Status 2012-08-24</b><br
@@ -64,15 +64,18 @@
 ><li>Tämän jälkeen tallenna tiedosto nimelle "jobi.bmp"</li></ul
 ></li
 ><li>Avaa Moshidraw ja ota "File" -&gt; "New from template", valitse mitoiksi pari mm yli kappaleesi mitat</li
-><li>Vasemmalta löytyy ikoni "load image" (niiden hämärien kiinalaismongolikirjoitusmerkki-ikonien yläpuolella), lataa "jobi.bmp", <b>aloita ulkoviivasta.</b></li
+><li>Vasemmalta löytyy ikoni "load image" (niiden hämärien kiinalaismongolikirjoitusmerkki-ikonien yläpuolella), ikonin painamisen jälkeen paina ~keskelle työalaa lataa "jobi.bmp", <b>aloita ulkoviivasta.</b></li
 ><li>Sijoittele kuva keskelle työaluetta niin että x ja y ovat jotain järkeviä tasalukuja, kirjoita nämä luvut ylös. Tallenna jobi ja valitse "Output" -&gt; "Allpage", itse output sivulla säädä asetukset kohdalleen (ruksi "outline", 20mm on hyvä nopeus) ja output napista valitase laaduksi 7, "Use" pois.&nbsp;</li
 ><li>Varmista että laserissa on paperi jolla testataan kohdistus, että teho on ~5mA ja ylävalikosta "move" komennoilla siirrä aloituspiste järkevään, esim 30/25 (x/y). Paina ok ja kun ulkoviiva on ajettu paperiin tarkista että se on järkevä. Mikäli ei niin säädä kunnes on (tähän tarvinnet apua joltakulta joka on käyttänyt laseria enemmän)</li
 ><li>Sulje output ikkuna, tallenna jobi</li
 ><li>Lopuille jobeille taas "File" -&gt; "New from template" samoilla mitoilla ja "Add image", laita X/Y koodinaatieksi luodulle objektille sama kuin ulkoviivalla (tämä on ilmeisesti kuvan keskikohdan koordinaatti Moshin koordinaatistossa).<ul><li>On hyvä ajatus katsoa kohdistukset jälleen paperille ensin ja tallentaa jobit</li></ul
 ></li
-><li>Kun kaikkien jobien kohdistus on testattu voi etsiä/kysyä jostain sopivat leikkausnopeus/teho -asetukset valitsemallesi materiaalille ja ajaa jobit oikeasti levyyn.<br/><br
+><li>Kun kaikkien jobien kohdistus on testattu voi etsiä/kysyä jostain sopivat leikkausnopeus/teho -asetukset valitsemallesi materiaalille ja ajaa jobit oikeasti levyyn.<ul><li>Lähtökohtaisesti on parempi leikata nopeasti monta kertaa kuin hitaasti vähemmän kertoja (erityisesti jos ei ole 100% varma että focus on varmasti täydellisesti kohdallaan [pro tip: ei tasan varmasti koskaan ole])<br/><br
 /></li></ul
->Vaihtoehtoisesti inkscapen svg:stä voi konvertoida suoraan bmp:ksi seuraavalla skriptillä: <a href="http://basscadet.fi/pub/laser.sh">http://basscadet.fi/pub/laser.sh</a> tai <a href="http://basscadet.fi/pub/laser.bat">http://basscadet.fi/pub/laser.bat</a><br
+></li></ul
+>Leikkausalan maksimikokoa lähentelevillä jobeilla voi olla tarpeen tehdä pienempi DPI exportti ja sitten elää epätarkkuuksien kanssa (koska wanha läppärinraato ei vaan jaksa ladata niin isoja kuvia siihen moshiin)<br
+/><br
+/>Vaihtoehtoisesti inkscapen svg:stä voi konvertoida suoraan bmp:ksi seuraavalla skriptillä: <a href="http://basscadet.fi/pub/laser.sh">http://basscadet.fi/pub/laser.sh</a> tai <a href="http://basscadet.fi/pub/laser.bat">http://basscadet.fi/pub/laser.bat</a><br
 /><br
 /><s>Bitmap taiteilun sijaan voi kokeilla myös tallentaa Inkspesta suoraan HPGL:ksi mutta se vaatii UniConverter-moduulin[1] joiden kääntäminen ainakin Snow Leopardilla on tähän mennessä osoittautunut todella haastavaksi.</s><br
 /><br
