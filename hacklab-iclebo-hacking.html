@@ -104,6 +104,30 @@
 /><br
 />1.1. Moottorien pudottaminen alkuperäisen elektroniikan ohjattavaksi ja komentaminen etsimään latausasemaa toimii.<br
 /><br
+/><u>Robotin ARM-prossun debug-portit</u><br
+/><br
+/>* Boardilta löytyvät 8-nastainen (J12) ja 10-nastainen (J9) liitin<br
+/><br
+/>8-nastaisen liittimen J12 nastat, kytketty ARMiin:<br
+/><br
+/>Pin&nbsp;&nbsp;&nbsp; Function<br
+/>1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VDD<br
+/>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; USART1_TX (CPU:n nasta 68)<br
+/>3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; USART1_RX (CPU:n nasta 69)<br
+/>4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GND<br
+/>5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VDD<br
+/><br
+/>10-nastaisen liittimen J9 nastat, kytketty ARMiin:<br
+/><br
+/>Pin&nbsp;&nbsp;&nbsp; Function<br
+/>1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JTAG TMS (CPU:n nasta 72)<br
+/>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JTAG TRST (90)<br
+/>3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JTAG TDI (77)<br
+/>4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -<br
+/>5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JTAG TCK (76)<br
+/>6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JTAG TDO (89)<br
+/><br
+/>CPU:n datasheet: <a href="http://www.st.com/web/en/resource/technical/document/datasheet/CD00161561.pdf">http://www.st.com/web/en/resource/technical/document/datasheet/CD00161561.pdf</a><br
 /><br
 />Ideoita robotin designiksi:<br
 />Miten olisi nukkumatti? itäsaksalainen lastensankari joka tuli aina jollain jännällä kuluneuvolla. Muistaakseni sillä oli joskus avaruusalus tai reki tms.. kersat tykkäisi<br

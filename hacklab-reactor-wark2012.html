@@ -1,86 +1,197 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-reactor-wark2012</title>
-</head>
-<body><b>Wärk 2012 / Hacklab reaktoriprojekti</b><br
-/><br
-/>Asioita joita pitää muistaa tuoda mukana (jokainen koodari tuokoon lisäksi oman läppärinsä ja sen perustarpeet)<br
-/><br
-/><b>Audio</b><br
-/><ul><li>Jaronin iso subbari<ul><li>rambolta 500W vahvistin (tässä speakon-liittimet)</li
-><li>Johdot vahvistin-&gt;sub, 3m riittänee (Jaronilta)</li
-><li>Johdot subwoofer-out -&gt; vahvistin in, 2m riittänee, rambon vahvistimessa balansoitu stereoplugi-input ja speakon kaiuttimille (Jaronilta RCA-RCA-johto ja RCA-6.3mm-adapteri)</li></ul
-></li
-><li>Jotkut keski/korkeaääni -stereokaiuttimet (Mackie MR5S:t Jaronilta)<ul><li>vahvistin (Rambon Yammu)</li
-><li>johdot vahvistin-&gt;kaiuttimet, 3m riittänee (Jaronilta)</li></ul
-></li
-><li>Jakosuodin tai stereovahvistin jossa erillinen pre-out subbarille<ul><li>Rambolla on se 5.1 vahvistin "turhana" jossa on pre-outit kaikelle.</li></ul
-></li
-><li>3.5mm stereoplugi -&gt; RCA sovitin/johto (2m riittänee)</li
-><li><br/><br/><br
-/></li></ul
-><b>Muu esitystekniikka</b><br
-/><ul><li>Savukone<ul><li>Ja nestettä</li
-><li>Ja ohjauskaapeli (6.3mm stereoplugi molemmissa päissä)</li
-><li>Ja ohjausyksikkö (siltä varalta että arDuBUS ohjausta ei saada toimimaan)</li></ul
-></li
-><li>Spotteja ?</li
-><li>Strobo(ja) ?</li
-><li><br/><br/><br
-/></li></ul
-><b>Olemassaolevat propit</b><br
-/><ul><li>Rambon CCCP kaasunaamari (läbillä)<ul><li>Vain koristeeksi</li></ul
-></li
-><li>Rambon musta kaasunaamari jossa särö<ul><li>Tätä voi käyttää NBC-suoja-asun kanssa</li></ul
-></li
-><li>Tsekki-taikaviitat ("NBC-suoja-asu", rambon varastossa)</li
-><li>Valkoiset hatut (kirkkonummella)</li
-><li>Valkoiset haalarit (vanhat on rambolla)</li
-><li>"Geigermittari"<ul><li>ja varaparisto (9V ladattava)</li
-><li>ja laturi<br/><br
-/></li></ul
-></li></ul
-><b>Hankittavat/tehtävät propit</b><br
-/><ul><li>Valkoiset labratakit (Etrasta ?)</li
-><li>Lisää haalareita ?<br/><br
-/><br/><br
-/></li></ul
-><b>Itse Rejaktori</b><br
-/><ul><li>Reaktorikonsoli</li
-><li>Reaktorikannen matto</li
-><li>Reaktorikannen puuosat (näille pitää kehittää joku järkevämpi kuljetusmetodi kuin tähän mennessä)</li
-><li>Punainen vilkkuvalo</li
-><li>Ohjauskone (se rambon iMacci)<ul><li>Näppis ja hiiri<br/><br
-/></li></ul
-></li></ul
-><b>ATK</b><br
-/><ul><li>USB-johtoja<ul><li>A-B</li
-><li>A-Mini</li
-><li>Jatko (ainakin 1 vahvistimella varustettu)</li></ul
-></li
-><li>USB-hubi virransyötöllä (konsolissa on 1, mutta toinen varoiksi)</li
-><li>5-8port ethernet switch (että saadaan reaktorin ohjauskone ja koodaajan läppäri kiinni toisiinsa järkevästi), 100M riittää.</li
-><li><br/><br/><br
-/></li></ul
-><b>Sekalainen sälä</b><br
-/><ul><li>220V jatkojohtoja/jakorasioita</li
-><li>voimavirta-työmaakeskus (josta saadaan vikavirtasuojattuna meille 220V sähköt)</li
-><li>tuoleja (näistä ei haluta maksaa messuhintoja, pöydistä lienee pakko)<ul><li>Ainakin 1 puoliasiallinen työtuoli</li
-><li>Loput voi olla vaikka jotain säkkituoleja jos saadaan kinuttua lainaan jostain<br/><br
-/><br/><br
-/></li></ul
-></li></ul
-><b>Kenttäkorjausvälineet</b><br
-/><ul><li>Kolvaustarvikket<ul><li>kolvi</li
-><li>tinaa</li
-><li>tinaimuri</li></ul
-></li
-><li>Yleismittari</li
-><li>johtoa</li
-><li>taskuskooppi<br/><br
-/></li></ul
-></body>
+<!DOCTYPE html PUBLIC
+	  "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fi" xml:lang="fi">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="fi-fi" />
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+    <title>Kirjoitusalusta.fi: Luo uusi tila?</title>
+    <base href="" />
+
+    <!-- CSS -->
+    <link href="static/compressed/bae9ad83f251c03094f37c1acd9035c4.css.html" rel="stylesheet" type="text/css" />
+
+    
+
+    <!-- javascript -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17968704-1']);
+  _gaq.push(['_setDomainName', '.kirjoitusalusta.fi']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+    <script type="text/javascript">
+  // <![CDATA[
+var clientVars = {"hooks":{}};
+  // ]]>
+</script>
+    <script type="text/javascript" src="static/compressed/3737c1d435394b567219d40d24f601f4.js.html"></script>
+    
+
+  </head>
+
+  <body id="padbody" class="nonpropad">
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div id="padpage">
+    <div id="padtop">
+      <div id="topbar">
+	
+	<div id="topbarleft"><!-- --></div>
+	
+	
+	<div id="topbarright"><!-- --></div>
+	
+	
+	<div id="topbarcenter">
+
+	  <a href="http://kirjoitusalusta.fi/" id="topbarBrand">Kirjoitusalusta.fi</a>
+        
+
+            
+	<div id="fullscreen" onclick="$('body').toggleClass('maximized');">Koko ruutu</div>
+
+	  <a href="javascript:void(0);" onclick="$('body').toggleClass('maximized');" id="topbarmaximize" title="Koon säätö"></a>
+	</div>
+        
+	<div id="specialkeyarea"><!-- --></div>
+      </div>
+      <div id="alertbar">
+	<div id="servermsg">
+	  <h3>Server Notice<span id="servermsgdate"><!-- --></span>:</h3>
+	  <a id="hidetopmsg" href="javascript: void pad.hideServerMessage()">hide</a>
+	  <p id="servermsgtext"><!-- --></p>
+	</div>
+      </div>
+      <div id="navigation">
+        
+      </div>
+
+      <div id="docbar" class="menu">
+	<table border="0" cellpadding="0" cellspacing="0" width="100%" id="docbartable">
+	  <tr>
+	    <td><img src="static/img/jun09/pad/roundcorner_left.gif.html"></td>
+            
+  <td id="docbarpadtitle"><span>Uuden ty&ouml;tilan luonti</span></td>
+
+	    <td width="100%">&nbsp;</td>
+            
+	    
+	    <td><img src="static/img/jun09/pad/roundcorner_right_orange.gif.html"></td>
+	  </tr>
+	</table>
+        
+        
+        
+      </div><!-- /docbar -->
+    </div>
+
+    
+
+    <div id="padmain">
+      <script>
+	$(document).ready(function () {
+	  makeResizableHPane("#padeditor", "#vdraggie", "#padsidebar", 0, 0, 10, -22);
+	});
+      </script>
+      <div id="padeditor">
+	<div id="editbar" class="disabledtoolbar">
+          <div id="editbarinner">
+	    
+	    <div id="editbarleft"><!-- --></div>
+	    
+	    <div id="editbarright"><!-- --></div>      
+	    
+	    <div id="editbarinner">
+	      <table cellpadding="0" cellspacing="0" border = "0" id="editbartable">
+		<tr>
+		  
+  <td>
+    <h1>http://kirjoitusalusta.fi/hacklab-reactor-wark2012-html ei sis&auml;ll&auml; viel&auml; mit&auml;&auml;n</h1>
+  </td>
+
+		  
+		  <td width="100%">&nbsp;</td>
+		</tr>
+	      </table>
+	      <table cellpadding="0" cellspacing="0" border = "0" id="editbarsavetable">
+		<tr>
+		  
+		  
+		</tr>
+	      </table>
+	      
+	      
+	    </div>
+          </div>
+	</div>
+	<div id="editorcontainerbox">
+  <div id="editorcontainer">
+  </div>
+</div>
+      </div><!-- /padeditor -->
+
+      <div id="vdraggie"><!-- --></div>
+
+      <div id="padsidebar">
+  <div id="padsidebarfull">
+  </div>
+</div> 
+    </div><!-- /padmain -->
+
+  </div><!-- /padpage -->
+
+  
+  <script>
+   $(document).ready(function () {
+     padmodals.showModal("#createbox");
+   });
+  </script>
+  <div id="modaloverlay"><div id="modaloverlay-inner"><!-- --></div></div>
+
+  <div id="mainmodals">
+    <div id="createbox" class="modaldialog">
+      <div id="createbox-inner" class="modaldialog-inner">
+	<form action="ep/pad/create.html" method="post">
+	  <input type="hidden" name="padId" value="hacklab-reactor-wark2012-html" />
+	  <input type="submit" id="createPad" class="bigbutton" value="Avaa uusi ty&ouml;tila" />
+	</form>
+        <div style="clear: both;"></div>
+      </div>
+    </div>
+  </div>
+
+
+
+ 
+
+  </body>
 </html>
+ 
