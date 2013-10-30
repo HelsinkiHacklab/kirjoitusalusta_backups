@@ -1,38 +1,66 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-ArduinoComic-Page-11</title>
-</head>
-<body>PAGE 11: Digital output&nbsp;<br
-/>Panel 41:<br
-/>Drawing: Breadboard attached to Arduino with LED attached<br
-/>(In text panel): The anode is connected to pin 2 on the Arduino through a 220 ohm resistor. The cathode is connected to ground. Pins 2 through 13 can be configured as digital inputs or outputs. Click new button to start a sketch.<br
-/><br
-/>Panel 42:<br
-/>Drawing: Script on white shape<br
-/>void setup() {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; pinMode(2, OUTPUT);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>}<br
-/>void loop() {<br
-/>&nbsp; digitalWrite(2, HIGH);&nbsp;&nbsp;<br
-/>&nbsp; delay(500);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; digitalWrite(2, LOW);&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; delay(500);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>}<br
-/>(In text panel): In setup, we set pin 2 to be an output. In loop, first we set pin 2 high which lights the led. Delay pauses 500 milliseconds, or half a second. When pin 2 is set low, the LED goes off, we pause another half second.<br
-/><br
-/>Panel 43:&nbsp;<br
-/>Drawing: buttons on Arduino IDE interface. Text labels buttons with pointing arrows (red 10 pt type bold)<br
-/>Labels:<br
-/>Verify button<br
-/>Upload button<br
-/>(In text panel): Click verify on the menu to check your code. If there aren’t any errors, click upload to put your program on the Arduino.<br
-/><br
-/>Panel 44:<br
-/>Drawing: 2 panels, LED glows on, LED off<br
-/>(In text panel): The LED blinks on for half a second, then blinks off for half a second, over and over again.<br
-/><br
-/></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-ArduinoComic-Page-11
+  </title>
+ </head>
+ <body>
+  PAGE 11: Digital output
+  <br/>
+  Panel 41:
+  <br/>
+  Drawing: Breadboard attached to Arduino with LED attached
+  <br/>
+  (In text panel): The anode is connected to pin 2 on the Arduino through a 220 ohm resistor. The cathode is connected to ground. Pins 2 through 13 can be configured as digital inputs or outputs. Click new button to start a sketch.
+  <br/>
+  <br/>
+  Panel 42:
+  <br/>
+  Drawing: Script on white shape
+  <br/>
+  void setup() {
+  <br/>
+  pinMode(2, OUTPUT);
+  <br/>
+  }
+  <br/>
+  void loop() {
+  <br/>
+  digitalWrite(2, HIGH);
+  <br/>
+  delay(500);
+  <br/>
+  digitalWrite(2, LOW);
+  <br/>
+  delay(500);
+  <br/>
+  }
+  <br/>
+  (In text panel): In setup, we set pin 2 to be an output. In loop, first we set pin 2 high which lights the led. Delay pauses 500 milliseconds, or half a second. When pin 2 is set low, the LED goes off, we pause another half second.
+  <br/>
+  <br/>
+  Panel 43:
+  <br/>
+  Drawing: buttons on Arduino IDE interface. Text labels buttons with pointing arrows (red 10 pt type bold)
+  <br/>
+  Labels:
+  <br/>
+  Verify button
+  <br/>
+  Upload button
+  <br/>
+  (In text panel): Click verify on the menu to check your code. If there aren’t any errors, click upload to put your program on the Arduino.
+  <br/>
+  <br/>
+  Panel 44:
+  <br/>
+  Drawing: 2 panels, LED glows on, LED off
+  <br/>
+  (In text panel): The LED blinks on for half a second, then blinks off for half a second, over and over again.
+  <br/>
+  <br/>
+ </body>
 </html>

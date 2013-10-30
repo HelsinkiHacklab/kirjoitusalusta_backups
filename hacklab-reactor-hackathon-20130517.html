@@ -1,54 +1,137 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-reactor-hackathon-20130517</title>
-</head>
-<body><b>Reaktori-hackathon 17-19.5 | Reactorsim hackathon 17-19-5 @Kirkkonumi</b><br
-/><br
-/><a href="https://i.chzbgr.com/maxW500/7380372992/h1D0016ED/">https://i.chzbgr.com/maxW500/7380372992/h1D0016ED/</a><br
-/><a href="http://xkcd.com/323/">http://xkcd.com/323/</a><br
-/><br
-/>Perjantaina DTH (Distin Tiimissä Hamssiksi) sessio ennen saunaa, hackathon alkaa saunan jälkeen (kun ollaan saavutettu Ballmer Peak). Reaktorin ohessa mahdollisesti myös partyhatwork-toimintaa.<br
-/><br
-/>Lauantaina mahdollisuus excursioida Eeppiseen Markkinalauantaihin: <a href="http://www.varusteleka.fi/fi/page/24241">http://www.varusteleka.fi/fi/page/24241</a> (mikäli mennään niin tähdätään heti aamukymppiin ja jossain järkiajassa pois).<br
-/><br
-/><br
-/>Omat koneet, pullot ja pyyhkeet mukaan.<br
-/><br
-/>Ohjelmassa koodausta (lähinnä Pythonia, jos jotain pitää oikeasti optimoida niin katsotaan sitten case-by-case mitä tehdään [todnäk se optimoitava kama liittyy gst:n käyttöön joten c/c++/Vala]), saunaa ja oleilua.<br
-/><br
-/>Tavoitteita:<br
-/><br
-/><ul><li>DBUS -&gt; ZeroMQ migraatio</li
-><li>Virtuaalikonsolit ajantasalle (nyt QML:lää mutta voi tietty tehdä jollain muullakin toolkitillä)<ul><li>Nämä tarvitaan että itse pelilogiikkaa voi testailla ilman että tarttee olla fyysisten konsolien äärellä koko ajan.</li></ul
-></li
-><li>coms-konsoli toimintakuntoon ?<ul><li>tähän tarvitaan raspberry pi tms suoraan komposiittia ulosantava vehje</li></ul
-></li
-><li>Lyhyt esitys Turun konsolista<ul><li><a href="hacklab-turku-gridsim.html">http://kirjoitusalusta.fi/hacklab-turku-gridsim</a><br/><br
-/></li></ul
-></li></ul
-><b>English:</b><br
-/><br
-/>As per subject, bring your own bottles, towels and computers.<br
-/><br
-/>There will be coding (mainly Python, if something absolutely, positively has to be optimized then we'll look at that case-by-case), sauna and general hanging around.<br
-/><br
-/>Goals:<br
-/><br
-/><ul><li>Migrate from DBUS to ZeroMQ</li
-><li>Get the virtual consoles working again (current implementation uses QML, but another GUI toolkit can be used)<ul><li>Needed for game logic testing and development.</li></ul
-></li
-><li>Get the coms-console working ?</li
-><li>A short demo of Turku's console<br/><br
-/></li></ul
-><b>Osallistujat/Participants:</b><br
-/><ul><li>rambo (17-19.5)</li
-><li>dist (17.-19.5.)</li
-><li>jautero (17-18.5)</li
-><li>netl (alustavasti mukana)</li
-><li>suovula (17.5)<br/><br
-/></li></ul
-></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-reactor-hackathon-20130517
+  </title>
+ </head>
+ <body>
+  <b>
+   Reaktori-hackathon 17-19.5 | Reactorsim hackathon 17-19-5 @Kirkkonumi
+  </b>
+  <br/>
+  <br/>
+  <a href="https://i.chzbgr.com/maxW500/7380372992/h1D0016ED/">
+   https://i.chzbgr.com/maxW500/7380372992/h1D0016ED/
+  </a>
+  <br/>
+  <a href="http://xkcd.com/323/">
+   http://xkcd.com/323/
+  </a>
+  <br/>
+  <br/>
+  Perjantaina DTH (Distin Tiimissä Hamssiksi) sessio ennen saunaa, hackathon alkaa saunan jälkeen (kun ollaan saavutettu Ballmer Peak). Reaktorin ohessa mahdollisesti myös partyhatwork-toimintaa.
+  <br/>
+  <br/>
+  Lauantaina mahdollisuus excursioida Eeppiseen Markkinalauantaihin:
+  <a href="http://www.varusteleka.fi/fi/page/24241">
+   http://www.varusteleka.fi/fi/page/24241
+  </a>
+  (mikäli mennään niin tähdätään heti aamukymppiin ja jossain järkiajassa pois).
+  <br/>
+  <br/>
+  <br/>
+  Omat koneet, pullot ja pyyhkeet mukaan.
+  <br/>
+  <br/>
+  Ohjelmassa koodausta (lähinnä Pythonia, jos jotain pitää oikeasti optimoida niin katsotaan sitten case-by-case mitä tehdään [todnäk se optimoitava kama liittyy gst:n käyttöön joten c/c++/Vala]), saunaa ja oleilua.
+  <br/>
+  <br/>
+  Tavoitteita:
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    DBUS -&gt; ZeroMQ migraatio
+   </li>
+   <li>
+    Virtuaalikonsolit ajantasalle (nyt QML:lää mutta voi tietty tehdä jollain muullakin toolkitillä)
+    <ul>
+     <li>
+      Nämä tarvitaan että itse pelilogiikkaa voi testailla ilman että tarttee olla fyysisten konsolien äärellä koko ajan.
+     </li>
+    </ul>
+   </li>
+   <li>
+    coms-konsoli toimintakuntoon ?
+    <ul>
+     <li>
+      tähän tarvitaan raspberry pi tms suoraan komposiittia ulosantava vehje
+     </li>
+    </ul>
+   </li>
+   <li>
+    Lyhyt esitys Turun konsolista
+    <ul>
+     <li>
+      <a href="./hacklab-turku-gridsim.html">
+       http://kirjoitusalusta.fi/hacklab-turku-gridsim
+      </a>
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   English:
+  </b>
+  <br/>
+  <br/>
+  As per subject, bring your own bottles, towels and computers.
+  <br/>
+  <br/>
+  There will be coding (mainly Python, if something absolutely, positively has to be optimized then we'll look at that case-by-case), sauna and general hanging around.
+  <br/>
+  <br/>
+  Goals:
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Migrate from DBUS to ZeroMQ
+   </li>
+   <li>
+    Get the virtual consoles working again (current implementation uses QML, but another GUI toolkit can be used)
+    <ul>
+     <li>
+      Needed for game logic testing and development.
+     </li>
+    </ul>
+   </li>
+   <li>
+    Get the coms-console working ?
+   </li>
+   <li>
+    A short demo of Turku's console
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Osallistujat/Participants:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    rambo (17-19.5)
+   </li>
+   <li>
+    dist (17.-19.5.)
+   </li>
+   <li>
+    jautero (17-18.5)
+   </li>
+   <li>
+    netl (alustavasti mukana)
+   </li>
+   <li>
+    suovula (17.5)
+    <br/>
+    <br/>
+   </li>
+  </ul>
+ </body>
 </html>

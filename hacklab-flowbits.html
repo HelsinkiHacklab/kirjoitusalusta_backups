@@ -1,187 +1,656 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-flowbits</title>
-</head>
-<body><b><u>Flowbits - rectangular blocks that can be connected together to form circuits.</u></b><br
-/><br
-/>(TODO: Better name?)<br
-/><br
-/><b>Basic concepts</b><br
-/><ul><li>Blocks attach to each other with magnets.&nbsp; Power lines are on top of magnets.</li
-><li>There is one power block that supplies power.</li
-><li>The signal is transmitted digitally between each block (using IR light).</li
-><li>Each block typically has one output signal that it broadcasts to all neighbors, and uses the neighbors output signals for some of its parameters.</li
-><li>There is one generic computational block that can be set to different modes / functions.</li
-><li>There might also be other types of blocks eventually¸ e.g. sensor blocks, motor blocks, tentacle blocks, light driver blocks, wall power remote control blocks, etc..</li
-><li>Dimensions of block probably around 7x7 to 8x8 cm, leaves room for 4xAA battery case and fits nicely in hand.<ul><li>Rectangular grid allows for double sized or odd sized blocks too (e.g. one to two octave piano keyboard block).<br/><br
-/></li></ul
-></li></ul
-><b><u>Blocks</u></b><br
-/><br
-/><b>Powerblock</b><br
-/><ul><li>4xAA battery holder</li
-><li>DC 5V input jack</li
-><li>PWM output drivers x 6 (one for each edge, encode value to 0..full output cycle)</li
-><li>Servo outputs x 6 (one for each edge, encode incoming edge value to servo position</li
-><li>(Power switch)</li
-><li>Builtin speaker would be nice too.<br/><br
-/></li></ul
-><b>Sensor Block</b><br
-/><ul><li><br/><br/><br
-/><br/><br
-/></li></ul
-><b>General computation block</b><br
-/><ul><li>ATMega microcontroller, 4 RGB leds, potentiometer for navigation and parameter adjustment, 4 clickable edges, 2x7 segment led screen</li
-><li>Each mode has a number of parameters, whose values can be set with the rotating wheel to a specific value, or to the (average) value of specified neighbor output(s), or maybe to more complex functions (simple signal / noise generators)</li
-><li>Available modes (followed by parameters for the mode):<ul><li>Signal generator<ul><li>Waveform<ul><li>Sine, Square, Sawtooth, etc</li></ul
-></li
-><li>Frequency</li
-><li>Amplitude</li></ul
-></li
-><li>Noise generator</li
-><li>Sequencer</li
-><li>Random melody / sequence generator</li
-><li>Mixer</li
-><li>Filter</li
-><li>Delay filter (echo, reverb, etc effects)</li
-><li>RGB signal visualizator</li
-><li>Neural network / game of life nodes (4 of them, one for each side)</li
-><li>etc<br/><br
-/></li></ul
-></li></ul
-><b>Part list (for general computation block):</b><br
-/><ul><li>Rotary encoder x1<ul><li><a href="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&name=987-1398-ND">http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=987-1398-ND</a></li
-><li>10 pcs: 0.93900 / a</li></ul
-></li
-><li>Microcontroller x1&nbsp;<ul><li>ATMega 328 PU<ul><li><a href="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&name=ATMEGA328-PU-ND">http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=ATMEGA328-PU-ND</a></li
-><li>3.05&nbsp; (25 pieces: 1.91 / a)</li></ul
-></li
-><li>or AT90USB162 (builtin usb support, surface mount)<ul><li><a href="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&name=AT90USB162-16AU-ND">http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=AT90USB162-16AU-ND</a></li
-><li>2.88 (25 pieces: 1.8 / a)</li></ul
-></li></ul
-></li
-><li>Resonator 16 Mhz x1<ul><li>Digikey<ul><li><a href="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&name=490-1214-ND">http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=490-1214-ND</a></li
-><li>10 pcs: 0.399 / a</li></ul
-></li
-><li>Futurlec<ul><li><a href="http://www.futurlec.com/Crystals/RESON16M0P3pr.shtml">http://www.futurlec.com/Crystals/RESON16M0P3pr.shtml</a></li
-><li>0.2 / a</li></ul
-></li></ul
-></li
-><li>Capacitors x2<ul><li>Filter caps for microcontroller<ul><li>(Close to zero, already have)</li></ul
-></li
-><li>Power cap for scratchy contact<ul><li>47uF or similar electrolyte</li></ul
-></li></ul
-></li
-><li>Protection diode for power polarity<ul><li>~0.5 - 1 A @ 6V</li></ul
-></li
-><li>Resistors<ul><li>Series resistors for RGB lights, LED segment display..<ul><li>LED Segment display: 14 (or 16) resistors</li
-><li>RGB Leds: 12 resistors</li
-><li>Maybe use resistor networks for saved space and improved sanity</li
-><li>Resistor network, 7 resitors, 8 pin, 220 Ohm: (maybe a bit too expensive)<ul><li>Digikey<ul><li><a href="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&name=4608X-1-221LF-ND">http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=4608X-1-221LF-ND</a></li
-><li>0.25 / a when 50+</li></ul
-></li
-><li>Futurlec<ul><li><a href="http://www.futurlec.com/ResNetworks.shtml">http://www.futurlec.com/ResNetworks.shtml</a></li
-><li>220ohm 9 Resistor Network (10 pins)&nbsp;&nbsp;</li
-><li>0.25 / a&nbsp;</li></ul
-></li></ul
-></li></ul
-></li
-><li>Combination resistors for tilt switch, 4 of different unique values (high accuracy, we'll get 16 different values that we need to differentiate after A/D)</li></ul
-></li
-><li>IR Leds, 940 nm, 3mm x4<ul><li>Digikey<ul><li><a href="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&name=754-1241-ND">http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=754-1241-ND</a></li
-><li>0.11 / a when 25+</li></ul
-></li
-><li>Futurlec<ul><li><a href="http://www.futurlec.com/LED/INF3940pr.shtml">http://www.futurlec.com/LED/INF3940pr.shtml</a></li
-><li>0.13 / a when 25+</li></ul
-></li></ul
-></li
-><li>IR transistors 940nm x4<ul><li>Digikey<ul><li><a href="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&name=1080-1158-ND">http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=1080-1158-ND</a></li
-><li>0.21 / a when 10+</li></ul
-></li
-><li>Futurlec<ul><li><a href="http://www.futurlec.com/LED/INFD3940TRANSpr.shtml">http://www.futurlec.com/LED/INFD3940TRANSpr.shtml</a></li
-><li>0.15 a</li></ul
-></li></ul
-></li
-><li>RGB Leds, common anode, diffuse x4<ul><li>0.25 / a from ebay seller for 100+</li></ul
-></li
-><li>Tactile swithces x 4<ul><li><a href="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&name=450-1650-ND">http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=450-1650-ND</a></li
-><li>0.056 / a when 50+</li></ul
-></li
-><li>LED Dual 7 Segment screen x1&nbsp;<ul><li>Futurlec<ul><li><a href="http://www.futurlec.com/LED/7DR5621BSpr.shtml">http://www.futurlec.com/LED/7DR5621BSpr.shtml</a></li
-><li>0.75 / a when under 25</li></ul
-></li></ul
-></li
-><li>Magnets x 8<ul><li><a href="http://www.dealextreme.com/p/super-strong-rare-earth-square-re-magnets-100-pack-51744"><u>http://www.dealextreme.com/p/super-strong-rare-earth-square-re-magnets-100-pack-51744</u></a></li
-><li>0.144 / a when 100+<ul><li>Tilattu</li></ul
-></li></ul
-></li
-><li>Plastic cover material - diffuse, translucent white or darker plastic, preferably something not as brittle as acrylic</li
-><li>Plastic case, 3D printed?</li
-><li>PCB (smaller than total footprint)</li
-><li>Programming header?</li
-><li>Shift register, 74HC595<b> </b>x2<ul><li>Through hole<ul><li><a href="http://www.futurlec.com/74HC/74HC595pr.shtml">http://www.futurlec.com/74HC/74HC595pr.shtml</a></li
-><li>$0.5</li
-><li>$0.42 when 25+</li
-><li>$0.35 when 100+</li></ul
-></li
-><li>SMD version (SOIC)<ul><li><a href="http://www.futurlec.com/74HC/74HC595SMDpr.shtml">http://www.futurlec.com/74HC/74HC595SMDpr.shtml</a></li
-><li>$0.15<br/><br
-/><br/><br
-/></li></ul
-></li></ul
-></li></ul
->Parts to be ordered from three sources, digikey, futurlec, and dealextreme + 3D printed case.&nbsp; Maybe ponocos german partner for a lasercut top surface ~2€ /a when ordering 25.<br
-/><br
-/><b>Cost: 8.86 + case plastic, pcb etc -&gt; ~10$(+)</b><br
-/><br
-/>TODO: LEDs need sources and sink capable of driving them, atmega only supports max 25-30mA per pin, and max 110mA total.<br
-/><br
-/>Need 4 sinks for<br
-/><ul><li>3 RGB channels</li
-><li>1 x 4 IR sender leds (one channel) (could also be source-driven)<br/><br
-/></li></ul
->Need 6 sources for<br
-/><ul><li>2 (or 3) led segment displays (selecting character to light up)</li
-><li>4 RGB Leds, for selecting directions to light up<br/><br
-/><br/><br
-/><br/><br
-/></li></ul
->7 darlington transistors sink<br
-/><ul><li><a href="http://www.futurlec.com/Linear/ULN2003Apr.shtml">http://www.futurlec.com/Linear/ULN2003Apr.shtml</a><ul><li>$0.3 / a for 25+</li></ul
-></li
-><li><a href="http://www.futurlec.com/Linear/MC1413Ppr.shtml">http://www.futurlec.com/Linear/MC1413Ppr.shtml</a><ul><li>$0.26 / a for 25+<br/><br
-/></li></ul
-></li></ul
->Single PNP transistor<br
-/><ul><li><a href="http://www.futurlec.com/Transistors/PN2907Apr.shtml">http://www.futurlec.com/Transistors/PN2907Apr.shtml</a><ul><li>0.6A, 500mW dissipation, high gain.</li
-><li>$0.04 / a for 100+</li
-><li>Most widely used, so use this by default</li></ul
-></li
-><li><a href="http://futurlec.com/Transistors/MPS2907Apr.shtml">http://futurlec.com/Transistors/MPS2907Apr.shtml</a><ul><li>$0.04 / a for 100+</li></ul
-></li
-><li><a href="http://futurlec.com/Transistors/2SA1515pr.shtml">http://futurlec.com/Transistors/2SA1515pr.shtml</a><ul><li>$0.04 / a for 100+<br/><br
-/></li></ul
-></li></ul
->We have two reels (~4k pcs) of PNP SMD transistors (100mA) at the lab.<br
-/><br
-/><br
-/>Single NPN sink transistor<br
-/><ul><li><a href="http://futurlec.com/Transistors/KTC3203pr.shtml">http://futurlec.com/Transistors/KTC3203pr.shtml</a></li
-><li>~$0.04 / a for 100+</li
-><li>Not very common, but available from futurlec.&nbsp; Substitutable with any NPN transistor with hfe &gt; 100, voltage 20+, and currect handling of more than 500mA<br/><br
-/><br/><br
-/></li></ul
->metal strip for holding magnets (thin copper?)<br
-/><ul><li>or trap them in a wire loop?<br/><br
-/></li></ul
->-&gt; About $0.05 per source or sink -&gt; + $0.5<br
-/><br
-/><br
-/><br
-/><br
-/><br
-/></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-flowbits
+  </title>
+ </head>
+ <body>
+  <b>
+   <u>
+    Flowbits - rectangular blocks that can be connected together to form circuits.
+   </u>
+  </b>
+  <br/>
+  <br/>
+  (TODO: Better name?)
+  <br/>
+  <br/>
+  <b>
+   Basic concepts
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Blocks attach to each other with magnets.  Power lines are on top of magnets.
+   </li>
+   <li>
+    There is one power block that supplies power.
+   </li>
+   <li>
+    The signal is transmitted digitally between each block (using IR light).
+   </li>
+   <li>
+    Each block typically has one output signal that it broadcasts to all neighbors, and uses the neighbors output signals for some of its parameters.
+   </li>
+   <li>
+    There is one generic computational block that can be set to different modes / functions.
+   </li>
+   <li>
+    There might also be other types of blocks eventually¸ e.g. sensor blocks, motor blocks, tentacle blocks, light driver blocks, wall power remote control blocks, etc..
+   </li>
+   <li>
+    Dimensions of block probably around 7x7 to 8x8 cm, leaves room for 4xAA battery case and fits nicely in hand.
+    <ul>
+     <li>
+      Rectangular grid allows for double sized or odd sized blocks too (e.g. one to two octave piano keyboard block).
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   <u>
+    Blocks
+   </u>
+  </b>
+  <br/>
+  <br/>
+  <b>
+   Powerblock
+  </b>
+  <br/>
+  <ul>
+   <li>
+    4xAA battery holder
+   </li>
+   <li>
+    DC 5V input jack
+   </li>
+   <li>
+    PWM output drivers x 6 (one for each edge, encode value to 0..full output cycle)
+   </li>
+   <li>
+    Servo outputs x 6 (one for each edge, encode incoming edge value to servo position
+   </li>
+   <li>
+    (Power switch)
+   </li>
+   <li>
+    Builtin speaker would be nice too.
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Sensor Block
+  </b>
+  <br/>
+  <ul>
+   <li>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   General computation block
+  </b>
+  <br/>
+  <ul>
+   <li>
+    ATMega microcontroller, 4 RGB leds, potentiometer for navigation and parameter adjustment, 4 clickable edges, 2x7 segment led screen
+   </li>
+   <li>
+    Each mode has a number of parameters, whose values can be set with the rotating wheel to a specific value, or to the (average) value of specified neighbor output(s), or maybe to more complex functions (simple signal / noise generators)
+   </li>
+   <li>
+    Available modes (followed by parameters for the mode):
+    <ul>
+     <li>
+      Signal generator
+      <ul>
+       <li>
+        Waveform
+        <ul>
+         <li>
+          Sine, Square, Sawtooth, etc
+         </li>
+        </ul>
+       </li>
+       <li>
+        Frequency
+       </li>
+       <li>
+        Amplitude
+       </li>
+      </ul>
+     </li>
+     <li>
+      Noise generator
+     </li>
+     <li>
+      Sequencer
+     </li>
+     <li>
+      Random melody / sequence generator
+     </li>
+     <li>
+      Mixer
+     </li>
+     <li>
+      Filter
+     </li>
+     <li>
+      Delay filter (echo, reverb, etc effects)
+     </li>
+     <li>
+      RGB signal visualizator
+     </li>
+     <li>
+      Neural network / game of life nodes (4 of them, one for each side)
+     </li>
+     <li>
+      etc
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   Part list (for general computation block):
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Rotary encoder x1
+    <ul>
+     <li>
+      <a href="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=987-1398-ND">
+       http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=987-1398-ND
+      </a>
+     </li>
+     <li>
+      10 pcs: 0.93900 / a
+     </li>
+    </ul>
+   </li>
+   <li>
+    Microcontroller x1
+    <ul>
+     <li>
+      ATMega 328 PU
+      <ul>
+       <li>
+        <a href="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=ATMEGA328-PU-ND">
+         http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=ATMEGA328-PU-ND
+        </a>
+       </li>
+       <li>
+        3.05  (25 pieces: 1.91 / a)
+       </li>
+      </ul>
+     </li>
+     <li>
+      or AT90USB162 (builtin usb support, surface mount)
+      <ul>
+       <li>
+        <a href="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=AT90USB162-16AU-ND">
+         http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=AT90USB162-16AU-ND
+        </a>
+       </li>
+       <li>
+        2.88 (25 pieces: 1.8 / a)
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Resonator 16 Mhz x1
+    <ul>
+     <li>
+      Digikey
+      <ul>
+       <li>
+        <a href="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=490-1214-ND">
+         http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=490-1214-ND
+        </a>
+       </li>
+       <li>
+        10 pcs: 0.399 / a
+       </li>
+      </ul>
+     </li>
+     <li>
+      Futurlec
+      <ul>
+       <li>
+        <a href="http://www.futurlec.com/Crystals/RESON16M0P3pr.shtml">
+         http://www.futurlec.com/Crystals/RESON16M0P3pr.shtml
+        </a>
+       </li>
+       <li>
+        0.2 / a
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Capacitors x2
+    <ul>
+     <li>
+      Filter caps for microcontroller
+      <ul>
+       <li>
+        (Close to zero, already have)
+       </li>
+      </ul>
+     </li>
+     <li>
+      Power cap for scratchy contact
+      <ul>
+       <li>
+        47uF or similar electrolyte
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Protection diode for power polarity
+    <ul>
+     <li>
+      ~0.5 - 1 A @ 6V
+     </li>
+    </ul>
+   </li>
+   <li>
+    Resistors
+    <ul>
+     <li>
+      Series resistors for RGB lights, LED segment display..
+      <ul>
+       <li>
+        LED Segment display: 14 (or 16) resistors
+       </li>
+       <li>
+        RGB Leds: 12 resistors
+       </li>
+       <li>
+        Maybe use resistor networks for saved space and improved sanity
+       </li>
+       <li>
+        Resistor network, 7 resitors, 8 pin, 220 Ohm: (maybe a bit too expensive)
+        <ul>
+         <li>
+          Digikey
+          <ul>
+           <li>
+            <a href="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=4608X-1-221LF-ND">
+             http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=4608X-1-221LF-ND
+            </a>
+           </li>
+           <li>
+            0.25 / a when 50+
+           </li>
+          </ul>
+         </li>
+         <li>
+          Futurlec
+          <ul>
+           <li>
+            <a href="http://www.futurlec.com/ResNetworks.shtml">
+             http://www.futurlec.com/ResNetworks.shtml
+            </a>
+           </li>
+           <li>
+            220ohm 9 Resistor Network (10 pins)
+           </li>
+           <li>
+            0.25 / a
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li>
+      Combination resistors for tilt switch, 4 of different unique values (high accuracy, we'll get 16 different values that we need to differentiate after A/D)
+     </li>
+    </ul>
+   </li>
+   <li>
+    IR Leds, 940 nm, 3mm x4
+    <ul>
+     <li>
+      Digikey
+      <ul>
+       <li>
+        <a href="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=754-1241-ND">
+         http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=754-1241-ND
+        </a>
+       </li>
+       <li>
+        0.11 / a when 25+
+       </li>
+      </ul>
+     </li>
+     <li>
+      Futurlec
+      <ul>
+       <li>
+        <a href="http://www.futurlec.com/LED/INF3940pr.shtml">
+         http://www.futurlec.com/LED/INF3940pr.shtml
+        </a>
+       </li>
+       <li>
+        0.13 / a when 25+
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    IR transistors 940nm x4
+    <ul>
+     <li>
+      Digikey
+      <ul>
+       <li>
+        <a href="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=1080-1158-ND">
+         http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=1080-1158-ND
+        </a>
+       </li>
+       <li>
+        0.21 / a when 10+
+       </li>
+      </ul>
+     </li>
+     <li>
+      Futurlec
+      <ul>
+       <li>
+        <a href="http://www.futurlec.com/LED/INFD3940TRANSpr.shtml">
+         http://www.futurlec.com/LED/INFD3940TRANSpr.shtml
+        </a>
+       </li>
+       <li>
+        0.15 a
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    RGB Leds, common anode, diffuse x4
+    <ul>
+     <li>
+      0.25 / a from ebay seller for 100+
+     </li>
+    </ul>
+   </li>
+   <li>
+    Tactile swithces x 4
+    <ul>
+     <li>
+      <a href="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=450-1650-ND">
+       http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=450-1650-ND
+      </a>
+     </li>
+     <li>
+      0.056 / a when 50+
+     </li>
+    </ul>
+   </li>
+   <li>
+    LED Dual 7 Segment screen x1
+    <ul>
+     <li>
+      Futurlec
+      <ul>
+       <li>
+        <a href="http://www.futurlec.com/LED/7DR5621BSpr.shtml">
+         http://www.futurlec.com/LED/7DR5621BSpr.shtml
+        </a>
+       </li>
+       <li>
+        0.75 / a when under 25
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Magnets x 8
+    <ul>
+     <li>
+      <a href="http://www.dealextreme.com/p/super-strong-rare-earth-square-re-magnets-100-pack-51744">
+       <u>
+        http://www.dealextreme.com/p/super-strong-rare-earth-square-re-magnets-100-pack-51744
+       </u>
+      </a>
+     </li>
+     <li>
+      0.144 / a when 100+
+      <ul>
+       <li>
+        Tilattu
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Plastic cover material - diffuse, translucent white or darker plastic, preferably something not as brittle as acrylic
+   </li>
+   <li>
+    Plastic case, 3D printed?
+   </li>
+   <li>
+    PCB (smaller than total footprint)
+   </li>
+   <li>
+    Programming header?
+   </li>
+   <li>
+    Shift register, 74HC595
+    <b>
+    </b>
+    x2
+    <ul>
+     <li>
+      Through hole
+      <ul>
+       <li>
+        <a href="http://www.futurlec.com/74HC/74HC595pr.shtml">
+         http://www.futurlec.com/74HC/74HC595pr.shtml
+        </a>
+       </li>
+       <li>
+        $0.5
+       </li>
+       <li>
+        $0.42 when 25+
+       </li>
+       <li>
+        $0.35 when 100+
+       </li>
+      </ul>
+     </li>
+     <li>
+      SMD version (SOIC)
+      <ul>
+       <li>
+        <a href="http://www.futurlec.com/74HC/74HC595SMDpr.shtml">
+         http://www.futurlec.com/74HC/74HC595SMDpr.shtml
+        </a>
+       </li>
+       <li>
+        $0.15
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  Parts to be ordered from three sources, digikey, futurlec, and dealextreme + 3D printed case.  Maybe ponocos german partner for a lasercut top surface ~2€ /a when ordering 25.
+  <br/>
+  <br/>
+  <b>
+   Cost: 8.86 + case plastic, pcb etc -&gt; ~10$(+)
+  </b>
+  <br/>
+  <br/>
+  TODO: LEDs need sources and sink capable of driving them, atmega only supports max 25-30mA per pin, and max 110mA total.
+  <br/>
+  <br/>
+  Need 4 sinks for
+  <br/>
+  <ul>
+   <li>
+    3 RGB channels
+   </li>
+   <li>
+    1 x 4 IR sender leds (one channel) (could also be source-driven)
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Need 6 sources for
+  <br/>
+  <ul>
+   <li>
+    2 (or 3) led segment displays (selecting character to light up)
+   </li>
+   <li>
+    4 RGB Leds, for selecting directions to light up
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  7 darlington transistors sink
+  <br/>
+  <ul>
+   <li>
+    <a href="http://www.futurlec.com/Linear/ULN2003Apr.shtml">
+     http://www.futurlec.com/Linear/ULN2003Apr.shtml
+    </a>
+    <ul>
+     <li>
+      $0.3 / a for 25+
+     </li>
+    </ul>
+   </li>
+   <li>
+    <a href="http://www.futurlec.com/Linear/MC1413Ppr.shtml">
+     http://www.futurlec.com/Linear/MC1413Ppr.shtml
+    </a>
+    <ul>
+     <li>
+      $0.26 / a for 25+
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  Single PNP transistor
+  <br/>
+  <ul>
+   <li>
+    <a href="http://www.futurlec.com/Transistors/PN2907Apr.shtml">
+     http://www.futurlec.com/Transistors/PN2907Apr.shtml
+    </a>
+    <ul>
+     <li>
+      0.6A, 500mW dissipation, high gain.
+     </li>
+     <li>
+      $0.04 / a for 100+
+     </li>
+     <li>
+      Most widely used, so use this by default
+     </li>
+    </ul>
+   </li>
+   <li>
+    <a href="http://futurlec.com/Transistors/MPS2907Apr.shtml">
+     http://futurlec.com/Transistors/MPS2907Apr.shtml
+    </a>
+    <ul>
+     <li>
+      $0.04 / a for 100+
+     </li>
+    </ul>
+   </li>
+   <li>
+    <a href="http://futurlec.com/Transistors/2SA1515pr.shtml">
+     http://futurlec.com/Transistors/2SA1515pr.shtml
+    </a>
+    <ul>
+     <li>
+      $0.04 / a for 100+
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  We have two reels (~4k pcs) of PNP SMD transistors (100mA) at the lab.
+  <br/>
+  <br/>
+  <br/>
+  Single NPN sink transistor
+  <br/>
+  <ul>
+   <li>
+    <a href="http://futurlec.com/Transistors/KTC3203pr.shtml">
+     http://futurlec.com/Transistors/KTC3203pr.shtml
+    </a>
+   </li>
+   <li>
+    ~$0.04 / a for 100+
+   </li>
+   <li>
+    Not very common, but available from futurlec.  Substitutable with any NPN transistor with hfe &gt; 100, voltage 20+, and currect handling of more than 500mA
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  metal strip for holding magnets (thin copper?)
+  <br/>
+  <ul>
+   <li>
+    or trap them in a wire loop?
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  -&gt; About $0.05 per source or sink -&gt; + $0.5
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+ </body>
 </html>

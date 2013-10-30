@@ -1,70 +1,139 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-courses-eep</title>
-</head>
-<body><b>Epäteoreettisen Elektroniikan perusteet</b><br
-/>Kurssilla käydään läpi analogialektroniikan perusteet. Lähtötasoksi riittää peruskoulun tiedot (kerto/jakolasku).&nbsp;<br
-/><br
-/>Kurssilla käytetään oppimateriaalina Jarin tekemiä kalvoja (lisätään kunhan löydetään sopiva palvelu/palvelin powerpointtien tarjoilemiseen), leipälautaa ja analogielektroniikan peruskomponentteja (resistorit, kapasitorit, diodit) ja yleismittaria. Virtarajoitettu laboratoriovirtalähde on hyvä olla mukana leipälautakytkentöjä tehdessä, näin vältytään vahingoilta oikosulkujen sattuessa.<br
-/><br
-/><i>Mikäli kurssi pidetään intensiivikurssina, on tärkeää muistaa että kaikki kurssilla olevat, mukaanlukien ja etenkin vetäjä, tarvitsevat taukoja noin 1-2 tunnin välein keskittymiskyvyn säilyttämiseksi. Yksi pidempi tauko ruokailua varten on myös hyvä pitää.</i><br
-/><br
-/><b>Osa 1: Mitä sähkö on?</b><br
-/>&nbsp;&nbsp;&nbsp; TODO: Lisää kalvot<br
-/>&nbsp;&nbsp;&nbsp; Tässä osassa kerrataan sähkövaraus, sähkövirta.<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp;&nbsp;&nbsp; Oppimistavoitteena on ymmärtää virran olevan elektronien liikettä, sekä tietää milloin&nbsp;<br
-/>&nbsp;&nbsp;&nbsp; virtaa kulkee johdinta pitkin ja miksi.<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/><b>Osa 2: Jännite ja virta</b><br
-/>&nbsp;&nbsp;&nbsp; TODO: Lisää kalvot<br
-/><ul><li>TODO: Lisää kalvoihin resisitoreiden rinnankytkentä</li></ul
->&nbsp;&nbsp;&nbsp; Tässä osassa käydään lävitse jännitteen, resistanssin ja virran väliset riippuvuudet, sekä&nbsp;<br
-/>&nbsp;&nbsp;&nbsp; resistoreiden rinnan- ja sarjaankytkentä.<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp;&nbsp;&nbsp; Oppimistavoite on tietää resistoreiden sarjaan- ja rinnankytkennän kaavat sekä osata<br
-/>&nbsp;&nbsp;&nbsp; laskea virta ja teho yksinkertaisessa resistoriverkossa.<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/><b>Osa 3: Mittaukset</b><br
-/>&nbsp;&nbsp;&nbsp; TODO: Lisää kalvot<br
-/>&nbsp;&nbsp; Tässä osassa käydään läpi virran ja jännitteen mittaaminen.<br
-/>&nbsp;&nbsp;&nbsp;<br
-/>&nbsp;&nbsp; Tämän osan jälkeen on hyvä käydä läpi opitut asiat leipälaudalla, esimerkiksi jakautumalla<br
-/>&nbsp;&nbsp;&nbsp; pienryhmiin ja tekemällä ryhmittäin resistoreiden sarjaan- ja rinnankytkentöjä, mittaamalla<br
-/>&nbsp;&nbsp;&nbsp; jänniteet ja virrat sekä vertaamalla näin saatuja tuloksia teoriaan.<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/><ul><li>&nbsp;&nbsp;&nbsp; Pitäisikö tähän lisätä esimerkkikytkennät?<br/><br
-/></li></ul
->&nbsp;&nbsp;&nbsp; Oppimistavoitteena on yleismittarin käytön osaaminen.<br
-/><br
-/>&nbsp;&nbsp;&nbsp;<br
-/><b>Osa 4: Kondensaattorit:</b><br
-/>&nbsp;&nbsp;&nbsp; TODO: Lisää kalvot<br
-/>&nbsp;&nbsp;&nbsp; Tässä osassa käydään läpi kondensaattori "energiavarastona", sovelluksiin<br
-/>&nbsp;&nbsp;&nbsp; signaalinkäsittelyssä (suotimet, DC-erotus jne) jäävät myöhemmälle ajankohdalle.<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/><b>Osa 5: Kelat:</b><br
-/>&nbsp;&nbsp;&nbsp; TODO: Lisää kalvot<br
-/>&nbsp;&nbsp;&nbsp; Tässä osassa käydään läpi induktanssi suureena, minkälaisissa komponenteissa löytyy<br
-/>&nbsp;&nbsp;&nbsp; induktanssia ja miksi on tärkeää lisätä suojadiodi/varmitaa ettei kelan virta katkea<br
-/>&nbsp;&nbsp;&nbsp; äkillisesti.<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp;&nbsp;&nbsp; Oppimistavoitteena on tietää minkälaisissa komponenteissa on huomattavan paljon&nbsp;<br
-/>&nbsp;&nbsp;&nbsp; induktanssia ja kyetä varautumaan kytkentäilmiöihin esimerkiksi lisäämällä suojadiodi<br
-/>&nbsp;&nbsp;&nbsp; induktanssin rinnalle.<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/><b>Osa 6: Diodit, LEDit</b><br
-/>&nbsp;&nbsp;&nbsp; TODO: Lisää kalvot<br
-/>&nbsp;&nbsp;&nbsp; Tässä osassa käydään läpi diodit "yksisuuntaisena porttina" sekä ledien rinnan- ja&nbsp;<br
-/>&nbsp;&nbsp;&nbsp; sarjaankytkentä.&nbsp;<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp;&nbsp;&nbsp; Tässä kohdassa on hyvä tehdä leipälaudalle tähän asti opittuja taitoja kertaava kytkentä&nbsp;<br
-/>&nbsp;&nbsp;&nbsp; leipälaudalle, esimerkiksi purkamalla kondensaattoria ledin ja resistorin lävitse.<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp;&nbsp;&nbsp; Oppimistavoitteena on osata mitoittaa etuvastus ledeille.<br
-/><br
-/></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-courses-eep
+  </title>
+ </head>
+ <body>
+  <b>
+   Epäteoreettisen Elektroniikan perusteet
+  </b>
+  <br/>
+  Kurssilla käydään läpi analogialektroniikan perusteet. Lähtötasoksi riittää peruskoulun tiedot (kerto/jakolasku).
+  <br/>
+  <br/>
+  Kurssilla käytetään oppimateriaalina Jarin tekemiä kalvoja (lisätään kunhan löydetään sopiva palvelu/palvelin powerpointtien tarjoilemiseen), leipälautaa ja analogielektroniikan peruskomponentteja (resistorit, kapasitorit, diodit) ja yleismittaria. Virtarajoitettu laboratoriovirtalähde on hyvä olla mukana leipälautakytkentöjä tehdessä, näin vältytään vahingoilta oikosulkujen sattuessa.
+  <br/>
+  <br/>
+  <i>
+   Mikäli kurssi pidetään intensiivikurssina, on tärkeää muistaa että kaikki kurssilla olevat, mukaanlukien ja etenkin vetäjä, tarvitsevat taukoja noin 1-2 tunnin välein keskittymiskyvyn säilyttämiseksi. Yksi pidempi tauko ruokailua varten on myös hyvä pitää.
+  </i>
+  <br/>
+  <br/>
+  <b>
+   Osa 1: Mitä sähkö on?
+  </b>
+  <br/>
+  TODO: Lisää kalvot
+  <br/>
+  Tässä osassa kerrataan sähkövaraus, sähkövirta.
+  <br/>
+  <br/>
+  Oppimistavoitteena on ymmärtää virran olevan elektronien liikettä, sekä tietää milloin
+  <br/>
+  virtaa kulkee johdinta pitkin ja miksi.
+  <br/>
+  <br/>
+  <b>
+   Osa 2: Jännite ja virta
+  </b>
+  <br/>
+  TODO: Lisää kalvot
+  <br/>
+  <ul>
+   <li>
+    TODO: Lisää kalvoihin resisitoreiden rinnankytkentä
+   </li>
+  </ul>
+  Tässä osassa käydään lävitse jännitteen, resistanssin ja virran väliset riippuvuudet, sekä
+  <br/>
+  resistoreiden rinnan- ja sarjaankytkentä.
+  <br/>
+  <br/>
+  Oppimistavoite on tietää resistoreiden sarjaan- ja rinnankytkennän kaavat sekä osata
+  <br/>
+  laskea virta ja teho yksinkertaisessa resistoriverkossa.
+  <br/>
+  <br/>
+  <b>
+   Osa 3: Mittaukset
+  </b>
+  <br/>
+  TODO: Lisää kalvot
+  <br/>
+  Tässä osassa käydään läpi virran ja jännitteen mittaaminen.
+  <br/>
+  <br/>
+  Tämän osan jälkeen on hyvä käydä läpi opitut asiat leipälaudalla, esimerkiksi jakautumalla
+  <br/>
+  pienryhmiin ja tekemällä ryhmittäin resistoreiden sarjaan- ja rinnankytkentöjä, mittaamalla
+  <br/>
+  jänniteet ja virrat sekä vertaamalla näin saatuja tuloksia teoriaan.
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Pitäisikö tähän lisätä esimerkkikytkennät?
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Oppimistavoitteena on yleismittarin käytön osaaminen.
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   Osa 4: Kondensaattorit:
+  </b>
+  <br/>
+  TODO: Lisää kalvot
+  <br/>
+  Tässä osassa käydään läpi kondensaattori "energiavarastona", sovelluksiin
+  <br/>
+  signaalinkäsittelyssä (suotimet, DC-erotus jne) jäävät myöhemmälle ajankohdalle.
+  <br/>
+  <br/>
+  <b>
+   Osa 5: Kelat:
+  </b>
+  <br/>
+  TODO: Lisää kalvot
+  <br/>
+  Tässä osassa käydään läpi induktanssi suureena, minkälaisissa komponenteissa löytyy
+  <br/>
+  induktanssia ja miksi on tärkeää lisätä suojadiodi/varmitaa ettei kelan virta katkea
+  <br/>
+  äkillisesti.
+  <br/>
+  <br/>
+  Oppimistavoitteena on tietää minkälaisissa komponenteissa on huomattavan paljon
+  <br/>
+  induktanssia ja kyetä varautumaan kytkentäilmiöihin esimerkiksi lisäämällä suojadiodi
+  <br/>
+  induktanssin rinnalle.
+  <br/>
+  <br/>
+  <b>
+   Osa 6: Diodit, LEDit
+  </b>
+  <br/>
+  TODO: Lisää kalvot
+  <br/>
+  Tässä osassa käydään läpi diodit "yksisuuntaisena porttina" sekä ledien rinnan- ja
+  <br/>
+  sarjaankytkentä.
+  <br/>
+  <br/>
+  Tässä kohdassa on hyvä tehdä leipälaudalle tähän asti opittuja taitoja kertaava kytkentä
+  <br/>
+  leipälaudalle, esimerkiksi purkamalla kondensaattoria ledin ja resistorin lävitse.
+  <br/>
+  <br/>
+  Oppimistavoitteena on osata mitoittaa etuvastus ledeille.
+  <br/>
+  <br/>
+ </body>
 </html>

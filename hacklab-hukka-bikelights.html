@@ -1,84 +1,278 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-hukka-bikelights</title>
-</head>
-<body>Idea<br
-/>====<br
-/>Originally turning (blinking orange) lights for a cargo bike. A nice to have addition would be to have also brake lights that react to brake levers. Also it would be good if the lights were bright enough to be visible in daylight.<br
-/>Other ideas:<br
-/><ul><li>Battery status led</li
-><li>Light status led</li
-><li>Wireless units<br/><br
-/></li></ul
->Controls<br
-/>========<br
-/>See also <a href="http://arduino.cc/forum/index.php?PHPSESSID=900a5e1a7d6457ca6c230c762d62a85f&topic=73348.15">http://arduino.cc/forum/index.php?PHPSESSID=900a5e1a7d6457ca6c230c762d62a85f&amp;topic=73348.15</a>.<br
-/><br
-/>Right hand is too crowded with gear switch. Three state switch next to bell would be nice. Braking sensors are difficult. Seems like motorcycles use a separate arm/cable from the brake lever to a microswitch. Possibilities include a softpot in the lever and a microswitch inside the lever housing (if a small enough switch exists). Existing COTS solutions use either an acceleration sensor (probably problematic in hills and detecting very slight braking) and sensors in the cabling next to actual brakes (haven't seen a model that would work with disc brakes).<br
-/><br
-/>Bionx ebike system seems to use magnetic switch where the magnet is attached to the lever, and the sensor to the lever housing (<a href="https://secure.flickr.com/photos/splendidcycles/5707870310/">https://secure.flickr.com/photos/splendidcycles/5707870310/</a>, <a href="http://www.nycewheels.com/bionxinstallation.html">http://www.nycewheels.com/bionxinstallation.html</a>, <a href="http://www.electricbikemag.co.uk/Images/mag/eb03reviews/bionx06.jpg)">http://www.electricbikemag.co.uk/Images/mag/eb03reviews/bionx06.jpg)</a>. Probably using a reed switch or hall sensor of some kind. Sensor itself can be bought for 14USD from <a href="http://www.amazon.com/BionX-Standard-Brake-Sensor-Switch/dp/B002JV9E0K/ref=sr_1_7?s=sporting-goods&ie=UTF8&qid=1321194287&sr=1-7">http://www.amazon.com/BionX-Standard-Brake-Sensor-Switch/dp/B002JV9E0K/ref=sr_1_7?s=sporting-goods&amp;ie=UTF8&amp;qid=1321194287&amp;sr=1-7</a>, European prices seem high <a href="http://www.zyro.co.uk/brand/BIONX/BIONX/BXS011579/MAGNETIC%20SENSOR%20WITH%20SELF%20ADHESIVE%20SUPPORT.aspx">http://www.zyro.co.uk/brand/BIONX/BIONX/BXS011579/MAGNETIC%20SENSOR%20WITH%20SELF%20ADHESIVE%20SUPPORT.aspx</a>. There is also at least one ready made package Tektro EL520 and 320, available from at least <a href="http://www.bikeman.com/EK9105.html">http://www.bikeman.com/EK9105.html</a>, but it seems to be only for the right hand side.<br
-/><br
-/>Light<br
-/>=====<br
-/>Powerled, definately. Most likely Cree XP-G or XM-L. Car lights seem to have around 500-1500 lumens (based on power rating of 45W from motonet spare parts catalog and wikipedia giving 10-30 lumens/W for halogens <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Luminous_efficacy#Lighting_efficiency)">https://secure.wikimedia.org/wikipedia/en/wiki/Luminous_efficacy#Lighting_efficiency)</a> off the emitter. Of course optics, filtering etc. can have a huge effect on efficiency.<br
-/><br
-/>Colors<br
-/>------<br
-/>Need something to make red and orange/yellow light<br
-/><ul><li>Colored led: less lumens than white counterparts, but might be still the best efficiency</li
-><li>Filters are the low tech solution, but the filtered spectrum is completely lost as waste. On the upside generic white leds work.<ul><li>colored acrylic, aka PMMA or "Plexiglass": difficult to obtain in small quantities. Etra (aka. teollisuusetola) doesn't have any in the main center (Suutarila). No other local shop seems to sell any acrylic in small quantities.<ul><li><a href="http://www.watsons-streetworks.com/leds_taillights.html">http://www.watsons-streetworks.com/leds_taillights.html</a> seems to offer exactly this for custom tail lights</li
-><li><a href="http://www.customdynamics.com/led_flush_mount_kits.htm">http://www.customdynamics.com/led_flush_mount_kits.htm</a> and <a href="http://www.hitechledproducts.com/product_info.php?cPath=27_53&products_id=191&osCsid=c921cb67dfa01dbbb7fff220c59bb734">http://www.hitechledproducts.com/product_info.php?cPath=27_53&amp;products_id=191&amp;osCsid=c921cb67dfa01dbbb7fff220c59bb734</a> have different materials for diffusing and coloring</li
-><li>Prismex is a acrylic brand that promises even light distribution to the material. Sold by <a href="http://www.muovityosto.fi">http://www.muovityosto.fi</a> near Tampere</li></ul
-></li
-><li>"rubylith" from ebay on top of clear acrylic</li
-><li>polycarbonate, "lexan": available from thermoplast. More expensive than acryclic according to wikipedia, but seems to be available in smaller quantities.<ul><li>Formable in room temperatures, thus better for prototyping</li></ul
-></li
-><li>Old fluorescent lighting covers</li
-><li>Silicone molds?<br/><br
-/></li></ul
-></li></ul
->Optics<br
-/>------<br
-/>Need to get a wide viewing angle for the light. A car has separate lights for sides, but would be a lot simpler if the backlight would also be visible to one side each. Easiest solution is a diffusing cover, either suitable acrylic off the shelf or sanded clear acrylic.&nbsp;<br
-/>More efficient solution would be to have a real wide angle optic. Perhaps an oval optic, since the light doesn't need to be visible very high or low, but then it couldn't be turned sideways.<br
-/>Different emitters also have different view angles, actually a suitable emitter might do without any optics (needs testing).<br
-/><ul><li><a href="https://www.dealextreme.com/p/glass-optics-for-flashlights-28mm-5297">https://www.dealextreme.com/p/glass-optics-for-flashlights-28mm-5297</a><br/><br
-/></li></ul
->Casing<br
-/>------<br
-/>Would be simpler to have the turning light and brake light in the same case, but have to figure out what's the best way to make them both visible at the same time. Modern cars seem to have them on top of each other, but older cars didn't have a very visible brake light from the side.<br
-/>Optionally the casing should be easily movable from the v-racks to the wideloaders to add extra visibility when carrying extra wide cargo.<br
-/><br
-/>Power<br
-/>-----<br
-/>Preferably powered from one AA or two AAAs. That means a boost driver with min Vin of 0.7 or 1.5V. Alternatively the whole system could use a central power source and each light a buck driver, but of course it can't be wirelessly controlled then. In any case the drivers need to be controllable with a microcontroller.<br
-/><a href="http://www.videofoundry.co.nz/ianman/laboratory/research/driverlist.php">http://www.videofoundry.co.nz/ianman/laboratory/research/driverlist.php</a> is a nice list of drivers with user comments too.<br
-/><a href="http://www.candlepowerforums.com/vb/showthread.php?238421-How-LED-drivers-work-and-efficiency">http://www.candlepowerforums.com/vb/showthread.php?238421-How-LED-drivers-work-and-efficiency</a> indicates that 1xAA is less efficient since driver losses are relative to input current (thus higher input voltage with same power is better). Also buck drivers are said to be more efficient than boosts.<br
-/>As an interesting but anecdotal evidence, there are single AA flashlights, but the very cheapest ones seem to be 3xAAA. Though do they actually use any kind of regulator or are they directly driven...<br
-/><a href="http://www.candlepowerforums.com/vb/showthread.php?280677-LED-driver-voltage-difference">http://www.candlepowerforums.com/vb/showthread.php?280677-LED-driver-voltage-difference</a> mentions three different styles of "drivers": resistors, AMC chips (specificaly AMC7135, the number seems pretty common in many drivers) and inductor based drivers. The latter is regarded as most efficient. AMC7315 is described as a resistor that varies the resistance aiming for constant current.<br
-/><br
-/><br
-/>TODO<br
-/>====<br
-/><ul><li>Visit Etra in Herttoniemi for acrylic</li
-><li>Find acrylic suppliers abroad</li
-><li>Test wide angle emitters to find if optics are needed with them</li
-><li>Test how bright lights are needed to be noticiable in bright daylight.</li
-><li>Find out if cheap led lights are buck or direct. How large is the Vf range of the leds in those lights, if they could be directly driven? What about LedLenser lights?</li
-><li>What is AMC7135?</li
-><li>Acrylic from Itä Helsingin Lasi?</li
-><li>Does vink.fi sell to customers (has prismex etc. in Kerava)?</li
-><li><a href="http://www.acrylicsheetsdirect.co.uk/">http://www.acrylicsheetsdirect.co.uk/</a> or <a href="http://www.qdplastics.co.uk">http://www.qdplastics.co.uk</a> might sell in smaller quantities</li
-><li><a href="http://www.penrynplasticsacrylic.co.u">http://www.penrynplasticsacrylic.co.u</a> do sell samples and quite small quantities, but won't mention shipping abroad</li
-><li><a href="http://www.plasticstockist.com">http://www.plasticstockist.com</a> sells small quantieties and ships to Finland, but minimum postage is 28GBP...</li
-><li><a href="http://www.lahtiplast.fi">http://www.lahtiplast.fi</a></li
-><li>karose.fi</li
-><li>Read <a href="http://www.muovimuotoilu.fi">http://www.muovimuotoilu.fi</a> for intro to plastic</li
-><li><a href="http://www.fluorotech.fi">http://www.fluorotech.fi</a></li
-><li>protoshop.fi<br/><br
-/></li></ul
-></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-hukka-bikelights
+  </title>
+ </head>
+ <body>
+  Idea
+  <br/>
+  ====
+  <br/>
+  Originally turning (blinking orange) lights for a cargo bike. A nice to have addition would be to have also brake lights that react to brake levers. Also it would be good if the lights were bright enough to be visible in daylight.
+  <br/>
+  Other ideas:
+  <br/>
+  <ul>
+   <li>
+    Battery status led
+   </li>
+   <li>
+    Light status led
+   </li>
+   <li>
+    Wireless units
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Controls
+  <br/>
+  ========
+  <br/>
+  See also
+  <a href="http://arduino.cc/forum/index.php?PHPSESSID=900a5e1a7d6457ca6c230c762d62a85f&amp;topic=73348.15">
+   http://arduino.cc/forum/index.php?PHPSESSID=900a5e1a7d6457ca6c230c762d62a85f&amp;topic=73348.15
+  </a>
+  .
+  <br/>
+  <br/>
+  Right hand is too crowded with gear switch. Three state switch next to bell would be nice. Braking sensors are difficult. Seems like motorcycles use a separate arm/cable from the brake lever to a microswitch. Possibilities include a softpot in the lever and a microswitch inside the lever housing (if a small enough switch exists). Existing COTS solutions use either an acceleration sensor (probably problematic in hills and detecting very slight braking) and sensors in the cabling next to actual brakes (haven't seen a model that would work with disc brakes).
+  <br/>
+  <br/>
+  Bionx ebike system seems to use magnetic switch where the magnet is attached to the lever, and the sensor to the lever housing (
+  <a href="https://secure.flickr.com/photos/splendidcycles/5707870310/">
+   https://secure.flickr.com/photos/splendidcycles/5707870310/
+  </a>
+  ,
+  <a href="http://www.nycewheels.com/bionxinstallation.html">
+   http://www.nycewheels.com/bionxinstallation.html
+  </a>
+  ,
+  <a href="http://www.electricbikemag.co.uk/Images/mag/eb03reviews/bionx06.jpg)">
+   http://www.electricbikemag.co.uk/Images/mag/eb03reviews/bionx06.jpg)
+  </a>
+  . Probably using a reed switch or hall sensor of some kind. Sensor itself can be bought for 14USD from
+  <a href="http://www.amazon.com/BionX-Standard-Brake-Sensor-Switch/dp/B002JV9E0K/ref=sr_1_7?s=sporting-goods&amp;ie=UTF8&amp;qid=1321194287&amp;sr=1-7">
+   http://www.amazon.com/BionX-Standard-Brake-Sensor-Switch/dp/B002JV9E0K/ref=sr_1_7?s=sporting-goods&amp;ie=UTF8&amp;qid=1321194287&amp;sr=1-7
+  </a>
+  , European prices seem high
+  <a href="http://www.zyro.co.uk/brand/BIONX/BIONX/BXS011579/MAGNETIC%20SENSOR%20WITH%20SELF%20ADHESIVE%20SUPPORT.aspx">
+   http://www.zyro.co.uk/brand/BIONX/BIONX/BXS011579/MAGNETIC%20SENSOR%20WITH%20SELF%20ADHESIVE%20SUPPORT.aspx
+  </a>
+  . There is also at least one ready made package Tektro EL520 and 320, available from at least
+  <a href="http://www.bikeman.com/EK9105.html">
+   http://www.bikeman.com/EK9105.html
+  </a>
+  , but it seems to be only for the right hand side.
+  <br/>
+  <br/>
+  Light
+  <br/>
+  =====
+  <br/>
+  Powerled, definately. Most likely Cree XP-G or XM-L. Car lights seem to have around 500-1500 lumens (based on power rating of 45W from motonet spare parts catalog and wikipedia giving 10-30 lumens/W for halogens
+  <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Luminous_efficacy#Lighting_efficiency)">
+   https://secure.wikimedia.org/wikipedia/en/wiki/Luminous_efficacy#Lighting_efficiency)
+  </a>
+  off the emitter. Of course optics, filtering etc. can have a huge effect on efficiency.
+  <br/>
+  <br/>
+  Colors
+  <br/>
+  ------
+  <br/>
+  Need something to make red and orange/yellow light
+  <br/>
+  <ul>
+   <li>
+    Colored led: less lumens than white counterparts, but might be still the best efficiency
+   </li>
+   <li>
+    Filters are the low tech solution, but the filtered spectrum is completely lost as waste. On the upside generic white leds work.
+    <ul>
+     <li>
+      colored acrylic, aka PMMA or "Plexiglass": difficult to obtain in small quantities. Etra (aka. teollisuusetola) doesn't have any in the main center (Suutarila). No other local shop seems to sell any acrylic in small quantities.
+      <ul>
+       <li>
+        <a href="http://www.watsons-streetworks.com/leds_taillights.html">
+         http://www.watsons-streetworks.com/leds_taillights.html
+        </a>
+        seems to offer exactly this for custom tail lights
+       </li>
+       <li>
+        <a href="http://www.customdynamics.com/led_flush_mount_kits.htm">
+         http://www.customdynamics.com/led_flush_mount_kits.htm
+        </a>
+        and
+        <a href="http://www.hitechledproducts.com/product_info.php?cPath=27_53&amp;products_id=191&amp;osCsid=c921cb67dfa01dbbb7fff220c59bb734">
+         http://www.hitechledproducts.com/product_info.php?cPath=27_53&amp;products_id=191&amp;osCsid=c921cb67dfa01dbbb7fff220c59bb734
+        </a>
+        have different materials for diffusing and coloring
+       </li>
+       <li>
+        Prismex is a acrylic brand that promises even light distribution to the material. Sold by
+        <a href="http://www.muovityosto.fi">
+         http://www.muovityosto.fi
+        </a>
+        near Tampere
+       </li>
+      </ul>
+     </li>
+     <li>
+      "rubylith" from ebay on top of clear acrylic
+     </li>
+     <li>
+      polycarbonate, "lexan": available from thermoplast. More expensive than acryclic according to wikipedia, but seems to be available in smaller quantities.
+      <ul>
+       <li>
+        Formable in room temperatures, thus better for prototyping
+       </li>
+      </ul>
+     </li>
+     <li>
+      Old fluorescent lighting covers
+     </li>
+     <li>
+      Silicone molds?
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  Optics
+  <br/>
+  ------
+  <br/>
+  Need to get a wide viewing angle for the light. A car has separate lights for sides, but would be a lot simpler if the backlight would also be visible to one side each. Easiest solution is a diffusing cover, either suitable acrylic off the shelf or sanded clear acrylic.
+  <br/>
+  More efficient solution would be to have a real wide angle optic. Perhaps an oval optic, since the light doesn't need to be visible very high or low, but then it couldn't be turned sideways.
+  <br/>
+  Different emitters also have different view angles, actually a suitable emitter might do without any optics (needs testing).
+  <br/>
+  <ul>
+   <li>
+    <a href="https://www.dealextreme.com/p/glass-optics-for-flashlights-28mm-5297">
+     https://www.dealextreme.com/p/glass-optics-for-flashlights-28mm-5297
+    </a>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Casing
+  <br/>
+  ------
+  <br/>
+  Would be simpler to have the turning light and brake light in the same case, but have to figure out what's the best way to make them both visible at the same time. Modern cars seem to have them on top of each other, but older cars didn't have a very visible brake light from the side.
+  <br/>
+  Optionally the casing should be easily movable from the v-racks to the wideloaders to add extra visibility when carrying extra wide cargo.
+  <br/>
+  <br/>
+  Power
+  <br/>
+  -----
+  <br/>
+  Preferably powered from one AA or two AAAs. That means a boost driver with min Vin of 0.7 or 1.5V. Alternatively the whole system could use a central power source and each light a buck driver, but of course it can't be wirelessly controlled then. In any case the drivers need to be controllable with a microcontroller.
+  <br/>
+  <a href="http://www.videofoundry.co.nz/ianman/laboratory/research/driverlist.php">
+   http://www.videofoundry.co.nz/ianman/laboratory/research/driverlist.php
+  </a>
+  is a nice list of drivers with user comments too.
+  <br/>
+  <a href="http://www.candlepowerforums.com/vb/showthread.php?238421-How-LED-drivers-work-and-efficiency">
+   http://www.candlepowerforums.com/vb/showthread.php?238421-How-LED-drivers-work-and-efficiency
+  </a>
+  indicates that 1xAA is less efficient since driver losses are relative to input current (thus higher input voltage with same power is better). Also buck drivers are said to be more efficient than boosts.
+  <br/>
+  As an interesting but anecdotal evidence, there are single AA flashlights, but the very cheapest ones seem to be 3xAAA. Though do they actually use any kind of regulator or are they directly driven...
+  <br/>
+  <a href="http://www.candlepowerforums.com/vb/showthread.php?280677-LED-driver-voltage-difference">
+   http://www.candlepowerforums.com/vb/showthread.php?280677-LED-driver-voltage-difference
+  </a>
+  mentions three different styles of "drivers": resistors, AMC chips (specificaly AMC7135, the number seems pretty common in many drivers) and inductor based drivers. The latter is regarded as most efficient. AMC7315 is described as a resistor that varies the resistance aiming for constant current.
+  <br/>
+  <br/>
+  <br/>
+  TODO
+  <br/>
+  ====
+  <br/>
+  <ul>
+   <li>
+    Visit Etra in Herttoniemi for acrylic
+   </li>
+   <li>
+    Find acrylic suppliers abroad
+   </li>
+   <li>
+    Test wide angle emitters to find if optics are needed with them
+   </li>
+   <li>
+    Test how bright lights are needed to be noticiable in bright daylight.
+   </li>
+   <li>
+    Find out if cheap led lights are buck or direct. How large is the Vf range of the leds in those lights, if they could be directly driven? What about LedLenser lights?
+   </li>
+   <li>
+    What is AMC7135?
+   </li>
+   <li>
+    Acrylic from Itä Helsingin Lasi?
+   </li>
+   <li>
+    Does vink.fi sell to customers (has prismex etc. in Kerava)?
+   </li>
+   <li>
+    <a href="http://www.acrylicsheetsdirect.co.uk/">
+     http://www.acrylicsheetsdirect.co.uk/
+    </a>
+    or
+    <a href="http://www.qdplastics.co.uk">
+     http://www.qdplastics.co.uk
+    </a>
+    might sell in smaller quantities
+   </li>
+   <li>
+    <a href="http://www.penrynplasticsacrylic.co.u">
+     http://www.penrynplasticsacrylic.co.u
+    </a>
+    do sell samples and quite small quantities, but won't mention shipping abroad
+   </li>
+   <li>
+    <a href="http://www.plasticstockist.com">
+     http://www.plasticstockist.com
+    </a>
+    sells small quantieties and ships to Finland, but minimum postage is 28GBP...
+   </li>
+   <li>
+    <a href="http://www.lahtiplast.fi">
+     http://www.lahtiplast.fi
+    </a>
+   </li>
+   <li>
+    karose.fi
+   </li>
+   <li>
+    Read
+    <a href="http://www.muovimuotoilu.fi">
+     http://www.muovimuotoilu.fi
+    </a>
+    for intro to plastic
+   </li>
+   <li>
+    <a href="http://www.fluorotech.fi">
+     http://www.fluorotech.fi
+    </a>
+   </li>
+   <li>
+    protoshop.fi
+    <br/>
+    <br/>
+   </li>
+  </ul>
+ </body>
 </html>

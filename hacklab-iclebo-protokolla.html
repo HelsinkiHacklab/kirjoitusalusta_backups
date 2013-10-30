@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-iclebo-protokolla
+  </title>
+ </head>
+ <body>
+  <b>
+   <u>
+    Robottien radioprotokolla
+   </u>
+  </b>
+  <br/>
+  <br/>
+  Xbee-osoitteet:
+  <br/>
+  <br/>
+  Vasara:   ROBO1
+  <br/>
+  Puska:    ROBO2
+  <br/>
+  Muna:     ROBO3
+  <br/>
+  Laturit:    LATURIT
+  <br/>
+  Kauko:    KAUKO
+  <br/>
+  <br/>
+  Keskusälyn oma osoite: ROBOCOORDINATOR
+  <br/>
+  <br/>
+  <br/>
+  Kaikkien sanomien lopussa on aina \r
+  <br/>
+  <br/>
+  <u>
+   Sanomat keskusälyltä roboteille:
+  </u>
+  <br/>
+  <br/>
+  Robottien sanomat ovat muotoa
+  <br/>
+  <br/>
+  <b>
+   Rnc
+  </b>
+  &lt;param1&gt; &lt;param2&gt;
+  <br/>
+  <br/>
+  n = robotin numero 1...3
+  <br/>
+  c = sanoman tyyppi (P/T/R/G)
+  <br/>
+  parametreja 0...2 kpl, erottimina space
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Robotin oma paikkatieto (P = position):
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  RnP xxxx yyyy
+  <br/>
+  <br/>
+  xxxx = x-koordinaatti
+  <br/>
+  yyyy = y-koordinaatti
+  <br/>
+  <ul>
+   <li>
+    koordinaattien yksikkö cm
+   </li>
+   <li>
+    origo jossakin alueen ulkopuolella siten, että koordinaatit aina positiivisia
+   </li>
+  </ul>
+  <br/>
+  esim.
+  <br/>
+  R2P 573 1687
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Kohteen (ihmisen) paikkatieto (T = target):
+    <ul>
+     <li>
+      kolme lähintä kullekin robotille
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  RnT xxxx yyyy
+  <br/>
+  <br/>
+  xxxx = x-koordinaatti
+  <br/>
+  yyyy = y-koordinaatti
+  <br/>
+  <br/>
+  esim.
+  <br/>
+  R3T 345 962
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Tieto puhelusta (A = activate):
+    <ul>
+     <li>
+      tämä lähetetään vain robotti 3:lle
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  RnA
+  <br/>
+  <br/>
+  ei parametreja
+  <br/>
+  <br/>
+  esim.
+  <br/>
+  R3A
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Käsky lähteä laturiin (G = goto charger):
+   </li>
+  </ul>
+  <br/>
+  RnG
+  <br/>
+  <br/>
+  ei parametreja
+  <br/>
+  <br/>
+  esim.
+  <br/>
+  R1G
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Käsky poistua laturista ja aloittaa normaali toiminta (S = start):
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  RnS
+  <br/>
+  <br/>
+  ei parametreja
+  <br/>
+  <br/>
+  esim.
+  <br/>
+  R2S
+  <br/>
+  <br/>
+  <br/>
+  <u>
+   Sanomat roboteilta keskusälylle:
+  </u>
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Robotti on päässyt laturiin (C = charging):
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  RnC
+  <br/>
+  <br/>
+  ei parametreja
+  <br/>
+  <br/>
+  esim.
+  <br/>
+  R2C
+  <br/>
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Robotti on lähtenyt oma-aloitteisesti laturiin (B = battery low):
+    <ul>
+     <li>
+      keskusälyn pitää kytkeä sopiva laturi päälle
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  RnB
+  <br/>
+  <br/>
+  ei parametreja
+  <br/>
+  <br/>
+  esim.
+  <br/>
+  R1B
+  <br/>
+  <br/>
+  <br/>
+  <u>
+   Sanomat keskusälyltä latureille:
+  </u>
+  <br/>
+  <br/>
+  Laturin sanomat ovat muotoa
+  <br/>
+  <br/>
+  <b>
+   Lc
+  </b>
+  &lt;param1&gt;
+  <br/>
+  <br/>
+  c = sanoman tyyppi R
+  <br/>
+  parametreja 1 kpl
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Releiden asetuskäsky (R = relays):
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  LR x
+  <br/>
+  <br/>
+  x = releiden tilat bittikarttana, 0...7
+  <br/>
+  <br/>
+  esim.
+  <br/>
+  LR 3
+  <br/>
+  <br/>
+  <br/>
+  <u>
+   Sanomat kauko-ohjaimelta keskusälylle:
+  </u>
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Kauko-ohjain käännetty "aloita näyttely"-asentoon (S = start show):
+    <ul>
+     <li>
+      Tämän seurauksena äly aloittaa telakasta poistumissekvenssin.
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  KS
+  <br/>
+  <br/>
+  ei parametreja
+  <br/>
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Kauko-ohjain käännetty "lopeta näyttely"-asentoon (G = goto charger):
+    <ul>
+     <li>
+      Tämän seurauksena äly aloittaa telakkaanajosekvenssin.
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  KG
+  <br/>
+  <br/>
+  ei parametreja
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   <u>
+    Telakkaanajosekvenssi
+   </u>
+  </b>
+  <br/>
+  <br/>
+  Järjestystä voi joutua virittelemään, mutta periaatteessa näin:
+  <br/>
+  <br/>
+  robotille 1 käsky R1G
+  <br/>
+  laturille käsky LR 1
+  <br/>
+  odota, kunnes tulee R1C (mitä jos ei tule?)
+  <br/>
+  robotille 2 käsky R2G
+  <br/>
+  laturille käsky LR 3
+  <br/>
+  odota, kunnes tulee R2C
+  <br/>
+  robotille 3 käsky R3G
+  <br/>
+  laturille käsky LR 7
+  <br/>
+  odota, kunnes tulee R3C
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   <u>
+    Telakasta poistumissekvenssi
+   </u>
+  </b>
+  <br/>
+  <br/>
+  robotille 1 käsky R1S
+  <br/>
+  odota 10 s
+  <br/>
+  robotille 2 käsky R2S
+  <br/>
+  odota 10 s
+  <br/>
+  robotille 3 käsky R3S
+  <br/>
+  laturille käsky LR 0
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   <u>
+    Keskusälyn ja GSM-moduulin välinen kommunikointi:
+   </u>
+  </b>
+  <br/>
+  <br/>
+  Sarjaportti (USB) 9600 N-8-1
+  <br/>
+  <br/>
+  käynnistyminen:
+  <br/>
+  lähetä moduulille "AT\r"
+  <br/>
+  odota, että saat moduulilta "OK"
+  <br/>
+  <br/>
+  loop:
+  <br/>
+  odota, että saat moduulilta "RING"
+  <br/>
+  lähetä Xbeellä robotille 3 käsky R3A
+  <br/>
+  odota 10 s (tänä aikana voi tulla lisää viestejä moduulilta, mutta ne voi ignoroida)
+  <br/>
+  lähetä moduulille "ATH\r"
+  <br/>
+  odota 10 s (tänä aikana voi tulla lisää viestejä, mutta ne voi ignoroida)
+  <br/>
+  goto loop
+  <br/>
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    moduulilta tulevien viestien lopussa tai alussa voi olla epälukuinen määrä \r ja \n merkkejä, mutta ne voi ohittaa
+   </li>
+   <li>
+    moduulille lähetettäessä lopussa pitää olla \r
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+ </body>
+</html>

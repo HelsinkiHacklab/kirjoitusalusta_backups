@@ -1,99 +1,190 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-vacubot</title>
-</head>
-<body><b>Pölynimurirobottiprojekti</b><br
-/><br
-/><br
-/><b>Openscad koodia imuria varten, puolivalmis</b><br
-/>mm = 1;<br
-/>cm = 10*mm;<br
-/>tau = 6.28318531;<br
-/>$fa=1;<br
-/>fan();<br
-/>module fan(diameter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 20*cm,&nbsp;<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; height&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 8*cm,&nbsp;<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; wallThickness&nbsp;&nbsp;&nbsp;&nbsp; = 2*mm,<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; impellerBaseThickness = 10*mm,&nbsp;<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; impellerTopThickness = 5*mm,&nbsp;<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; clearance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 5*mm,<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bladeCount&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 10,<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; inletDiameter&nbsp;&nbsp;&nbsp;&nbsp; = 6*cm,<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bladeThickness&nbsp;&nbsp;&nbsp; = 15*mm) {<br
-/>&nbsp; %hull(diameter, height);<br
-/>&nbsp; impeller(diameter * 0.8,&nbsp;<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; height * 0.8,&nbsp;<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; impellerBaseThickness,<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; impellerTopThickness,&nbsp;<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; clearance,<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bladeCount,<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; inletDiameter,<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bladeThickness);<br
-/>}<br
-/>module impeller(diam, height, impellerBaseThickness, impellerTopThickness,&nbsp;<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; clearance, bladeCount,inletDiameter,<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bladeThickness,<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bladeAngle = 45,<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; curviness = -8,<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; curvePos = 0.15,<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bladeStart = 1.1,<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bladeLenScale = 1.05) {<br
-/>&nbsp; angleStep = 360 / bladeCount;<br
-/>&nbsp; bladeLen = (diam / 2 - inletDiameter / 2) * bladeLenScale;<br
-/>&nbsp; bladeHeight = height - impellerBaseThickness - impellerTopThickness;<br
-/>&nbsp; topLidBase = height - impellerTopThickness;<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; color([1,0.5,0]) {<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translate([0,0,clearance]) {<br
-/>&nbsp;&nbsp; intersection() {<br
-/>&nbsp;&nbsp;&nbsp; difference() {<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; union() {<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Top lid<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translate([0,0,topLidBase]) cylinder(r=diam/2, h = impellerTopThickness);<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Bottom lid<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translate([0,0,0]) cylinder(r=diam/2, h = impellerBaseThickness);<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Fins<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translate([0,0,impellerBaseThickness]) union() {<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(i = [1:bladeCount]) {<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rotate([0,0,i * angleStep]) {<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translate([bladeStart*(inletDiameter/2),0,0])&nbsp;<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fin(bladeLen, bladeHeight, bladeThickness, curviness, curvePos, bladeAngle);<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Air intake cutout<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; translate([0,0,impellerBaseThickness])&nbsp; cylinder(r=inletDiameter/2, h=height);<br
-/>&nbsp;&nbsp;&nbsp;&nbsp; }<br
-/>&nbsp;&nbsp;&nbsp;&nbsp; // Max fin volume<br
-/>&nbsp;&nbsp;&nbsp;&nbsp; cylinder(r=diam/2, h = height);<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br
-/>&nbsp;&nbsp;&nbsp; }<br
-/>&nbsp; }<br
-/>}<br
-/>function foil(x, curviness, curvePos) = -sin((x+curvePos)*360/2+curvePos)*curviness;<br
-/>function profile(x) = sin(x*360/2)*0.25;<br
-/>module fin(length, height, thickness, curviness = 1, curvePos=0, bladeAngle = -50, steps = 20) {<br
-/>&nbsp; step = 1.0 / steps;<br
-/>&nbsp; color([1,0.3,0])&nbsp; linear_extrude(height=height, convexity=10, twist=0) {<br
-/>&nbsp;&nbsp;&nbsp; for (i = [0:step:1-step]) {<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rotate([0, 0, bladeAngle]) {<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; polygon([[ i&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *length, foil(i,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; curviness, curvePos) - profile(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * thickness],&nbsp;<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [(i+step)*length, foil(i+step, curviness, curvePos) - profile(i+step) * thickness],&nbsp;<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [(i+step)*length, foil(i+step, curviness, curvePos) + profile(i+step) * thickness],&nbsp;<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ i&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *length, foil(i,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; curviness, curvePos) + profile(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * thickness]]);<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br
-/>&nbsp;&nbsp;&nbsp; }<br
-/>&nbsp; }<br
-/>}<br
-/>module hull(diam=100, height=100) {<br
-/>&nbsp; cylinder(r=diam/2, h = height);<br
-/>}<br
-/><br
-/></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-vacubot
+  </title>
+ </head>
+ <body>
+  <b>
+   Pölynimurirobottiprojekti
+  </b>
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   Openscad koodia imuria varten, puolivalmis
+  </b>
+  <br/>
+  mm = 1;
+  <br/>
+  cm = 10*mm;
+  <br/>
+  tau = 6.28318531;
+  <br/>
+  $fa=1;
+  <br/>
+  fan();
+  <br/>
+  module fan(diameter          = 20*cm,
+  <br/>
+  height            = 8*cm,
+  <br/>
+  wallThickness     = 2*mm,
+  <br/>
+  impellerBaseThickness = 10*mm,
+  <br/>
+  impellerTopThickness = 5*mm,
+  <br/>
+  clearance         = 5*mm,
+  <br/>
+  bladeCount        = 10,
+  <br/>
+  inletDiameter     = 6*cm,
+  <br/>
+  bladeThickness    = 15*mm) {
+  <br/>
+  %hull(diameter, height);
+  <br/>
+  impeller(diameter * 0.8,
+  <br/>
+  height * 0.8,
+  <br/>
+  impellerBaseThickness,
+  <br/>
+  impellerTopThickness,
+  <br/>
+  clearance,
+  <br/>
+  bladeCount,
+  <br/>
+  inletDiameter,
+  <br/>
+  bladeThickness);
+  <br/>
+  }
+  <br/>
+  module impeller(diam, height, impellerBaseThickness, impellerTopThickness,
+  <br/>
+  clearance, bladeCount,inletDiameter,
+  <br/>
+  bladeThickness,
+  <br/>
+  bladeAngle = 45,
+  <br/>
+  curviness = -8,
+  <br/>
+  curvePos = 0.15,
+  <br/>
+  bladeStart = 1.1,
+  <br/>
+  bladeLenScale = 1.05) {
+  <br/>
+  angleStep = 360 / bladeCount;
+  <br/>
+  bladeLen = (diam / 2 - inletDiameter / 2) * bladeLenScale;
+  <br/>
+  bladeHeight = height - impellerBaseThickness - impellerTopThickness;
+  <br/>
+  topLidBase = height - impellerTopThickness;
+  <br/>
+  <br/>
+  color([1,0.5,0]) {
+  <br/>
+  translate([0,0,clearance]) {
+  <br/>
+  intersection() {
+  <br/>
+  difference() {
+  <br/>
+  union() {
+  <br/>
+  // Top lid
+  <br/>
+  translate([0,0,topLidBase]) cylinder(r=diam/2, h = impellerTopThickness);
+  <br/>
+  // Bottom lid
+  <br/>
+  translate([0,0,0]) cylinder(r=diam/2, h = impellerBaseThickness);
+  <br/>
+  <br/>
+  // Fins
+  <br/>
+  translate([0,0,impellerBaseThickness]) union() {
+  <br/>
+  for(i = [1:bladeCount]) {
+  <br/>
+  rotate([0,0,i * angleStep]) {
+  <br/>
+  translate([bladeStart*(inletDiameter/2),0,0])
+  <br/>
+  fin(bladeLen, bladeHeight, bladeThickness, curviness, curvePos, bladeAngle);
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  <br/>
+  }
+  <br/>
+  // Air intake cutout
+  <br/>
+  translate([0,0,impellerBaseThickness])  cylinder(r=inletDiameter/2, h=height);
+  <br/>
+  }
+  <br/>
+  // Max fin volume
+  <br/>
+  cylinder(r=diam/2, h = height);
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  function foil(x, curviness, curvePos) = -sin((x+curvePos)*360/2+curvePos)*curviness;
+  <br/>
+  function profile(x) = sin(x*360/2)*0.25;
+  <br/>
+  module fin(length, height, thickness, curviness = 1, curvePos=0, bladeAngle = -50, steps = 20) {
+  <br/>
+  step = 1.0 / steps;
+  <br/>
+  color([1,0.3,0])  linear_extrude(height=height, convexity=10, twist=0) {
+  <br/>
+  for (i = [0:step:1-step]) {
+  <br/>
+  rotate([0, 0, bladeAngle]) {
+  <br/>
+  polygon([[ i      *length, foil(i,      curviness, curvePos) - profile(i)      * thickness],
+  <br/>
+  [(i+step)*length, foil(i+step, curviness, curvePos) - profile(i+step) * thickness],
+  <br/>
+  [(i+step)*length, foil(i+step, curviness, curvePos) + profile(i+step) * thickness],
+  <br/>
+  [ i      *length, foil(i,      curviness, curvePos) + profile(i)      * thickness]]);
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  module hull(diam=100, height=100) {
+  <br/>
+  cylinder(r=diam/2, h = height);
+  <br/>
+  }
+  <br/>
+  <br/>
+ </body>
 </html>

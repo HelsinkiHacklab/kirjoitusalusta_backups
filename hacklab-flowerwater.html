@@ -1,49 +1,272 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-flowerwater</title>
-</head>
-<body>Aloitetaan suomeksi, mutta muutetaan englanniksi, jos tarve vaatii.<br
-/><br
-/>Ajatuksena siis helpottaa kukkien hoitoa erinäköisillä vipstaakeilla. Mahdollisia härveleitä esim.<br
-/>1. Kukkaruukussa vilkkuva "varoitus" ledi, kun multa on kuivaa.<br
-/><ul><li>tästä tekee proton ardulla noin 3min sisään, ei vaadi edes mitään ekstrakomponentteja<ul><li>ledin voi korvata kaiuttimella joka on huomattavasti ärsyttävämpää ja tehokkaampaa kasvin selviytymisen kannalta</li
-><li>todellista käyttöä varten tarvii "sensorin" jonka napojen etäisyys toisistaan pysyy vakiona ja 10k vastuksen</li></ul
-></li></ul
->2. Ruukkuun jollain tapaa asennettava vesisäiliö, josta liruteltavaa vettä säännösteltäisiin solenoidilla taikka ruiskulla, jolla olisi joku säädettävissä oleva aikataulu, joko kiveenhakattu tai johonkin mittaustulokseen perustuva.<br
-/><ul><li>Voisiko vesi olla 1,5l limupullossa ja joku avaisi magneettiventtiilin sopivaksi ajaksi kun kukkaruukussa on liian kuivaa?V1:n ledin vilkuttamisen sijaan ajetaan vaan solenoidia, ei iso muutos.</li
-><li><a href="http://theon.github.io/plant-watering-with-arduino.html">http://theon.github.io/plant-watering-with-arduino.html</a><ul><li>kätevä järjestelmä yksittäisille isommille kasveille<br/><br
-/></li></ul
-></li></ul
->3. Joku mahdollisimman monimutkainen, isotöinen ja vaikeaselkoinen tietokoneperustainen kukkienhallintajärjestelmä, joka kommunikoi kukkien kanssa ja raportoi niiden tilaa ja piirtää käppyrää ja sitä voi säätää vaikka kännykällä ja muuta kreisiä.<br
-/><br
-/>4. Yksinkertainen RasPi-pohjainen järjestelmä. RasPiin kytketään ADC-piiri, jonka avulla voidaan lukea (analogisesti) kukkaruukkujen (esim. 8 kpl) mullan resistanssi. Kun multa on riittävän kuivaa, lähetetään sähköposti, vilkutetaan ledejä, nostetaan lippu salkoon servomoottorilla tjms. Kytkentäohje löytyy täältä:&nbsp;<br
-/><a href="http://learn.adafruit.com/reading-a-analog-in-and-controlling-audio-volume-with-the-raspberry-pi/overview">http://learn.adafruit.com/reading-a-analog-in-and-controlling-audio-volume-with-the-raspberry-pi/overview</a><br
-/>Mitatut arvot kannattaa myös tallentaa tulevaa analysointia varten.<br
-/><br
-/><b>5. anacronin Plant Life Support System</b><br
-/><ul><li>Ohjaus arduinolla eikä rpi:llä suoraan esimerkiksi vakauden takia (samasta syystä kuin esim. brewpi ohjataan näin)<ul><li>laajennettavissa helposti, yksi rpi voi yhtähyvin myös kontrolloida useita yksiköitä langattomasti<br/><br
-/></li></ul
-></li
-><li>Kosteus mitataan mullasta resistanssilla(pitkistä ruuveista rakennettu sensori), tarpeeksi harvalla syklillä ja polarisaatiota olisi hyvä vaihtaa jotta ei tapahdu niin paljoa korroosiota</li
-><li>Kastelu vesipumpulla joko 12v mosfetin tai SSR:n takaa pumpusta riippuen. Akvaariopumppu tai vastaava upotettava pieni versio.</li
-><li>Vesisäiliöön sensorit (esim. resistanssi) ja hälytys piezoa piippailemalla kun vesi on lopussa</li
-><li>Valomittaus "valovastuksella" joka tarvittaessa sytyttää ledit tai SSR:n perässä olevan valon päälle. Jos arduun liitetään RTC niin ohjelmointi niin että max 16h päivässä ja yöllä pois päältä x aikana</li
-><li>Lämpötila<ul><li>mahdollista lisätä lämmitin, ohjaus samalla tavalla kuin valot ja vesipumppu</li></ul
-></li
-><li>Nokian vanha LCD näyttö joka voi kertoa statseja ja piirtää käppyrää</li
-><li>joku järkevä tapa välittää tieto koneelle jos sellaista halutaan käyttää loggaukseen ja ohjaukseen&nbsp;<br/><br
-/></li></ul
-><b>5.1. Hallintajärjestelmä</b><br
-/><ul><li>Yksi tietokone voi toimia serverinä usealle erikseen mikrokontrolleriohjauksella toimivalle kasviyksikölle (Rpi, beagleboard)<ul><li>Esim. Orkideat, Jukkapalmu ja keittiöyrtit voivat olla omia yksiköitään erilaisilla ohjauksilla</li></ul
-></li
-><li>Tiedonsiirto langattomasti (Xbee, Bluetooth, muita vaihtoehtoja?)</li
-><li>Kerää dataa yksiköistä ja vertailee esim. tämän viikon keskiarvoa edelliseen viikkoon<ul><li>yksikkö voi vaikka tweetata että "viimeviikko oli aika surkea mutta onneks tän viikon on paistanu aurinko"</li
-><li>Serveri voi ehdottaa muutoksia parametreihin jos keskimääräinen valoisuus on esimerkiksi muuttunut.</li></ul
-></li
-><li>Mahdollisuus muuttaa parametreja etänä vaikka ulkomailta<br/><br
-/></li></ul
-></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-flowerwater
+  </title>
+ </head>
+ <body>
+  Aloitetaan suomeksi, mutta muutetaan englanniksi, jos tarve vaatii.
+  <br/>
+  <br/>
+  Ajatuksena siis helpottaa kukkien hoitoa erinäköisillä vipstaakeilla. Mahdollisia härveleitä esim.
+  <br/>
+  1. Kukkaruukussa vilkkuva "varoitus" ledi, kun multa on kuivaa.
+  <br/>
+  <ul>
+   <li>
+    tästä tekee proton ardulla noin 3min sisään, ei vaadi edes mitään ekstrakomponentteja
+    <ul>
+     <li>
+      ledin voi korvata kaiuttimella joka on huomattavasti ärsyttävämpää ja tehokkaampaa kasvin selviytymisen kannalta
+     </li>
+     <li>
+      todellista käyttöä varten tarvii "sensorin" jonka napojen etäisyys toisistaan pysyy vakiona ja 10k vastuksen
+     </li>
+    </ul>
+   </li>
+  </ul>
+  2. Ruukkuun jollain tapaa asennettava vesisäiliö, josta liruteltavaa vettä säännösteltäisiin solenoidilla taikka ruiskulla, jolla olisi joku säädettävissä oleva aikataulu, joko kiveenhakattu tai johonkin mittaustulokseen perustuva.
+  <br/>
+  <ul>
+   <li>
+    Voisiko vesi olla 1,5l limupullossa ja joku avaisi magneettiventtiilin sopivaksi ajaksi kun kukkaruukussa on liian kuivaa?V1:n ledin vilkuttamisen sijaan ajetaan vaan solenoidia, ei iso muutos.
+   </li>
+   <li>
+    <a href="http://theon.github.io/plant-watering-with-arduino.html">
+     http://theon.github.io/plant-watering-with-arduino.html
+    </a>
+    <ul>
+     <li>
+      kätevä järjestelmä yksittäisille isommille kasveille
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  3. Joku mahdollisimman monimutkainen, isotöinen ja vaikeaselkoinen tietokoneperustainen kukkienhallintajärjestelmä, joka kommunikoi kukkien kanssa ja raportoi niiden tilaa ja piirtää käppyrää ja sitä voi säätää vaikka kännykällä ja muuta kreisiä.
+  <br/>
+  <br/>
+  4. Yksinkertainen RasPi-pohjainen järjestelmä. RasPiin kytketään ADC-piiri, jonka avulla voidaan lukea (analogisesti) kukkaruukkujen (esim. 8 kpl) mullan resistanssi. Kun multa on riittävän kuivaa, lähetetään sähköposti, vilkutetaan ledejä, nostetaan lippu salkoon servomoottorilla tjms. Kytkentäohje löytyy täältä:
+  <br/>
+  <a href="http://learn.adafruit.com/reading-a-analog-in-and-controlling-audio-volume-with-the-raspberry-pi/overview">
+   http://learn.adafruit.com/reading-a-analog-in-and-controlling-audio-volume-with-the-raspberry-pi/overview
+  </a>
+  <br/>
+  <a href="http://mac.tutsplus.com/tutorials/electronics/build-a-raspberry-pi-moisture-sensor-to-monitor-your-plants/">
+   http://mac.tutsplus.com/tutorials/electronics/build-a-raspberry-pi-moisture-sensor-to-monitor-your-plants/
+  </a>
+  <br/>
+  Mitatut arvot kannattaa myös tallentaa tulevaa analysointia varten.
+  <br/>
+  <br/>
+  <b>
+   5. anacronin Plant Life Support System
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Ohjaus arduinolla eikä rpi:llä suoraan esimerkiksi vakauden takia (samasta syystä kuin esim. brewpi ohjataan näin)
+    <ul>
+     <li>
+      laajennettavissa helposti, yksi rpi voi yhtähyvin myös kontrolloida useita yksiköitä langattomasti
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Kosteus mitataan mullasta resistanssilla(pitkistä ruuveista rakennettu sensori), tarpeeksi harvalla syklillä ja polarisaatiota olisi hyvä vaihtaa jotta ei tapahdu niin paljoa korroosiota, materiaalivalinnoilla voi myös vaikuttaa tähän
+   </li>
+   <li>
+    Kastelu vesipumpulla joko 12v mosfetin tai SSR:n takaa pumpusta riippuen. Akvaariopumppu tai vastaava upotettava pieni versio.
+   </li>
+   <li>
+    Vesisäiliöön sensorit (esim. resistanssi) ja hälytys piezoa piippailemalla kun vesi on lopussa
+   </li>
+   <li>
+    Valomittaus "valovastuksella" joka tarvittaessa sytyttää ledit tai SSR:n perässä olevan valon päälle. Jos arduun liitetään RTC niin ohjelmointi niin että max 16h päivässä ja yöllä pois päältä x aikana
+   </li>
+   <li>
+    Lämpötila
+    <ul>
+     <li>
+      mahdollista lisätä lämmitin, ohjaus samalla tavalla kuin valot ja vesipumppu
+     </li>
+    </ul>
+   </li>
+   <li>
+    Nokian vanha LCD näyttö joka voi kertoa statseja ja piirtää käppyrää
+   </li>
+   <li>
+    joku järkevä tapa välittää tieto koneelle jos sellaista halutaan käyttää loggaukseen ja ohjaukseen
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   5.1. Hallintajärjestelmä
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Yksi tietokone voi toimia serverinä usealle erikseen mikrokontrolleriohjauksella toimivalle kasviyksikölle (Rpi, beagleboard)
+    <ul>
+     <li>
+      Esim. Orkideat, Jukkapalmu ja keittiöyrtit voivat olla omia yksiköitään erilaisilla ohjauksilla
+     </li>
+    </ul>
+   </li>
+   <li>
+    Tiedonsiirto langattomasti (Xbee, Bluetooth, muita vaihtoehtoja?)
+   </li>
+   <li>
+    Kerää dataa yksiköistä ja vertailee esim. tämän viikon keskiarvoa edelliseen viikkoon
+    <ul>
+     <li>
+      yksikkö voi vaikka tweetata että "viimeviikko oli aika surkea mutta onneks tän viikon on paistanu aurinko"
+     </li>
+     <li>
+      Serveri voi ehdottaa muutoksia parametreihin jos keskimääräinen valoisuus on esimerkiksi muuttunut.
+     </li>
+    </ul>
+   </li>
+   <li>
+    Mahdollisuus muuttaa parametreja etänä vaikka ulkomailta
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   6. Jammin kasvinkastelurobotti
+  </b>
+  <br/>
+  <br/>
+  Mahdollisimman yksinkertainen ja halpa laite, jolle voidaan antaa virrat mistä tahansa USB-virtalähteestä, kuten aurinkopaneeli+litiumakku+usb-laturi -härvelit, muut paristot/akut tai verkkovirtalähde. Toimintaperiaate perustuu kuivan mullan käynnistämään pumppausaliohjelmaan, joka jatkuu, kunnes multa on riittävän kosteaa yläarvolle.
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Elektroniikka koostuu yhdestä piirilevystä, jossa attiny85 ja mosfet tai rele sekä anturit suoraan PCB:llä
+    <ul>
+     <li>
+      Kullatuilla pinnoilla pcb:n anturiosa ei hapetu
+     </li>
+     <li>
+      Komponentit ja juotokset suojataan lakalla
+     </li>
+     <li>
+      Yksi (roisketiivis) painonappi asetuksille ja manuaalikastelulle
+     </li>
+     <li>
+      Yksi ledi indikoimaan setupia ja aktiivisuutta
+     </li>
+     <li>
+      Liitännät: 5V sisään (USB), 5V ulos (pumpun moottori)
+     </li>
+     <li>
+      Piirilevy työnnetään multaan
+     </li>
+    </ul>
+   </li>
+   <li>
+    Pumppuna toimii 5-ovisen auton takalasin pesurin pumppu
+    <ul>
+     <li>
+      Pyörii alhaisillakin jännitteillä
+      <ul>
+       <li>
+        Testattava, onko pumppausteho riittävä esim 5V:llä
+       </li>
+      </ul>
+     </li>
+     <li>
+      Halpa (8€ biltemasta, muutama € kiinasta)
+     </li>
+     <li>
+      Letkut molemmissa päissä, voidaan vetää erikseen mistä tahansa astiasta mihin kohtaan tahansa ruukkua, soveltuu myös altakasteluun
+     </li>
+    </ul>
+   </li>
+   <li>
+    Softan toiminta:
+    <ul>
+     <li>
+      Firmiksessä "järkevät" oletusasetukset siitä mikä on "märkä" ja "kuiva"
+     </li>
+     <li>
+      Asetusmoodi:
+      <ul>
+       <li>
+        1: Aktivoituu, kun virrat päälle kytkettäessä painonappi pidetään pohjassa
+       </li>
+       <li>
+        2: Mittaa alkutilanteen "kuiva"-arvoksi
+       </li>
+       <li>
+        3: Vilkuttaa lediä hitaasti indikoimaan, että asetusmoodi on aktiivinen
+       </li>
+       <li>
+        4: Multaa kastellaan, kunnes se on "märkä"
+       </li>
+       <li>
+        5: Kun painetaan nappia uudestaan, rekisteröidään märkä-arvo
+       </li>
+       <li>
+        6.1: Uudet arvot tallennetaan flashiin ja järjestelmä käynnistyy
+       </li>
+       <li>
+        6.2: Jos märkä-arvo on kuivempi kuin kuiva-arvo, laite menee vikatilaan ja vilkuttaa lediä nopeasti. Resetoidaan virtasyklillä.
+       </li>
+      </ul>
+     </li>
+     <li>
+      Normaali toimintamoodi:
+      <ul>
+       <li>
+        Attiny asetetaan toimimaan 1MHz nopeudella
+       </li>
+       <li>
+        Luetaan flashiltä asetettu arvo tai tallennetaan sinne oletusarvo, jos 1. käynnistys
+       </li>
+       <li>
+        Mitataan anturin arvo
+       </li>
+       <li>
+        Jos arvo alittaa tai on sama kuin kuiva-arvo, niin aloitetaan kastelurutiini:
+        <ul>
+         <li>
+          Käynnistetään pumppu pariksi sekunniksi
+         </li>
+         <li>
+          Sammutetaan pumppu
+         </li>
+         <li>
+          Odotetaan pari sekuntia
+         </li>
+         <li>
+          Mitataan arvo
+         </li>
+         <li>
+          Toistetaan, kunnes märkä-arvo on saavutettu tai ??? sykliä on toistettu
+         </li>
+        </ul>
+       </li>
+       <li>
+        Attiny menee vähävirtatilaan 15 minuutiksi
+       </li>
+       <li>
+        Jos painonappia painetaan, laite herää ja pitää pumppua käynnissä niin kauan nappia pidetään pohjassa
+        <br/>
+        <br/>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </body>
 </html>

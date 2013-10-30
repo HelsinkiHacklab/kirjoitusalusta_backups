@@ -1,46 +1,104 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-PageTurner</title>
-</head>
-<body><b>Alkusanat | First things</b><br
-/>Ajatus syntyi tarpeesta skannata oma kirjasto ja kantaa sitä muistitikulla. Valitettavasti 300 kirjaa ja 100000 sivua oli liian suuri haaste. Skannerissa oli kyllä sivunsyöttölaite, mutta sen käyttö edellyttäisi kirjojen repimistä kappaleiksi - mikä alentaa niiden arvoa tuntuvasti :-) Siispä suunnittelemaan laitetta joka skannaisi kirjan automaattisesti ja jättäisi sen vieläpä ehjäksi.&nbsp;<br
-/><br
-/><b>Toiminta</b><br
-/>&nbsp;&nbsp;&nbsp; Laite muodostuu nostotasosta - jolla kirja lepää - ja rungosta jonka päällä skanneri on ylösalaisin kiinnitettynä, sekä itse sivunkääntimestä. Tämä rakenne yksinkertaistaa sivunkääntimen (joka on hankalin osa) suunnittelua huomattavasti.&nbsp;<br
-/>&nbsp;&nbsp;&nbsp; Sivunkäännin on mekaaninen laite jossa on kaksi sormea sivun kääntämiseen sekä neljä sivun pitelijää. Sormissa pitää olla takisinkytkentä puristuspaineelle koska se muuttuu sivuja käännelessä. Lisäksi Sormia ja sivunpitelijöitä pitää voida siirtää kirjan koon mukaan.<br
-/>&nbsp;&nbsp;&nbsp; Sivu käännetään kun nostotaso on alhaalla. Sormet kääntyvät syrjään ja taso (ja kirja) nostetaan skanneria vasten joka skannaa aukean. Sitten taso lasketaan alas ja sykli toistetaan.<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/><br
-/><br
-/><b>Status 2012.01.12</b><br
-/>Runko on valmis. Siirtotangot ja voimansiirto on kiinnitetty. Kirjan nostotaso on vaiheessa. Nostomekanismi edellyttää vielä paljon säätöä. Moottoria ei ole asennettu vielä.<br
-/><br
-/><b>Status 2012.04.05</b><br
-/>Nurkkapalat osoittautuivat liina heikoksi käytössä. Suunnittelin muotin jolla voin tehdä nurkkakappaleet polyesterihartsista tai vastaavasta. Rakennan Heikin kanssa piirilevyjyrsintä<br
-/>josta saatu kokemus voi olla avuksi. Keksin että vanhoja kiintolevyn lukupäitä voi käyttää kynsinä!<br
-/><br
-/><br
-/><b>Modattavaa</b><br
-/><ul><li>Nostotaso<ul><li>Voimansiirto</li
-><li>Moottori</li
-><li>Rajakytkin</li
-><li>Nostotason moottorin ohjaus</li
-><li>Testaus</li></ul
-></li
-><li>Sivunkäännin<ul><li>tarkka suunnitelma</li></ul
-></li
-><li>Liitäntä Skannerin sivunsyöttöön (PageTurner korvaa sen)<br/><br
-/></li></ul
->Skannausoftana on Omni Page&nbsp;<br
-/><br
-/><br
-/><b>Linkkejä</b><br
-/><br
-/>LEGO Powered Automatic Book Scanner:<br
-/><a href="http://www.youtube.com/watch?v=XRPZm3pyC4o">http://www.youtube.com/watch?v=XRPZm3pyC4o</a><br
-/><br
-/></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-PageTurner
+  </title>
+ </head>
+ <body>
+  <b>
+   Alkusanat | First things
+  </b>
+  <br/>
+  Ajatus syntyi tarpeesta skannata oma kirjasto ja kantaa sitä muistitikulla. Valitettavasti 300 kirjaa ja 100000 sivua oli liian suuri haaste. Skannerissa oli kyllä sivunsyöttölaite, mutta sen käyttö edellyttäisi kirjojen repimistä kappaleiksi - mikä alentaa niiden arvoa tuntuvasti :-) Siispä suunnittelemaan laitetta joka skannaisi kirjan automaattisesti ja jättäisi sen vieläpä ehjäksi.
+  <br/>
+  <br/>
+  <b>
+   Toiminta
+  </b>
+  <br/>
+  Laite muodostuu nostotasosta - jolla kirja lepää - ja rungosta jonka päällä skanneri on ylösalaisin kiinnitettynä, sekä itse sivunkääntimestä. Tämä rakenne yksinkertaistaa sivunkääntimen (joka on hankalin osa) suunnittelua huomattavasti.
+  <br/>
+  Sivunkäännin on mekaaninen laite jossa on kaksi sormea sivun kääntämiseen sekä neljä sivun pitelijää. Sormissa pitää olla takisinkytkentä puristuspaineelle koska se muuttuu sivuja käännelessä. Lisäksi Sormia ja sivunpitelijöitä pitää voida siirtää kirjan koon mukaan.
+  <br/>
+  Sivu käännetään kun nostotaso on alhaalla. Sormet kääntyvät syrjään ja taso (ja kirja) nostetaan skanneria vasten joka skannaa aukean. Sitten taso lasketaan alas ja sykli toistetaan.
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   Status 2012.01.12
+  </b>
+  <br/>
+  Runko on valmis. Siirtotangot ja voimansiirto on kiinnitetty. Kirjan nostotaso on vaiheessa. Nostomekanismi edellyttää vielä paljon säätöä. Moottoria ei ole asennettu vielä.
+  <br/>
+  <br/>
+  <b>
+   Status 2012.04.05
+  </b>
+  <br/>
+  Nurkkapalat osoittautuivat liina heikoksi käytössä. Suunnittelin muotin jolla voin tehdä nurkkakappaleet polyesterihartsista tai vastaavasta. Rakennan Heikin kanssa piirilevyjyrsintä
+  <br/>
+  josta saatu kokemus voi olla avuksi. Keksin että vanhoja kiintolevyn lukupäitä voi käyttää kynsinä!
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   Modattavaa
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Nostotaso
+    <ul>
+     <li>
+      Voimansiirto
+     </li>
+     <li>
+      Moottori
+     </li>
+     <li>
+      Rajakytkin
+     </li>
+     <li>
+      Nostotason moottorin ohjaus
+     </li>
+     <li>
+      Testaus
+     </li>
+    </ul>
+   </li>
+   <li>
+    Sivunkäännin
+    <ul>
+     <li>
+      tarkka suunnitelma
+     </li>
+    </ul>
+   </li>
+   <li>
+    Liitäntä Skannerin sivunsyöttöön (PageTurner korvaa sen)
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Skannausoftana on Omni Page
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   Linkkejä
+  </b>
+  <br/>
+  <br/>
+  LEGO Powered Automatic Book Scanner:
+  <br/>
+  <a href="http://www.youtube.com/watch?v=XRPZm3pyC4o">
+   http://www.youtube.com/watch?v=XRPZm3pyC4o
+  </a>
+  <br/>
+  <br/>
+ </body>
 </html>

@@ -1,53 +1,93 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-arduinoworkshop-robotti</title>
-</head>
-<body>Arduino workshopissa rakennettu robotti<br
-/><br
-/>Arduino + 2 servoa + itsetehtyjä "viiksikarvoja" for collision detection<br
-/><br
-/>Koodi: <a href="http://pastebin.com/CyDQc3Wd">http://pastebin.com/CyDQc3Wd</a><br
-/><br
-/><br
-/>Vacubot openscad koodia:<br
-/><a href="hacklab-vacubot.html">http://kirjoitusalusta.fi/hacklab-vacubot</a><br
-/><br
-/><br
-/>DCMOOTTORI &lt;&lt; &gt;&gt;<br
-/><br
-/>void setup() {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; digitalWrite(13, LOW);&nbsp; // Nothing works until...<br
-/>&nbsp; pinMode(13, OUTPUT);&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; pinMode(9, OUTPUT);&nbsp; // Moottori&nbsp; &lt;&lt;<br
-/>&nbsp; pinMode(3, OUTPUT);&nbsp; // Moottori&nbsp; &gt;&gt;<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; Serial.begin(115200); // Avataan portti<br
-/>&nbsp;&nbsp;<br
-/>}<br
-/>void loop() {<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; while(!Serial.available() ){/* sleep */};&nbsp;<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; digitalWrite(13,HIGH);&nbsp;<br
-/>&nbsp; int c = Serial.read();<br
-/>&nbsp;&nbsp; if(c&gt;='0' &amp;&amp; c&lt;='9') {<br
-/>&nbsp;&nbsp;&nbsp; int n&nbsp; = c -'0'; // n saa arvoja 0-9<br
-/>&nbsp;&nbsp;&nbsp; int v = (n*255)/9; // v saa arvoja 0-255<br
-/>&nbsp;&nbsp;&nbsp; analogWrite(9, v);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp;&nbsp;&nbsp; Serial.print(v);<br
-/>&nbsp;&nbsp; }<br
-/>&nbsp;&nbsp; Serial.print(" ");<br
-/>&nbsp;&nbsp; c = Serial.read();<br
-/>&nbsp;&nbsp; if(c&gt;='0' &amp;&amp; c&lt;='9') {<br
-/>&nbsp;&nbsp;&nbsp; int n&nbsp; = c -'0'; // n saa arvoja 0-9<br
-/>&nbsp;&nbsp;&nbsp; int v = (n*255)/9;<br
-/>&nbsp;&nbsp;&nbsp; analogWrite(3, v);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp;&nbsp;&nbsp; Serial.println(v);<br
-/>&nbsp;&nbsp; }<br
-/>}<br
-/><br
-/></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-arduinoworkshop-robotti
+  </title>
+ </head>
+ <body>
+  Arduino workshopissa rakennettu robotti
+  <br/>
+  <br/>
+  Arduino + 2 servoa + itsetehtyjä "viiksikarvoja" for collision detection
+  <br/>
+  <br/>
+  Koodi:
+  <a href="http://pastebin.com/CyDQc3Wd">
+   http://pastebin.com/CyDQc3Wd
+  </a>
+  <br/>
+  <br/>
+  <br/>
+  Vacubot openscad koodia:
+  <br/>
+  <a href="./hacklab-vacubot.html">
+   http://kirjoitusalusta.fi/hacklab-vacubot
+  </a>
+  <br/>
+  <br/>
+  <br/>
+  DCMOOTTORI &lt;&lt; &gt;&gt;
+  <br/>
+  <br/>
+  void setup() {
+  <br/>
+  digitalWrite(13, LOW);  // Nothing works until...
+  <br/>
+  pinMode(13, OUTPUT);
+  <br/>
+  pinMode(9, OUTPUT);  // Moottori  &lt;&lt;
+  <br/>
+  pinMode(3, OUTPUT);  // Moottori  &gt;&gt;
+  <br/>
+  <br/>
+  Serial.begin(115200); // Avataan portti
+  <br/>
+  <br/>
+  }
+  <br/>
+  void loop() {
+  <br/>
+  <br/>
+  while(!Serial.available() ){/* sleep */};
+  <br/>
+  <br/>
+  digitalWrite(13,HIGH);
+  <br/>
+  int c = Serial.read();
+  <br/>
+  if(c&gt;='0' &amp;&amp; c&lt;='9') {
+  <br/>
+  int n  = c -'0'; // n saa arvoja 0-9
+  <br/>
+  int v = (n*255)/9; // v saa arvoja 0-255
+  <br/>
+  analogWrite(9, v);
+  <br/>
+  Serial.print(v);
+  <br/>
+  }
+  <br/>
+  Serial.print(" ");
+  <br/>
+  c = Serial.read();
+  <br/>
+  if(c&gt;='0' &amp;&amp; c&lt;='9') {
+  <br/>
+  int n  = c -'0'; // n saa arvoja 0-9
+  <br/>
+  int v = (n*255)/9;
+  <br/>
+  analogWrite(3, v);
+  <br/>
+  Serial.println(v);
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  <br/>
+ </body>
 </html>

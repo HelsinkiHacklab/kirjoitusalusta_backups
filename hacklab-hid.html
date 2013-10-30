@@ -1,86 +1,150 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-hid</title>
-</head>
-<body># HID - Human Interface Device<br
-/><br
-/># HID Report Descriptors<br
-/><br
-/>## Items<br
-/><br
-/>Main Items<br
-/>- Input<br
-/>- Output<br
-/>- Feature<br
-/>- Collection<br
-/>- End Collection<br
-/><br
-/>Global Items (Säilyvät main itemeitten jälkeen)<br
-/>- Usage Page<br
-/>- Logical Minimum / Logical Maximum (protokollassa olevat arvot)<br
-/>- Physical Minimum / Physical Maximum (reaalimaailman arvot)<br
-/>- Report Size<br
-/>- Report Count<br
-/>- Report ID<br
-/>- Unit<br
-/>- Unit Exponent<br
-/>- Push / Pop<br
-/><br
-/>Local Items (Määriteltävä aina main itemin käytön jälkeen)<br
-/>- Usage, Usage Minimun / Usage Maximum<br
-/>- Designator Index, Designator Minimum / Designator Maximum<br
-/>- String Index, String Minimum / String Maximum<br
-/>- Delimiter<br
-/>- Reserved<br
-/><br
-/>## Esimerkkejä<br
-/><br
-/>### Joystick<br
-/><br
-/>Minimalistic joystick<br
-/>- Joystick must have atleast 2 axis. 2 buttons.<br
-/><br
-/>char ReportDescriptor[46] = {<br
-/>&nbsp;&nbsp;&nbsp; 0x05, 0x01,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // USAGE_PAGE (Generic Desktop)<br
-/>&nbsp;&nbsp;&nbsp; 0x09, 0x04,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // USAGE (Joystick)<br
-/>&nbsp;&nbsp;&nbsp; 0xa1, 0x01,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // COLLECTION (Application)<br
-/>&nbsp;&nbsp;&nbsp; 0x09, 0x01,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp; USAGE (Pointer)<br
-/>&nbsp;&nbsp;&nbsp; 0xa1, 0x00,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp; COLLECTION (Physical)<br
-/>&nbsp;&nbsp;&nbsp; 0x15, 0x81,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp;&nbsp;&nbsp; LOGICAL_MINIMUM (-127)<br
-/>&nbsp;&nbsp;&nbsp; 0x25, 0x7f,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp;&nbsp;&nbsp; LOGICAL_MAXIMUM (127)<br
-/>&nbsp;&nbsp;&nbsp; 0x09, 0x30,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp;&nbsp;&nbsp; USAGE (X)<br
-/>&nbsp;&nbsp;&nbsp; 0x09, 0x31,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp;&nbsp;&nbsp; USAGE (Y)<br
-/>&nbsp;&nbsp;&nbsp; 0x95, 0x02,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp;&nbsp;&nbsp; REPORT_COUNT (2)<br
-/>&nbsp;&nbsp;&nbsp; 0x75, 0x08,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp; REPORT_SIZE (8)<br
-/>&nbsp;&nbsp;&nbsp; 0x81, 0x02,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp;&nbsp;&nbsp; INPUT (Data,Var,Abs)<br
-/>&nbsp;&nbsp;&nbsp; 0xc0,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp; END_COLLECTION<br
-/>&nbsp;&nbsp;&nbsp; 0x05, 0x09,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp; USAGE_PAGE (Button)<br
-/>&nbsp;&nbsp;&nbsp; 0x19, 0x01,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp; USAGE_MINIMUM (Button 1)<br
-/>&nbsp;&nbsp;&nbsp; 0x29, 0x02,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp; USAGE_MAXIMUM (Button 2)<br
-/>&nbsp;&nbsp;&nbsp; 0x15, 0x00,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp; LOGICAL_MINIMUM (0)<br
-/>&nbsp;&nbsp;&nbsp; 0x25, 0x01,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp; LOGICAL_MAXIMUM (1)<br
-/>&nbsp;&nbsp;&nbsp; 0x75, 0x01,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp; REPORT_SIZE (1)<br
-/>&nbsp;&nbsp;&nbsp; 0x95, 0x02,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp; REPORT_COUNT (2)<br
-/>&nbsp;&nbsp;&nbsp; 0x81, 0x02,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp; INPUT (Data,Var,Abs)<br
-/>&nbsp;&nbsp;&nbsp; 0x75, 0x06,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp; REPORT_SIZE (6)<br
-/>&nbsp;&nbsp;&nbsp; 0x81, 0x01,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //&nbsp;&nbsp; INPUT (Cnst,Ary,Abs)<br
-/>&nbsp;&nbsp;&nbsp; 0xc0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // END_COLLECTION<br
-/>};<br
-/><br
-/><br
-/><br
-/>### Mouse<br
-/>### Keyboard<br
-/><br
-/>## Arduino<br
-/><br
-/>- Kannattaa käyttää esim: Arduino Uno r3 tai Arduino 2560 r3, koska niissä toimii dfu-lataus hyvin ja helposti.<br
-/>- LUFA-100807<br
-/>- arduino-1.0<br
-/><br
-/><br
-/></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-hid
+  </title>
+ </head>
+ <body>
+  # HID - Human Interface Device
+  <br/>
+  <br/>
+  # HID Report Descriptors
+  <br/>
+  <br/>
+  ## Items
+  <br/>
+  <br/>
+  Main Items
+  <br/>
+  - Input
+  <br/>
+  - Output
+  <br/>
+  - Feature
+  <br/>
+  - Collection
+  <br/>
+  - End Collection
+  <br/>
+  <br/>
+  Global Items (Säilyvät main itemeitten jälkeen)
+  <br/>
+  - Usage Page
+  <br/>
+  - Logical Minimum / Logical Maximum (protokollassa olevat arvot)
+  <br/>
+  - Physical Minimum / Physical Maximum (reaalimaailman arvot)
+  <br/>
+  - Report Size
+  <br/>
+  - Report Count
+  <br/>
+  - Report ID
+  <br/>
+  - Unit
+  <br/>
+  - Unit Exponent
+  <br/>
+  - Push / Pop
+  <br/>
+  <br/>
+  Local Items (Määriteltävä aina main itemin käytön jälkeen)
+  <br/>
+  - Usage, Usage Minimun / Usage Maximum
+  <br/>
+  - Designator Index, Designator Minimum / Designator Maximum
+  <br/>
+  - String Index, String Minimum / String Maximum
+  <br/>
+  - Delimiter
+  <br/>
+  - Reserved
+  <br/>
+  <br/>
+  ## Esimerkkejä
+  <br/>
+  <br/>
+  ### Joystick
+  <br/>
+  <br/>
+  Minimalistic joystick
+  <br/>
+  - Joystick must have atleast 2 axis. 2 buttons.
+  <br/>
+  <br/>
+  char ReportDescriptor[46] = {
+  <br/>
+  0x05, 0x01,                    // USAGE_PAGE (Generic Desktop)
+  <br/>
+  0x09, 0x04,                    // USAGE (Joystick)
+  <br/>
+  0xa1, 0x01,                    // COLLECTION (Application)
+  <br/>
+  0x09, 0x01,                    //   USAGE (Pointer)
+  <br/>
+  0xa1, 0x00,                    //   COLLECTION (Physical)
+  <br/>
+  0x15, 0x81,                    //     LOGICAL_MINIMUM (-127)
+  <br/>
+  0x25, 0x7f,                    //     LOGICAL_MAXIMUM (127)
+  <br/>
+  0x09, 0x30,                    //     USAGE (X)
+  <br/>
+  0x09, 0x31,                    //     USAGE (Y)
+  <br/>
+  0x95, 0x02,                    //     REPORT_COUNT (2)
+  <br/>
+  0x75, 0x08,                    //   REPORT_SIZE (8)
+  <br/>
+  0x81, 0x02,                    //     INPUT (Data,Var,Abs)
+  <br/>
+  0xc0,                          //   END_COLLECTION
+  <br/>
+  0x05, 0x09,                    //   USAGE_PAGE (Button)
+  <br/>
+  0x19, 0x01,                    //   USAGE_MINIMUM (Button 1)
+  <br/>
+  0x29, 0x02,                    //   USAGE_MAXIMUM (Button 2)
+  <br/>
+  0x15, 0x00,                    //   LOGICAL_MINIMUM (0)
+  <br/>
+  0x25, 0x01,                    //   LOGICAL_MAXIMUM (1)
+  <br/>
+  0x75, 0x01,                    //   REPORT_SIZE (1)
+  <br/>
+  0x95, 0x02,                    //   REPORT_COUNT (2)
+  <br/>
+  0x81, 0x02,                    //   INPUT (Data,Var,Abs)
+  <br/>
+  0x75, 0x06,                    //   REPORT_SIZE (6)
+  <br/>
+  0x81, 0x01,                    //   INPUT (Cnst,Ary,Abs)
+  <br/>
+  0xc0                           // END_COLLECTION
+  <br/>
+  };
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  ### Mouse
+  <br/>
+  ### Keyboard
+  <br/>
+  <br/>
+  ## Arduino
+  <br/>
+  <br/>
+  - Kannattaa käyttää esim: Arduino Uno r3 tai Arduino 2560 r3, koska niissä toimii dfu-lataus hyvin ja helposti.
+  <br/>
+  - LUFA-100807
+  <br/>
+  - arduino-1.0
+  <br/>
+  <br/>
+  <br/>
+ </body>
 </html>

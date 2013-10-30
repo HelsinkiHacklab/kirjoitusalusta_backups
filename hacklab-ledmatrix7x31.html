@@ -1,68 +1,131 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-ledmatrix7x31</title>
-</head>
-<body><b>7x31 led matrix</b><br
-/><br
-/>Because that's what Styrge built, now we recycle the frame for something more usefull. It will be treated as 8x32 for simplified control, the last row&amp;column just do not actually do anything.<br
-/><br
-/>Wikipage: <a href="http://wiki.helsinki.hacklab.fi/index.php/LargeLEDScreen">http://wiki.helsinki.hacklab.fi/index.php/LargeLEDScreen</a><br
-/>Pictures:&nbsp;&nbsp;<br
-/><ul><li><a href="https://www.dropbox.com/sh/os78jiufbp1gh6l/XEdZ-XlLfB">https://www.dropbox.com/sh/os78jiufbp1gh6l/XEdZ-XlLfB</a></li
-><li><a href="http://www.flickr.com/photos/ermuggo/8118714465/in/pool-2089172@N20/">http://www.flickr.com/photos/ermuggo/8118714465/in/pool-2089172@N20/</a><br/><br
-/></li></ul
->github: <a href="https://github.com/HelsinkiHacklab/ledmatrix">https://github.com/HelsinkiHacklab/ledmatrix</a><br
-/><br
-/><b>Phase 1: single color, no PWM</b><br
-/><br
-/>Call it proof-of-concept, will be wired with cheap-ass leds just to test the ideas we have.<br
-/><br
-/>Phase one was skipped...<br
-/><br
-/><b>Phase 2: PWM:d RGB</b><br
-/><br
-/>The fun part...<br
-/><br
-/>Wired so that we have high-power (2A) PNP transistor feeding the Common-Anode of a row<br
-/>and 3x4 shift-registers to sink the colors (again same board as above, resistor values as per color).<br
-/><br
-/>Driving this will be interesting, we'll be using XMegas and leverage the DMA, <s>suovula and zzorn have some idea of how to keep calculating the bit-patterns for PWM in between the DMA pushing data to the shift-regs.&nbsp; </s>will use BAM/MIBAM instead of traditional PWM so there is less calculating to do.<br
-/><br
-/>This is not only quite insane amount of soldering quite challenging code-wise as well...<br
-/><br
-/>First version of the sw uses stock arduino so that it's understandable by beginners too.<br
-/><br
-/>FUTURE<br
-/><br
-/>Screen will be used in Arduino courses as display for users Arduino projects. More motivating<br
-/><br
-/>-------------<br
-/><br
-/><br
-/>22.12.2012 Wärkfest&nbsp; Prolems solved software is working<br
-/><br
-/>21.12 Wärkfest Problems with software<br
-/><br
-/>20.12 Rest of LEDs soldered, testing electronics<br
-/><br
-/>16.10 60 LEDs soldered<br
-/><br
-/>16.10,2012 Wiring finished. LEDS will be soldered at afternoon with full crew.<br
-/><br
-/>Bought 3 x 100 RGB leds from ebay, delivery 10-?? days&nbsp; --zzorn<br
-/><br
-/>RGB LED sourcing:<br
-/><a href="http://www.ebay.com/itm/100pcs-x-5mm-4-pin-RGB-Diffused-Common-Anode-LED-Red-Green-Blue-/261083069774">http://www.ebay.com/itm/100pcs-x-5mm-4-pin-RGB-Diffused-Common-Anode-LED-Red-Green-Blue-/261083069774</a><br
-/><br
-/>Styrge kävi täällä 29.9 lupasi tuoda projektista ylijääneet LEDit kunhan kerkee. Kiitti Styrge.<br
-/><br
-/>Other possibility <a href="http://www.satisled.com/Wholesale-Discount-led-lamps-rgb-full-color_c27.html">http://www.satisled.com/Wholesale-Discount-led-lamps-rgb-full-color_c27.html</a><br
-/><br
-/><br
-/><br
-/><br
-/></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-ledmatrix7x31
+  </title>
+ </head>
+ <body>
+  <b>
+   7x31 led matrix
+  </b>
+  <br/>
+  <br/>
+  Because that's what Styrge built, now we recycle the frame for something more usefull. It will be treated as 8x32 for simplified control, the last row&amp;column just do not actually do anything.
+  <br/>
+  <br/>
+  Wikipage:
+  <a href="http://wiki.helsinki.hacklab.fi/index.php/LargeLEDScreen">
+   http://wiki.helsinki.hacklab.fi/index.php/LargeLEDScreen
+  </a>
+  <br/>
+  Pictures:
+  <br/>
+  <ul>
+   <li>
+    <a href="https://www.dropbox.com/sh/os78jiufbp1gh6l/XEdZ-XlLfB">
+     https://www.dropbox.com/sh/os78jiufbp1gh6l/XEdZ-XlLfB
+    </a>
+   </li>
+   <li>
+    <a href="http://www.flickr.com/photos/ermuggo/8118714465/in/pool-2089172@N20/">
+     http://www.flickr.com/photos/ermuggo/8118714465/in/pool-2089172@N20/
+    </a>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  github:
+  <a href="https://github.com/HelsinkiHacklab/ledmatrix">
+   https://github.com/HelsinkiHacklab/ledmatrix
+  </a>
+  <br/>
+  <br/>
+  <b>
+   Phase 1: single color, no PWM
+  </b>
+  <br/>
+  <br/>
+  Call it proof-of-concept, will be wired with cheap-ass leds just to test the ideas we have.
+  <br/>
+  <br/>
+  Phase one was skipped...
+  <br/>
+  <br/>
+  <b>
+   Phase 2: PWM:d RGB
+  </b>
+  <br/>
+  <br/>
+  The fun part...
+  <br/>
+  <br/>
+  Wired so that we have high-power (2A) PNP transistor feeding the Common-Anode of a row
+  <br/>
+  and 3x4 shift-registers to sink the colors (again same board as above, resistor values as per color).
+  <br/>
+  <br/>
+  Driving this will be interesting, we'll be using XMegas and leverage the DMA,
+  <s>
+   suovula and zzorn have some idea of how to keep calculating the bit-patterns for PWM in between the DMA pushing data to the shift-regs.
+  </s>
+  will use BAM/MIBAM instead of traditional PWM so there is less calculating to do.
+  <br/>
+  <br/>
+  This is not only quite insane amount of soldering quite challenging code-wise as well...
+  <br/>
+  <br/>
+  First version of the sw uses stock arduino so that it's understandable by beginners too.
+  <br/>
+  <br/>
+  FUTURE
+  <br/>
+  <br/>
+  Screen will be used in Arduino courses as display for users Arduino projects. More motivating
+  <br/>
+  <br/>
+  -------------
+  <br/>
+  <br/>
+  <br/>
+  22.12.2012 Wärkfest  Prolems solved software is working
+  <br/>
+  <br/>
+  21.12 Wärkfest Problems with software
+  <br/>
+  <br/>
+  20.12 Rest of LEDs soldered, testing electronics
+  <br/>
+  <br/>
+  16.10 60 LEDs soldered
+  <br/>
+  <br/>
+  16.10,2012 Wiring finished. LEDS will be soldered at afternoon with full crew.
+  <br/>
+  <br/>
+  Bought 3 x 100 RGB leds from ebay, delivery 10-?? days  --zzorn
+  <br/>
+  <br/>
+  RGB LED sourcing:
+  <br/>
+  <a href="http://www.ebay.com/itm/100pcs-x-5mm-4-pin-RGB-Diffused-Common-Anode-LED-Red-Green-Blue-/261083069774">
+   http://www.ebay.com/itm/100pcs-x-5mm-4-pin-RGB-Diffused-Common-Anode-LED-Red-Green-Blue-/261083069774
+  </a>
+  <br/>
+  <br/>
+  Styrge kävi täällä 29.9 lupasi tuoda projektista ylijääneet LEDit kunhan kerkee. Kiitti Styrge.
+  <br/>
+  <br/>
+  Other possibility
+  <a href="http://www.satisled.com/Wholesale-Discount-led-lamps-rgb-full-color_c27.html">
+   http://www.satisled.com/Wholesale-Discount-led-lamps-rgb-full-color_c27.html
+  </a>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+ </body>
 </html>

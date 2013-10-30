@@ -1,53 +1,100 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-serveritoiveet</title>
-</head>
-<body><b>Helsinki Hacklab list for server requests / serveritoiveiden lista</b><br
-/><br
-/>Please add your requests / needs for server capacity and functionality to this list<br
-/>Lisää tähän listaan toiveesi / tarpeesi serverikapasiteetista ja -toiminnoista<br
-/><br
-/>I'd request you add your (nick)name next to your request or an existing one that you'd wish to see implemented. This is done to simplify mapping the demand for the requests and to help coordinate the implementation with the requestors. Feel free to add comments to requests - an easy way to help get special requests done. :)<br
-/>Toivoisin että&nbsp; listaan lisättäisiin myös toivojien nimet / nimimerkit, että tarpeet on helpompi&nbsp; hoitaa tarvitsijoiden kanssa yhteisesti. Tarvekartoituksen edistämiseksi&nbsp; lisääthän jo listassa oleviinkin kohtiin nimesi tarpeen mukaan.&nbsp; Perusteluja saa toki myös lisätä ja niillä on helppo edistää&nbsp; harvinaisempia toiveita! :)<br
-/><br
-/>-Markus 'Jaroneko' Räty<br
-/><br
-/><b>Implemented:</b><br
-/>OpenVPN (simple config on the Fonera box)<br
-/>NAS (default config for the Thermaltake Muse NAS-RAID N0001LN provided by elmo)<br
-/>&nbsp;&nbsp;&nbsp; -SMB<br
-/>DHCP (Fonera)<br
-/>Firewall (Fonera)<br
-/>NAT (Fonera)<br
-/><br
-/><b>Requests:</b><br
-/>LDAP (greatly simplifies authentication site-wide): Jaroneko<br
-/>Disk quotas (+scratchdisk): tstm<br
-/>Print server: Jaroneko, trayrace<br
-/>SSH (shell access): Jaroneko, dist, messmer, tstm, viHannes, ExTechOp,Tapio<br
-/>irssi (or similar, not to be confused with mere SSH shell access [above]):<br
-/>OpenVPN (A 'proper' config with possibly a separate service for all-traffic routing): Jaroneko<br
-/>DNS (Implement an inhouse domain. ".hacklab"?): Jaroneko<br
-/>LAMP server: messmer, Jaroneko<br
-/>&nbsp;&nbsp;&nbsp; = Mysql5+php5+apache2 = sitebar bookmark server<br
-/>Python: Jaroneko, Dist<br
-/>Django (can be installed per user if you have access to shell, apache conf): dist<br
-/>git: dist<br
-/>PostgreSQL: dist (likely somewhat small db)<br
-/>Backup service: trayrace, Jaroneko, Tapio<br
-/>NAS<br
-/>&nbsp;&nbsp;&nbsp; -SMB: trayrace, Jaroneko, dist<br
-/>&nbsp;&nbsp;&nbsp; -AFP: Jaroneko, dist<br
-/>&nbsp;&nbsp;&nbsp; -NFS: Jaroneko<br
-/>&nbsp;&nbsp;&nbsp; -SFTP: Jaroneko, Tapio<br
-/>Virtualisation (will need better hardware than currently allocated): Jaroneko<br
-/>SNMP: Jaroneko<br
-/>DLNA: Jaroneko (Just a thought... :P)<br
-/>Sun JDK 1.6 for space game server :) --Hans<br
-/>Hudson: jautero<br
-/><br
-/></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-serveritoiveet
+  </title>
+ </head>
+ <body>
+  <b>
+   Helsinki Hacklab list for server requests / serveritoiveiden lista
+  </b>
+  <br/>
+  <br/>
+  Please add your requests / needs for server capacity and functionality to this list
+  <br/>
+  Lisää tähän listaan toiveesi / tarpeesi serverikapasiteetista ja -toiminnoista
+  <br/>
+  <br/>
+  I'd request you add your (nick)name next to your request or an existing one that you'd wish to see implemented. This is done to simplify mapping the demand for the requests and to help coordinate the implementation with the requestors. Feel free to add comments to requests - an easy way to help get special requests done. :)
+  <br/>
+  Toivoisin että  listaan lisättäisiin myös toivojien nimet / nimimerkit, että tarpeet on helpompi  hoitaa tarvitsijoiden kanssa yhteisesti. Tarvekartoituksen edistämiseksi  lisääthän jo listassa oleviinkin kohtiin nimesi tarpeen mukaan.  Perusteluja saa toki myös lisätä ja niillä on helppo edistää  harvinaisempia toiveita! :)
+  <br/>
+  <br/>
+  -Markus 'Jaroneko' Räty
+  <br/>
+  <br/>
+  <b>
+   Implemented:
+  </b>
+  <br/>
+  OpenVPN (simple config on the Fonera box)
+  <br/>
+  NAS (default config for the Thermaltake Muse NAS-RAID N0001LN provided by elmo)
+  <br/>
+  -SMB
+  <br/>
+  DHCP (Fonera)
+  <br/>
+  Firewall (Fonera)
+  <br/>
+  NAT (Fonera)
+  <br/>
+  <br/>
+  <b>
+   Requests:
+  </b>
+  <br/>
+  LDAP (greatly simplifies authentication site-wide): Jaroneko
+  <br/>
+  Disk quotas (+scratchdisk): tstm
+  <br/>
+  Print server: Jaroneko, trayrace
+  <br/>
+  SSH (shell access): Jaroneko, dist, messmer, tstm, viHannes, ExTechOp,Tapio
+  <br/>
+  irssi (or similar, not to be confused with mere SSH shell access [above]):
+  <br/>
+  OpenVPN (A 'proper' config with possibly a separate service for all-traffic routing): Jaroneko
+  <br/>
+  DNS (Implement an inhouse domain. ".hacklab"?): Jaroneko
+  <br/>
+  LAMP server: messmer, Jaroneko
+  <br/>
+  = Mysql5+php5+apache2 = sitebar bookmark server
+  <br/>
+  Python: Jaroneko, Dist
+  <br/>
+  Django (can be installed per user if you have access to shell, apache conf): dist
+  <br/>
+  git: dist
+  <br/>
+  PostgreSQL: dist (likely somewhat small db)
+  <br/>
+  Backup service: trayrace, Jaroneko, Tapio
+  <br/>
+  NAS
+  <br/>
+  -SMB: trayrace, Jaroneko, dist
+  <br/>
+  -AFP: Jaroneko, dist
+  <br/>
+  -NFS: Jaroneko
+  <br/>
+  -SFTP: Jaroneko, Tapio
+  <br/>
+  Virtualisation (will need better hardware than currently allocated): Jaroneko
+  <br/>
+  SNMP: Jaroneko
+  <br/>
+  DLNA: Jaroneko (Just a thought... :P)
+  <br/>
+  Sun JDK 1.6 for space game server :) --Hans
+  <br/>
+  Hudson: jautero
+  <br/>
+  <br/>
+ </body>
 </html>

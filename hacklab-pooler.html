@@ -1,54 +1,109 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-pooler</title>
-</head>
-<body><b>Idea</b><br
-/><br
-/>Rakennetaan läbille käämimiskone. Kelasydänten käämiminen käsin on karvasta työtä. Tarvitaan siis moottoroitu vehje tekemään sitä.&nbsp;<br
-/><br
-/>kts <a href="https://github.com/HelsinkiHacklab/aircores/tree/master/spooler">https://github.com/HelsinkiHacklab/aircores/tree/master/spooler</a><br
-/><br
-/><b>Vaatimukset</b><br
-/><ul><li>&nbsp; Pooler käämii lankaa pyöreälle tai tankomaiselle sydämmelle.&nbsp;</li
-><li>&nbsp; Laitteen olisi oltava mahdollisimman automaattinen. Riittää että käyttäjä kiinnittää langan&nbsp;&nbsp; kelasydämmeen ja asettaa halutun kierrosmäärän.&nbsp;</li
-><li>&nbsp; Kierroslukulaskuri pysäyttää moottorin kun haluttu kierrosmäärä on saavutettu.&nbsp;</li
-><li>&nbsp; Langanohjain kiertää langan tasaisesti.&nbsp;</li
-><li>&nbsp; Poolerin olisi oltava riittävän luja kestämään vahvempienkin lankojen kelausta.&nbsp;</li
-><li>Optionaalinen induktanssin mittaus - pysäyttää poolerin kun haluttu induktanssi on saavutettu.<br/><br
-/></li></ul
->Toroidisydämille tarvitaan erillainen kone joka toimii täysin eri toimintaperiaatteella.<br
-/><br
-/>Voitaisiin ensin rakentaa pienempi kevytversio pienempien kelojen käämimiselle<br
-/><br
-/>temmi: sopivasti suunnitellen tehtäis semmonen, minkä käämin/vyyhden alusta on vaihdettavissa sen mukaan minkä kokosta mitä ollaan käärimässä. duunissa on tämmönen kikotin, missä polkimella säädetään vauhtia ja vipukytkimellä suuntaa ja kierroslaskuri on puhtaan mekaaninen. taajuusmuuttajalla ohjataan oikosulkumoottoria, joka ketjuvälitteisesti pyörittää akselia, millä puolestaan on irroitettava käämialusta. normaalisti tällä tehdään irrallisia vyyhtejä, joita sitten asetellaan sähkömoottorien käämeiksi.&nbsp;<br
-/><br
-/><br
-/><b>Status 2012.01.17</b><br
-/>-löysin puretun tarratulostimen rungon jossa on jousitettu puristinakseli just sellainen joka&nbsp;<br
-/>tarvitaan kelarungon kiinnipitoon. Purin siitä turhat osat. Sitä voisi ehkä käyttää pienenä<br
-/>poolerina. Seuraavaksi tarvittaisiin veivi ja tapa kiinnittää se akseliin. Koitin jo ratasvetoa<br
-/>, mutta odotetusti vaati liikaa tarkkuutta eikä toiminut.<br
-/><br
-/><b>Status 2012.01.12</b><br
-/><br
-/>- labilla on pieni abb taajuusmuuttaja, jonka voisi tähän valjastaa<br
-/><br
-/><br
-/><b>Status 2012.02.04</b><br
-/>Löysin toisen paremman kirjoittimen rungon jota voisi käyttää poolerin runkona, purin siitä turhat rojut pois<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/><b>Status 2012.03.03</b><br
-/>Toinen vastaava kehitteillä Suovulalla.&nbsp;<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>Status 2012.09.23<br
-/>Laite on valmis ja sitä on käytetty reaktoriprojektissa moottorien käämittämiseen<br
-/><br
-/>Status 2012.10.23<br
-/>Käämittiin suuri määrä aircoreja Reaktoriin. Laitetta ohjataan haraldin vanhalls kitarapedaalilla jossa potentiometri. Arduinossa on laskuri ja laite pysähtyy automaattisesti kun haluttu kierrosmäärä on saavutettu.<br
-/><br
-/></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-pooler
+  </title>
+ </head>
+ <body>
+  <b>
+   Idea
+  </b>
+  <br/>
+  <br/>
+  Rakennetaan läbille käämimiskone. Kelasydänten käämiminen käsin on karvasta työtä. Tarvitaan siis moottoroitu vehje tekemään sitä.
+  <br/>
+  <br/>
+  kts
+  <a href="https://github.com/HelsinkiHacklab/aircores/tree/master/spooler">
+   https://github.com/HelsinkiHacklab/aircores/tree/master/spooler
+  </a>
+  <br/>
+  <br/>
+  <b>
+   Vaatimukset
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Pooler käämii lankaa pyöreälle tai tankomaiselle sydämmelle.
+   </li>
+   <li>
+    Laitteen olisi oltava mahdollisimman automaattinen. Riittää että käyttäjä kiinnittää langan   kelasydämmeen ja asettaa halutun kierrosmäärän.
+   </li>
+   <li>
+    Kierroslukulaskuri pysäyttää moottorin kun haluttu kierrosmäärä on saavutettu.
+   </li>
+   <li>
+    Langanohjain kiertää langan tasaisesti.
+   </li>
+   <li>
+    Poolerin olisi oltava riittävän luja kestämään vahvempienkin lankojen kelausta.
+   </li>
+   <li>
+    Optionaalinen induktanssin mittaus - pysäyttää poolerin kun haluttu induktanssi on saavutettu.
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Toroidisydämille tarvitaan erillainen kone joka toimii täysin eri toimintaperiaatteella.
+  <br/>
+  <br/>
+  Voitaisiin ensin rakentaa pienempi kevytversio pienempien kelojen käämimiselle
+  <br/>
+  <br/>
+  temmi: sopivasti suunnitellen tehtäis semmonen, minkä käämin/vyyhden alusta on vaihdettavissa sen mukaan minkä kokosta mitä ollaan käärimässä. duunissa on tämmönen kikotin, missä polkimella säädetään vauhtia ja vipukytkimellä suuntaa ja kierroslaskuri on puhtaan mekaaninen. taajuusmuuttajalla ohjataan oikosulkumoottoria, joka ketjuvälitteisesti pyörittää akselia, millä puolestaan on irroitettava käämialusta. normaalisti tällä tehdään irrallisia vyyhtejä, joita sitten asetellaan sähkömoottorien käämeiksi.
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   Status 2012.01.17
+  </b>
+  <br/>
+  -löysin puretun tarratulostimen rungon jossa on jousitettu puristinakseli just sellainen joka
+  <br/>
+  tarvitaan kelarungon kiinnipitoon. Purin siitä turhat osat. Sitä voisi ehkä käyttää pienenä
+  <br/>
+  poolerina. Seuraavaksi tarvittaisiin veivi ja tapa kiinnittää se akseliin. Koitin jo ratasvetoa
+  <br/>
+  , mutta odotetusti vaati liikaa tarkkuutta eikä toiminut.
+  <br/>
+  <br/>
+  <b>
+   Status 2012.01.12
+  </b>
+  <br/>
+  <br/>
+  - labilla on pieni abb taajuusmuuttaja, jonka voisi tähän valjastaa
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   Status 2012.02.04
+  </b>
+  <br/>
+  Löysin toisen paremman kirjoittimen rungon jota voisi käyttää poolerin runkona, purin siitä turhat rojut pois
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   Status 2012.03.03
+  </b>
+  <br/>
+  Toinen vastaava kehitteillä Suovulalla.
+  <br/>
+  <br/>
+  Status 2012.09.23
+  <br/>
+  Laite on valmis ja sitä on käytetty reaktoriprojektissa moottorien käämittämiseen
+  <br/>
+  <br/>
+  Status 2012.10.23
+  <br/>
+  Käämittiin suuri määrä aircoreja Reaktoriin. Laitetta ohjataan haraldin vanhalls kitarapedaalilla jossa potentiometri. Arduinossa on laskuri ja laite pysähtyy automaattisesti kun haluttu kierrosmäärä on saavutettu.
+  <br/>
+  <br/>
+ </body>
 </html>

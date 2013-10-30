@@ -1,53 +1,127 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-Coolio</title>
-</head>
-<body><b>Alusanat</b><br
-/><br
-/>Ideana olisi tehdä samantapainen jäähdytysalusasu kuin astronauteilla on painepukujensa alla.<br
-/>Normaalivaate on (lähes)aina joko liian kuuma tai kylmä mikä aiheuttaa hikoilua tai tärinää. Sattumalta NASA:lla oli sama ongelma avaruuspukujen kanssa sillä astronautti on aluksen ulkona kuin termospullossa. Ratkaisu oli tehdä alusvaatteet muoviletkuista joissa virtaava jäähdytysvesi pitää astronautin mukavan viileänä (=cool).&nbsp;<br
-/><br
-/><b>Toteutus</b><br
-/><br
-/>&nbsp; Otetaan vanha armeijan verkkopaita joka on jo viileä itsesään ja kiinnitetään siihen silikoniletku spagetti. Liitetään letkuun lämmönvaihdin, kiertovesipumppu ja säätöelektroniikka ja täytetään komeus vedellä.<br
-/>&nbsp; Lämmönvaihtimessa on säiliö kuivajäätä tai suola-jääseosta. Vesileilin reppu voisi olla sopiva. Talvisin säiliöön voi yksinkertaisesti laittaa lunta. Sisätiloissa jossa sähköä on saatavissa riittävästi voisi käyttää Peltier-elementtiä verkkoon kytkettynä. Pyöräiltäessä mahdollisesti ilmajäädytys toimisi jolloin säärissä ja kyynärvarsissa olisivat lämmönvaihtimet. Ilmajäähdytys voisi täydentää jäällä tapahtuvaa jäähdytystä jolloin toiminta-aika lisääntyisi.<br
-/>&nbsp; Kiertopumppu ja säätöelektroniikka saa voimansa akuista.<br
-/><br
-/><b>Status 2012.01.12</b><br
-/><br
-/>Letkut, paita ja vesipumppu on hankittu.<br
-/><br
-/><b>Ongelmia</b><br
-/><br
-/><ul><li>Lämmönvaihtimen rakenne<ul><li>eristys</li
-><li>putket, sisäänviennit</li
-><li>jäähdytysaineen lämpötila</li
-><li>pumppu erillään jotta läpö ei sulata turhaan</li></ul
-></li
-><li>Vesipumpun testaus letkuihin kiinnitettynä</li
-><li>Kuinka suuri massavirtaus saavutetaan käytössä olevalla pumpulla.</li
-><li>Pitäisikö hankkia auton pissapojan pumppu joka on ehkä turhan järeä.&nbsp;</li
-><li>Kuinka pitkiä ja kuinka monta letkusegmenttiä tarvitaan.&nbsp;</li
-><li>Kuinka letkut kannattaa laskostaa jotta paita ei muutu turhan jäykäksi.&nbsp;</li
-><li>Kuinka letkut haaroitetaan luotettavasti ja vähiten haittaavasti</li
-><li>Manuaalinen säätölaite</li
-><li>Veden lämpötilan mittaus ja säätö</li
-><li>Jäähdytysveden jäätyminen estettävä</li
-><li>Mikä on mukava jäähdytysveden lämpötila</li
-><li>Optimaalinen veden kiertonopeus/lämpötila käyttöajan kannalta</li
-><li>Paljonko jäähdytystehoa tarvitaan ottaen huomioon ulkolämpötila ja fyysinen kuormitus</li
-><li>Säädön reagoitava nopeammin kuin mittaamalla jäähdytysveden lämpötilaa koska silloin</li></ul
->on jo myöhäistä. Tarvitaan kehon lämpötilan mittaus/hikoilun tunnistus ihon resistanssin muutoksesta.<br
-/><br
-/><b>TODO</b><br
-/><br
-/><ul><li>Vesipumpun testaus letkuihin kiinnitettynä</li
-><li>Kuinka suuri massavirtaus saavutetaan käytössä olevalla pumpulla.<br/><br
-/><br/><br
-/><br/><br
-/></li></ul
-></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-Coolio
+  </title>
+ </head>
+ <body>
+  <b>
+   Alusanat
+  </b>
+  <br/>
+  <br/>
+  Ideana olisi tehdä samantapainen jäähdytysalusasu kuin astronauteilla on painepukujensa alla.
+  <br/>
+  Normaalivaate on (lähes)aina joko liian kuuma tai kylmä mikä aiheuttaa hikoilua tai tärinää. Sattumalta NASA:lla oli sama ongelma avaruuspukujen kanssa sillä astronautti on aluksen ulkona kuin termospullossa. Ratkaisu oli tehdä alusvaatteet muoviletkuista joissa virtaava jäähdytysvesi pitää astronautin mukavan viileänä (=cool).
+  <br/>
+  <br/>
+  <b>
+   Toteutus
+  </b>
+  <br/>
+  <br/>
+  Otetaan vanha armeijan verkkopaita joka on jo viileä itsesään ja kiinnitetään siihen silikoniletku spagetti. Liitetään letkuun lämmönvaihdin, kiertovesipumppu ja säätöelektroniikka ja täytetään komeus vedellä.
+  <br/>
+  Lämmönvaihtimessa on säiliö kuivajäätä tai suola-jääseosta. Vesileilin reppu voisi olla sopiva. Talvisin säiliöön voi yksinkertaisesti laittaa lunta. Sisätiloissa jossa sähköä on saatavissa riittävästi voisi käyttää Peltier-elementtiä verkkoon kytkettynä. Pyöräiltäessä mahdollisesti ilmajäädytys toimisi jolloin säärissä ja kyynärvarsissa olisivat lämmönvaihtimet. Ilmajäähdytys voisi täydentää jäällä tapahtuvaa jäähdytystä jolloin toiminta-aika lisääntyisi.
+  <br/>
+  Kiertopumppu ja säätöelektroniikka saa voimansa akuista.
+  <br/>
+  <br/>
+  <b>
+   Status 2012.01.12
+  </b>
+  <br/>
+  <br/>
+  Letkut, paita ja vesipumppu on hankittu.
+  <br/>
+  <br/>
+  <b>
+   Ongelmia
+  </b>
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Lämmönvaihtimen rakenne
+    <ul>
+     <li>
+      eristys
+     </li>
+     <li>
+      putket, sisäänviennit
+     </li>
+     <li>
+      jäähdytysaineen lämpötila
+     </li>
+     <li>
+      pumppu erillään jotta läpö ei sulata turhaan
+     </li>
+    </ul>
+   </li>
+   <li>
+    Vesipumpun testaus letkuihin kiinnitettynä
+   </li>
+   <li>
+    Kuinka suuri massavirtaus saavutetaan käytössä olevalla pumpulla.
+   </li>
+   <li>
+    Pitäisikö hankkia auton pissapojan pumppu joka on ehkä turhan järeä.
+   </li>
+   <li>
+    Kuinka pitkiä ja kuinka monta letkusegmenttiä tarvitaan.
+   </li>
+   <li>
+    Kuinka letkut kannattaa laskostaa jotta paita ei muutu turhan jäykäksi.
+   </li>
+   <li>
+    Kuinka letkut haaroitetaan luotettavasti ja vähiten haittaavasti
+   </li>
+   <li>
+    Manuaalinen säätölaite
+   </li>
+   <li>
+    Veden lämpötilan mittaus ja säätö
+   </li>
+   <li>
+    Jäähdytysveden jäätyminen estettävä
+   </li>
+   <li>
+    Mikä on mukava jäähdytysveden lämpötila
+   </li>
+   <li>
+    Optimaalinen veden kiertonopeus/lämpötila käyttöajan kannalta
+   </li>
+   <li>
+    Paljonko jäähdytystehoa tarvitaan ottaen huomioon ulkolämpötila ja fyysinen kuormitus
+   </li>
+   <li>
+    Säädön reagoitava nopeammin kuin mittaamalla jäähdytysveden lämpötilaa koska silloin
+   </li>
+  </ul>
+  on jo myöhäistä. Tarvitaan kehon lämpötilan mittaus/hikoilun tunnistus ihon resistanssin muutoksesta.
+  <br/>
+  <br/>
+  <b>
+   TODO
+  </b>
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Vesipumpun testaus letkuihin kiinnitettynä
+   </li>
+   <li>
+    Kuinka suuri massavirtaus saavutetaan käytössä olevalla pumpulla.
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+ </body>
 </html>

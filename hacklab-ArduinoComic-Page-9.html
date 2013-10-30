@@ -1,54 +1,98 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-ArduinoComic-Page-9</title>
-</head>
-<body>PAGE 9: writing scripts: setup and loop- brief overview of language<br
-/>Panel 33:<br
-/>Drawing: Blink script on white shape<br
-/>void setup() {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; // initialize the digital pin as an output.<br
-/>&nbsp; // Pin 13 has LED connected on most Arduino boards:<br
-/>&nbsp; pinMode(13, OUTPUT);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>}<br
-/><br
-/>void loop() {<br
-/>&nbsp; digitalWrite(13, HIGH);&nbsp;&nbsp; // set the LED on<br
-/>&nbsp; delay(1000);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // wait for a second<br
-/>&nbsp; digitalWrite(13, LOW);&nbsp;&nbsp;&nbsp; // set the LED off<br
-/>&nbsp; delay(1000);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // wait for a second<br
-/>}<br
-/>(In text panel): A sketch, like a program written in any language, is a set of instructions for the computer. If we look closely at the Blink sketch, we see there are 2 major parts, setup and loop.<br
-/><br
-/>Panel 34:<br
-/>Drawing: fingers point to definitions of setup and loop on white shapes.&nbsp;<br
-/>Text (setup and loop in red type, definition in black all 10 pt.)<br
-/>Setup: happens one time when program starts to run<br
-/>Loop: repeats over and over again<br
-/>(In text panel): These are both blocks of code called functions that every sketch will have. They are blocked out by curly braces { }.<br
-/><br
-/>Panel 35:<br
-/>Drawing: Back of character reading Arduino reference guide on laptop. URL (linked) on white shape&nbsp;<br
-/>Text (10 pt red type)<br
-/><a href="http://arduino.cc/en/Reference/HomePage">http://arduino.cc/en/Reference/HomePage</a>&nbsp;<br
-/>(In text panel): Check out the Arduino website for the Arduino reference guide and many other resources to learn the language.&nbsp;<br
-/><br
-/>Panel 36:<br
-/>Drawing: Close up of blink script with explanation line by line with comments. Comments are in red in LetterOMatic<br
-/>Text<br
-/>void setup() {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //declares block of code&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; pinMode(13, OUTPUT);&nbsp;&nbsp;&nbsp;&nbsp; //sets pin 13 to output<br
-/>}&nbsp;&nbsp;&nbsp; //end block of code<br
-/><br
-/>void loop() {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //declares block of code<br
-/>&nbsp; digitalWrite(13, HIGH);&nbsp;&nbsp;&nbsp;&nbsp; //sets pin 13 high<br
-/>&nbsp; delay(1000);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //pause 1 second&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; digitalWrite(13, LOW);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //sets pin 13 low<br
-/>&nbsp; delay(1000);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //pause 1 second<br
-/>}&nbsp;&nbsp;&nbsp; //end block of code<br
-/>(In text panel): For now, let’s look at this simple script line by line and see what each line does.<br
-/><br
-/></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-ArduinoComic-Page-9
+  </title>
+ </head>
+ <body>
+  PAGE 9: writing scripts: setup and loop- brief overview of language
+  <br/>
+  Panel 33:
+  <br/>
+  Drawing: Blink script on white shape
+  <br/>
+  void setup() {
+  <br/>
+  // initialize the digital pin as an output.
+  <br/>
+  // Pin 13 has LED connected on most Arduino boards:
+  <br/>
+  pinMode(13, OUTPUT);
+  <br/>
+  }
+  <br/>
+  <br/>
+  void loop() {
+  <br/>
+  digitalWrite(13, HIGH);   // set the LED on
+  <br/>
+  delay(1000);              // wait for a second
+  <br/>
+  digitalWrite(13, LOW);    // set the LED off
+  <br/>
+  delay(1000);              // wait for a second
+  <br/>
+  }
+  <br/>
+  (In text panel): A sketch, like a program written in any language, is a set of instructions for the computer. If we look closely at the Blink sketch, we see there are 2 major parts, setup and loop.
+  <br/>
+  <br/>
+  Panel 34:
+  <br/>
+  Drawing: fingers point to definitions of setup and loop on white shapes.
+  <br/>
+  Text (setup and loop in red type, definition in black all 10 pt.)
+  <br/>
+  Setup: happens one time when program starts to run
+  <br/>
+  Loop: repeats over and over again
+  <br/>
+  (In text panel): These are both blocks of code called functions that every sketch will have. They are blocked out by curly braces { }.
+  <br/>
+  <br/>
+  Panel 35:
+  <br/>
+  Drawing: Back of character reading Arduino reference guide on laptop. URL (linked) on white shape
+  <br/>
+  Text (10 pt red type)
+  <br/>
+  <a href="http://arduino.cc/en/Reference/HomePage">
+   http://arduino.cc/en/Reference/HomePage
+  </a>
+  <br/>
+  (In text panel): Check out the Arduino website for the Arduino reference guide and many other resources to learn the language.
+  <br/>
+  <br/>
+  Panel 36:
+  <br/>
+  Drawing: Close up of blink script with explanation line by line with comments. Comments are in red in LetterOMatic
+  <br/>
+  Text
+  <br/>
+  void setup() {              //declares block of code
+  <br/>
+  pinMode(13, OUTPUT);     //sets pin 13 to output
+  <br/>
+  }    //end block of code
+  <br/>
+  <br/>
+  void loop() {        //declares block of code
+  <br/>
+  digitalWrite(13, HIGH);     //sets pin 13 high
+  <br/>
+  delay(1000);         //pause 1 second
+  <br/>
+  digitalWrite(13, LOW);      //sets pin 13 low
+  <br/>
+  delay(1000);         //pause 1 second
+  <br/>
+  }    //end block of code
+  <br/>
+  (In text panel): For now, let’s look at this simple script line by line and see what each line does.
+  <br/>
+  <br/>
+ </body>
 </html>

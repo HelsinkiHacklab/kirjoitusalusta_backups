@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-ultimaker
+  </title>
+ </head>
+ <body>
+  These are also on all the HP Workstations at the lab, copied here just for online reference
+  <br/>
+  <br/>
+  Ultimaker instructions
+  <br/>
+  ======================
+  <br/>
+  <br/>
+  Even if you
+  <i>
+   think
+  </i>
+  you know what you are doing read through this file.
+  <br/>
+  <br/>
+  "Supposition is the mother of all fuckups"
+  <br/>
+  "When you assume, you make an ass out of u and me"
+  <br/>
+  <br/>
+  Never assume anything not explicitly described here works in a certain way,
+  <br/>
+  read through the Ultimaker building instructions before attempting *
+  <b>
+   any
+  </b>
+  *
+  <br/>
+  "repairs" or "adjustments" (even then it's preferred to leave such things
+  <br/>
+  to someone who has actually assembled one of these)
+  <br/>
+  <br/>
+  You *
+  <b>
+   will
+  </b>
+  * monitor you prints, you *
+  <b>
+   will not
+  </b>
+  * leave the printer alone for
+  <br/>
+  longer than a bathroom break, thus you need to carefully plan when to start
+  <br/>
+  prints that take hours.
+  <br/>
+  <br/>
+  ## Total beginner instructions
+  <br/>
+  <br/>
+  Read through all of this first, before doing anything described in any step.
+  <br/>
+  <br/>
+  1. Have your .stl at hand, for example in the Downloads directory.
+  <br/>
+  2. Launch Cura (the big C in the launch bar)
+  <br/>
+  3. If not already in quickprint mode switch to it (Tools menu)
+  <br/>
+  4. Make sure material is PLA and 2.85mm in diameter
+  <br/>
+  5. Choose quality according to your needs, high-quality will take *long*
+  <br/>
+  6. Switch to full settings
+  <br/>
+  7. Set platform adhesion to brim
+  <br/>
+  8. Make sure fill-density is suitable, use 20% unless you know you
+  <br/>
+  need a different value.
+  <br/>
+  10. If your model needs support material choose support type,
+  <br/>
+  in most cases "touching buildplate" is the good choice, but some models
+  <br/>
+  require "everywhere" (this can be a pain to remove).
+  <br/>
+  11. Fetch the SD card from the Ultimaker (left side of the controller)
+  <br/>
+  and insert it to the card reader connected to the computer.
+  <br/>
+  12. Click on the "SD" icon and Cura will save your gcode file to the card
+  <br/>
+  13. Eject the card and replace it in the Ultimaker
+  <br/>
+  14. Make sure the filament has free movement on the spool (in the back, near the
+  <br/>
+  extruder). Keep checking this every once in a while when printing, if the filament
+  <br/>
+  snags your print will be ruined.
+  <br/>
+  15. Make sure the build platform is correctly in place,all the screw mounts must be slid
+  <br/>
+  to their endstops, see &lt;
+  <a href="http://bit.ly/1ibx8Li">
+   http://bit.ly/1ibx8Li
+  </a>
+  &gt; and &lt;
+  <a href="http://bit.ly/1bbs2w4">
+   http://bit.ly/1bbs2w4
+  </a>
+  &gt;
+  <br/>
+  16. Make sure the bowden tube is fully inserted, you should not see a gap between
+  <br/>
+  the green tape and the white collar, see &lt;
+  <a href="http://bit.ly/19rVyyv">
+   http://bit.ly/19rVyyv
+  </a>
+  &gt;
+  <br/>
+  17. Turn on the Ultimaker (right side, bottom)
+  <br/>
+  18. Make sure there is a blue light on top of the moving extruder head, keep checking
+  <br/>
+  this light every once in a while when printing – if it's off or flickering, cancel
+  <br/>
+  the print and power down he machine (the light indicates the temparature sensor has
+  <br/>
+  power, if it doesn't things will go wrong for you in multitude of ways)
+  <br/>
+  19. The rotary controller is also a pushbutton, press it
+  <br/>
+  20. Choose "Card menu" and then select your gcode file.
+  <br/>
+  21. Printer will now warm up and then start the print
+  <br/>
+  22. While printing keep checking that the bowden tube (the one that comes from the back
+  <br/>
+  of the machine to the moving head) is never in danger of snagging, snagging the bowden
+  <br/>
+  tube will at best ruin your print. In worse case, pull the tube out from the heating element
+  <br/>
+  requiring someone who has assembled one of these before to make repairs.
+  <br/>
+  23. Wait for your print to complete, then *carefully* pry it free from the
+  <br/>
+  plaform with a suitable implement.
+  <br/>
+  24. Turn off the Ultimaker.
+  <br/>
+  25. Be polite to the next user and remove your gcode file from the card
+  <br/>
+  to keep cluttering to minimum.
+  <br/>
+  <br/>
+  When adjusting the print settings you will notice that an estimate on print time and material usage will keep changing, the third line will show cost
+  <br/>
+  estimate. If a single print is worth more than 0.20 or you are making more
+  <br/>
+  than one and thus bringin the total worth to something like 0.50 and above
+  <br/>
+  then please place correct change to the tip jar near the printer.
+  <br/>
+  <br/>
+  Step 12 can alternatively be replaced by using "Save GCode" from the File menu
+  <br/>
+  you can then using whatever suitable method to get the GCode file on the card
+  <br/>
+  used by Ultimaker (you can even use your own card but remember the controller
+  <br/>
+  can take only normal max 2GB sized cards [no SDHC])
+  <br/>
+  <br/>
+  If you get "read only filesystem" error: eject, remove and reinsert the SD card
+  <br/>
+  you have to do this a couple of times.
+  <br/>
+  <br/>
+  ## Tips
+  <br/>
+  <br/>
+  When hot the nozzle will "leak" plastic, have pliers at hand to take away the extra material before printing starts.
+  <br/>
+  <br/>
+  A metal spatula or chisel is a good way to carefully pry your print free from the platform, be carefull not to damage the tape.
+  <br/>
+  <br/>
+  If the tape in the print-platform is in poor condition and you're too lazy to replace it, you can move the model around in Cura to print it to different position from the default of center of the platform. This can also be used to
+  <br/>
+  make the tape wear down more evenly.
+  <br/>
+  <br/>
+  In the controller main view you can adjust the speed of printing, the Cura software has very conservative defaults, most models will print just fine at
+  <br/>
+  150% speed.
+  <br/>
+  <br/>
+  ## Why can't I print directly (waaah!)
+  <br/>
+  <br/>
+  Just because. Actually there are some truly weird serial port issues with
+  <br/>
+  Cura on 64bit linux. You can of course install Cura on your own laptop and
+  <br/>
+  see if you have better luck. It should be obvious but I will state it here
+  <br/>
+  anyway: You *
+  <b>
+   will not
+  </b>
+  * "upgrade" the firmware to any sort of custom build
+  <br/>
+  (we are already running the 115200 firmware instead of default 250000 one)
+  <br/>
+  in hopes of "fixing" these serial port issues.
+  <br/>
+  <br/>
+  Also printing from the card will save your print from software crashes.
+  <br/>
+  <br/>
+  ## Replacing the tape
+  <br/>
+  <br/>
+  <a href="http://wiki.ultimaker.com/Ultimaker_rev.4_assembly:_Z-stage#Step_5:_Preparing_the_bed_for_its_first_print">
+   http://wiki.ultimaker.com/Ultimaker_rev.4_assembly:_Z-stage#Step_5:_Preparing_the_bed_for_its_first_print
+  </a>
+  <br/>
+  <br/>
+  tldr: Put tape carefully so the strips are exactly next to each other but do not overlap, then use a knife along the grooves to clean the edges. Replace the platform *
+  <b>
+   correctly
+  </b>
+  *, see &lt;
+  <a href="http://bit.ly/1ibx8Li">
+   http://bit.ly/1ibx8Li
+  </a>
+  &gt; and &lt;
+  <a href="http://bit.ly/1bbs2w4">
+   http://bit.ly/1bbs2w4
+  </a>
+  &gt;
+  <br/>
+  <br/>
+  ## Replacing the filament
+  <br/>
+  <br/>
+  Read it up on ultimaker wiki. One extra thing to make note of: *
+  <b>
+   Make sure
+  </b>
+  * the
+  <br/>
+  end of the filament you're putting to the bowden-tube does not have sharp edges. Cut it nice and round and then file/sandpaper it to relatively smooth.
+  <br/>
+  Sharp edges can shave plastic from the bowden tube and this will mess up the nozzle, completely ruining your day (and several other days as well since it's
+  <br/>
+  not an easy thing to clean up).
+  <br/>
+  <br/>
+ </body>
+</html>

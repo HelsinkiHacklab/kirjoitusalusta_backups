@@ -1,36 +1,61 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-ArduinoComic-Page-13</title>
-</head>
-<body>PAGE 13: Analog input. Potentiometer<br
-/>Panel 49:<br
-/>Drawing: Character head shot in front of gigantic potentiometer.<br
-/>Word Balloon: A potentiometer, or pot, is a variable resistor. The amount of resistance changes as it is turned, increasing or decreasing depending on which direction it is turned.<br
-/>(In text panel): Now we will set up an analog input. We’ll use a potentiometer.&nbsp;<br
-/><br
-/>Panel 50:<br
-/>Drawing: Breadboard with potentiometer attached to Arduino&nbsp;<br
-/>(In text panel): Attach the middle pin on the potentiometer to analog pin A0. Attach one end of the pot to power, the other to ground.<br
-/><br
-/>Panel 51:<br
-/>Drawing: code for analog read serial output on white shape<br
-/>void setup() {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; Serial.begin(9600);&nbsp;<br
-/>}<br
-/><br
-/>void loop() {<br
-/>&nbsp; Serial.println(analogRead(A0));&nbsp;&nbsp;<br
-/>}<br
-/>(In text panel): First we will look at the range of values we get by turning the pot using the serial monitor. In our code, we initialize the serial object in setup, setting a baud rate of 9600. In loop, we read the value from analog pin a0 and print it to the serial object using the printLn function.<br
-/><br
-/>Panel 52:<br
-/>Drawing: Serial monitor window in Arduino software interface with numbers showing range of values. Arrows point to serial monitor button&nbsp;<br
-/>Labels:<br
-/>Click to open serial window<br
-/>(In text panel): After you have uploaded the script to the Arduino, click the serial monitor button in order to see the values as you turn the pot. A window will open, and you will see values ranging from 0 to 1023 as the pot is turned.<br
-/><br
-/></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-ArduinoComic-Page-13
+  </title>
+ </head>
+ <body>
+  PAGE 13: Analog input. Potentiometer
+  <br/>
+  Panel 49:
+  <br/>
+  Drawing: Character head shot in front of gigantic potentiometer.
+  <br/>
+  Word Balloon: A potentiometer, or pot, is a variable resistor. The amount of resistance changes as it is turned, increasing or decreasing depending on which direction it is turned.
+  <br/>
+  (In text panel): Now we will set up an analog input. We’ll use a potentiometer.
+  <br/>
+  <br/>
+  Panel 50:
+  <br/>
+  Drawing: Breadboard with potentiometer attached to Arduino
+  <br/>
+  (In text panel): Attach the middle pin on the potentiometer to analog pin A0. Attach one end of the pot to power, the other to ground.
+  <br/>
+  <br/>
+  Panel 51:
+  <br/>
+  Drawing: code for analog read serial output on white shape
+  <br/>
+  void setup() {
+  <br/>
+  Serial.begin(9600);
+  <br/>
+  }
+  <br/>
+  <br/>
+  void loop() {
+  <br/>
+  Serial.println(analogRead(A0));
+  <br/>
+  }
+  <br/>
+  (In text panel): First we will look at the range of values we get by turning the pot using the serial monitor. In our code, we initialize the serial object in setup, setting a baud rate of 9600. In loop, we read the value from analog pin a0 and print it to the serial object using the printLn function.
+  <br/>
+  <br/>
+  Panel 52:
+  <br/>
+  Drawing: Serial monitor window in Arduino software interface with numbers showing range of values. Arrows point to serial monitor button
+  <br/>
+  Labels:
+  <br/>
+  Click to open serial window
+  <br/>
+  (In text panel): After you have uploaded the script to the Arduino, click the serial monitor button in order to see the values as you turn the pot. A window will open, and you will see values ranging from 0 to 1023 as the pot is turned.
+  <br/>
+  <br/>
+ </body>
 </html>

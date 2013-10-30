@@ -1,55 +1,150 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-huge7segments</title>
-</head>
-<body>Basic idea is to create <b>big</b> 7-segment displays using led-strip -modules like these&nbsp;<br
-/><ul><li><a href="http://dx.com/p/diy-5w-6000k-475-550lm-led-white-light-rectangle-strip-dc-12-14v-146071">http://dx.com/p/diy-5w-6000k-475-550lm-led-white-light-rectangle-strip-dc-12-14v-146071</a></li
-><li><a href="http://dx.com/p/diy-3w-3000k-285-315lm-cob-led-rectangle-strip-dc-12-14v-142034?item=21">http://dx.com/p/diy-3w-3000k-285-315lm-cob-led-rectangle-strip-dc-12-14v-142034?item=21</a></li
-><li><a href="http://dx.com/p/2-5w-12x5050-smd-led-white-light-car-decoration-daytime-running-flexible-strip-lamp-12v-145721?item=71">http://dx.com/p/2-5w-12x5050-smd-led-white-light-car-decoration-daytime-running-flexible-strip-lamp-12v-145721?item=71</a></li
-><li><a href="http://dx.com/p/24-led-car-flexible-bar-diy-led-auto-lamps-24cm-bar-length-113323?item=85">http://dx.com/p/24-led-car-flexible-bar-diy-led-auto-lamps-24cm-bar-length-113323?item=85</a></li
-><li><a href="http://dx.com/p/72w-soft-flexible-cuttable-white-300-led-smd-lamp-tape-strip-5m-dc-12v-126238?item=4">http://dx.com/p/72w-soft-flexible-cuttable-white-300-led-smd-lamp-tape-strip-5m-dc-12v-126238?item=4</a> (probably best choice, not insanely bright and 5m gets us 10 digits if we use 7cm segments [7 digits for 10cm segments, which would be ~110ma per strip, much more manageable])<br/><br
-/></li></ul
->The 3+W ones will take pretty hefty transistors to drive them, the usual "500mA" darlington arrays cannot handle full current on all channels (500mA peak current on 7 channels is limited to 10% duty cycle), some discrete options (mosfets are better anyway):<br
-/><ul><li><a href="http://fi.rsdelivers.com/product/international-rectifier/irf8734pbf/mosfet-n-channel-30v-21a-hexfet-soic8/6886891.aspx">http://fi.rsdelivers.com/product/international-rectifier/irf8734pbf/mosfet-n-channel-30v-21a-hexfet-soic8/6886891.aspx</a></li
-><li><a href="http://fi.rsdelivers.com/product/vishay/si1912edh-t1-e3/mosfet-n-channel-20v-113a-sc-70-6/7103235.aspx">http://fi.rsdelivers.com/product/vishay/si1912edh-t1-e3/mosfet-n-channel-20v-113a-sc-70-6/7103235.aspx</a></li
-><li><a href="http://fi.rsdelivers.com/product/on-semiconductor/mc1413dg/darlington-array-x7-npn-50v-05a-soic16/5164979.aspx">http://fi.rsdelivers.com/product/on-semiconductor/mc1413dg/darlington-array-x7-npn-50v-05a-soic16/5164979.aspx</a> (7ch, can handle ~150mA per channel when all are fully on)<br/><br
-/></li></ul
-><b>Control/driver board</b><br
-/><br
-/>The dirver/control board itself will have:<br
-/><ul><li>shift-register</li
-><li>the driver-transistors for 7 segments and the last bit can be wired for single led driven directly from the reg (dot)</li
-><li>+/- connectors for the led strips</li
-><li>LED Power +/GND connectors (in this case 12V)</li
-><li>5V/GND connector for logic</li
-><li>daisy-chaining connector for the shift-register, see for example: <a href="https://github.com/HelsinkiHacklab/reactor/blob/master/blueprints/shift_reg.brd">https://github.com/HelsinkiHacklab/reactor/blob/master/blueprints/shift_reg.brd</a></li
-><li>Optionally it could also have an ATTIny to act as I2C interface to the shift-reg(s)<ul><li>Or even ATMega88, in that case we would have both TWI and SPI in hardware so we could drive a lot of shift-registers very fast (think PWM for brightness control)<br/><br
-/></li></ul
-></li></ul
->Due to size reasons (see below) SMD components are preferred.<br
-/><br
-/><br
-/><b>Physical assembly</b><br
-/><br
-/>Made on layers from lasercut acrylic (except maybe the bottommost layer needs to be some sort of metal so we can spread the heat from the led-strips around a bit [and it wouldn't hurt to be able to sink heat from the driver transistors as well])<br
-/><br
-/>Bottom: thin square the size of the display, this is where the led-strips and control board mounts to.<br
-/>Layer1: Thick (basically determined by control-board thickness, though if it becomes too thick or othetwise a problem the board can be mounted elsewhere) opaque black acrylic square with cutouts for the led strips and the control board<br
-/>Layer2: thin translucent but diffuse square of colored acrylic to give color to the digits and diffuse the led-strips<br
-/>Top: thing opaque cover plate, square with cutouts for the segments.<br
-/><br
-/>All of these layers will have at least 3 holes to a side to keep them together with screws.<br
-/><br
-/>We can cut the acrylic at the Aalto Fablab (our own lasercutter won't handle pieces this big)<br
-/><br
-/><b>Other ideas</b><br
-/><br
-/>Matrix display: <a href="hacklab-ledmatrix7x31.html">http://kirjoitusalusta.fi/hacklab-ledmatrix7x31</a><br
-/><br
-/><br
-/><br
-/></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-huge7segments
+  </title>
+ </head>
+ <body>
+  Basic idea is to create
+  <b>
+   big
+  </b>
+  7-segment displays using led-strip -modules like these
+  <br/>
+  <ul>
+   <li>
+    <a href="http://dx.com/p/diy-5w-6000k-475-550lm-led-white-light-rectangle-strip-dc-12-14v-146071">
+     http://dx.com/p/diy-5w-6000k-475-550lm-led-white-light-rectangle-strip-dc-12-14v-146071
+    </a>
+   </li>
+   <li>
+    <a href="http://dx.com/p/diy-3w-3000k-285-315lm-cob-led-rectangle-strip-dc-12-14v-142034?item=21">
+     http://dx.com/p/diy-3w-3000k-285-315lm-cob-led-rectangle-strip-dc-12-14v-142034?item=21
+    </a>
+   </li>
+   <li>
+    <a href="http://dx.com/p/2-5w-12x5050-smd-led-white-light-car-decoration-daytime-running-flexible-strip-lamp-12v-145721?item=71">
+     http://dx.com/p/2-5w-12x5050-smd-led-white-light-car-decoration-daytime-running-flexible-strip-lamp-12v-145721?item=71
+    </a>
+   </li>
+   <li>
+    <a href="http://dx.com/p/24-led-car-flexible-bar-diy-led-auto-lamps-24cm-bar-length-113323?item=85">
+     http://dx.com/p/24-led-car-flexible-bar-diy-led-auto-lamps-24cm-bar-length-113323?item=85
+    </a>
+   </li>
+   <li>
+    <a href="http://dx.com/p/72w-soft-flexible-cuttable-white-300-led-smd-lamp-tape-strip-5m-dc-12v-126238?item=4">
+     http://dx.com/p/72w-soft-flexible-cuttable-white-300-led-smd-lamp-tape-strip-5m-dc-12v-126238?item=4
+    </a>
+    (probably best choice, not insanely bright and 5m gets us 10 digits if we use 7cm segments [7 digits for 10cm segments, which would be ~110ma per strip, much more manageable])
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  The 3+W ones will take pretty hefty transistors to drive them, the usual "500mA" darlington arrays cannot handle full current on all channels (500mA peak current on 7 channels is limited to 10% duty cycle), some discrete options (mosfets are better anyway):
+  <br/>
+  <ul>
+   <li>
+    <a href="http://fi.rsdelivers.com/product/international-rectifier/irf8734pbf/mosfet-n-channel-30v-21a-hexfet-soic8/6886891.aspx">
+     http://fi.rsdelivers.com/product/international-rectifier/irf8734pbf/mosfet-n-channel-30v-21a-hexfet-soic8/6886891.aspx
+    </a>
+   </li>
+   <li>
+    <a href="http://fi.rsdelivers.com/product/vishay/si1912edh-t1-e3/mosfet-n-channel-20v-113a-sc-70-6/7103235.aspx">
+     http://fi.rsdelivers.com/product/vishay/si1912edh-t1-e3/mosfet-n-channel-20v-113a-sc-70-6/7103235.aspx
+    </a>
+   </li>
+   <li>
+    <a href="http://fi.rsdelivers.com/product/on-semiconductor/mc1413dg/darlington-array-x7-npn-50v-05a-soic16/5164979.aspx">
+     http://fi.rsdelivers.com/product/on-semiconductor/mc1413dg/darlington-array-x7-npn-50v-05a-soic16/5164979.aspx
+    </a>
+    (7ch, can handle ~150mA per channel when all are fully on)
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Control/driver board
+  </b>
+  <br/>
+  <br/>
+  The dirver/control board itself will have:
+  <br/>
+  <ul>
+   <li>
+    shift-register
+   </li>
+   <li>
+    the driver-transistors for 7 segments and the last bit can be wired for single led driven directly from the reg (dot)
+   </li>
+   <li>
+    +/- connectors for the led strips
+   </li>
+   <li>
+    LED Power +/GND connectors (in this case 12V)
+   </li>
+   <li>
+    5V/GND connector for logic
+   </li>
+   <li>
+    daisy-chaining connector for the shift-register, see for example:
+    <a href="https://github.com/HelsinkiHacklab/reactor/blob/master/blueprints/shift_reg.brd">
+     https://github.com/HelsinkiHacklab/reactor/blob/master/blueprints/shift_reg.brd
+    </a>
+   </li>
+   <li>
+    Optionally it could also have an ATTIny to act as I2C interface to the shift-reg(s)
+    <ul>
+     <li>
+      Or even ATMega88, in that case we would have both TWI and SPI in hardware so we could drive a lot of shift-registers very fast (think PWM for brightness control)
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  Due to size reasons (see below) SMD components are preferred.
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   Physical assembly
+  </b>
+  <br/>
+  <br/>
+  Made on layers from lasercut acrylic (except maybe the bottommost layer needs to be some sort of metal so we can spread the heat from the led-strips around a bit [and it wouldn't hurt to be able to sink heat from the driver transistors as well])
+  <br/>
+  <br/>
+  Bottom: thin square the size of the display, this is where the led-strips and control board mounts to.
+  <br/>
+  Layer1: Thick (basically determined by control-board thickness, though if it becomes too thick or othetwise a problem the board can be mounted elsewhere) opaque black acrylic square with cutouts for the led strips and the control board
+  <br/>
+  Layer2: thin translucent but diffuse square of colored acrylic to give color to the digits and diffuse the led-strips
+  <br/>
+  Top: thing opaque cover plate, square with cutouts for the segments.
+  <br/>
+  <br/>
+  All of these layers will have at least 3 holes to a side to keep them together with screws.
+  <br/>
+  <br/>
+  We can cut the acrylic at the Aalto Fablab (our own lasercutter won't handle pieces this big)
+  <br/>
+  <br/>
+  <b>
+   Other ideas
+  </b>
+  <br/>
+  <br/>
+  Matrix display:
+  <a href="./hacklab-ledmatrix7x31.html">
+   http://kirjoitusalusta.fi/hacklab-ledmatrix7x31
+  </a>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+ </body>
 </html>

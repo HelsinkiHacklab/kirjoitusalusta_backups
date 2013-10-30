@@ -1,144 +1,277 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-iclebo-hacking</title>
-</head>
-<body><b>iClebo-robottipölynimurin hakkerointi</b><br
-/><br
-/>Tarkoituksena&nbsp; on lisätä tavalliseen imurirobottiin älyä siten, että siitä syntyy robottialusta käytettäväksi taideprojektin osana.<br
-/>----<br
-/>Rakennuskuvia:<br
-/><ul><li><a href="https://picasaweb.google.com/lh/photo/kQFrq3Bm7QPw9G8YLpcs3NMTjNZETYmyPJy0liipFm0?feat=directlink">https://picasaweb.google.com/lh/photo/kQFrq3Bm7QPw9G8YLpcs3NMTjNZETYmyPJy0liipFm0?feat=directlink</a><br/><br
-/></li></ul
->Koodia, pcb-suunnitelmia jne<br
-/><ul><li>heikki lisää ?<br/><br
-/><br/><br
-/><br/><br
-/></li></ul
->----<br
-/><br
-/>Tervehdys kaikille robotinrakentamiseen osallistuville:<br
-/>Näyttely on Vantaan taidemuseossa Myyrmäessä loppukesästä 2013 - syksy. Teema sivuaa nukkumista ja unta. Taiteilijaprofiilini on täällä www.harrilarjosto.com .&nbsp;<br
-/>Tavoitteeni on saada tilaan muun taiteen ohelle 3-4 robottia. Yksi olisi jättiläismuna n 2m x 1,3m jolle voi soittaa. Runko on kevyttä bambua ja pinta paperia joten painoa ei juuri&nbsp;<br
-/>tule, kokoa siis kyllä. Munan sisällä on jemmattuna&nbsp; kännykkä johon voi soittaa&nbsp;<br
-/>(numero raaputettu munan pintaan). Munaan syttyy valo, soittoääni on linnun&nbsp;<br
-/>viserrys ja vastaaja sanoo "voisko joku auttaa minua" tms....<br
-/>Muihin sitten muita metkuja kuten pieni videonäyttö, joka toistaa kortilta videota, yhteen kamera, joka kuvaa tilaa ja projektori joka projisoi sen... Olen myös avoin kaikenlaisille uusille ideoille . t Harri<br
-/><br
-/>Alkuperäinen robotti:<a href="http://www.youtube.com/watch?v=Qc1uAos_uQU">http://www.youtube.com/watch?v=Qc1uAos_uQU</a><br
-/><br
-/>Taiteella kaikki onnistuu. Kyseessä on kineettinen veistos. HelHal huolehtii tekniikasta. Harri Larjosto desigista. Kaikki hyötyvät. Kyseessä on siis riisuttu roboimuri. Mitä sen ylle rakennetaan selviää syksyllä 2013 (tai kirjoitusalustalta).<br
-/><br
-/>Toistaiseksi selvitettyjä asioita:<br
-/><br
-/><u>Lataustelakan IR-protokolla</u><br
-/><br
-/>Hyvin simppeli protokolla, ei kantoaaltoa, pelkkiä IR-pulsseja:<br
-/>&nbsp;&nbsp;&nbsp; - 3 ms pulssi<br
-/>&nbsp;&nbsp;&nbsp; - 3 ms tauko<br
-/>&nbsp;&nbsp;&nbsp; - 6 ms pulssi<br
-/>&nbsp;&nbsp;&nbsp; - n*3 ms tauko<br
-/>&nbsp;&nbsp;&nbsp; - 1 ms pulssi<br
-/>&nbsp;&nbsp;&nbsp; - (7-n)*3 ms tauko<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>"Data" on n:n arvo 1...6.&nbsp;<br
-/><br
-/>Telakassa on 6 IR-lediä, joista jokainen lähettää eri n:n arvolla. Ledien sijainti edestä katsottuna:<br
-/><br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6<br
-/>&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp; 3&nbsp; 4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5<br
-/><br
-/>Tehty ohjelmanpätkä C8051F330-kortille, joka ottaa vastaan koodin ja näyttää n:n arvon.<br
-/><br
-/><br
-/><u>Ajomoottorit</u><br
-/><br
-/>Kumpaakin pyörää pyörittää DC-moottori, jossa kaksi hall-anturia, magneetti on moottorin akselilla. Moottorin vaihteisto on n. 1:75.<br
-/><br
-/>Mittaustuloksia: <a href="https://docs.google.com/spreadsheet/ccc?key=0Agpa1i4rTzqSdHhDSkprNjJEOEl1cnlPalUwaHRYMmc">https://docs.google.com/spreadsheet/ccc?key=0Agpa1i4rTzqSdHhDSkprNjJEOEl1cnlPalUwaHRYMmc</a><br
-/><br
-/>Hall-anturit ovat on/off-tyyppisiä, avokollektorilähtöisiä. Antavat 3 pulssia per moottorin kierros, kvadratuuria. Saadaan n. 225 pulssia per pyörän kierros. Pyörän halkaisija n. 82 mm ==&gt; robotin etenemä 1.1 mm/pulssi.<br
-/><br
-/>Piirilevyllä oleva moottorin liitin:<br
-/>&nbsp;_________________<br
-/>&nbsp;|&nbsp; 1&nbsp; 2&nbsp;&nbsp; 3&nbsp;&nbsp; 4&nbsp;&nbsp; 5&nbsp;&nbsp; 6&nbsp; |<br
-/>&nbsp;----&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ----<br
-/><br
-/>&nbsp;&nbsp;&nbsp; 1 = hall 1 (vio)<br
-/>&nbsp;&nbsp;&nbsp; 2 = hall 2 (si)<br
-/>&nbsp;&nbsp;&nbsp; 3 = GND (vih)<br
-/>&nbsp;&nbsp;&nbsp; 4 = +5 V (ru)<br
-/>&nbsp;&nbsp;&nbsp; 5 = moottori (pu)<br
-/>&nbsp;&nbsp;&nbsp; 6 = moottori (mu)<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>17.5. Katkaistu moottorien johdot ja lisätty päihin liittimet (Harwin 2x4). Liittimen nastajärjestys (M1,M2 = moottori, musta johto = M2):<br
-/><br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vio&nbsp;&nbsp;&nbsp; si&nbsp;&nbsp;&nbsp;&nbsp; mu&nbsp;&nbsp; pu<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hall1 Hall2&nbsp; M2&nbsp; M1<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +5V&nbsp;&nbsp; NC&nbsp;&nbsp; NC&nbsp; GND<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ru&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vi<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/><br
-/><u>Kaukosäädin</u><br
-/><br
-/>Tarkoitus on käyttää hyväksi robotin alkuperäistä logiikkaa, jolla se osaa hakeutua latausasemaan. Samalla saadaan käyttöön alkuperäinen laturi. Li-ion akun lataaminen turvallisesti ei ole ihan triviaalia. Latausasemaan ajo voidaan käynnistää kaukosäätimen komennolla. Uuden ohjauslogiikan pitää siis pystyä lähettämään näitä.<br
-/><br
-/>Kaukosäätimen protokolla näyttäisi olevan NEC-protokolla, kuvaus löytyy täältä:<br
-/><a href="http://www.sbprojects.com/knowledge/ir/nec.php">http://www.sbprojects.com/knowledge/ir/nec.php</a><br
-/><br
-/>Komentoja:<br
-/><br
-/>Painike POWER:&nbsp; address = 0x20, command = 0x1F<br
-/>Painike DOCKING: address = 0x20, command = 0x1A<br
-/><br
-/>6.5. Tehty proof-of-concept-ohjelma C8051F330:lle, joka lähettää IR-ledillä NEC-protokollan mukaiset käskyt. Robotti tottelee, eli protokolla hallussa.<br
-/><br
-/><br
-/><u>Moottorinohjain</u><br
-/><br
-/>3.11. Moottorinohjaimen hw rakennettu. Koostuu Heikin stepper-ohjainkortista (2 x L6202) ja Veroboardista, jossa on loput tarvittavat osat. Ohjain pystyy vaihtamaan releellä moottorit joko omaan ohjaukseensa tai alkuperäisen imurin ohjaukseen. Liitäntä ohjaavaan älyyn on I2C. Kontrolleri C8051F361.<br
-/><br
-/>18.12. Moottorinohjain istutettu robottiin. Ohjaimen testaamiseksi tehty Arduinosta yksinkertainen "ylemmän tason äly", joka kahden infrapunatutkan avulla ohjaa robottia väistelemään esineitä. Komentaa moottorinohjainta I2C:n kautta.&nbsp;<br
-/><br
-/>1.1. Moottorien pudottaminen alkuperäisen elektroniikan ohjattavaksi ja komentaminen etsimään latausasemaa toimii.<br
-/><br
-/><u>Robotin ARM-prossun debug-portit</u><br
-/><br
-/>* Boardilta löytyvät 8-nastainen (J12) ja 10-nastainen (J9) liitin<br
-/><br
-/>8-nastaisen liittimen J12 nastat, kytketty ARMiin:<br
-/><br
-/>Pin&nbsp;&nbsp;&nbsp; Function<br
-/>1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VDD<br
-/>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; USART1_TX (CPU:n nasta 68)<br
-/>3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; USART1_RX (CPU:n nasta 69)<br
-/>4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GND<br
-/>5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VDD<br
-/><br
-/>10-nastaisen liittimen J9 nastat, kytketty ARMiin:<br
-/><br
-/>Pin&nbsp;&nbsp;&nbsp; Function<br
-/>1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JTAG TMS (CPU:n nasta 72)<br
-/>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JTAG TRST (90)<br
-/>3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JTAG TDI (77)<br
-/>4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -<br
-/>5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JTAG TCK (76)<br
-/>6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JTAG TDO (89)<br
-/><br
-/>CPU:n datasheet: <a href="http://www.st.com/web/en/resource/technical/document/datasheet/CD00161561.pdf">http://www.st.com/web/en/resource/technical/document/datasheet/CD00161561.pdf</a><br
-/><br
-/>Ideoita robotin designiksi:<br
-/>Miten olisi nukkumatti? itäsaksalainen lastensankari joka tuli aina jollain jännällä kuluneuvolla. Muistaakseni sillä oli joskus avaruusalus tai reki tms.. kersat tykkäisi<br
-/><br
-/>Aikuisille sain ajatuksen&nbsp; jota kutsun kuudestilaukeavaksi: Karjala six-pack. tai joku muu brandi. Jokaisessa kaljatölkissa on solenoidi joka saa sen hyppäämään kun se laukaistaan<br
-/>Kun yleisö söittaa numeroon / tai jollain muulla mekanismilla kyseinen tölkki hyppää ilmaan<br
-/>voi sitä riemua.&nbsp;<br
-/><br
-/>___________________________________________<br
-/>"I heard those robot vacuums really suck"<br
-/><br
-/><br
-/></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-iclebo-hacking
+  </title>
+ </head>
+ <body>
+  <b>
+   iClebo-robottipölynimurin hakkerointi
+  </b>
+  <br/>
+  <br/>
+  Tarkoituksena  on lisätä tavalliseen imurirobottiin älyä siten, että siitä syntyy robottialusta käytettäväksi taideprojektin osana.
+  <br/>
+  ----
+  <br/>
+  Rakennuskuvia:
+  <br/>
+  <ul>
+   <li>
+    <a href="https://picasaweb.google.com/lh/photo/kQFrq3Bm7QPw9G8YLpcs3NMTjNZETYmyPJy0liipFm0?feat=directlink">
+     https://picasaweb.google.com/lh/photo/kQFrq3Bm7QPw9G8YLpcs3NMTjNZETYmyPJy0liipFm0?feat=directlink
+    </a>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Koodia, pcb-suunnitelmia jne
+  <br/>
+  <ul>
+   <li>
+    heikki lisää ?
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Xbee-radioprotokolla:
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    <a href="./hacklab-iclebo-protokolla.html">
+     http://kirjoitusalusta.fi/hacklab-iclebo-protokolla
+    </a>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  ----
+  <br/>
+  <br/>
+  Tervehdys kaikille robotinrakentamiseen osallistuville:
+  <br/>
+  Näyttely on Vantaan taidemuseossa Myyrmäessä loppukesästä 2013 - syksy. Teema sivuaa nukkumista ja unta. Taiteilijaprofiilini on täällä www.harrilarjosto.com .
+  <br/>
+  Tavoitteeni on saada tilaan muun taiteen ohelle 3-4 robottia. Yksi olisi jättiläismuna n 2m x 1,3m jolle voi soittaa. Runko on kevyttä bambua ja pinta paperia joten painoa ei juuri
+  <br/>
+  tule, kokoa siis kyllä. Munan sisällä on jemmattuna  kännykkä johon voi soittaa
+  <br/>
+  (numero raaputettu munan pintaan). Munaan syttyy valo, soittoääni on linnun
+  <br/>
+  viserrys ja vastaaja sanoo "voisko joku auttaa minua" tms....
+  <br/>
+  Muihin sitten muita metkuja kuten pieni videonäyttö, joka toistaa kortilta videota, yhteen kamera, joka kuvaa tilaa ja projektori joka projisoi sen... Olen myös avoin kaikenlaisille uusille ideoille . t Harri
+  <br/>
+  <br/>
+  Alkuperäinen robotti:
+  <a href="http://www.youtube.com/watch?v=Qc1uAos_uQU">
+   http://www.youtube.com/watch?v=Qc1uAos_uQU
+  </a>
+  <br/>
+  <br/>
+  Taiteella kaikki onnistuu. Kyseessä on kineettinen veistos. HelHal huolehtii tekniikasta. Harri Larjosto desigista. Kaikki hyötyvät. Kyseessä on siis riisuttu roboimuri. Mitä sen ylle rakennetaan selviää syksyllä 2013 (tai kirjoitusalustalta).
+  <br/>
+  <br/>
+  Toistaiseksi selvitettyjä asioita:
+  <br/>
+  <br/>
+  <u>
+   Lataustelakan IR-protokolla
+  </u>
+  <br/>
+  <br/>
+  Hyvin simppeli protokolla, ei kantoaaltoa, pelkkiä IR-pulsseja:
+  <br/>
+  - 3 ms pulssi
+  <br/>
+  - 3 ms tauko
+  <br/>
+  - 6 ms pulssi
+  <br/>
+  - n*3 ms tauko
+  <br/>
+  - 1 ms pulssi
+  <br/>
+  - (7-n)*3 ms tauko
+  <br/>
+  <br/>
+  "Data" on n:n arvo 1...6.
+  <br/>
+  <br/>
+  Telakassa on 6 IR-lediä, joista jokainen lähettää eri n:n arvolla. Ledien sijainti edestä katsottuna:
+  <br/>
+  <br/>
+  6
+  <br/>
+  1        2  3  4       5
+  <br/>
+  <br/>
+  Tehty ohjelmanpätkä C8051F330-kortille, joka ottaa vastaan koodin ja näyttää n:n arvon.
+  <br/>
+  <br/>
+  <br/>
+  <u>
+   Ajomoottorit
+  </u>
+  <br/>
+  <br/>
+  Kumpaakin pyörää pyörittää DC-moottori, jossa kaksi hall-anturia, magneetti on moottorin akselilla. Moottorin vaihteisto on n. 1:75.
+  <br/>
+  <br/>
+  Mittaustuloksia:
+  <a href="https://docs.google.com/spreadsheet/ccc?key=0Agpa1i4rTzqSdHhDSkprNjJEOEl1cnlPalUwaHRYMmc">
+   https://docs.google.com/spreadsheet/ccc?key=0Agpa1i4rTzqSdHhDSkprNjJEOEl1cnlPalUwaHRYMmc
+  </a>
+  <br/>
+  <br/>
+  Hall-anturit ovat on/off-tyyppisiä, avokollektorilähtöisiä. Antavat 3 pulssia per moottorin kierros, kvadratuuria. Saadaan n. 225 pulssia per pyörän kierros. Pyörän halkaisija n. 82 mm ==&gt; robotin etenemä 1.1 mm/pulssi.
+  <br/>
+  <br/>
+  Piirilevyllä oleva moottorin liitin:
+  <br/>
+  _________________
+  <br/>
+  |  1  2   3   4   5   6  |
+  <br/>
+  ----                      ----
+  <br/>
+  <br/>
+  1 = hall 1 (vio)
+  <br/>
+  2 = hall 2 (si)
+  <br/>
+  3 = GND (vih)
+  <br/>
+  4 = +5 V (ru)
+  <br/>
+  5 = moottori (pu)
+  <br/>
+  6 = moottori (mu)
+  <br/>
+  <br/>
+  17.5. Katkaistu moottorien johdot ja lisätty päihin liittimet (Harwin 2x4). Liittimen nastajärjestys (M1,M2 = moottori, musta johto = M2):
+  <br/>
+  <br/>
+  vio    si     mu   pu
+  <br/>
+  Hall1 Hall2  M2  M1
+  <br/>
+  +5V   NC   NC  GND
+  <br/>
+  ru      -        -      vi
+  <br/>
+  <br/>
+  <br/>
+  <u>
+   Kaukosäädin
+  </u>
+  <br/>
+  <br/>
+  Tarkoitus on käyttää hyväksi robotin alkuperäistä logiikkaa, jolla se osaa hakeutua latausasemaan. Samalla saadaan käyttöön alkuperäinen laturi. Li-ion akun lataaminen turvallisesti ei ole ihan triviaalia. Latausasemaan ajo voidaan käynnistää kaukosäätimen komennolla. Uuden ohjauslogiikan pitää siis pystyä lähettämään näitä.
+  <br/>
+  <br/>
+  Kaukosäätimen protokolla näyttäisi olevan NEC-protokolla, kuvaus löytyy täältä:
+  <br/>
+  <a href="http://www.sbprojects.com/knowledge/ir/nec.php">
+   http://www.sbprojects.com/knowledge/ir/nec.php
+  </a>
+  <br/>
+  <br/>
+  Komentoja:
+  <br/>
+  <br/>
+  Painike POWER:  address = 0x20, command = 0x1F
+  <br/>
+  Painike DOCKING: address = 0x20, command = 0x1A
+  <br/>
+  <br/>
+  6.5. Tehty proof-of-concept-ohjelma C8051F330:lle, joka lähettää IR-ledillä NEC-protokollan mukaiset käskyt. Robotti tottelee, eli protokolla hallussa.
+  <br/>
+  <br/>
+  <br/>
+  <u>
+   Moottorinohjain
+  </u>
+  <br/>
+  <br/>
+  3.11. Moottorinohjaimen hw rakennettu. Koostuu Heikin stepper-ohjainkortista (2 x L6202) ja Veroboardista, jossa on loput tarvittavat osat. Ohjain pystyy vaihtamaan releellä moottorit joko omaan ohjaukseensa tai alkuperäisen imurin ohjaukseen. Liitäntä ohjaavaan älyyn on I2C. Kontrolleri C8051F361.
+  <br/>
+  <br/>
+  18.12. Moottorinohjain istutettu robottiin. Ohjaimen testaamiseksi tehty Arduinosta yksinkertainen "ylemmän tason äly", joka kahden infrapunatutkan avulla ohjaa robottia väistelemään esineitä. Komentaa moottorinohjainta I2C:n kautta.
+  <br/>
+  <br/>
+  1.1. Moottorien pudottaminen alkuperäisen elektroniikan ohjattavaksi ja komentaminen etsimään latausasemaa toimii.
+  <br/>
+  <br/>
+  <u>
+   Robotin ARM-prossun debug-portit
+  </u>
+  <br/>
+  <br/>
+  * Boardilta löytyvät 8-nastainen (J12) ja 10-nastainen (J9) liitin
+  <br/>
+  <br/>
+  8-nastaisen liittimen J12 nastat, kytketty ARMiin:
+  <br/>
+  <br/>
+  Pin    Function
+  <br/>
+  1       VDD
+  <br/>
+  2       USART1_TX (CPU:n nasta 68)
+  <br/>
+  3       USART1_RX (CPU:n nasta 69)
+  <br/>
+  4       GND
+  <br/>
+  5       VDD
+  <br/>
+  <br/>
+  10-nastaisen liittimen J9 nastat, kytketty ARMiin:
+  <br/>
+  <br/>
+  Pin    Function
+  <br/>
+  1       JTAG TMS (CPU:n nasta 72)
+  <br/>
+  2       JTAG TRST (90)
+  <br/>
+  3       JTAG TDI (77)
+  <br/>
+  4       -
+  <br/>
+  5       JTAG TCK (76)
+  <br/>
+  6       JTAG TDO (89)
+  <br/>
+  <br/>
+  CPU:n datasheet:
+  <a href="http://www.st.com/web/en/resource/technical/document/datasheet/CD00161561.pdf">
+   http://www.st.com/web/en/resource/technical/document/datasheet/CD00161561.pdf
+  </a>
+  <br/>
+  <br/>
+  Ideoita robotin designiksi:
+  <br/>
+  Miten olisi nukkumatti? itäsaksalainen lastensankari joka tuli aina jollain jännällä kuluneuvolla. Muistaakseni sillä oli joskus avaruusalus tai reki tms.. kersat tykkäisi
+  <br/>
+  <br/>
+  Aikuisille sain ajatuksen  jota kutsun kuudestilaukeavaksi: Karjala six-pack. tai joku muu brandi. Jokaisessa kaljatölkissa on solenoidi joka saa sen hyppäämään kun se laukaistaan
+  <br/>
+  Kun yleisö söittaa numeroon / tai jollain muulla mekanismilla kyseinen tölkki hyppää ilmaan
+  <br/>
+  voi sitä riemua.
+  <br/>
+  <br/>
+  ___________________________________________
+  <br/>
+  "I heard those robot vacuums really suck"
+  <br/>
+  <br/>
+  <br/>
+ </body>
 </html>

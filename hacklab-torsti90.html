@@ -1,311 +1,1167 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-torsti90</title>
-</head>
-<body><b>Torsti90 on Hacklabille rakennettava Mendel90 mallinen 3D printteri</b><br
-/><br
-/>Torsti90 on nyt alustavasti konfiguroitu, ja löytyy githubista: <a href="https://github.com/HelsinkiHacklab/Mendel90">https://github.com/HelsinkiHacklab/Mendel90</a>&nbsp;&nbsp; Jos on tarpeeksi uusi openscadi asennettuna niin clonen jälkeen openscad scad/main.scad avaa 3D previewn (kestää vähän aikaa ladata). Hakemisto torsti/ sisältää generoidut tiedostot, kuten BOMit, poraus/leikkaus templatet, sekä 3D-tulostettavat osat.<br
-/><br
-/>Tuossa on nyt oletusmitat (200 × 200 × 200 mm printtausalue), ja materiaaliksi laitoin toistaiseksi 12 mm MDF (ainakin katon voi sitten tehdä filmivanerista), smooth rodit ovat 10 mm.&nbsp; En vielä kattoa tai korotusta filament-keloille sen kummemmin katsonut, ne kannattaa pitää mielessä ennenkuin menee leikkelemään levyjä, mutta muuhun ne eivät&nbsp; paljon vaikuta.<br
-/><br
-/>Koko BOM:i löytyy täältä: <a href="https://github.com/HelsinkiHacklab/Mendel90/blob/master/torsti/bom/bom.txt">https://github.com/HelsinkiHacklab/Mendel90/blob/master/torsti/bom/bom.txt</a><br
-/><br
-/>Suovula esitti ihan aiheellisen kysymyksen, että tämäkö nyt korvaa sen alkuperäisen jo seuran hallituksessa hyväksytyn idean että ostetaan Makerbot kit ja kasataan se niin tulee konsistentti ja myös kuljetettava printteri – uskoisin että useimmilla meistä tavoite on printata asioita eikä nysvätä printteriä?<br
-/><ul><li>Hallituksessa muistaakseni puhuttiin Mendel90 kitin ostamisesta, ainakin siinä kokouksessa/keskustelussa jossa minä olin. Makerbot on kallis ($2200 + rahti jenkeistä vs $800 sis postit Mendel90 kitistä) ja closed source, eikä sitä myydä enää kiteissä.</li
-><li>Tämä kai korvaisi sen, ymmärsin että halutaan käyttää esim jo-ostettua ramps elektroniikkaa, käyttää 10mm smoothrodeja 8mm sijaan, jne.&nbsp; Jos kuitenkin halutaan ostaa valmis kitti niin sopii esim minun puolesta, tosin sain käsitysen että rakentamiseen olisi kiinnostusta.<ul><li>Tehdään varmaan niin että jatketaan tätä projektia, ja katotaan seuraavassa hallituskokouksessa jos on kiinnostusta ostaa lisäksi kitti (esim jos tämä projekti hidastaa).</li></ul
-></li
-><li>Jotta printterin nysväys minimoitaisiin, tavoite olisi seurata piirustuksia aika tarkkaan - esim osien vaihtaminen alumiiniin ym isommat ja pienemmät muutokset vaatii suunnittelua ja hidastaa projektia, sekä lisää mahdollisuutta että jossain vaiheessa huomataan että nyt osat ei enää sovikkaan yhteen.<br/><br
-/></li></ul
->Toinen kysymys: miksi MDF eikä esimerkiksi alumiini joka olisi varmasti kokonaisuutena tukevampi? <a href="http://reprapsource.com/en/show/6859">http://reprapsource.com/en/show/6859</a><br
-/><ul><li>Alumiinin työstäminen on huomattavasti vaikeampaa, alumiini on kalliimpaa, ei selvää mistä sitä saisi. MDF on myös käytännössä havaittu tarpeeksi tukevaksi.<br/><br
-/><br/><br
-/></li></ul
-><b>----------------------------------------------------------------------------------------------------------------------------------</b><br
-/><b>OSALISTA</b><br
-/><br
-/><i>Jos olet hankkimassa jonkun osan merkkaa nimesi perään, ja vedä yli kun osa on labilla!</i><br
-/><br
-/><b>Printtausfilamenttia uudelle printterinlle</b><br
-/><ul><li>Labilta löytyy pätkiä, eivät tosin välttämättä riitä pitkälle</li
-><li>Tilasin joitakin kilon rullia PLA:ta (noin 26€/rulla), voin tuoda osan labille – Hans<br/><br
-/><br/><br
-/></li></ul
-><b>Prisma / Claes Ohlsson:</b><br
-/><ul><li><s>Sopivan kokoinen (esim 10 Litraa) hammarplast laatikko johon kerätään Torsti90:nen osat, ja jossa voi myöhemmin säilyttää vaikka filamenttia</s> – labilla on nyt työstöhuoneessa iso sininen kannellinen laatikko jossa lukee TORSTI90 ja jonne sijoitin jo hankitun elektroniikan lisäksi parin kesken jääneen printteriprojektin (elmom, ferrix?) jäämistöjä. Mukana mm. laakeroidut kierretangot, pelkään vaan ettei niitä voida helposti käyttää tässä?&nbsp; Joo, vaatisi liikaa uudelleendesignia vaihtaa kierretangot laakeroituihin, mennään perus rosterikierteellä + messinkimuttereilla.&nbsp; Kierretangot ei kuitenkaan mendel90 designissä tarvitse tarkkuussijoittelua tjms, saavat liikkua ajon aikana (smooth rodit ja lineaarilaakerit pitävät akselit oikeilla raiteilla).<br/><br
-/></li></ul
-><b>Kerätään nämä labilta, viivaa yli kun osa on Torsti90 laatikossa:</b><br
-/><br
-/>Poweri<br
-/><ul><li>1 ATX PSU ~500W</li
-><li>1 Laitevirtajohto<br/><br
-/></li></ul
->Elektroniikka<br
-/><ul><li><s>1 RAMPS 1.4 electronics + 4 × Pololu</s> – nämä siis on</li
-><li><s>3 Microswitch</s>, 20mm × 9mm × 6mm, ei metallikättä, pelkkä pikkunappi.&nbsp; – labilla on runsaasti – labin lahjoitus microswitchit ovat tätä isompia.&nbsp; Tosin jokunen pienempikin labilla on – on myös em. kesken jääneiden projektien jäämistönä optisia antureita, jotenkin ne tuntuvat uskottavammilta kuin mekaaniset? Tämä koko taitaa olla hiiren nappi, irroittelin muutaman ja laitoin laatikkoon!<ul><li>Tällaisesta on siis kyse: <a href="http://image.made-in-china.com/2f0j00zCLQpHfnsIqW/Micro-Switch-KW11-Series-.jpg">http://image.made-in-china.com/2f0j00zCLQpHfnsIqW/Micro-Switch-KW11-Series-.jpg</a>&nbsp; Ilman vipua, joten kuvassa ylävasen kappale.</li
-><li>juurikin täsmälleen hiiren nappi, laatikosta löytyy!<br/><br
-/></li></ul
-></li></ul
->Stepperit<br
-/><ul><li>5 NEMA17 × 47.5mm stepper motor – labilta löytynee pari, pitäisikö näitä hankkia erikseen että olisi setti samanlaisia?<br/><br
-/></li></ul
->Pikkutuuletin printheadiin (voi olla että pitää tilata)<br
-/><ul><li><s>1 Fan 60mm × 15mm</s> - laatikossa on nyt kaksi<br/><br
-/></li></ul
->Liittimiä (voi olla että pitää tilata)<br
-/><ul><li>1 2 way Molex KK header</li
-><li>1 3 way Molex KK header</li
-><li>2 4 way terminal block<br/><br
-/></li></ul
->D-liitin (mihin elektroniikkaan tämä liittyy? - Hotendin ja extruderin kiinnitys muuhun koneeseen, niin että saa helposti irti huollettaessa.&nbsp; Näitä löytyy labilta, laitoin laatikkoon jotakin sellaisia mutta lattakaapeliversiota ei löytynyt) - lattakaapeliversion saa esim partcosta: <a href="http://www.partco.biz/verkkokauppa/product_info.php?cPath=23_2025_1580&products_id=8238">http://www.partco.biz/verkkokauppa/product_info.php?cPath=23_2025_1580&amp;products_id=8238</a><br
-/><ul><li>1 15 way D PCB mount plug</li
-><li>1 15 way D IDC socket<br/><br
-/></li></ul
->D-liittimen ruuvien jousitukseen / kiinni pitämiseen<br
-/><ul><li>2 Nitrile O-ring 2.5mm × 1.6mm (o-tiivistelaatikossa ehkä on näin pieniä) eiköhän käytetä D-liitinten "virallisia" ruuviliittimiä - EIvät sovi printtiin.<br/><br
-/></li></ul
->Kaapelointi<br
-/><ul><li>1 Ribbon cable 20 way 1266 mm</li
-><li>1 Ribbon cable 26 way 381 mm</li
-><li>2 Red wire 16/0.2 length 170 mm</li
-><li>1 Black wire 32/0.2 length 635 mm</li
-><li>1 Red wire 32/0.2 length 620 mm<br/><br
-/></li></ul
->Heatshrinkkiä (labilla taitaa olla)<br
-/><ul><li>1 Heatshrink sleeving ID 10 mm × 15 mm</li
-><li>4 Heatshrink sleeving ID 1.6 mm × 15 mm</li
-><li>11 Heatshrink sleeving ID 2.4 mm × 15 mm</li
-><li>5 Heatshrink sleeving ID 3.2 mm × 15 mm</li
-><li>2 Heatshrink sleeving ID 6.4 mm × 15 mm</li
-><li>2 Heatshrink sleeving ID 6.4 mm × 30 mm</li
-><li>1 Heatshrink sleeving ID 6.4 mm × 60 mm<br/><br
-/></li></ul
->Zipties (nämä voisi aluksi toteuttaa "pussinsulkijoilla" että saa irti ja kiinni)<br
-/><ul><li>3 Ziptie 100 mm min length</li
-><li>6 Ziptie 105 mm min length<br/><br
-/></li></ul
->Aaltopahvia (kaksikerroksinen parempaa)<br
-/><ul><li>1 Corrugated cardboard 193 mm × 217 mm × 6 mm (leikataan runsaampi pala, leikataan sitten mallin mukaan tarkemmin)<br/><br
-/></li></ul
->Vaahtomuovipala filamentin pölynpoistoon<br
-/><ul><li>1 Foam sponge 20 mm × 20 mm × 20 mm&nbsp; (jos kaikki vaahtomuovit ei ole heitetty labilta pois, jos on niin syyllinen leikkaa sängynpatjastaan palan :P ).<br/><br
-/></li></ul
->Ribbon cable tuet.&nbsp; Nämä jostain taipuvasta ohuesta muovilevystä / luiskasta:<br
-/><ul><li>1 Polypropylene strip 417 mm × 18 mm × 0.5 mm</li
-><li>1 Polypropylene strip 502 mm × 25 mm × 0.5 mm</li
-><li>1 Polypropylene strip 278 mm × 33 mm × 0.5 mm<br/><br
-/></li></ul
->Z-lead screws<br
-/><ul><li><s>2 Threaded rod M8 × 273 mm, ruostumatonta</s>, laatikossa, mutta miten nämä on tarkoitus liittää moottoreihin, Heikki sanoi että hänellä on näihin niitä kevyesti nivelöityjä liitoskappaleita?<ul><li>Jep, alumiinisilla couplereilla (5mm to 8mm), minullakin on kaksi ylimääräistä tähän tarkoitukseen ostettua -- Hans<br/><br
-/></li></ul
-></li></ul
->Heated bedin päällyslasilevy<br
-/><ul><li>1 Glass sheet 214 mm × 202 mm × 2 mm – Labilla pitäisi olla runsaasti sellaista josta tämän voi leikata, ainakin toin sinne aiemmin nipun lasia juuri tähän tarkoitukseen? Labilta löytyy vain 4 mm lasia, kelpaako eka versioksi, 2 mm on kokemukseni mukaan <b>erittäin</b> särkyväistä? Halutaanko muuten jatkossa laittaa siihen hiilikuitua? :-) <a href="http://reprapsource.com/en/show/6832">http://reprapsource.com/en/show/6832</a><ul><li>Kaipa 4mm:kin toimii, voidaan kalibroida lämmitys sitten sopivaksi.&nbsp; PLA:lle ei niin kriittistä, ABS voi olla rajoilla, mutta kokeilemalla selviää<br/><br
-/><br/><br
-/></li></ul
-></li></ul
-><b>Tilattavaa elektroniikkaa:</b><br
-/>Powerin fake loadeja, jotta antaisi virtaa muilta raileilta<br
-/><ul><li><s>1 THS15 Aluminium clad resistor 10R<b> - Hans tilasi</s></b></li
-><li><s>1 THS15 Aluminium clad resistor 4R7<b> - Hans tilasi</s></b><br/><br
-/></li></ul
->Heated bedin anturi<br
-/><ul><li><s>1 Epcos B57861S104F40 100K 1% thermistor - <b>Hans tilasi</s></b><br/><br
-/><br/><br
-/></li></ul
-><b>Tilattavaa mekaniikkaa (ebay):</b><br
-/>Bearings<br
-/><ul><li><s>7 Ball bearing 608 8 mm × 22 mm × 7 mm <b>Heikki</s></b><s> tuo</s></li
-><li><s>4 Ball bearing 624 4 mm × 13 mm × 5 mm <b>Heikki</s></b><s> tuo</s></li
-><li><s>10 LM10UU linear bearing - <b>Hans</s></b><s> tuo</s><br/><br
-/></li></ul
->Lasilevyn kiinnipitämiseen<br
-/><ul><li><s>4 19 mm bulldog clip - <b>Hans</s></b><s> tuo</s><br/><br
-/></li></ul
->Jouset<br
-/><ul><li>2 Spring 7 mm OD, 1mm gauge × 10mm long (näitä on vaikea löytää netistä, voisi katsoa labin jousivalikoimat, tai ruuvikaupasta katsoa)<br/><br
-/></li></ul
->Tangot<br
-/><ul><li>1 Smooth rod 10 mm × 276 mm - <b>Heikki</b> tilaa</li
-><li>2 Smooth rod 10 mm × 336 mm - <b>Heikki</b> tilaa</li
-><li>2 Smooth rod 10 mm × 389 mm - <b>Heikki</b> tilaa</li
-><li>1 Smooth rod 10 mm × 418 mm - <b>Heikki</b> tilaa</li
-><li>1 Smooth rod 8 mm × 22 mm - <b>Heikki</b> tilaa&nbsp; (tämä pätkä löytynee tosin labilta, tule extruderin idleriin)<br/><br
-/></li></ul
->Hotendin johdoille ja heated bedin thermistorille Heikillä luultavasti on, <b>Heikki</b> tarkistaa<br
-/><ul><li>2 PTFE sleeving OD 1.2 mm ID 0.71 mm × 62 mm</li
-><li>2 PTFE sleeving OD 2.6 mm ID 2 mm × 45 mm<br/><br
-/></li></ul
->Filamentin syöttöputki<br
-/><ul><li><s>1 PTFE tubing OD 4.6mm ID 3.84 mm × 750 mm - <b>Hans tuo</s></b><br/><br
-/></li></ul
->Lämpöheijastukseen alumiiniteippiä, kapeampikin käy, silloin tarvitaan vain enemmän<br
-/><ul><li><s>5 Aluminium foil tape 50 mm × 227 mm × 0.05 mm - <b>Hanssilla on alumiiniteippiä, Heikillä tarvittaessa kupariteippiä</s></b><br/><br
-/></li></ul
->Heated bedin aluslevy<br
-/><ul><li>1 Dibond sheet tai vastaava tasainen ohut levy johon olisi hyvä saada kierteet tehtyä 217 mm × 217 mm × 3 mm<br/><br
-/><br/><br
-/></li></ul
-><b>Tilattavaa reprap kamaa:</b><br
-/>Heated bed<br
-/><ul><li><s>1 PCB bed 214 mm × 214 mm - <b>Hans tilasi</s></b><br/><br
-/></li></ul
->Hotend<br
-/><ul><li><s>1 JHead MK5 hot end (ebaysta löytyy $37:lla joku versio, muuten 50-60€)</s> - <b>Hans tilasi</b><br/><br
-/></li></ul
->Extruder hobbed bolt<br
-/><ul><li>1 M8 hex screw × 60 mm, hobbed at 25&nbsp; (~$10 ebaystä; onpa muuten kallis ruuviksi, eikös tällaisen pyällyksen tee sorvilla ja sopivalla lisäosalla mihin tahansa ruuviin, eli Rambo tai Mallarit? -- Riippuu kuinka arvokkaaksi hinnoittelee ajansa, ja jos menee rutiinilla vai säätämiseksi)<br/><br
-/><br/><br
-/></li></ul
-><b>Marketista, rautakaupasta, tai maalikaupasta:</b><br
-/>MDF tulee kosteussulkea sahaamisen ja reikien poraamisen jälkeen.<br
-/>Sprayväri ehkä parempaa, akryli jos osaa sillä tehdä tasaista<br
-/><ul><li><s>Purkki pohjaväriä – minulla taitaa löytyä kotoa, katson</s> Otto osti sprayvalkoista</li
-><li>Keskiharmaata pintaväriä, väristä voitaisiin puhua, minusta valkoinen olisi myös hyvä</li
-><li>Rullatela (jos ei sprayväriä käytetä)<br/><br
-/><br/><br
-/></li></ul
-><b>K-Raudalta (ainakin ruoholahdella on):</b><br
-/><s>1 MDF levy 120x80-jotain cm, sahataan labilla, käytetään alkuperäisen levyn kulmat kriittisiin kohtiin. Myös labin varastossa on suikaleita hyvää ja kovaa MDF-levyä. - Ei tosin 12mm tarpeeksi isoissa paloissa</s>, Otto osti ja tuo labille<br
-/><ul><li>2 MDF sheet 155 mm × 385 mm × 12 mm</li
-><li>1 MDF sheet 475 mm × 385 mm × 12 mm</li
-><li>1 MDF sheet 475 mm × 422 mm × 12 mm</li></ul
->Onko nämä nyt sahattu?<br
-/><br
-/><br
-/><b>Tilattavaa hammashihnaa (ebaysta jos löytyy halvemmalla, tai SDP:ltä muuten </b><a href="https://sdp-si.com/eStore/Catalog"><b>https://sdp-si.com/eStore/Catalog</b></a><b> ):</b><br
-/>Belts &amp; pulleys<br
-/>- Vaihdoin T5 hihnat ja pulleyt GT2:een, joka on optimaalisempi lineaarisen liikkeen siirtämiseen ( <a href="http://www.mendelmax.com/?wiki=choosing-belts-and-pulleys">http://www.mendelmax.com/?wiki=choosing-belts-and-pulleys</a> ) – Hans<br
-/><ul><li><s>1 Belt GT2 × 6 mm × 652 mm - <b>Hans tilasi</s></b></li
-><li><s>1 Belt GT2 × 6 mm × 876 mm - <b>Hans tilasi</s></b></li
-><li><s>2 kpl GT2 pulleytä hihnalle&nbsp; - <b>Hans tilasi</s></b><br/><br
-/><br/><br
-/></li></ul
-><b>Syövytetään labilla:</b><br
-/>Extruderissa oleva PCB johtojen liittimille<br
-/><ul><li>1 Extruder connection PCB<br/><br
-/><br/><br
-/></li></ul
-><b>Tilattavaa ruuvikamaa (kannattaa ensin vilkaista onko hacklabin nuts and bolts laatikossa):</b><br
-/>Ruuvit, mutterit, prikat&nbsp; (arvelen että ainakin ~80% näistä löytyy valmiina labilta, kuusiokoloja&nbsp; ehkäpä ei, mistä niitä kannattaa ostaa ja mitä kokoja – ruuvifirma&nbsp; Teollisuuskadun Pasilan päässä? Ruuvi-säveltä (Karjalankatu 11) löytynee edullisesti kaikki, kannattaa ehkä ostaa jokatapauksessa kaikki ruuvit kerralla)<br
-/><br
-/>Cap screws (kuusiokolo – myös esim torxi käynee, tai pahimmassa tapauksessa ristipää)<br
-/><ul><li>6 kpl M3 cap screw, 10 mm</li
-><li>15 kpl&nbsp; M3 cap screw, 16 mm</li
-><li>11 kpl&nbsp; M3 cap screw, 20 mm</li
-><li>6 kpl&nbsp; M3 cap screw, 25 mm</li
-><li>2 kpl&nbsp; M3 cap screw, 45 mm</li
-><li>6 kpl&nbsp; M4 cap screw, 16 mm</li
-><li>10 kpl&nbsp; M4 cap screw, 20 mm</li
-><li>66 kpl&nbsp; M4 cap screw, 25 mm</li
-><li>5 kpl&nbsp; M4 cap screw, 30 mm</li
-><li>1 kpl&nbsp; M4 cap screw, 45 mm</li
-><li>4 kpl&nbsp; M8 cap screw, 30 mm<br/><br
-/></li></ul
->Hex screw (kuusiokulma) (osa löytyy labilta)<br
-/><ul><li>3 kpl&nbsp; M3 hex screw, 10 mm</li
-><li>2 kpl&nbsp; M3 hex screw, 16 mm</li
-><li>4 kpl&nbsp; M4 hex screw, 16 mm</li
-><li>2 kpl&nbsp; M4 hex screw, 20 mm</li
-><li>2 kpl&nbsp; M4 hex screw, 50 mm<br/><br
-/></li></ul
->Messinkimutterit z-axeleihin<br
-/><ul><li>2 kpl Brass nut M8<br/><br
-/></li></ul
->Muttereita (löytyy labilta)<br
-/><ul><li><s>9 kpl Nut M3</s></li
-><li><s>2 kpl Nut M4</s></li
-><li><s>2 kpl Nut M8</s></li
-><li><s>4 kpl Nyloc nut M2.5</s></li
-><li><s>30 kpl Nyloc nut M3</s></li
-><li><s>92 kpl Nyloc nut M4</s></li
-><li><s>4 kpl Nyloc nut M8</s><br/><br
-/></li></ul
->Tavallinen pyöreähkö ristipää tjms (löytynee labilta)<br
-/><ul><li>15 kpl&nbsp; M3 pan screw × 8 mm</li
-><li>2 kpl&nbsp; 6-32 pan screw × 9.5 mm<br/><br
-/></li></ul
->Puuruuveja, voidaan sopivankokoisia torxeja käyttää&nbsp;<br
-/><ul><li>(näillä ilmeisesti kasataan MDF:ää, eikös me puhuttu että porataan läpireiät ja käytetään koneruuveja?)<ul><li>Mjep, voi olla parempi, siinä tapauksessa vaihdetaan sopiviin koneruuveihin, esim uppokantaiset voisivat olla käteviä, saadaan pohja tasaiseksi.&nbsp; Vastaavasti pitää vähän pidentää ruuveja jotta menevät läpi<ul><li>Korvasin framen ja basen puuruuvit koneruuveilla, M4 x 25mm ruuveja ja M4 nyloc nutteja on nyt kasa enemmän (katso yllä)</li></ul
-></li></ul
-></li
-><li>10 No2 pan wood screw × 13 mm<ul><li>Näitä käytetään esim endstoppien kiinnittämiseen muoviin, johon ei koneruuvit mahdu.<br/><br
-/><br/><br
-/></li></ul
-></li></ul
->Prikat (näitä oikeasti on labilla vaikka kissoille syöttää)<br
-/><ul><li>14 kpl&nbsp; Washer M2.5 × 5.9 mm × 0.5 mm</li
-><li>60 kpl Washer M3 × 7 mm × 0.5 mm</li
-><li>165 kpl Washer M4 × 9 mm × 0.8 mm</li
-><li>4 kpl Washer M5 × 20 mm × 1.4 mm</li
-><li>8 kpl Washer M8 × 17 mm × 1.6 mm</li
-><li>4 kpl Washer M8 × 30 mm × 1.5 mm<br/><br
-/><br/><br
-/></li></ul
->Joustavat prikat<br
-/><ul><li>21 kpl Star washer M3 × 0.5 mm</li
-><li>2 kpl Star washer M4 × 0.8 mm</li
-><li>1 kpl Star washer M8 × 1.6 mm<br/><br
-/><br/><br
-/></li></ul
->Siipiruuvit extruderin helppoon irroittamiseen<br
-/><ul><li>2 kpl Wingnut M4 -<b> löytyy Hanssin ruuveista labilla</b><br/><br
-/></li></ul
->Labilta löytyviä ruuveja (esim nuts &amp; bolts laatikko)<br
-/><ul><li><s>3 kpl M3 grub screw × 6 mm</s> (siis kannaton kuusiokolo, labilla on, laatikkoon)</li
-><li><s>4 kpl Hex male / female pillar M3 × 20 mm</s> ("piirilevyn jalat", myös näitä on, laatikkoon)<br/><br
-/><br/><br
-/></li></ul
-><b>3D Osat:</b><br
-/><ul><li><b>Hans</b> printtailee<ul><li><b>Printattu</b> (materiaalikulut suluissa for reference):<ul><li><s>10 fixing_block.stl (0.94€)</s></li
-><li><s>1 atx_long_bracket.stl (0.25€)</s></li
-><li><s>1 atx_short_bracket.stl</s></li
-><li><s>Cable clips (0.06€)</s></li
-><li><s>1 d_motor_bracket.stl (0.40€)</s></li
-><li><s>1 d_motor_bracket_lid.stl</s></li
-><li><s>1 d_shell.stl</s></li
-><li><s>1 d_shell_lid.stl</s></li
-><li><s>1 fan_guard.stl (0.11€)</s></li
-><li><s>1 ribbon_clamp_14_33.stl (0.19€)</s></li
-><li><s>1 ribbon_clamp_14_33NB.stl</s></li
-><li><s>1 ribbon_clamp_20_33.stl</s></li
-><li><s>1 ribbon_clamp_20_44N.stl</s></li
-><li><s>1 ribbon_clamp_26_44.stl</s></li
-><li><s>2 ribbon_clamp_26_44N.stl</s></li
-><li><s>2 spool_bracket_female.stl (0.44€)</s></li
-><li><s>2 spool_bracket_male.stl (0.76€)</s></li
-><li><s>3 y_bearing_mount.stl (0.55€)</s></li
-><li><s>1 y_belt_anchor.stl (0.15€)</s></li
-><li><s>1 y_belt_anchor_toothed.stl</s></li
-><li><s>1 y_belt_clip.stl</s></li
-><li><s>1 y_belt_clip_toothed.stl</s></li
-><li><s>1 y_idler_bracket.stl (0.17€)</s></li
-><li><s>1 y_motor_bracket.stl (0.35€)</s></li
-><li><s>1 z_motor_bracket_lhs.stl (0.60€)</s></li
-><li><s>1 z_motor_bracket_rhs.stl</s></li
-><li><s>1 x_idler_bracket.stl</s></li></ul
-></li
-><li><b>Odottaa printtaamista</b><ul><li>Vaatii uusioprinttausta, väärä koko: 1 dust_filter.stl (0.19€)</li
-><li>Vaatii uusioprinttausta, väärä koko: 3 y_bar_clamp.stl (1.09€)</li
-><li>Vaatii uusioprinttausta, väärä koko: 1 y_bar_clamp_switch.stl</li
-><li>Vaatii uusioprinttausta, väärä koko: 2 z_bar_clamp.stl</li
-><li>1 wades_big_gear.stl</li
-><li>1 wades_block.stl</li
-><li>1 wades_gear_spacer.stl</li
-><li>1 wades_idler_block.stl</li
-><li>1 wades_small_gear.stl</li
-><li>1 x_belt_clamp.stl</li
-><li>1 x_belt_grip.stl</li
-><li>1 x_belt_tensioner.stl</li
-><li>1 x_carriage.stl</li
-><li>1 x_carriage_fan_bracket.stl</li
-><li>1 x_carriage_fan_duct.stl</li
-><li>1 x_motor_bracket.stl</li
-><li>2 z_screw_pointer.stl<br/><br
-/></li></ul
-></li></ul
-></li></ul
-></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-torsti90
+  </title>
+ </head>
+ <body>
+  <b>
+   Torsti90 on Hacklabille rakennettava Mendel90 mallinen 3D printteri
+  </b>
+  <br/>
+  <br/>
+  Torsti90 on nyt alustavasti konfiguroitu, ja löytyy githubista:
+  <a href="https://github.com/HelsinkiHacklab/Mendel90">
+   https://github.com/HelsinkiHacklab/Mendel90
+  </a>
+  Jos on tarpeeksi uusi openscadi asennettuna niin clonen jälkeen openscad scad/main.scad avaa 3D previewn (kestää vähän aikaa ladata). Hakemisto torsti/ sisältää generoidut tiedostot, kuten BOMit, poraus/leikkaus templatet, sekä 3D-tulostettavat osat.
+  <br/>
+  <br/>
+  Tuossa on nyt oletusmitat (200 × 200 × 200 mm printtausalue), ja materiaaliksi laitoin toistaiseksi 12 mm MDF (ainakin katon voi sitten tehdä filmivanerista), smooth rodit ovat 10 mm.  En vielä kattoa tai korotusta filament-keloille sen kummemmin katsonut, ne kannattaa pitää mielessä ennenkuin menee leikkelemään levyjä, mutta muuhun ne eivät  paljon vaikuta.
+  <br/>
+  <br/>
+  Koko BOM:i löytyy täältä:
+  <a href="https://github.com/HelsinkiHacklab/Mendel90/blob/master/torsti/bom/bom.txt">
+   https://github.com/HelsinkiHacklab/Mendel90/blob/master/torsti/bom/bom.txt
+  </a>
+  <br/>
+  <br/>
+  Suovula esitti ihan aiheellisen kysymyksen, että tämäkö nyt korvaa sen alkuperäisen jo seuran hallituksessa hyväksytyn idean että ostetaan Makerbot kit ja kasataan se niin tulee konsistentti ja myös kuljetettava printteri – uskoisin että useimmilla meistä tavoite on printata asioita eikä nysvätä printteriä?
+  <br/>
+  <ul>
+   <li>
+    Hallituksessa muistaakseni puhuttiin Mendel90 kitin ostamisesta, ainakin siinä kokouksessa/keskustelussa jossa minä olin. Makerbot on kallis ($2200 + rahti jenkeistä vs $800 sis postit Mendel90 kitistä) ja closed source, eikä sitä myydä enää kiteissä.
+   </li>
+   <li>
+    Tämä kai korvaisi sen, ymmärsin että halutaan käyttää esim jo-ostettua ramps elektroniikkaa, käyttää 10mm smoothrodeja 8mm sijaan, jne.  Jos kuitenkin halutaan ostaa valmis kitti niin sopii esim minun puolesta, tosin sain käsitysen että rakentamiseen olisi kiinnostusta.
+    <ul>
+     <li>
+      Tehdään varmaan niin että jatketaan tätä projektia, ja katotaan seuraavassa hallituskokouksessa jos on kiinnostusta ostaa lisäksi kitti (esim jos tämä projekti hidastaa).
+     </li>
+    </ul>
+   </li>
+   <li>
+    Jotta printterin nysväys minimoitaisiin, tavoite olisi seurata piirustuksia aika tarkkaan - esim osien vaihtaminen alumiiniin ym isommat ja pienemmät muutokset vaatii suunnittelua ja hidastaa projektia, sekä lisää mahdollisuutta että jossain vaiheessa huomataan että nyt osat ei enää sovikkaan yhteen.
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Toinen kysymys: miksi MDF eikä esimerkiksi alumiini joka olisi varmasti kokonaisuutena tukevampi?
+  <a href="http://reprapsource.com/en/show/6859">
+   http://reprapsource.com/en/show/6859
+  </a>
+  <br/>
+  <ul>
+   <li>
+    Alumiinin työstäminen on huomattavasti vaikeampaa, alumiini on kalliimpaa, ei selvää mistä sitä saisi. MDF on myös käytännössä havaittu tarpeeksi tukevaksi.
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   ----------------------------------------------------------------------------------------------------------------------------------
+  </b>
+  <br/>
+  <b>
+   OSALISTA
+  </b>
+  <br/>
+  <br/>
+  <i>
+   Jos olet hankkimassa jonkun osan merkkaa nimesi perään, ja vedä yli kun osa on labilla!
+  </i>
+  <br/>
+  <br/>
+  <b>
+   Printtausfilamenttia uudelle printterinlle
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Labilta löytyy pätkiä, eivät tosin välttämättä riitä pitkälle
+   </li>
+   <li>
+    Tilasin joitakin kilon rullia PLA:ta (noin 26€/rulla), voin tuoda osan labille – Hans
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Prisma / Claes Ohlsson:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    <s>
+     Sopivan kokoinen (esim 10 Litraa) hammarplast laatikko johon kerätään Torsti90:nen osat, ja jossa voi myöhemmin säilyttää vaikka filamenttia
+    </s>
+    – labilla on nyt työstöhuoneessa iso sininen kannellinen laatikko jossa lukee TORSTI90 ja jonne sijoitin jo hankitun elektroniikan lisäksi parin kesken jääneen printteriprojektin (elmom, ferrix?) jäämistöjä. Mukana mm. laakeroidut kierretangot, pelkään vaan ettei niitä voida helposti käyttää tässä?  Joo, vaatisi liikaa uudelleendesignia vaihtaa kierretangot laakeroituihin, mennään perus rosterikierteellä + messinkimuttereilla.  Kierretangot ei kuitenkaan mendel90 designissä tarvitse tarkkuussijoittelua tjms, saavat liikkua ajon aikana (smooth rodit ja lineaarilaakerit pitävät akselit oikeilla raiteilla).
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Kerätään nämä labilta, viivaa yli kun osa on Torsti90 laatikossa:
+  </b>
+  <br/>
+  <br/>
+  Poweri
+  <br/>
+  <ul>
+   <li>
+    1 ATX PSU ~500W
+   </li>
+   <li>
+    1 Laitevirtajohto
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Elektroniikka
+  <br/>
+  <ul>
+   <li>
+    <s>
+     1 RAMPS 1.4 electronics + 4 × Pololu
+    </s>
+    – nämä siis on
+   </li>
+   <li>
+    <s>
+     3 Microswitch
+    </s>
+    , 20mm × 9mm × 6mm, ei metallikättä, pelkkä pikkunappi.  – labilla on runsaasti – labin lahjoitus microswitchit ovat tätä isompia.  Tosin jokunen pienempikin labilla on – on myös em. kesken jääneiden projektien jäämistönä optisia antureita, jotenkin ne tuntuvat uskottavammilta kuin mekaaniset? Tämä koko taitaa olla hiiren nappi, irroittelin muutaman ja laitoin laatikkoon!
+    <ul>
+     <li>
+      Tällaisesta on siis kyse:
+      <a href="http://image.made-in-china.com/2f0j00zCLQpHfnsIqW/Micro-Switch-KW11-Series-.jpg">
+       http://image.made-in-china.com/2f0j00zCLQpHfnsIqW/Micro-Switch-KW11-Series-.jpg
+      </a>
+      Ilman vipua, joten kuvassa ylävasen kappale.
+     </li>
+     <li>
+      juurikin täsmälleen hiiren nappi, laatikosta löytyy!
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  Stepperit
+  <br/>
+  <ul>
+   <li>
+    5 NEMA17 × 47.5mm stepper motor – labilta löytynee pari, pitäisikö näitä hankkia erikseen että olisi setti samanlaisia?
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Pikkutuuletin printheadiin (voi olla että pitää tilata)
+  <br/>
+  <ul>
+   <li>
+    <s>
+     1 Fan 60mm × 15mm
+    </s>
+    - laatikossa on nyt kaksi
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Liittimiä (voi olla että pitää tilata)
+  <br/>
+  <ul>
+   <li>
+    1 2 way Molex KK header
+   </li>
+   <li>
+    1 3 way Molex KK header
+   </li>
+   <li>
+    2 4 way terminal block
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  D-liitin (mihin elektroniikkaan tämä liittyy? - Hotendin ja extruderin kiinnitys muuhun koneeseen, niin että saa helposti irti huollettaessa.  Näitä löytyy labilta, laitoin laatikkoon jotakin sellaisia mutta lattakaapeliversiota ei löytynyt) - lattakaapeliversion saa esim partcosta:
+  <a href="http://www.partco.biz/verkkokauppa/product_info.php?cPath=23_2025_1580&amp;products_id=8238">
+   http://www.partco.biz/verkkokauppa/product_info.php?cPath=23_2025_1580&amp;products_id=8238
+  </a>
+  <br/>
+  <ul>
+   <li>
+    1 15 way D PCB mount plug
+   </li>
+   <li>
+    1 15 way D IDC socket
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  D-liittimen ruuvien jousitukseen / kiinni pitämiseen
+  <br/>
+  <ul>
+   <li>
+    2 Nitrile O-ring 2.5mm × 1.6mm (o-tiivistelaatikossa ehkä on näin pieniä) eiköhän käytetä D-liitinten "virallisia" ruuviliittimiä - EIvät sovi printtiin.
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Kaapelointi
+  <br/>
+  <ul>
+   <li>
+    1 Ribbon cable 20 way 1266 mm
+   </li>
+   <li>
+    1 Ribbon cable 26 way 381 mm
+   </li>
+   <li>
+    2 Red wire 16/0.2 length 170 mm
+   </li>
+   <li>
+    1 Black wire 32/0.2 length 635 mm
+   </li>
+   <li>
+    1 Red wire 32/0.2 length 620 mm
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Heatshrinkkiä (labilla taitaa olla)
+  <br/>
+  <ul>
+   <li>
+    1 Heatshrink sleeving ID 10 mm × 15 mm
+   </li>
+   <li>
+    4 Heatshrink sleeving ID 1.6 mm × 15 mm
+   </li>
+   <li>
+    11 Heatshrink sleeving ID 2.4 mm × 15 mm
+   </li>
+   <li>
+    5 Heatshrink sleeving ID 3.2 mm × 15 mm
+   </li>
+   <li>
+    2 Heatshrink sleeving ID 6.4 mm × 15 mm
+   </li>
+   <li>
+    2 Heatshrink sleeving ID 6.4 mm × 30 mm
+   </li>
+   <li>
+    1 Heatshrink sleeving ID 6.4 mm × 60 mm
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Zipties (nämä voisi aluksi toteuttaa "pussinsulkijoilla" että saa irti ja kiinni)
+  <br/>
+  <ul>
+   <li>
+    3 Ziptie 100 mm min length
+   </li>
+   <li>
+    6 Ziptie 105 mm min length
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Aaltopahvia (kaksikerroksinen parempaa)
+  <br/>
+  <ul>
+   <li>
+    1 Corrugated cardboard 193 mm × 217 mm × 6 mm (leikataan runsaampi pala, leikataan sitten mallin mukaan tarkemmin)
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Vaahtomuovipala filamentin pölynpoistoon
+  <br/>
+  <ul>
+   <li>
+    1 Foam sponge 20 mm × 20 mm × 20 mm  (jos kaikki vaahtomuovit ei ole heitetty labilta pois, jos on niin syyllinen leikkaa sängynpatjastaan palan :P ).
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Ribbon cable tuet.  Nämä jostain taipuvasta ohuesta muovilevystä / luiskasta:
+  <br/>
+  <ul>
+   <li>
+    1 Polypropylene strip 417 mm × 18 mm × 0.5 mm
+   </li>
+   <li>
+    1 Polypropylene strip 502 mm × 25 mm × 0.5 mm
+   </li>
+   <li>
+    1 Polypropylene strip 278 mm × 33 mm × 0.5 mm
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Z-lead screws
+  <br/>
+  <ul>
+   <li>
+    <s>
+     2 Threaded rod M8 × 273 mm, ruostumatonta
+    </s>
+    , laatikossa, mutta miten nämä on tarkoitus liittää moottoreihin, Heikki sanoi että hänellä on näihin niitä kevyesti nivelöityjä liitoskappaleita?
+    <ul>
+     <li>
+      Jep, alumiinisilla couplereilla (5mm to 8mm), minullakin on kaksi ylimääräistä tähän tarkoitukseen ostettua -- Hans
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  Heated bedin päällyslasilevy
+  <br/>
+  <ul>
+   <li>
+    1 Glass sheet 214 mm × 202 mm × 2 mm – Labilla pitäisi olla runsaasti sellaista josta tämän voi leikata, ainakin toin sinne aiemmin nipun lasia juuri tähän tarkoitukseen? Labilta löytyy vain 4 mm lasia, kelpaako eka versioksi, 2 mm on kokemukseni mukaan
+    <b>
+     erittäin
+    </b>
+    särkyväistä? Halutaanko muuten jatkossa laittaa siihen hiilikuitua? :-)
+    <a href="http://reprapsource.com/en/show/6832">
+     http://reprapsource.com/en/show/6832
+    </a>
+    <ul>
+     <li>
+      Kaipa 4mm:kin toimii, voidaan kalibroida lämmitys sitten sopivaksi.  PLA:lle ei niin kriittistä, ABS voi olla rajoilla, mutta kokeilemalla selviää
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   Tilattavaa elektroniikkaa:
+  </b>
+  <br/>
+  Powerin fake loadeja, jotta antaisi virtaa muilta raileilta
+  <br/>
+  <ul>
+   <li>
+    <s>
+     1 THS15 Aluminium clad resistor 10R
+     <b>
+      - Hans tilasi
+     </b>
+    </s>
+   </li>
+   <li>
+    <s>
+     1 THS15 Aluminium clad resistor 4R7
+     <b>
+      - Hans tilasi
+     </b>
+    </s>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Heated bedin anturi
+  <br/>
+  <ul>
+   <li>
+    <s>
+     1 Epcos B57861S104F40 100K 1% thermistor -
+     <b>
+      Hans tilasi
+     </b>
+    </s>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Tilattavaa mekaniikkaa (ebay):
+  </b>
+  <br/>
+  Bearings
+  <br/>
+  <ul>
+   <li>
+    <s>
+     7 Ball bearing 608 8 mm × 22 mm × 7 mm
+     <b>
+      Heikki
+     </b>
+    </s>
+    <s>
+     tuo
+    </s>
+   </li>
+   <li>
+    <s>
+     4 Ball bearing 624 4 mm × 13 mm × 5 mm
+     <b>
+      Heikki
+     </b>
+    </s>
+    <s>
+     tuo
+    </s>
+   </li>
+   <li>
+    <s>
+     10 LM10UU linear bearing -
+     <b>
+      Hans
+     </b>
+    </s>
+    <s>
+     tuo
+    </s>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Lasilevyn kiinnipitämiseen
+  <br/>
+  <ul>
+   <li>
+    <s>
+     4 19 mm bulldog clip -
+     <b>
+      Hans
+     </b>
+    </s>
+    <s>
+     tuo
+    </s>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Jouset
+  <br/>
+  <ul>
+   <li>
+    2 Spring 7 mm OD, 1mm gauge × 10mm long (näitä on vaikea löytää netistä, voisi katsoa labin jousivalikoimat, tai ruuvikaupasta katsoa)
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Tangot
+  <br/>
+  <ul>
+   <li>
+    1 Smooth rod 10 mm × 276 mm -
+    <b>
+     Heikki
+    </b>
+    tilaa
+   </li>
+   <li>
+    2 Smooth rod 10 mm × 336 mm -
+    <b>
+     Heikki
+    </b>
+    tilaa
+   </li>
+   <li>
+    2 Smooth rod 10 mm × 389 mm -
+    <b>
+     Heikki
+    </b>
+    tilaa
+   </li>
+   <li>
+    1 Smooth rod 10 mm × 418 mm -
+    <b>
+     Heikki
+    </b>
+    tilaa
+   </li>
+   <li>
+    1 Smooth rod 8 mm × 22 mm -
+    <b>
+     Heikki
+    </b>
+    tilaa  (tämä pätkä löytynee tosin labilta, tule extruderin idleriin)
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Hotendin johdoille ja heated bedin thermistorille Heikillä luultavasti on,
+  <b>
+   Heikki
+  </b>
+  tarkistaa
+  <br/>
+  <ul>
+   <li>
+    2 PTFE sleeving OD 1.2 mm ID 0.71 mm × 62 mm
+   </li>
+   <li>
+    2 PTFE sleeving OD 2.6 mm ID 2 mm × 45 mm
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Filamentin syöttöputki
+  <br/>
+  <ul>
+   <li>
+    <s>
+     1 PTFE tubing OD 4.6mm ID 3.84 mm × 750 mm -
+     <b>
+      Hans tuo
+     </b>
+    </s>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Lämpöheijastukseen alumiiniteippiä, kapeampikin käy, silloin tarvitaan vain enemmän
+  <br/>
+  <ul>
+   <li>
+    <s>
+     5 Aluminium foil tape 50 mm × 227 mm × 0.05 mm -
+     <b>
+      Hanssilla on alumiiniteippiä, Heikillä tarvittaessa kupariteippiä
+     </b>
+    </s>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Heated bedin aluslevy
+  <br/>
+  <ul>
+   <li>
+    1 Dibond sheet tai vastaava tasainen ohut levy johon olisi hyvä saada kierteet tehtyä 217 mm × 217 mm × 3 mm
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Tilattavaa reprap kamaa:
+  </b>
+  <br/>
+  Heated bed
+  <br/>
+  <ul>
+   <li>
+    <s>
+     1 PCB bed 214 mm × 214 mm -
+     <b>
+      Hans tilasi
+     </b>
+    </s>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Hotend
+  <br/>
+  <ul>
+   <li>
+    <s>
+     1 JHead MK5 hot end (ebaysta löytyy $37:lla joku versio, muuten 50-60€)
+    </s>
+    -
+    <b>
+     Hans tilasi
+    </b>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Extruder hobbed bolt
+  <br/>
+  <ul>
+   <li>
+    1 M8 hex screw × 60 mm, hobbed at 25  (~$10 ebaystä; onpa muuten kallis ruuviksi, eikös tällaisen pyällyksen tee sorvilla ja sopivalla lisäosalla mihin tahansa ruuviin, eli Rambo tai Mallarit? -- Riippuu kuinka arvokkaaksi hinnoittelee ajansa, ja jos menee rutiinilla vai säätämiseksi)
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Marketista, rautakaupasta, tai maalikaupasta:
+  </b>
+  <br/>
+  MDF tulee kosteussulkea sahaamisen ja reikien poraamisen jälkeen.
+  <br/>
+  Sprayväri ehkä parempaa, akryli jos osaa sillä tehdä tasaista
+  <br/>
+  <ul>
+   <li>
+    <s>
+     Purkki pohjaväriä – minulla taitaa löytyä kotoa, katson
+    </s>
+    Otto osti sprayvalkoista
+   </li>
+   <li>
+    Keskiharmaata pintaväriä, väristä voitaisiin puhua, minusta valkoinen olisi myös hyvä
+   </li>
+   <li>
+    Rullatela (jos ei sprayväriä käytetä)
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   K-Raudalta (ainakin ruoholahdella on):
+  </b>
+  <br/>
+  <s>
+   1 MDF levy 120x80-jotain cm, sahataan labilla, käytetään alkuperäisen levyn kulmat kriittisiin kohtiin. Myös labin varastossa on suikaleita hyvää ja kovaa MDF-levyä. - Ei tosin 12mm tarpeeksi isoissa paloissa
+  </s>
+  , Otto osti ja tuo labille
+  <br/>
+  <ul>
+   <li>
+    2 MDF sheet 155 mm × 385 mm × 12 mm
+   </li>
+   <li>
+    1 MDF sheet 475 mm × 385 mm × 12 mm
+   </li>
+   <li>
+    1 MDF sheet 475 mm × 422 mm × 12 mm
+   </li>
+  </ul>
+  Onko nämä nyt sahattu?
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   Tilattavaa hammashihnaa (ebaysta jos löytyy halvemmalla, tai SDP:ltä muuten
+  </b>
+  <a href="https://sdp-si.com/eStore/Catalog">
+   <b>
+    https://sdp-si.com/eStore/Catalog
+   </b>
+  </a>
+  <b>
+   ):
+  </b>
+  <br/>
+  Belts &amp; pulleys
+  <br/>
+  - Vaihdoin T5 hihnat ja pulleyt GT2:een, joka on optimaalisempi lineaarisen liikkeen siirtämiseen (
+  <a href="http://www.mendelmax.com/?wiki=choosing-belts-and-pulleys">
+   http://www.mendelmax.com/?wiki=choosing-belts-and-pulleys
+  </a>
+  ) – Hans
+  <br/>
+  <ul>
+   <li>
+    <s>
+     1 Belt GT2 × 6 mm × 652 mm -
+     <b>
+      Hans tilasi
+     </b>
+    </s>
+   </li>
+   <li>
+    <s>
+     1 Belt GT2 × 6 mm × 876 mm -
+     <b>
+      Hans tilasi
+     </b>
+    </s>
+   </li>
+   <li>
+    <s>
+     2 kpl GT2 pulleytä hihnalle  -
+     <b>
+      Hans tilasi
+     </b>
+    </s>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Syövytetään labilla:
+  </b>
+  <br/>
+  Extruderissa oleva PCB johtojen liittimille
+  <br/>
+  <ul>
+   <li>
+    1 Extruder connection PCB
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Tilattavaa ruuvikamaa (kannattaa ensin vilkaista onko hacklabin nuts and bolts laatikossa):
+  </b>
+  <br/>
+  Ruuvit, mutterit, prikat  (arvelen että ainakin ~80% näistä löytyy valmiina labilta, kuusiokoloja  ehkäpä ei, mistä niitä kannattaa ostaa ja mitä kokoja – ruuvifirma  Teollisuuskadun Pasilan päässä? Ruuvi-säveltä (Karjalankatu 11) löytynee edullisesti kaikki, kannattaa ehkä ostaa jokatapauksessa kaikki ruuvit kerralla)
+  <br/>
+  <br/>
+  Cap screws (kuusiokolo – myös esim torxi käynee, tai pahimmassa tapauksessa ristipää)
+  <br/>
+  <ul>
+   <li>
+    6 kpl M3 cap screw, 10 mm
+   </li>
+   <li>
+    15 kpl  M3 cap screw, 16 mm
+   </li>
+   <li>
+    11 kpl  M3 cap screw, 20 mm
+   </li>
+   <li>
+    6 kpl  M3 cap screw, 25 mm
+   </li>
+   <li>
+    2 kpl  M3 cap screw, 45 mm
+   </li>
+   <li>
+    6 kpl  M4 cap screw, 16 mm
+   </li>
+   <li>
+    10 kpl  M4 cap screw, 20 mm
+   </li>
+   <li>
+    66 kpl  M4 cap screw, 25 mm
+   </li>
+   <li>
+    5 kpl  M4 cap screw, 30 mm
+   </li>
+   <li>
+    1 kpl  M4 cap screw, 45 mm
+   </li>
+   <li>
+    4 kpl  M8 cap screw, 30 mm
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Hex screw (kuusiokulma) (osa löytyy labilta)
+  <br/>
+  <ul>
+   <li>
+    3 kpl  M3 hex screw, 10 mm
+   </li>
+   <li>
+    2 kpl  M3 hex screw, 16 mm
+   </li>
+   <li>
+    4 kpl  M4 hex screw, 16 mm
+   </li>
+   <li>
+    2 kpl  M4 hex screw, 20 mm
+   </li>
+   <li>
+    2 kpl  M4 hex screw, 50 mm
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Messinkimutterit z-axeleihin
+  <br/>
+  <ul>
+   <li>
+    2 kpl Brass nut M8
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Muttereita (löytyy labilta)
+  <br/>
+  <ul>
+   <li>
+    <s>
+     9 kpl Nut M3
+    </s>
+   </li>
+   <li>
+    <s>
+     2 kpl Nut M4
+    </s>
+   </li>
+   <li>
+    <s>
+     2 kpl Nut M8
+    </s>
+   </li>
+   <li>
+    <s>
+     4 kpl Nyloc nut M2.5
+    </s>
+   </li>
+   <li>
+    <s>
+     30 kpl Nyloc nut M3
+    </s>
+   </li>
+   <li>
+    <s>
+     92 kpl Nyloc nut M4
+    </s>
+   </li>
+   <li>
+    <s>
+     4 kpl Nyloc nut M8
+    </s>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Tavallinen pyöreähkö ristipää tjms (löytynee labilta)
+  <br/>
+  <ul>
+   <li>
+    15 kpl  M3 pan screw × 8 mm
+   </li>
+   <li>
+    2 kpl  6-32 pan screw × 9.5 mm
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Puuruuveja, voidaan sopivankokoisia torxeja käyttää
+  <br/>
+  <ul>
+   <li>
+    (näillä ilmeisesti kasataan MDF:ää, eikös me puhuttu että porataan läpireiät ja käytetään koneruuveja?)
+    <ul>
+     <li>
+      Mjep, voi olla parempi, siinä tapauksessa vaihdetaan sopiviin koneruuveihin, esim uppokantaiset voisivat olla käteviä, saadaan pohja tasaiseksi.  Vastaavasti pitää vähän pidentää ruuveja jotta menevät läpi
+      <ul>
+       <li>
+        Korvasin framen ja basen puuruuvit koneruuveilla, M4 x 25mm ruuveja ja M4 nyloc nutteja on nyt kasa enemmän (katso yllä)
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    10 No2 pan wood screw × 13 mm
+    <ul>
+     <li>
+      Näitä käytetään esim endstoppien kiinnittämiseen muoviin, johon ei koneruuvit mahdu.
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  Prikat (näitä oikeasti on labilla vaikka kissoille syöttää)
+  <br/>
+  <ul>
+   <li>
+    14 kpl  Washer M2.5 × 5.9 mm × 0.5 mm
+   </li>
+   <li>
+    60 kpl Washer M3 × 7 mm × 0.5 mm
+   </li>
+   <li>
+    165 kpl Washer M4 × 9 mm × 0.8 mm
+   </li>
+   <li>
+    4 kpl Washer M5 × 20 mm × 1.4 mm
+   </li>
+   <li>
+    8 kpl Washer M8 × 17 mm × 1.6 mm
+   </li>
+   <li>
+    4 kpl Washer M8 × 30 mm × 1.5 mm
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Joustavat prikat
+  <br/>
+  <ul>
+   <li>
+    21 kpl Star washer M3 × 0.5 mm
+   </li>
+   <li>
+    2 kpl Star washer M4 × 0.8 mm
+   </li>
+   <li>
+    1 kpl Star washer M8 × 1.6 mm
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Siipiruuvit extruderin helppoon irroittamiseen
+  <br/>
+  <ul>
+   <li>
+    2 kpl Wingnut M4 -
+    <b>
+     löytyy Hanssin ruuveista labilla
+    </b>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Labilta löytyviä ruuveja (esim nuts &amp; bolts laatikko)
+  <br/>
+  <ul>
+   <li>
+    <s>
+     3 kpl M3 grub screw × 6 mm
+    </s>
+    (siis kannaton kuusiokolo, labilla on, laatikkoon)
+   </li>
+   <li>
+    <s>
+     4 kpl Hex male / female pillar M3 × 20 mm
+    </s>
+    ("piirilevyn jalat", myös näitä on, laatikkoon)
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   3D Osat:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    <b>
+     Hans
+    </b>
+    printtailee
+    <ul>
+     <li>
+      <b>
+       Printattu
+      </b>
+      (materiaalikulut suluissa for reference):
+      <ul>
+       <li>
+        <s>
+         10 fixing_block.stl (0.94€)
+        </s>
+       </li>
+       <li>
+        <s>
+         1 atx_long_bracket.stl (0.25€)
+        </s>
+       </li>
+       <li>
+        <s>
+         1 atx_short_bracket.stl
+        </s>
+       </li>
+       <li>
+        <s>
+         Cable clips (0.06€)
+        </s>
+       </li>
+       <li>
+        <s>
+         1 d_motor_bracket.stl (0.40€)
+        </s>
+       </li>
+       <li>
+        <s>
+         1 d_motor_bracket_lid.stl
+        </s>
+       </li>
+       <li>
+        <s>
+         1 d_shell.stl
+        </s>
+       </li>
+       <li>
+        <s>
+         1 d_shell_lid.stl
+        </s>
+       </li>
+       <li>
+        <s>
+         1 fan_guard.stl (0.11€)
+        </s>
+       </li>
+       <li>
+        <s>
+         1 ribbon_clamp_14_33.stl (0.19€)
+        </s>
+       </li>
+       <li>
+        <s>
+         1 ribbon_clamp_14_33NB.stl
+        </s>
+       </li>
+       <li>
+        <s>
+         1 ribbon_clamp_20_33.stl
+        </s>
+       </li>
+       <li>
+        <s>
+         1 ribbon_clamp_20_44N.stl
+        </s>
+       </li>
+       <li>
+        <s>
+         1 ribbon_clamp_26_44.stl
+        </s>
+       </li>
+       <li>
+        <s>
+         2 ribbon_clamp_26_44N.stl
+        </s>
+       </li>
+       <li>
+        <s>
+         2 spool_bracket_female.stl (0.44€)
+        </s>
+       </li>
+       <li>
+        <s>
+         2 spool_bracket_male.stl (0.76€)
+        </s>
+       </li>
+       <li>
+        <s>
+         3 y_bearing_mount.stl (0.55€)
+        </s>
+       </li>
+       <li>
+        <s>
+         1 y_belt_anchor.stl (0.15€)
+        </s>
+       </li>
+       <li>
+        <s>
+         1 y_belt_anchor_toothed.stl
+        </s>
+       </li>
+       <li>
+        <s>
+         1 y_belt_clip.stl
+        </s>
+       </li>
+       <li>
+        <s>
+         1 y_belt_clip_toothed.stl
+        </s>
+       </li>
+       <li>
+        <s>
+         1 y_idler_bracket.stl (0.17€)
+        </s>
+       </li>
+       <li>
+        <s>
+         1 y_motor_bracket.stl (0.35€)
+        </s>
+       </li>
+       <li>
+        <s>
+         1 z_motor_bracket_lhs.stl (0.60€)
+        </s>
+       </li>
+       <li>
+        <s>
+         1 z_motor_bracket_rhs.stl
+        </s>
+       </li>
+       <li>
+        <s>
+         1 x_idler_bracket.stl
+        </s>
+       </li>
+      </ul>
+     </li>
+     <li>
+      <b>
+       Odottaa printtaamista
+      </b>
+      <ul>
+       <li>
+        Vaatii uusioprinttausta, väärä koko: 1 dust_filter.stl (0.19€)
+       </li>
+       <li>
+        Vaatii uusioprinttausta, väärä koko: 3 y_bar_clamp.stl (1.09€)
+       </li>
+       <li>
+        Vaatii uusioprinttausta, väärä koko: 1 y_bar_clamp_switch.stl
+       </li>
+       <li>
+        Vaatii uusioprinttausta, väärä koko: 2 z_bar_clamp.stl
+       </li>
+       <li>
+        1 wades_big_gear.stl
+       </li>
+       <li>
+        1 wades_block.stl
+       </li>
+       <li>
+        1 wades_gear_spacer.stl
+       </li>
+       <li>
+        1 wades_idler_block.stl
+       </li>
+       <li>
+        1 wades_small_gear.stl
+       </li>
+       <li>
+        1 x_belt_clamp.stl
+       </li>
+       <li>
+        1 x_belt_grip.stl
+       </li>
+       <li>
+        1 x_belt_tensioner.stl
+       </li>
+       <li>
+        1 x_carriage.stl
+       </li>
+       <li>
+        1 x_carriage_fan_bracket.stl
+       </li>
+       <li>
+        1 x_carriage_fan_duct.stl
+       </li>
+       <li>
+        1 x_motor_bracket.stl
+       </li>
+       <li>
+        2 z_screw_pointer.stl
+        <br/>
+        <br/>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </body>
 </html>

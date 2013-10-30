@@ -1,40 +1,68 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-ArduinoComic-Page-12</title>
-</head>
-<body>PAGE 12: Digital input: setting up a switch to turn LED on and off<br
-/>Panel 45:<br
-/>Drawing: hand holding switch&nbsp;<br
-/>(In text panel): Next we will add a switch, a digital input, so we can turn the LED off and on.&nbsp;<br
-/><br
-/>Panel 46:<br
-/>Drawing: Detail of switch attached to board along with LED and resistors<br
-/>(In text panel): Connect one end of a momentary switch to pin 4 on the&nbsp;<br
-/>Arduino, with a 10k resistor connected to ground attached to the same end. Attach the other end to power. We will leave the LED attached to the same pin.<br
-/><br
-/><br
-/>Panel 47:<br
-/>&nbsp;Drawing: code for switch script written on white shape<br
-/>void setup() {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; pinMode(2, OUTPUT);&nbsp;<br
-/>&nbsp; pinMode(4, INPUT);&nbsp;<br
-/>}<br
-/><br
-/>void loop() {<br
-/>&nbsp; if(digitalRead(4)){<br
-/>&nbsp;&nbsp;&nbsp; digitalWrite(2, HIGH);&nbsp;&nbsp;<br
-/>&nbsp; }else{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; digitalWrite(2, LOW);&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; }<br
-/>}<br
-/>(In text panels): Next we’ll write the code. In setup, we declare pin 2 an output and pin 4 an input. In loop, we use an if statement, if we read pin 4 as high, we set the LED pin to high, otherwise we set the LED pin to low, turning it off.<br
-/><br
-/>Panel 48:&nbsp;<br
-/>Drawing: split panel, finger pushing switch with LED lit, finger lets up and LED is off<br
-/>(In text panel) The LED lights when the switch is held down.<br
-/><br
-/></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-ArduinoComic-Page-12
+  </title>
+ </head>
+ <body>
+  PAGE 12: Digital input: setting up a switch to turn LED on and off
+  <br/>
+  Panel 45:
+  <br/>
+  Drawing: hand holding switch
+  <br/>
+  (In text panel): Next we will add a switch, a digital input, so we can turn the LED off and on.
+  <br/>
+  <br/>
+  Panel 46:
+  <br/>
+  Drawing: Detail of switch attached to board along with LED and resistors
+  <br/>
+  (In text panel): Connect one end of a momentary switch to pin 4 on the
+  <br/>
+  Arduino, with a 10k resistor connected to ground attached to the same end. Attach the other end to power. We will leave the LED attached to the same pin.
+  <br/>
+  <br/>
+  <br/>
+  Panel 47:
+  <br/>
+  Drawing: code for switch script written on white shape
+  <br/>
+  void setup() {
+  <br/>
+  pinMode(2, OUTPUT);
+  <br/>
+  pinMode(4, INPUT);
+  <br/>
+  }
+  <br/>
+  <br/>
+  void loop() {
+  <br/>
+  if(digitalRead(4)){
+  <br/>
+  digitalWrite(2, HIGH);
+  <br/>
+  }else{
+  <br/>
+  digitalWrite(2, LOW);
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  (In text panels): Next we’ll write the code. In setup, we declare pin 2 an output and pin 4 an input. In loop, we use an if statement, if we read pin 4 as high, we set the LED pin to high, otherwise we set the LED pin to low, turning it off.
+  <br/>
+  <br/>
+  Panel 48:
+  <br/>
+  Drawing: split panel, finger pushing switch with LED lit, finger lets up and LED is off
+  <br/>
+  (In text panel) The LED lights when the switch is held down.
+  <br/>
+  <br/>
+ </body>
 </html>

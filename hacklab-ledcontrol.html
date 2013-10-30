@@ -1,86 +1,191 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-ledcontrol</title>
-</head>
-<body>Links and info related to creating PWM and other ways to control LED colors.<br
-/><br
-/>Bit Angle Modulation (BAM) vs. PWM:<br
-/><ul><li><a href="http://forum.sparkfun.com/viewtopic.php?f=6&t=3210&start=15">http://forum.sparkfun.com/viewtopic.php?f=6&amp;t=3210&amp;start=15</a></li></ul
->Mirror Imaged Bit Angle Modulation (MIBAM):<br
-/><ul><li><a href="http://www.picbasic.co.uk/forum/showthread.php?t=10564">http://www.picbasic.co.uk/forum/showthread.php?t=10564</a><br/><br
-/></li></ul
->Muita pwm algoritmejä:<br
-/><a href="http://www.google.com/url?sa=t&source=web&cd=1&ved=0CB0QFjAA&url=http%3A%2F%2Fwww.mosaic-industries.com%2FResources%2Fpdf%2Fmi-an-056optimalpwmalgorithm.pdf&rct=j&q=better%20pwm%20algorithm&ei=uL5rTszbE8XEswbtzc3JBA&usg=AFQjCNG70qF9QTR0UJtZKhxj4BQcUUkiAg&cad=rja">http://www.google.com/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CB0QFjAA&amp;url=http%3A%2F%2Fwww.mosaic-industries.com%2FResources%2Fpdf%2Fmi-an-056optimalpwmalgorithm.pdf&amp;rct=j&amp;q=better%20pwm%20algorithm&amp;ei=uL5rTszbE8XEswbtzc3JBA&amp;usg=AFQjCNG70qF9QTR0UJtZKhxj4BQcUUkiAg&amp;cad=rja</a><br
-/><br
-/>Driver IC:s &amp; Ardu-code:<br
-/><ul><li>PCA9635 <a href="https://github.com/rambo/pca9635">https://github.com/rambo/pca9635</a> (I2C)<ul><li>using 3 to drive RGB <a href="https://github.com/rambo/pca9635RGB">https://github.com/rambo/pca9635RGB</a> (a lot of optimizations to be done when I get that far [like writing all changes in single transactions as these ICs support mode where they change outputs synchronously on I2C STOP)</li
-><li><a href="http://fi.rsdelivers.com/product/nxp/pca9635pw-112/led-driver-23-55v-pca9635pw/0510897.aspx">http://fi.rsdelivers.com/product/nxp/pca9635pw-112/led-driver-23-55v-pca9635pw/0510897.aspx</a><br/><br
-/></li></ul
-></li></ul
->RGB Ledejä:<br
-/><ul><li><a href="http://myworld.ebay.com/buynow360/?_trksid=p4340.l2559">http://myworld.ebay.com/buynow360/?_trksid=p4340.l2559</a><ul><li>$25 / 100 diffuse common anode RGB LEDs, jne<br/><br
-/><br/><br
-/></li></ul
-></li></ul
->//// suovulan temppi:<br
-/><br
-/>Gammaramp 2.5&nbsp; [256] ja [1024]<br
-/><a href="http://pastebin.com/C0EBBiyx"><u>http://pastebin.com/C0EBBiyx</u></a><br
-/><br
-/><br
-/>Ledejä esim:<br
-/><a href="http://www.ebay.com/itm/20-Pcs-High-Power-Warm-White-1W-Led-Lamp-Beads-80-90-Lm-/120840008460">http://www.ebay.com/itm/20-Pcs-High-Power-Warm-White-1W-Led-Lamp-Beads-80-90-Lm-/120840008460</a><br
-/>2 ohm vastus, ~4V power supply<br
-/><br
-/>ja <a href="http://www.satisled.com/">http://www.satisled.com/</a><br
-/><br
-/>----------<br
-/><br
-/>// Software PWM<br
-/><br
-/>ISR(TIMER1_OVF_vect) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // interrupt service routine that wraps a user defined function supplied by attachInterrupt<br
-/>&nbsp; //Timer1.isrCallback();<br
-/>}<br
-/><br
-/>void setup() {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/><br
-/>&nbsp; pinMode(13, OUTPUT);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; // Set Timer1, TCNT1, to 16 MHz<br
-/>&nbsp; // This will break Arduino's analogWrite to pins X and Y&nbsp;<br
-/>&nbsp; cli();&nbsp;&nbsp;&nbsp; // disable interrupt<br
-/>&nbsp; TCCR1A = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // No PWM is used.So set this to zero.<br
-/>&nbsp; TCCR1B = 0 &lt;&lt; CS12 | 0 &lt;&lt; CS11 | 1 &lt;&lt; CS10;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Input clock is set to clk_io/1 (No prescaling)<br
-/>&nbsp; TIMSK1 = 1 &lt;&lt; TOIE1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Bit 0 – TOIE1: Timer/Counter1, Overflow Interrupt Enable<br
-/>&nbsp; TCNT1 = 0x0000;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Reset timer counter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; sei();&nbsp; // enable interrupts<br
-/><br
-/>&nbsp;&nbsp;<br
-/>}<br
-/><br
-/>int pwmRampDelta = 1;<br
-/>uint16_t pwmRampValue = 1;<br
-/>uint16_t pwmRampValueMax = 1024;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 0..65535<br
-/><br
-/>void loop() {<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; pwmRampValue += pwmRampDelta;<br
-/>&nbsp; if (pwmRampValue == 0 || pwmRampValue == pwmRampValueMax) {<br
-/>&nbsp;&nbsp;&nbsp; pwmRampDelta = -pwmRampDelta;<br
-/>&nbsp; }<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; uint16_t ticks = TCNT1;<br
-/><br
-/>&nbsp; if (pwmRampValue &lt; ticks) {<br
-/>&nbsp;&nbsp;&nbsp; digitalWrite(13, HIGH);<br
-/>&nbsp; } else {<br
-/>&nbsp;&nbsp;&nbsp; digitalWrite(13, LOW);<br
-/>&nbsp; }&nbsp;<br
-/>&nbsp;&nbsp;<br
-/>}<br
-/><br
-/></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-ledcontrol
+  </title>
+ </head>
+ <body>
+  Links and info related to creating PWM and other ways to control LED colors.
+  <br/>
+  <br/>
+  Bit Angle Modulation (BAM) vs. PWM:
+  <br/>
+  <ul>
+   <li>
+    <a href="http://forum.sparkfun.com/viewtopic.php?f=6&amp;t=3210&amp;start=15">
+     http://forum.sparkfun.com/viewtopic.php?f=6&amp;t=3210&amp;start=15
+    </a>
+   </li>
+  </ul>
+  Mirror Imaged Bit Angle Modulation (MIBAM):
+  <br/>
+  <ul>
+   <li>
+    <a href="http://www.picbasic.co.uk/forum/showthread.php?t=10564">
+     http://www.picbasic.co.uk/forum/showthread.php?t=10564
+    </a>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Muita pwm algoritmejä:
+  <br/>
+  <a href="http://www.google.com/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CB0QFjAA&amp;url=http%3A%2F%2Fwww.mosaic-industries.com%2FResources%2Fpdf%2Fmi-an-056optimalpwmalgorithm.pdf&amp;rct=j&amp;q=better%20pwm%20algorithm&amp;ei=uL5rTszbE8XEswbtzc3JBA&amp;usg=AFQjCNG70qF9QTR0UJtZKhxj4BQcUUkiAg&amp;cad=rja">
+   http://www.google.com/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CB0QFjAA&amp;url=http%3A%2F%2Fwww.mosaic-industries.com%2FResources%2Fpdf%2Fmi-an-056optimalpwmalgorithm.pdf&amp;rct=j&amp;q=better%20pwm%20algorithm&amp;ei=uL5rTszbE8XEswbtzc3JBA&amp;usg=AFQjCNG70qF9QTR0UJtZKhxj4BQcUUkiAg&amp;cad=rja
+  </a>
+  <br/>
+  <br/>
+  Driver IC:s &amp; Ardu-code:
+  <br/>
+  <ul>
+   <li>
+    PCA9635
+    <a href="https://github.com/rambo/pca9635">
+     https://github.com/rambo/pca9635
+    </a>
+    (I2C)
+    <ul>
+     <li>
+      using 3 to drive RGB
+      <a href="https://github.com/rambo/pca9635RGB">
+       https://github.com/rambo/pca9635RGB
+      </a>
+      (a lot of optimizations to be done when I get that far [like writing all changes in single transactions as these ICs support mode where they change outputs synchronously on I2C STOP)
+     </li>
+     <li>
+      <a href="http://fi.rsdelivers.com/product/nxp/pca9635pw-112/led-driver-23-55v-pca9635pw/0510897.aspx">
+       http://fi.rsdelivers.com/product/nxp/pca9635pw-112/led-driver-23-55v-pca9635pw/0510897.aspx
+      </a>
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  RGB Ledejä:
+  <br/>
+  <ul>
+   <li>
+    <a href="http://myworld.ebay.com/buynow360/?_trksid=p4340.l2559">
+     http://myworld.ebay.com/buynow360/?_trksid=p4340.l2559
+    </a>
+    <ul>
+     <li>
+      $25 / 100 diffuse common anode RGB LEDs, jne
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  //// suovulan temppi:
+  <br/>
+  <br/>
+  Gammaramp 2.5  [256] ja [1024]
+  <br/>
+  <a href="http://pastebin.com/C0EBBiyx">
+   <u>
+    http://pastebin.com/C0EBBiyx
+   </u>
+  </a>
+  <br/>
+  <br/>
+  <br/>
+  Ledejä esim:
+  <br/>
+  <a href="http://www.ebay.com/itm/20-Pcs-High-Power-Warm-White-1W-Led-Lamp-Beads-80-90-Lm-/120840008460">
+   http://www.ebay.com/itm/20-Pcs-High-Power-Warm-White-1W-Led-Lamp-Beads-80-90-Lm-/120840008460
+  </a>
+  <br/>
+  2 ohm vastus, ~4V power supply
+  <br/>
+  <br/>
+  ja
+  <a href="http://www.satisled.com/">
+   http://www.satisled.com/
+  </a>
+  <br/>
+  <br/>
+  ----------
+  <br/>
+  <br/>
+  // Software PWM
+  <br/>
+  <br/>
+  ISR(TIMER1_OVF_vect) {          // interrupt service routine that wraps a user defined function supplied by attachInterrupt
+  <br/>
+  //Timer1.isrCallback();
+  <br/>
+  }
+  <br/>
+  <br/>
+  void setup() {
+  <br/>
+  <br/>
+  pinMode(13, OUTPUT);
+  <br/>
+  <br/>
+  // Set Timer1, TCNT1, to 16 MHz
+  <br/>
+  // This will break Arduino's analogWrite to pins X and Y
+  <br/>
+  cli();    // disable interrupt
+  <br/>
+  TCCR1A = 0;                                 // No PWM is used.So set this to zero.
+  <br/>
+  TCCR1B = 0 &lt;&lt; CS12 | 0 &lt;&lt; CS11 | 1 &lt;&lt; CS10;                             // Input clock is set to clk_io/1 (No prescaling)
+  <br/>
+  TIMSK1 = 1 &lt;&lt; TOIE1;                       // Bit 0 – TOIE1: Timer/Counter1, Overflow Interrupt Enable
+  <br/>
+  TCNT1 = 0x0000;      // Reset timer counter
+  <br/>
+  sei();  // enable interrupts
+  <br/>
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+  int pwmRampDelta = 1;
+  <br/>
+  uint16_t pwmRampValue = 1;
+  <br/>
+  uint16_t pwmRampValueMax = 1024;            // 0..65535
+  <br/>
+  <br/>
+  void loop() {
+  <br/>
+  <br/>
+  pwmRampValue += pwmRampDelta;
+  <br/>
+  if (pwmRampValue == 0 || pwmRampValue == pwmRampValueMax) {
+  <br/>
+  pwmRampDelta = -pwmRampDelta;
+  <br/>
+  }
+  <br/>
+  <br/>
+  uint16_t ticks = TCNT1;
+  <br/>
+  <br/>
+  if (pwmRampValue &lt; ticks) {
+  <br/>
+  digitalWrite(13, HIGH);
+  <br/>
+  } else {
+  <br/>
+  digitalWrite(13, LOW);
+  <br/>
+  }
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+ </body>
 </html>

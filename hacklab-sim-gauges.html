@@ -1,739 +1,1579 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/hacklab-sim-gauges</title>
-</head>
-<body><u>Wikisivu</u><br
-/><a href="http://wiki.helsinki.hacklab.fi/index.php/AirCore">http://wiki.helsinki.hacklab.fi/index.php/AirCore</a><br
-/><br
-/><b><u>DIY Air-Core/Air Coil/Magnetic Movement</u></b><br
-/><br
-/>Koodia, 3D-malleja jne keräillään jatkossa githubiin <a href="https://github.com/HelsinkiHacklab/aircores">https://github.com/HelsinkiHacklab/aircores</a><br
-/><br
-/><b>Mike's Flight Deck</b> is an introduction to home cockpit building:<br
-/><ul><li><a href="http://www.mikesflightdeck.com/oldnews/oldnews_2011.html">http://www.mikesflightdeck.com/oldnews/oldnews_2011.html</a></li
-><li><a href="http://www.mikesflightdeck.com/instruments/diy_aircore_instruments.html">http://www.mikesflightdeck.com/instruments/diy_aircore_instruments.html</a></li
-><li><a href="http://www.mikesflightdeck.com/mfdb/bsai/bsai.html">http://www.mikesflightdeck.com/mfdb/bsai/bsai.html</a><br/><br
-/></li></ul
-><b>HI6SIM Aircoil motor in real instrument:</b><br
-/><ul><li><a href="http://www.youtube.com/watch?v=eXws-wsT8JQ">http://www.youtube.com/watch?v=eXws-wsT8JQ</a><br/><br
-/></li></ul
-><b>DIY closed-loop Galvanometer</b><br
-/><ul><li><a href="http://elm-chan.org/works/vlp/report_e.html">http://elm-chan.org/works/vlp/report_e.html</a><br/><br
-/></li></ul
-><b>Magneetteja:</b><br
-/><ul><li><a href="http://www.kjmagnetics.com/categories.asp">http://www.kjmagnetics.com/categories.asp</a><ul><li>Tilattu (rambo):&nbsp;<ul><li><b>Part No.&nbsp; | Unit Price|Quantity|Total</b></li
-><li>RA2ADIA&nbsp; $7.08&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | $14.16</li
-><li>R828DIA&nbsp;&nbsp; $3.87&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | $19.35&nbsp;</li
-><li>R6036DIA $1.88&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | $18.80</li
-><li>R424DIA&nbsp;&nbsp; $0.69&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | $34.50&nbsp;</li></ul
-></li
-><li>Mitatttu (suovula) - ulko / sisä x pituus:<ul><li>&nbsp; 2 × R828DIA&nbsp;&nbsp; : ⌀ <b>15.90</b> / <b>3.18</b> × 15.90 mm, 22.6 g</li
-><li>&nbsp; 5 × R828DIA&nbsp;&nbsp; : ⌀ <b>12.70</b> / <b>3.18</b> × 12.70 mm, 11.3 g</li
-><li>10 × R6036DIA : ⌀&nbsp;&nbsp; <b>9.53</b> / <b>2.38</b> ×&nbsp;&nbsp; 9.53 mm, 4.77 g</li
-><li>50 × R424DIA&nbsp;&nbsp; : ⌀&nbsp;&nbsp; <b>6.35</b> / <b>3.18</b> ×&nbsp;&nbsp; 6.35 mm, 1.14 g</li
-><li>suovula etsiskelee parhaillaan akseleita, laakereita, conduittia jne.<ul><li>Akselit<ul><li><a href="http://www.silshop.fi/shop/index.php?act=viewProd&productId=3400">http://www.silshop.fi/shop/index.php?act=viewProd&amp;productId=3400</a></li
-><li><a href="http://www.silshop.fi/shop/index.php?act=viewProd&productId=3401">http://www.silshop.fi/shop/index.php?act=viewProd&amp;productId=3401</a></li
-><li><a href="http://www.silshop.fi/shop/index.php?act=viewProd&productId=369">http://www.silshop.fi/shop/index.php?act=viewProd&amp;productId=369</a></li
-><li><a href="http://www.silshop.fi/shop/index.php?act=viewProd&productId=370">http://www.silshop.fi/shop/index.php?act=viewProd&amp;productId=370</a></li></ul
-></li
-><li>laakerit (Huom magneettien ulkomitat on [usein] isompia kuin laakereiden joten sitä coilformin muotoa saa miettiä)<ul><li>2mm<ul><li><a href="http://www.vxb.com/page/bearings/PROD/2mm/MR62ZZ">http://www.vxb.com/page/bearings/PROD/2mm/MR62ZZ</a><ul><li>Jenkkifirma, toimitusajat ja postikulut täysin tuntemattomat</li></ul
-></li
-><li><a href="http://fi.rsdelivers.com/product/nmb/ddr-620zzha1p24ly121/metric-plain-bearing-2x6x3/6125723.aspx">http://fi.rsdelivers.com/product/nmb/ddr-620zzha1p24ly121/metric-plain-bearing-2x6x3/6125723.aspx</a><ul><li>RS:llä toimitusajat YE:hen tilattuna on yleensä pari-kolme päivää</li></ul
-></li
-><li><a href="http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=12008">http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=12008</a><ul><li>HK-firma, postikulut halvat, toimitusajat pitkät</li></ul
-></li
-><li><a href="http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=9234">http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=9234</a></li></ul
-></li
-><li>3mm<ul><li><a href="http://www.vxb.com/page/bearings/PROD/3mm/MR63ZZ">http://www.vxb.com/page/bearings/PROD/3mm/MR63ZZ</a></li
-><li><a href="http://fi.rsdelivers.com/product/rs/623-2z/single-row-shld-3mm-id/6189884.aspx">http://fi.rsdelivers.com/product/rs/623-2z/single-row-shld-3mm-id/6189884.aspx</a> &lt;- Rambo tilannut muutaman näitä <b>3x10x4 mm</b></li
-><li><a href="http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=9247">http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=9247</a>&nbsp;</li
-><li><a href="http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=11523">http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=11523</a>&nbsp;</li
-><li><a href="http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=11726">http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=11726</a>&nbsp;</li></ul
-></li></ul
-></li></ul
-></li
-><li>Liukulaakerit (tai voihan sitä tehdä keskelle palloillekin sopivan uran) voi tosiaan sorvata PTFE:stä (eli teflonista) jos vaan saa jotain sopivan mittatarkkaa ja ei-magneettista putkea jonka sisään koko paketti tungetaaan (jos on hätä niin sen putkenkin voi sorvata tarkaksi mutta se on vähän isompi operaatio (varsinkin kun pientä putkea on tosi paha sorvata sisäpuolelta yhtään pidempiä pätkiä&nbsp; kerralla)</li></ul
-></li
-><li>Multilayer Air Core Inductor Calculator: <a href="http://www.pronine.ca/multind.htm">http://www.pronine.ca/multind.htm</a><br/><br
-/></li></ul
-></li
-><li><a href="http://www.supermagnetman.net/index.php?cPath=37">http://www.supermagnetman.net/index.php?cPath=37</a><br/><br
-/></li></ul
-><b>AVR XMega:</b><br
-/><ul><li><a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=3808">http://www.atmel.com/dyn/products/tools_card.asp?tool_id=3808</a><br/><br
-/></li></ul
-><b>Pohdintaa:</b><br
-/><ul><li>3D tulostettu coilform jonka sisään tungetaan joku mittatarkempi putki jossa akseli+laakerit&nbsp;<ul><li>kannattaa mitoittaa siten että menee siististi jonkun vakiomittaisen kaupasta saatavan kupari-tms putken sisään.<ul><li>tälle voi sitten esim laserleikkurilla tehdä riittävän tarkan kauluksen josta voi kiinnittää mihin haluaa.</li></ul
-></li></ul
-></li
-><li>Pitääkö kela kiertää siten että joka toinen kierros menee eri puolelta akselia vai riittääkö puolet ja puolet (yksinkertaistaisi kelaamista merkittävästi)<ul><li>mikäli on pakko kiertää vuorotellen niin sitten käytännössä taitaa olla pakko laittaa itse akseli jne paikalleen heti alkuun, kts <a href="http://www.mikesflightdeck.com/images/aircore2B.jpg">http://www.mikesflightdeck.com/images/aircore2B.jpg</a><ul><li>Ellei kehitä jotain mystistä tapaa kiertää sitä reikää josta putki jossa akseli jne on.</li></ul
-></li></ul
-></li
-><li>Kuinka kiertää molemmat kelat yhtä-aikaa (lienee kannattaa luntata ompelukoneiden designejä, niissä on aika monimutkaista mekaniikkaa)<ul><li>Tai toroidikäämien tekolaitteita: <a href="http://www.youtube.com/watch?v=6lvm3FGTHSI">http://www.youtube.com/watch?v=6lvm3FGTHSI</a></li
-><li>Käämintäkone voisi noudatella tehdyn LEGO-mallin periaatteita, tulostetaan helical bevel gears tällä mallilla <a href="http://www.thingiverse.com/thing:3575">http://www.thingiverse.com/thing:3575</a></li
-><li>Näistä mallia <a href="http://www.simcoaftermarket.com/specialty-oem/micro-air-core/">http://www.simcoaftermarket.com/specialty-oem/micro-air-core/</a> näissä nähdäkseni on kelattu osa käämistä toiselle puolelle akselia ja osa toiselle<br/><br
-/></li></ul
-></li></ul
-><b><u>Concept Art:</u></b><br
-/><br
-/><b>Apollo Flight Director Attitude Indicator (FDAI) / "8-ball"</b><br
-/><ul><li><a href="http://history.nasa.gov/ap16fj/01popup_fdai.htm">http://history.nasa.gov/ap16fj/01popup_fdai.htm</a></li
-><li><a href="http://www.space1.com/Artifacts/Apollo_Artifacts/FDAI/fdai.html">http://www.space1.com/Artifacts/Apollo_Artifacts/FDAI/fdai.html</a></li
-><li><a href="http://images2.bonhams.com/erez4/cache/Images_live_2010-02_22_8032945-77-2_jpg_tif_440d0d4ea2a91a5f.jpg">http://images2.bonhams.com/erez4/cache/Images_live_2010-02_22_8032945-77-2_jpg_tif_440d0d4ea2a91a5f.jpg</a></li
-><li>Book: <i>Apollo Training - Guidance And Control Systems - Block II (1967-09-15)</i><ul><li><a href="http://dl.dropbox.com/u/39575647/Temp/Apollo%20Training%20-%20Guidance%20And%20Control%20Systems%20-%20Block%20II%20%281967-09-15%29%20%5Bfav%5D.pdf">http://dl.dropbox.com/u/39575647/Temp/Apollo%20Training%20-%20Guidance%20And%20Control%20Systems%20-%20Block%20II%20%281967-09-15%29%20%5Bfav%5D.pdf</a></li></ul
-></li
-><li>Book: <i>The Apollo Guidance Computer - Architecture and Operation (2010)</i><ul><li>kysy suovulalta<br/><br
-/></li></ul
-></li></ul
-><b>Soyuz "Globus" IMP navigation instrument</b><br
-/><ul><li><a href="http://upload.wikimedia.org/wikipedia/commons/c/c7/Vostokpanel.JPG">http://upload.wikimedia.org/wikipedia/commons/c/c7/Vostokpanel.JPG</a></li
-><li><a href="http://upload.wikimedia.org/wikipedia/commons/1/18/Voskhod_spacecraft_IMP_%27Globus%27_navigation_instrument%2C_front_view.jpg">http://upload.wikimedia.org/wikipedia/commons/1/18/Voskhod_spacecraft_IMP_%27Globus%27_navigation_instrument%2C_front_view.jpg</a></li
-><li><a href="http://upload.wikimedia.org/wikipedia/commons/3/3d/Voskhod_spacecraft_IMP_%27Globus%27_navigation_instrument%2C_inside_view.jpg">http://upload.wikimedia.org/wikipedia/commons/3/3d/Voskhod_spacecraft_IMP_%27Globus%27_navigation_instrument%2C_inside_view.jpg</a></li
-><li><a href="http://i240.photobucket.com/albums/ff132/francoisguay/GlobusFG/GlobusFG%20Publ/GlobusFGDocuphoto4123cSpub9226v02.jpg">http://i240.photobucket.com/albums/ff132/francoisguay/GlobusFG/GlobusFG%20Publ/GlobusFGDocuphoto4123cSpub9226v02.jpg</a><br/><br
-/><br/><br
-/></li></ul
-><b><u>// Aristan Sparkfunin 9DOF Stick - </u></b><a href="http://www.sparkfun.com/products/10724"><b><u>http://www.sparkfun.com/products/10724</u></b></a><br
-/><b><u>// Arduino 1.0 ympäristölle</u></b><br
-/><br
-/><br
-/>#include &lt;Wire.h&gt;<br
-/><br
-/><br
-/>// Kiihtyvyys<br
-/>int16_t acc_ddx = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>int16_t acc_ddy = 0;<br
-/>int16_t acc_ddz = 0;<br
-/>const uint8_t ACC = 0x53;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ADSL345 3-Axis Accelerometer<br
-/><br
-/><br
-/>// Kulmanopeus<br
-/>int gyro_dx = 142;<br
-/>int gyro_dy = 143;&nbsp;<br
-/>int gyro_dz = 144;<br
-/>const uint8_t GYRO = 0x68;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ITG-3200 3-Axis MEMS Gyro<br
-/><br
-/><br
-/>// Magneettikenttä<br
-/>int mag_x = 242;<br
-/>int mag_y = 243;<br
-/>int mag_z = 243;<br
-/>const uint8_t MAG = 0x1e;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // HMC5883L 3-Axis Magnetometer<br
-/><br
-/><br
-/>// Kun joku menee pieleen, vilkutellaan lediä ja jäädään tähän<br
-/>void HALT() {<br
-/>&nbsp; while (true) {<br
-/>&nbsp;&nbsp;&nbsp; digitalWrite(13, HIGH);<br
-/>&nbsp;&nbsp;&nbsp; delay(500);<br
-/>&nbsp;&nbsp;&nbsp; digitalWrite(13, LOW);<br
-/>&nbsp;&nbsp;&nbsp; delay(500);<br
-/>&nbsp; }<br
-/>}<br
-/><br
-/><br
-/>// Kirjoitetaan yksi tavu I2C-laitteelle<br
-/>void writeTo(uint8_t device, uint8_t address, uint8_t value) {<br
-/>&nbsp; Wire.beginTransmission(device);<br
-/>&nbsp; Wire.write(address);<br
-/>&nbsp; Wire.write(value);&nbsp;<br
-/>&nbsp; Wire.endTransmission();<br
-/>}<br
-/><br
-/><br
-/>// Luetaan yksi tavu I2C-laitteelta<br
-/>uint8_t readFrom(uint8_t device, uint8_t address) {<br
-/>&nbsp; uint8_t retval[1];<br
-/>&nbsp; readFrom(device, address, retval, 1);<br
-/>&nbsp; return *retval;&nbsp;<br
-/>}<br
-/><br
-/><br
-/>// Luetaan N-tavua I2C-laitteelta<br
-/>void readFrom(uint8_t device, uint8_t address, uint8_t * buffer, uint8_t length) {<br
-/>&nbsp; Wire.beginTransmission(device);<br
-/>&nbsp; Wire.write(address);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // sends address to read from<br
-/>&nbsp; Wire.endTransmission();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // end transmission<br
-/><br
-/>&nbsp; Wire.beginTransmission(device);<br
-/>&nbsp; Wire.requestFrom(device, length);&nbsp;&nbsp;&nbsp; // request length bytes from device<br
-/><br
-/>&nbsp; uint8_t i = 0;<br
-/>&nbsp; while(Wire.available() &amp;&amp; i &lt; length) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // device may send less than requested (abnormal)<br
-/>&nbsp;&nbsp;&nbsp; buffer[i++] = Wire.read();&nbsp;&nbsp;&nbsp; // receive a byte<br
-/>&nbsp; }<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; if(i != length) HALT();<br
-/><br
-/>&nbsp; Wire.endTransmission();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // end transmission<br
-/>}<br
-/><br
-/><br
-/>// Alustetaan kiihtyvyysanturi<br
-/>void initAccelerometer() {<br
-/>&nbsp; // Turn on the ADXL345&nbsp;<br
-/>&nbsp; writeTo(ACC, 0x2d, 0x00);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ADXL345_POWER_CTL = 0<br
-/>&nbsp; writeTo(ACC, 0x2d, 0x16);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ADXL345_POWER_CTL = 16<br
-/>&nbsp; writeTo(ACC, 0x2d, 0x08);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ADXL345_POWER_CTL = 8<br
-/><br
-/>&nbsp; writeTo(ACC, 0x31, 0x08);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ADXL345_DATA_FORMAT = 8<br
-/>}&nbsp;&nbsp;<br
-/><br
-/><br
-/>// Luetaan kiihtyvyysanturi<br
-/>void readAccelerometer() {<br
-/>&nbsp; uint8_t&nbsp; buffer[6];<br
-/><br
-/>&nbsp; readFrom(ACC, 0x32, buffer, 6);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ADXL345_DATAX0 = 0x32, ... ADXL345_DATAZ1 = 0x37, = 6 bytes<br
-/><br
-/>&nbsp; // Each axis reading comes in 10 bit resolution, ie 2 bytes.&nbsp; Least Significat Byte first!!<br
-/>&nbsp; // thus we are converting both bytes in to one int<br
-/>&nbsp; acc_ddx = ((((int)buffer[1]) &lt;&lt; 8) | buffer[0]);&nbsp;&nbsp;<br
-/>&nbsp; acc_ddy = ((((int)buffer[3]) &lt;&lt; 8) | buffer[2]);<br
-/>&nbsp; acc_ddz = ((((int)buffer[5]) &lt;&lt; 8) | buffer[4]);<br
-/>}<br
-/><br
-/><br
-/>// Alustetaan gyroskooppi<br
-/>void initGyro() {<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; const uint8_t sampleRateDivider = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // NOSRDIVIDER&nbsp;&nbsp;&nbsp;&nbsp; = default&nbsp;&nbsp;&nbsp; FsampleHz=SampleRateHz/(divider+1)<br
-/>&nbsp; const uint8_t scaleRange = 3;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // RANGE2000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = default&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; const uint8_t filterAndSampleRate = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // BW256_SR8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = default&nbsp;&nbsp;&nbsp; 256Khz BW and 8Khz SR<br
-/>&nbsp; const uint8_t clockSrc = 1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // PLL_XGYRO_REF&nbsp;&nbsp; ?<br
-/>&nbsp; bool itgReady = true;<br
-/>&nbsp; bool rawReady = true;<br
-/><br
-/>&nbsp; // Set sample rate&nbsp;<br
-/>&nbsp; writeTo(GYRO, 0x15, sampleRateDivider);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // SMPLRT_DIV = 0x15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RW&nbsp;&nbsp; SETUP: Sample Rate Divider<br
-/><br
-/>&nbsp; // Set Full scale range<br
-/>&nbsp; writeTo(GYRO, 0x16, (readFrom(GYRO, 0x16) &amp; ~B00011000) | (scaleRange &lt;&lt; 3));&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // DLPF_FS = 0x16, DLPFFS_FS_SEL = 0x18<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; // Set Filter and Sample rate<br
-/>&nbsp; writeTo(GYRO, 0x16, (readFrom(GYRO, 0x16) &amp; ~B00000111) | filterAndSampleRate);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // DLPF_FS = 0x16, DLPFFS_DLPF_CFG = 0x07<br
-/><br
-/>&nbsp; // Set Clock source<br
-/>&nbsp; writeTo(GYRO, 0x3e, (readFrom(GYRO, 0x3e) &amp; ~B00000111) | clockSrc);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // PWR_MGM = 0x3e, PWRMGM_CLK_SEL = 0x07<br
-/><br
-/>&nbsp; // Set ITG Ready<br
-/>&nbsp; writeTo(GYRO, 0x17, (readFrom(GYRO, 0x17) &amp; ~B00000100) | (itgReady &lt;&lt; 2));&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // INT_CFG = 0x17, INTCFG_ITG_RDY_EN = 0x04<br
-/><br
-/>&nbsp; // Set Raw Ready<br
-/>&nbsp; writeTo(GYRO, 0x17, (readFrom(GYRO, 0x17) &amp; ~B00000001) | rawReady);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // INT_CFG = 0x17, INTCFG_RAW_RDY_EN = 0x01<br
-/><br
-/>&nbsp; // Startup delay<br
-/>&nbsp; delay(50);&nbsp;&nbsp;&nbsp; // 50ms from gyro startup<br
-/>&nbsp; delay(20);&nbsp;&nbsp;&nbsp; // 20ms register r/w startup<br
-/><br
-/>}&nbsp;&nbsp;<br
-/><br
-/><br
-/>// Luetaan kiihtyvyysanturi<br
-/>void readGyro() {<br
-/>&nbsp; uint8_t&nbsp; buffer[6];<br
-/><br
-/>&nbsp; readFrom(GYRO, 0x1d, buffer, 6);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // GYRO_XOUT0 = 0x1d, .. GYRO_ZOUT1 = 0x22, = 6 bytes<br
-/><br
-/>&nbsp; gyro_dx = ((((int)buffer[0]) &lt;&lt; 8) | buffer[1]);&nbsp;&nbsp;<br
-/>&nbsp; gyro_dy = ((((int)buffer[2]) &lt;&lt; 8) | buffer[3]);<br
-/>&nbsp; gyro_dz = ((((int)buffer[4]) &lt;&lt; 8) | buffer[5]);<br
-/>}<br
-/><br
-/><br
-/>// Alustetaan magnetometri<br
-/>void initMagnetometer() {<br
-/>&nbsp; uint8_t&nbsp;&nbsp; id[3];<br
-/>&nbsp; readFrom(MAG, 0x10, id, 3);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // IdentificationRegisterA = 0x10,&nbsp; .. IdentificationRegisterC = 0x12, = 3 bytes<br
-/>//&nbsp; if (id[0] != 'H' || id[1] != '4' || id[2] != '3') HALT();&nbsp;&nbsp;&nbsp;<br
-/><br
-/>&nbsp; writeTo(MAG, 0x00, B00011100);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ConfigurationRegisterA = 0x00, Samples per measureent = 1, Data output rate = 75 Hz, No bias<br
-/><br
-/>&nbsp; uint8_t reg;<br
-/>&nbsp; float gauss;<br
-/>&nbsp; float scale;<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; reg = 0x00, gauss = 0.88, scale = 0.73;<br
-/>&nbsp; // reg = 0x01, gauss = 1.30, scale = 0.92;<br
-/>&nbsp; // reg = 0x02, gauss = 1.90, scale = 1.22;<br
-/>&nbsp; // reg = 0x03, gauss = 2.50, scale = 1.52;<br
-/>&nbsp; // reg = 0x04, gauss = 4.00, scale = 2.27;<br
-/>&nbsp; // reg = 0x05, gauss = 4.70, scale = 2.56;<br
-/>&nbsp; // reg = 0x06, gauss = 5.60, scale = 3.03;<br
-/>&nbsp; //reg = 0x07, gauss = 8.10, scale = 4.35;<br
-/>&nbsp; writeTo(MAG, 0x01, reg &lt;&lt; 5);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ConfigurationRegisterB = 0x01, setting is in the top 3 bits of the register<br
-/><br
-/>&nbsp; //writeTo(MAG, 0x02, B00000001);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ModeRegister = 0x02, Single-measurement mode<br
-/>&nbsp; writeTo(MAG, 0x02, B00000000);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ModeRegister = 0x02, Continuous-measurement mode<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>}&nbsp;&nbsp;<br
-/><br
-/><br
-/>// Luetaan magnetometri<br
-/>void readMagnetometer() {<br
-/><br
-/>&nbsp; if (readFrom(MAG, 0x09) &amp; B000001 != 1) {&nbsp;&nbsp;&nbsp; // StatusRegister = 0x09<br
-/>&nbsp;&nbsp;&nbsp; mag_x = 0;<br
-/>&nbsp;&nbsp;&nbsp; mag_y = 0;<br
-/>&nbsp;&nbsp;&nbsp; mag_z = 0;<br
-/>&nbsp;&nbsp;&nbsp; // HALT();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp;&nbsp;&nbsp; return;<br
-/>&nbsp; }<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; uint8_t&nbsp; buffer[6];<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; readFrom(MAG, 0x03, buffer, 6);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // DataRegisterBegin = 0x03, = 6 bytes<br
-/><br
-/>&nbsp; mag_x = ((((int)buffer[0]) &lt;&lt; 8) | buffer[1]);&nbsp;&nbsp;<br
-/>&nbsp; mag_y = ((((int)buffer[2]) &lt;&lt; 8) | buffer[3]);<br
-/>&nbsp; mag_z = ((((int)buffer[4]) &lt;&lt; 8) | buffer[5]);<br
-/>}&nbsp;&nbsp;<br
-/><br
-/><br
-/>void setup() {<br
-/>&nbsp; pinMode(13, OUTPUT);<br
-/>&nbsp; digitalWrite(13, LOW); // Ledi 13 pois päältä<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; Wire.begin();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Join I2C bus<br
-/>&nbsp; Serial.begin(115200);&nbsp;&nbsp;<br
-/><br
-/>&nbsp; initAccelerometer();<br
-/>&nbsp; initGyro();<br
-/>&nbsp; initMagnetometer();<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; // Odotetaan joku merkki ennen kuin aletaan lähettämään<br
-/>&nbsp; while (Serial.available() == 0) {<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // odotetaan<br
-/>&nbsp; }<br
-/><br
-/>}<br
-/><br
-/>void writeInt(int value) {<br
-/>&nbsp;&nbsp;&nbsp; Serial.write(value &amp; 0xff);<br
-/>&nbsp;&nbsp;&nbsp; Serial.write((value &gt;&gt; 8) &amp; 0xff);<br
-/>}<br
-/>&nbsp;&nbsp;<br
-/><br
-/>void loop() {<br
-/><br
-/>&nbsp; Serial.print("[");<br
-/>&nbsp; Serial.print(micros());<br
-/>&nbsp; Serial.print("]");<br
-/><br
-/>&nbsp; readAccelerometer();<br
-/>&nbsp; readGyro();<br
-/>&nbsp; readMagnetometer();<br
-/>/*<br
-/>&nbsp; Serial.print(" acc(");<br
-/>&nbsp; Serial.print(acc_ddx);<br
-/>&nbsp; Serial.print(",");<br
-/>&nbsp; Serial.print(acc_ddy);<br
-/>&nbsp; Serial.print(",");<br
-/>&nbsp; Serial.print(acc_ddz);<br
-/>&nbsp; Serial.print(") gyro(");<br
-/>&nbsp; Serial.print(gyro_dx);<br
-/>&nbsp; Serial.print(",");<br
-/>&nbsp; Serial.print(gyro_dy);<br
-/>&nbsp; Serial.print(",");<br
-/>&nbsp; Serial.print(gyro_dz);<br
-/>&nbsp; Serial.print(") mag(");<br
-/>&nbsp; Serial.print(mag_x);<br
-/>&nbsp; Serial.print(",");<br
-/>&nbsp; Serial.print(mag_y);<br
-/>&nbsp; Serial.print(",");<br
-/>&nbsp; Serial.print(mag_z);<br
-/>&nbsp; Serial.print(")");<br
-/>&nbsp; Serial.println();<br
-/>&nbsp; */<br
-/>&nbsp; writeInt(-1);<br
-/>&nbsp; writeInt(acc_ddx);<br
-/>&nbsp; writeInt(acc_ddy);<br
-/>&nbsp; writeInt(acc_ddy);&nbsp;&nbsp;<br
-/>&nbsp;&nbsp;<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; delay(50);<br
-/><br
-/>}<br
-/><br
-/><br
-/><br
-/>//Wycliffe 0503517554 La 31.3. wraduma@gmail.com<br
-/><br
-/><br
-/>&nbsp;//Arduino<br
-/>&nbsp;<br
-/>&nbsp;// Aristan Sparkfunin 9DOF Stick - <a href="http://www.sparkfun.com/products/10724">http://www.sparkfun.com/products/10724</a><br
-/>// Arduino 1.0 ympäristölle<br
-/><br
-/><br
-/>#include &lt;Wire.h&gt;<br
-/><br
-/><br
-/>// Kiihtyvyys<br
-/>int16_t acc_ddx = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>int16_t acc_ddy = 0;<br
-/>int16_t acc_ddz = 0;<br
-/>const uint8_t ACC = 0x53;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ADSL345 3-Axis Accelerometer<br
-/><br
-/><br
-/>// Kulmanopeus<br
-/>int gyro_dx = 142;<br
-/>int gyro_dy = 143;&nbsp;<br
-/>int gyro_dz = 144;<br
-/>const uint8_t GYRO = 0x68;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ITG-3200 3-Axis MEMS Gyro<br
-/><br
-/><br
-/>// Magneettikenttä<br
-/>int mag_x = 242;<br
-/>int mag_y = 243;<br
-/>int mag_z = 243;<br
-/>const uint8_t MAG = 0x1e;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // HMC5883L 3-Axis Magnetometer<br
-/><br
-/><br
-/>// Kun joku menee pieleen, vilkutellaan lediä ja jäädään tähän<br
-/>void HALT() {<br
-/>&nbsp; while (true) {<br
-/>&nbsp;&nbsp;&nbsp; digitalWrite(13, HIGH);<br
-/>&nbsp;&nbsp;&nbsp; delay(500);<br
-/>&nbsp;&nbsp;&nbsp; digitalWrite(13, LOW);<br
-/>&nbsp;&nbsp;&nbsp; delay(500);<br
-/>&nbsp; }<br
-/>}<br
-/><br
-/><br
-/>// Kirjoitetaan yksi tavu I2C-laitteelle<br
-/>void writeTo(uint8_t device, uint8_t address, uint8_t value) {<br
-/>&nbsp; Wire.beginTransmission(device);<br
-/>&nbsp; Wire.write(address);<br
-/>&nbsp; Wire.write(value);&nbsp;<br
-/>&nbsp; Wire.endTransmission();<br
-/>}<br
-/><br
-/><br
-/>// Luetaan yksi tavu I2C-laitteelta<br
-/>uint8_t readFrom(uint8_t device, uint8_t address) {<br
-/>&nbsp; uint8_t retval[1];<br
-/>&nbsp; readFrom(device, address, retval, 1);<br
-/>&nbsp; return *retval;&nbsp;<br
-/>}<br
-/><br
-/><br
-/>// Luetaan N-tavua I2C-laitteelta<br
-/>void readFrom(uint8_t device, uint8_t address, uint8_t * buffer, uint8_t length) {<br
-/>&nbsp; Wire.beginTransmission(device);<br
-/>&nbsp; Wire.write(address);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // sends address to read from<br
-/>&nbsp; Wire.endTransmission();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // end transmission<br
-/><br
-/>&nbsp; Wire.beginTransmission(device);<br
-/>&nbsp; Wire.requestFrom(device, length);&nbsp;&nbsp;&nbsp; // request length bytes from device<br
-/><br
-/>&nbsp; uint8_t i = 0;<br
-/>&nbsp; while(Wire.available() &amp;&amp; i &lt; length) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // device may send less than requested (abnormal)<br
-/>&nbsp;&nbsp;&nbsp; buffer[i++] = Wire.read();&nbsp;&nbsp;&nbsp; // receive a byte<br
-/>&nbsp; }<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; if(i != length) HALT();<br
-/><br
-/>&nbsp; Wire.endTransmission();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // end transmission<br
-/>}<br
-/><br
-/><br
-/>// Alustetaan kiihtyvyysanturi<br
-/>void initAccelerometer() {<br
-/>&nbsp; // Turn on the ADXL345&nbsp;<br
-/>&nbsp; writeTo(ACC, 0x2d, 0x00);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ADXL345_POWER_CTL = 0<br
-/>&nbsp; writeTo(ACC, 0x2d, 0x16);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ADXL345_POWER_CTL = 16<br
-/>&nbsp; writeTo(ACC, 0x2d, 0x08);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ADXL345_POWER_CTL = 8<br
-/><br
-/>&nbsp; writeTo(ACC, 0x31, 0x08);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ADXL345_DATA_FORMAT = 8<br
-/>}&nbsp;&nbsp;<br
-/><br
-/><br
-/>// Luetaan kiihtyvyysanturi<br
-/>void readAccelerometer() {<br
-/>&nbsp; uint8_t&nbsp; buffer[6];<br
-/><br
-/>&nbsp; readFrom(ACC, 0x32, buffer, 6);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ADXL345_DATAX0 = 0x32, ... ADXL345_DATAZ1 = 0x37, = 6 bytes<br
-/><br
-/>&nbsp; // Each axis reading comes in 10 bit resolution, ie 2 bytes.&nbsp; Least Significat Byte first!!<br
-/>&nbsp; // thus we are converting both bytes in to one int<br
-/>&nbsp; acc_ddx = ((((int)buffer[1]) &lt;&lt; 8) | buffer[0]);&nbsp;&nbsp;<br
-/>&nbsp; acc_ddy = ((((int)buffer[3]) &lt;&lt; 8) | buffer[2]);<br
-/>&nbsp; acc_ddz = ((((int)buffer[5]) &lt;&lt; 8) | buffer[4]);<br
-/>}<br
-/><br
-/><br
-/>// Alustetaan gyroskooppi<br
-/>void initGyro() {<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; const uint8_t sampleRateDivider = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // NOSRDIVIDER&nbsp;&nbsp;&nbsp;&nbsp; = default&nbsp;&nbsp;&nbsp; FsampleHz=SampleRateHz/(divider+1)<br
-/>&nbsp; const uint8_t scaleRange = 3;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // RANGE2000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = default&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp; const uint8_t filterAndSampleRate = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // BW256_SR8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = default&nbsp;&nbsp;&nbsp; 256Khz BW and 8Khz SR<br
-/>&nbsp; const uint8_t clockSrc = 1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // PLL_XGYRO_REF&nbsp;&nbsp; ?<br
-/>&nbsp; bool itgReady = true;<br
-/>&nbsp; bool rawReady = true;<br
-/><br
-/>&nbsp; // Set sample rate&nbsp;<br
-/>&nbsp; writeTo(GYRO, 0x15, sampleRateDivider);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // SMPLRT_DIV = 0x15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RW&nbsp;&nbsp; SETUP: Sample Rate Divider<br
-/><br
-/>&nbsp; // Set Full scale range<br
-/>&nbsp; writeTo(GYRO, 0x16, (readFrom(GYRO, 0x16) &amp; ~B00011000) | (scaleRange &lt;&lt; 3));&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // DLPF_FS = 0x16, DLPFFS_FS_SEL = 0x18<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; // Set Filter and Sample rate<br
-/>&nbsp; writeTo(GYRO, 0x16, (readFrom(GYRO, 0x16) &amp; ~B00000111) | filterAndSampleRate);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // DLPF_FS = 0x16, DLPFFS_DLPF_CFG = 0x07<br
-/><br
-/>&nbsp; // Set Clock source<br
-/>&nbsp; writeTo(GYRO, 0x3e, (readFrom(GYRO, 0x3e) &amp; ~B00000111) | clockSrc);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // PWR_MGM = 0x3e, PWRMGM_CLK_SEL = 0x07<br
-/><br
-/>&nbsp; // Set ITG Ready<br
-/>&nbsp; writeTo(GYRO, 0x17, (readFrom(GYRO, 0x17) &amp; ~B00000100) | (itgReady &lt;&lt; 2));&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // INT_CFG = 0x17, INTCFG_ITG_RDY_EN = 0x04<br
-/><br
-/>&nbsp; // Set Raw Ready<br
-/>&nbsp; writeTo(GYRO, 0x17, (readFrom(GYRO, 0x17) &amp; ~B00000001) | rawReady);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // INT_CFG = 0x17, INTCFG_RAW_RDY_EN = 0x01<br
-/><br
-/>&nbsp; // Startup delay<br
-/>&nbsp; delay(50);&nbsp;&nbsp;&nbsp; // 50ms from gyro startup<br
-/>&nbsp; delay(20);&nbsp;&nbsp;&nbsp; // 20ms register r/w startup<br
-/><br
-/>}&nbsp;&nbsp;<br
-/><br
-/><br
-/>// Luetaan kiihtyvyysanturi<br
-/>void readGyro() {<br
-/>&nbsp; uint8_t&nbsp; buffer[6];<br
-/><br
-/>&nbsp; readFrom(GYRO, 0x1d, buffer, 6);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // GYRO_XOUT0 = 0x1d, .. GYRO_ZOUT1 = 0x22, = 6 bytes<br
-/><br
-/>&nbsp; gyro_dx = ((((int)buffer[0]) &lt;&lt; 8) | buffer[1]);&nbsp;&nbsp;<br
-/>&nbsp; gyro_dy = ((((int)buffer[2]) &lt;&lt; 8) | buffer[3]);<br
-/>&nbsp; gyro_dz = ((((int)buffer[4]) &lt;&lt; 8) | buffer[5]);<br
-/>}<br
-/><br
-/><br
-/>// Alustetaan magnetometri<br
-/>void initMagnetometer() {<br
-/>&nbsp; uint8_t&nbsp;&nbsp; id[3];<br
-/>&nbsp; readFrom(MAG, 0x10, id, 3);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // IdentificationRegisterA = 0x10,&nbsp; .. IdentificationRegisterC = 0x12, = 3 bytes<br
-/>//&nbsp; if (id[0] != 'H' || id[1] != '4' || id[2] != '3') HALT();&nbsp;&nbsp;&nbsp;<br
-/><br
-/>&nbsp; writeTo(MAG, 0x00, B00011100);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ConfigurationRegisterA = 0x00, Samples per measureent = 1, Data output rate = 75 Hz, No bias<br
-/><br
-/>&nbsp; uint8_t reg;<br
-/>&nbsp; float gauss;<br
-/>&nbsp; float scale;<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; reg = 0x00, gauss = 0.88, scale = 0.73;<br
-/>&nbsp; // reg = 0x01, gauss = 1.30, scale = 0.92;<br
-/>&nbsp; // reg = 0x02, gauss = 1.90, scale = 1.22;<br
-/>&nbsp; // reg = 0x03, gauss = 2.50, scale = 1.52;<br
-/>&nbsp; // reg = 0x04, gauss = 4.00, scale = 2.27;<br
-/>&nbsp; // reg = 0x05, gauss = 4.70, scale = 2.56;<br
-/>&nbsp; // reg = 0x06, gauss = 5.60, scale = 3.03;<br
-/>&nbsp; //reg = 0x07, gauss = 8.10, scale = 4.35;<br
-/>&nbsp; writeTo(MAG, 0x01, reg &lt;&lt; 5);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ConfigurationRegisterB = 0x01, setting is in the top 3 bits of the register<br
-/><br
-/>&nbsp; //writeTo(MAG, 0x02, B00000001);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ModeRegister = 0x02, Single-measurement mode<br
-/>&nbsp; writeTo(MAG, 0x02, B00000000);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ModeRegister = 0x02, Continuous-measurement mode<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>}&nbsp;&nbsp;<br
-/><br
-/><br
-/>// Luetaan magnetometri<br
-/>void readMagnetometer() {<br
-/><br
-/>&nbsp; if (readFrom(MAG, 0x09) &amp; B000001 != 1) {&nbsp;&nbsp;&nbsp; // StatusRegister = 0x09<br
-/>&nbsp;&nbsp;&nbsp; mag_x = 0;<br
-/>&nbsp;&nbsp;&nbsp; mag_y = 0;<br
-/>&nbsp;&nbsp;&nbsp; mag_z = 0;<br
-/>&nbsp;&nbsp;&nbsp; // HALT();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>&nbsp;&nbsp;&nbsp; return;<br
-/>&nbsp; }<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; uint8_t&nbsp; buffer[6];<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; readFrom(MAG, 0x03, buffer, 6);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // DataRegisterBegin = 0x03, = 6 bytes<br
-/><br
-/>&nbsp; mag_x = ((((int)buffer[0]) &lt;&lt; 8) | buffer[1]);&nbsp;&nbsp;<br
-/>&nbsp; mag_y = ((((int)buffer[2]) &lt;&lt; 8) | buffer[3]);<br
-/>&nbsp; mag_z = ((((int)buffer[4]) &lt;&lt; 8) | buffer[5]);<br
-/>}&nbsp;&nbsp;<br
-/><br
-/><br
-/>void setup() {<br
-/>&nbsp; pinMode(13, OUTPUT);<br
-/>&nbsp; digitalWrite(13, LOW); // Ledi 13 pois päältä<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; Wire.begin();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Join I2C bus<br
-/>&nbsp; Serial.begin(115200);&nbsp;&nbsp;<br
-/><br
-/>&nbsp; initAccelerometer();<br
-/>&nbsp; initGyro();<br
-/>&nbsp; initMagnetometer();<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; // Odotetaan joku merkki ennen kuin aletaan lähettämään<br
-/>&nbsp;&nbsp;<br
-/><br
-/>&nbsp; //while (Serial.available() == 0) {<br
-/>&nbsp; // odotetaan<br
-/>&nbsp; //}<br
-/>}<br
-/><br
-/><br
-/>void writeInt(int value) {<br
-/>&nbsp;&nbsp;&nbsp; Serial.write(value &amp; 0xff);<br
-/>&nbsp;&nbsp;&nbsp; Serial.write((value &gt;&gt; 8) &amp; 0xff);<br
-/>}<br
-/>&nbsp;&nbsp;<br
-/><br
-/>void loop() {<br
-/>/*<br
-/>&nbsp; Serial.print("[");<br
-/>&nbsp; Serial.print(micros());<br
-/>&nbsp; Serial.print("]");<br
-/>*/<br
-/>&nbsp; readAccelerometer();<br
-/>&nbsp; readGyro();<br
-/>&nbsp; readMagnetometer();<br
-/>/*<br
-/>&nbsp; Serial.print(" acc(");<br
-/>&nbsp; Serial.print(acc_ddx);<br
-/>&nbsp; Serial.print(",");<br
-/>&nbsp; Serial.print(acc_ddy);<br
-/>&nbsp; Serial.print(",");<br
-/>&nbsp; Serial.print(acc_ddz);<br
-/>&nbsp; Serial.print(") gyro(");<br
-/>&nbsp; Serial.print(gyro_dx);<br
-/>&nbsp; Serial.print(",");<br
-/>&nbsp; Serial.print(gyro_dy);<br
-/>&nbsp; Serial.print(",");<br
-/>&nbsp; Serial.print(gyro_dz);<br
-/>&nbsp; Serial.print(") mag(");<br
-/>&nbsp; Serial.print(mag_x);<br
-/>&nbsp; Serial.print(",");<br
-/>&nbsp; Serial.print(mag_y);<br
-/>&nbsp; Serial.print(",");<br
-/>&nbsp; Serial.print(mag_z);<br
-/>&nbsp; Serial.print(")");<br
-/>&nbsp; Serial.println();<br
-/>&nbsp; */<br
-/>&nbsp; writeInt(-1);<br
-/>&nbsp; writeInt(acc_ddx);<br
-/>&nbsp; writeInt(acc_ddy);<br
-/>&nbsp; writeInt(acc_ddy);&nbsp;&nbsp;<br
-/>&nbsp;&nbsp;<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; delay(50);<br
-/><br
-/>}<br
-/><br
-/><br
-/><br
-/><br
-/><br
-/><br
-/>// Processing<br
-/><br
-/>/**<br
-/>&nbsp;* Rotate 1.&nbsp;<br
-/>&nbsp;*&nbsp;<br
-/>&nbsp;* Rotating simultaneously in the X and Y axis.&nbsp;<br
-/>&nbsp;* Transformation functions such as rotate() are additive.<br
-/>&nbsp;* Successively calling rotate(1.0) and rotate(2.0)<br
-/>&nbsp;* is equivalent to calling rotate(3.0).&nbsp;<br
-/>&nbsp;*/<br
-/>&nbsp;<br
-/>&nbsp;// Kiihtyvyys<br
-/>float acc_ddx = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br
-/>float acc_ddy = 0;<br
-/>float acc_ddz = -1;<br
-/><br
-/><br
-/><br
-/>// Kulmanopeus<br
-/>float gyro_dx = 0;<br
-/>float gyro_dy = 0;&nbsp;<br
-/>float gyro_dz = 0;<br
-/><br
-/><br
-/><br
-/>// Magneettikenttä<br
-/>float mag_x = 0;<br
-/>float mag_y = 0;<br
-/>float mag_z = -1;<br
-/><br
-/>&nbsp;<br
-/>float a = 0.0;<br
-/>float rSize;&nbsp; // rectangle size<br
-/><br
-/>//Read Serial<br
-/>import processing.serial.*;<br
-/>Serial myPort;&nbsp; // The serial port<br
-/><br
-/><br
-/>void setup() {<br
-/>&nbsp; size(640, 360, P3D);<br
-/>&nbsp; rSize = width / 6;&nbsp;&nbsp;<br
-/>&nbsp; noStroke();<br
-/>&nbsp; fill(204, 204);<br
-/>&nbsp;&nbsp;&nbsp; // List all the available serial ports<br
-/>&nbsp; println(Serial.list());<br
-/>&nbsp; // I know that the first port in the serial list on my mac<br
-/>&nbsp; // is always my&nbsp; Keyspan adaptor, so I open Serial.list()[0].<br
-/>&nbsp; // Open whatever port is the one you're using.<br
-/>&nbsp; myPort = new Serial(this, Serial.list()[5], 115200);<br
-/>&nbsp; //delay(2000);<br
-/>&nbsp; myPort.write ('9');<br
-/>}<br
-/><br
-/>short readShort() {<br
-/>&nbsp; short val = 0;<br
-/>&nbsp; int foo = myPort.read() &amp; 0xff;<br
-/>&nbsp; foo += (myPort.read() &amp; 0xff) &lt;&lt; 8;<br
-/>&nbsp; val = (short)foo;<br
-/>&nbsp;// short val = (short)myPort.read() &amp; 0xff;<br
-/>&nbsp;// val += (short)((myPort.read() &amp; 0xff) &lt;&lt; 8);<br
-/>&nbsp; return val;<br
-/>}<br
-/><br
-/>void draw() {<br
-/>&nbsp; if(myPort.available()&gt;=8) {<br
-/>&nbsp;&nbsp;&nbsp;&nbsp; int val = readShort();<br
-/>&nbsp;&nbsp;&nbsp;&nbsp; if (val == -1) {<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; acc_ddx = readShort();<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; acc_ddy = readShort();<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; acc_ddz = readShort();<br
-/>&nbsp;&nbsp;&nbsp;&nbsp; } else {<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; print("erro val = ");<br
-/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; print(val);&nbsp;<br
-/>&nbsp;&nbsp;&nbsp;&nbsp; }<br
-/>&nbsp; }<br
-/>&nbsp; background(0);<br
-/>&nbsp; a += 0.005;<br
-/>&nbsp; if(a &gt; TWO_PI) {&nbsp;<br
-/>&nbsp;&nbsp;&nbsp; a = 0.0;&nbsp;<br
-/>&nbsp; }<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; translate(width/2, height/2);<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; rotateX(a);<br
-/>&nbsp; //<br
-/>&nbsp; rotateY(a * 2.0);<br
-/>&nbsp; rect(-rSize, -rSize, rSize*2, rSize*2);<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; rotateX(a * acc_ddx/100);<br
-/>&nbsp; rotateY(a * 2.002);<br
-/>&nbsp; rect(-rSize, -rSize, rSize*2, rSize*2);<br
-/>&nbsp;&nbsp;<br
-/>&nbsp; while (myPort.available() &gt; 0) {<br
-/>&nbsp;&nbsp;&nbsp; int inByte = myPort.read();<br
-/>&nbsp;&nbsp;&nbsp; println(inByte);<br
-/>&nbsp; }<br
-/><br
-/>}<br
-/><br
-/>//Wycliffe 0503517554 La 31.3. wraduma@gmail.com<br
-/><br
-/></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-sim-gauges
+  </title>
+ </head>
+ <body>
+  <u>
+   Wikisivu
+  </u>
+  <br/>
+  <a href="http://wiki.helsinki.hacklab.fi/index.php/AirCore">
+   http://wiki.helsinki.hacklab.fi/index.php/AirCore
+  </a>
+  <br/>
+  <br/>
+  <b>
+   <u>
+    DIY Air-Core/Air Coil/Magnetic Movement
+   </u>
+  </b>
+  <br/>
+  <br/>
+  Koodia, 3D-malleja jne keräillään jatkossa githubiin
+  <a href="https://github.com/HelsinkiHacklab/aircores">
+   https://github.com/HelsinkiHacklab/aircores
+  </a>
+  <br/>
+  <br/>
+  <b>
+   Mike's Flight Deck
+  </b>
+  is an introduction to home cockpit building:
+  <br/>
+  <ul>
+   <li>
+    <a href="http://www.mikesflightdeck.com/oldnews/oldnews_2011.html">
+     http://www.mikesflightdeck.com/oldnews/oldnews_2011.html
+    </a>
+   </li>
+   <li>
+    <a href="http://www.mikesflightdeck.com/instruments/diy_aircore_instruments.html">
+     http://www.mikesflightdeck.com/instruments/diy_aircore_instruments.html
+    </a>
+   </li>
+   <li>
+    <a href="http://www.mikesflightdeck.com/mfdb/bsai/bsai.html">
+     http://www.mikesflightdeck.com/mfdb/bsai/bsai.html
+    </a>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   HI6SIM Aircoil motor in real instrument:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    <a href="http://www.youtube.com/watch?v=eXws-wsT8JQ">
+     http://www.youtube.com/watch?v=eXws-wsT8JQ
+    </a>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   DIY closed-loop Galvanometer
+  </b>
+  <br/>
+  <ul>
+   <li>
+    <a href="http://elm-chan.org/works/vlp/report_e.html">
+     http://elm-chan.org/works/vlp/report_e.html
+    </a>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Magneetteja:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    <a href="http://www.kjmagnetics.com/categories.asp">
+     http://www.kjmagnetics.com/categories.asp
+    </a>
+    <ul>
+     <li>
+      Tilattu (rambo):
+      <ul>
+       <li>
+        <b>
+         Part No.  | Unit Price|Quantity|Total
+        </b>
+       </li>
+       <li>
+        RA2ADIA  $7.08        |  2           | $14.16
+       </li>
+       <li>
+        R828DIA   $3.87        |  5           | $19.35
+       </li>
+       <li>
+        R6036DIA $1.88        | 10          | $18.80
+       </li>
+       <li>
+        R424DIA   $0.69        |  50         | $34.50
+       </li>
+      </ul>
+     </li>
+     <li>
+      Mitatttu (suovula) - ulko / sisä x pituus:
+      <ul>
+       <li>
+        2 × R828DIA   : ⌀
+        <b>
+         15.90
+        </b>
+        /
+        <b>
+         3.18
+        </b>
+        × 15.90 mm, 22.6 g
+       </li>
+       <li>
+        5 × R828DIA   : ⌀
+        <b>
+         12.70
+        </b>
+        /
+        <b>
+         3.18
+        </b>
+        × 12.70 mm, 11.3 g
+       </li>
+       <li>
+        10 × R6036DIA : ⌀
+        <b>
+         9.53
+        </b>
+        /
+        <b>
+         2.38
+        </b>
+        ×   9.53 mm, 4.77 g
+       </li>
+       <li>
+        50 × R424DIA   : ⌀
+        <b>
+         6.35
+        </b>
+        /
+        <b>
+         3.18
+        </b>
+        ×   6.35 mm, 1.14 g
+       </li>
+       <li>
+        suovula etsiskelee parhaillaan akseleita, laakereita, conduittia jne.
+        <ul>
+         <li>
+          Akselit
+          <ul>
+           <li>
+            <a href="http://www.silshop.fi/shop/index.php?act=viewProd&amp;productId=3400">
+             http://www.silshop.fi/shop/index.php?act=viewProd&amp;productId=3400
+            </a>
+           </li>
+           <li>
+            <a href="http://www.silshop.fi/shop/index.php?act=viewProd&amp;productId=3401">
+             http://www.silshop.fi/shop/index.php?act=viewProd&amp;productId=3401
+            </a>
+           </li>
+           <li>
+            <a href="http://www.silshop.fi/shop/index.php?act=viewProd&amp;productId=369">
+             http://www.silshop.fi/shop/index.php?act=viewProd&amp;productId=369
+            </a>
+           </li>
+           <li>
+            <a href="http://www.silshop.fi/shop/index.php?act=viewProd&amp;productId=370">
+             http://www.silshop.fi/shop/index.php?act=viewProd&amp;productId=370
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li>
+          laakerit (Huom magneettien ulkomitat on [usein] isompia kuin laakereiden joten sitä coilformin muotoa saa miettiä)
+          <ul>
+           <li>
+            2mm
+            <ul>
+             <li>
+              <a href="http://www.vxb.com/page/bearings/PROD/2mm/MR62ZZ">
+               http://www.vxb.com/page/bearings/PROD/2mm/MR62ZZ
+              </a>
+              <ul>
+               <li>
+                Jenkkifirma, toimitusajat ja postikulut täysin tuntemattomat
+               </li>
+              </ul>
+             </li>
+             <li>
+              <a href="http://fi.rsdelivers.com/product/nmb/ddr-620zzha1p24ly121/metric-plain-bearing-2x6x3/6125723.aspx">
+               http://fi.rsdelivers.com/product/nmb/ddr-620zzha1p24ly121/metric-plain-bearing-2x6x3/6125723.aspx
+              </a>
+              <ul>
+               <li>
+                RS:llä toimitusajat YE:hen tilattuna on yleensä pari-kolme päivää
+               </li>
+              </ul>
+             </li>
+             <li>
+              <a href="http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=12008">
+               http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=12008
+              </a>
+              <ul>
+               <li>
+                HK-firma, postikulut halvat, toimitusajat pitkät
+               </li>
+              </ul>
+             </li>
+             <li>
+              <a href="http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=9234">
+               http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=9234
+              </a>
+             </li>
+            </ul>
+           </li>
+           <li>
+            3mm
+            <ul>
+             <li>
+              <a href="http://www.vxb.com/page/bearings/PROD/3mm/MR63ZZ">
+               http://www.vxb.com/page/bearings/PROD/3mm/MR63ZZ
+              </a>
+             </li>
+             <li>
+              <a href="http://fi.rsdelivers.com/product/rs/623-2z/single-row-shld-3mm-id/6189884.aspx">
+               http://fi.rsdelivers.com/product/rs/623-2z/single-row-shld-3mm-id/6189884.aspx
+              </a>
+              &lt;- Rambo tilannut muutaman näitä
+              <b>
+               3x10x4 mm
+              </b>
+             </li>
+             <li>
+              <a href="http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=9247">
+               http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=9247
+              </a>
+             </li>
+             <li>
+              <a href="http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=11523">
+               http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=11523
+              </a>
+             </li>
+             <li>
+              <a href="http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=11726">
+               http://www.hobbyking.com/hobbyking/store/uh_viewItem.asp?idProduct=11726
+              </a>
+             </li>
+            </ul>
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li>
+        Liukulaakerit (tai voihan sitä tehdä keskelle palloillekin sopivan uran) voi tosiaan sorvata PTFE:stä (eli teflonista) jos vaan saa jotain sopivan mittatarkkaa ja ei-magneettista putkea jonka sisään koko paketti tungetaaan (jos on hätä niin sen putkenkin voi sorvata tarkaksi mutta se on vähän isompi operaatio (varsinkin kun pientä putkea on tosi paha sorvata sisäpuolelta yhtään pidempiä pätkiä  kerralla)
+       </li>
+      </ul>
+     </li>
+     <li>
+      Multilayer Air Core Inductor Calculator:
+      <a href="http://www.pronine.ca/multind.htm">
+       http://www.pronine.ca/multind.htm
+      </a>
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+   <li>
+    <a href="http://www.supermagnetman.net/index.php?cPath=37">
+     http://www.supermagnetman.net/index.php?cPath=37
+    </a>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   AVR XMega:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    <a href="http://www.atmel.com/dyn/products/tools_card.asp?tool_id=3808">
+     http://www.atmel.com/dyn/products/tools_card.asp?tool_id=3808
+    </a>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Pohdintaa:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    3D tulostettu coilform jonka sisään tungetaan joku mittatarkempi putki jossa akseli+laakerit
+    <ul>
+     <li>
+      kannattaa mitoittaa siten että menee siististi jonkun vakiomittaisen kaupasta saatavan kupari-tms putken sisään.
+      <ul>
+       <li>
+        tälle voi sitten esim laserleikkurilla tehdä riittävän tarkan kauluksen josta voi kiinnittää mihin haluaa.
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Pitääkö kela kiertää siten että joka toinen kierros menee eri puolelta akselia vai riittääkö puolet ja puolet (yksinkertaistaisi kelaamista merkittävästi)
+    <ul>
+     <li>
+      mikäli on pakko kiertää vuorotellen niin sitten käytännössä taitaa olla pakko laittaa itse akseli jne paikalleen heti alkuun, kts
+      <a href="http://www.mikesflightdeck.com/images/aircore2B.jpg">
+       http://www.mikesflightdeck.com/images/aircore2B.jpg
+      </a>
+      <ul>
+       <li>
+        Ellei kehitä jotain mystistä tapaa kiertää sitä reikää josta putki jossa akseli jne on.
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Kuinka kiertää molemmat kelat yhtä-aikaa (lienee kannattaa luntata ompelukoneiden designejä, niissä on aika monimutkaista mekaniikkaa)
+    <ul>
+     <li>
+      Tai toroidikäämien tekolaitteita:
+      <a href="http://www.youtube.com/watch?v=6lvm3FGTHSI">
+       http://www.youtube.com/watch?v=6lvm3FGTHSI
+      </a>
+     </li>
+     <li>
+      Käämintäkone voisi noudatella tehdyn LEGO-mallin periaatteita, tulostetaan helical bevel gears tällä mallilla
+      <a href="http://www.thingiverse.com/thing:3575">
+       http://www.thingiverse.com/thing:3575
+      </a>
+     </li>
+     <li>
+      Näistä mallia
+      <a href="http://www.simcoaftermarket.com/specialty-oem/micro-air-core/">
+       http://www.simcoaftermarket.com/specialty-oem/micro-air-core/
+      </a>
+      näissä nähdäkseni on kelattu osa käämistä toiselle puolelle akselia ja osa toiselle
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   <u>
+    Concept Art:
+   </u>
+  </b>
+  <br/>
+  <br/>
+  <b>
+   Apollo Flight Director Attitude Indicator (FDAI) / "8-ball"
+  </b>
+  <br/>
+  <ul>
+   <li>
+    <a href="http://history.nasa.gov/ap16fj/01popup_fdai.htm">
+     http://history.nasa.gov/ap16fj/01popup_fdai.htm
+    </a>
+   </li>
+   <li>
+    <a href="http://www.space1.com/Artifacts/Apollo_Artifacts/FDAI/fdai.html">
+     http://www.space1.com/Artifacts/Apollo_Artifacts/FDAI/fdai.html
+    </a>
+   </li>
+   <li>
+    <a href="http://images2.bonhams.com/erez4/cache/Images_live_2010-02_22_8032945-77-2_jpg_tif_440d0d4ea2a91a5f.jpg">
+     http://images2.bonhams.com/erez4/cache/Images_live_2010-02_22_8032945-77-2_jpg_tif_440d0d4ea2a91a5f.jpg
+    </a>
+   </li>
+   <li>
+    Book:
+    <i>
+     Apollo Training - Guidance And Control Systems - Block II (1967-09-15)
+    </i>
+    <ul>
+     <li>
+      <a href="http://dl.dropbox.com/u/39575647/Temp/Apollo%20Training%20-%20Guidance%20And%20Control%20Systems%20-%20Block%20II%20%281967-09-15%29%20%5Bfav%5D.pdf">
+       http://dl.dropbox.com/u/39575647/Temp/Apollo%20Training%20-%20Guidance%20And%20Control%20Systems%20-%20Block%20II%20%281967-09-15%29%20%5Bfav%5D.pdf
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Book:
+    <i>
+     The Apollo Guidance Computer - Architecture and Operation (2010)
+    </i>
+    <ul>
+     <li>
+      kysy suovulalta
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   Soyuz "Globus" IMP navigation instrument
+  </b>
+  <br/>
+  <ul>
+   <li>
+    <a href="http://upload.wikimedia.org/wikipedia/commons/c/c7/Vostokpanel.JPG">
+     http://upload.wikimedia.org/wikipedia/commons/c/c7/Vostokpanel.JPG
+    </a>
+   </li>
+   <li>
+    <a href="http://upload.wikimedia.org/wikipedia/commons/1/18/Voskhod_spacecraft_IMP_%27Globus%27_navigation_instrument%2C_front_view.jpg">
+     http://upload.wikimedia.org/wikipedia/commons/1/18/Voskhod_spacecraft_IMP_%27Globus%27_navigation_instrument%2C_front_view.jpg
+    </a>
+   </li>
+   <li>
+    <a href="http://upload.wikimedia.org/wikipedia/commons/3/3d/Voskhod_spacecraft_IMP_%27Globus%27_navigation_instrument%2C_inside_view.jpg">
+     http://upload.wikimedia.org/wikipedia/commons/3/3d/Voskhod_spacecraft_IMP_%27Globus%27_navigation_instrument%2C_inside_view.jpg
+    </a>
+   </li>
+   <li>
+    <a href="http://i240.photobucket.com/albums/ff132/francoisguay/GlobusFG/GlobusFG%20Publ/GlobusFGDocuphoto4123cSpub9226v02.jpg">
+     http://i240.photobucket.com/albums/ff132/francoisguay/GlobusFG/GlobusFG%20Publ/GlobusFGDocuphoto4123cSpub9226v02.jpg
+    </a>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   <u>
+    // Aristan Sparkfunin 9DOF Stick -
+   </u>
+  </b>
+  <a href="http://www.sparkfun.com/products/10724">
+   <b>
+    <u>
+     http://www.sparkfun.com/products/10724
+    </u>
+   </b>
+  </a>
+  <br/>
+  <b>
+   <u>
+    // Arduino 1.0 ympäristölle
+   </u>
+  </b>
+  <br/>
+  <br/>
+  <br/>
+  #include &lt;Wire.h&gt;
+  <br/>
+  <br/>
+  <br/>
+  // Kiihtyvyys
+  <br/>
+  int16_t acc_ddx = 0;
+  <br/>
+  int16_t acc_ddy = 0;
+  <br/>
+  int16_t acc_ddz = 0;
+  <br/>
+  const uint8_t ACC = 0x53;          // ADSL345 3-Axis Accelerometer
+  <br/>
+  <br/>
+  <br/>
+  // Kulmanopeus
+  <br/>
+  int gyro_dx = 142;
+  <br/>
+  int gyro_dy = 143;
+  <br/>
+  int gyro_dz = 144;
+  <br/>
+  const uint8_t GYRO = 0x68;        // ITG-3200 3-Axis MEMS Gyro
+  <br/>
+  <br/>
+  <br/>
+  // Magneettikenttä
+  <br/>
+  int mag_x = 242;
+  <br/>
+  int mag_y = 243;
+  <br/>
+  int mag_z = 243;
+  <br/>
+  const uint8_t MAG = 0x1e;          // HMC5883L 3-Axis Magnetometer
+  <br/>
+  <br/>
+  <br/>
+  // Kun joku menee pieleen, vilkutellaan lediä ja jäädään tähän
+  <br/>
+  void HALT() {
+  <br/>
+  while (true) {
+  <br/>
+  digitalWrite(13, HIGH);
+  <br/>
+  delay(500);
+  <br/>
+  digitalWrite(13, LOW);
+  <br/>
+  delay(500);
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // Kirjoitetaan yksi tavu I2C-laitteelle
+  <br/>
+  void writeTo(uint8_t device, uint8_t address, uint8_t value) {
+  <br/>
+  Wire.beginTransmission(device);
+  <br/>
+  Wire.write(address);
+  <br/>
+  Wire.write(value);
+  <br/>
+  Wire.endTransmission();
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // Luetaan yksi tavu I2C-laitteelta
+  <br/>
+  uint8_t readFrom(uint8_t device, uint8_t address) {
+  <br/>
+  uint8_t retval[1];
+  <br/>
+  readFrom(device, address, retval, 1);
+  <br/>
+  return *retval;
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // Luetaan N-tavua I2C-laitteelta
+  <br/>
+  void readFrom(uint8_t device, uint8_t address, uint8_t * buffer, uint8_t length) {
+  <br/>
+  Wire.beginTransmission(device);
+  <br/>
+  Wire.write(address);             // sends address to read from
+  <br/>
+  Wire.endTransmission();         // end transmission
+  <br/>
+  <br/>
+  Wire.beginTransmission(device);
+  <br/>
+  Wire.requestFrom(device, length);    // request length bytes from device
+  <br/>
+  <br/>
+  uint8_t i = 0;
+  <br/>
+  while(Wire.available() &amp;&amp; i &lt; length) {        // device may send less than requested (abnormal)
+  <br/>
+  buffer[i++] = Wire.read();    // receive a byte
+  <br/>
+  }
+  <br/>
+  <br/>
+  if(i != length) HALT();
+  <br/>
+  <br/>
+  Wire.endTransmission();         // end transmission
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // Alustetaan kiihtyvyysanturi
+  <br/>
+  void initAccelerometer() {
+  <br/>
+  // Turn on the ADXL345
+  <br/>
+  writeTo(ACC, 0x2d, 0x00);           // ADXL345_POWER_CTL = 0
+  <br/>
+  writeTo(ACC, 0x2d, 0x16);           // ADXL345_POWER_CTL = 16
+  <br/>
+  writeTo(ACC, 0x2d, 0x08);           // ADXL345_POWER_CTL = 8
+  <br/>
+  <br/>
+  writeTo(ACC, 0x31, 0x08);           // ADXL345_DATA_FORMAT = 8
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // Luetaan kiihtyvyysanturi
+  <br/>
+  void readAccelerometer() {
+  <br/>
+  uint8_t  buffer[6];
+  <br/>
+  <br/>
+  readFrom(ACC, 0x32, buffer, 6);        // ADXL345_DATAX0 = 0x32, ... ADXL345_DATAZ1 = 0x37, = 6 bytes
+  <br/>
+  <br/>
+  // Each axis reading comes in 10 bit resolution, ie 2 bytes.  Least Significat Byte first!!
+  <br/>
+  // thus we are converting both bytes in to one int
+  <br/>
+  acc_ddx = ((((int)buffer[1]) &lt;&lt; 8) | buffer[0]);
+  <br/>
+  acc_ddy = ((((int)buffer[3]) &lt;&lt; 8) | buffer[2]);
+  <br/>
+  acc_ddz = ((((int)buffer[5]) &lt;&lt; 8) | buffer[4]);
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // Alustetaan gyroskooppi
+  <br/>
+  void initGyro() {
+  <br/>
+  <br/>
+  const uint8_t sampleRateDivider = 0;         // NOSRDIVIDER     = default    FsampleHz=SampleRateHz/(divider+1)
+  <br/>
+  const uint8_t scaleRange = 3;                // RANGE2000       = default
+  <br/>
+  const uint8_t filterAndSampleRate = 0;       // BW256_SR8       = default    256Khz BW and 8Khz SR
+  <br/>
+  const uint8_t clockSrc = 1;                  // PLL_XGYRO_REF   ?
+  <br/>
+  bool itgReady = true;
+  <br/>
+  bool rawReady = true;
+  <br/>
+  <br/>
+  // Set sample rate
+  <br/>
+  writeTo(GYRO, 0x15, sampleRateDivider);                                                // SMPLRT_DIV = 0x15        RW   SETUP: Sample Rate Divider
+  <br/>
+  <br/>
+  // Set Full scale range
+  <br/>
+  writeTo(GYRO, 0x16, (readFrom(GYRO, 0x16) &amp; ~B00011000) | (scaleRange &lt;&lt; 3));         // DLPF_FS = 0x16, DLPFFS_FS_SEL = 0x18
+  <br/>
+  <br/>
+  // Set Filter and Sample rate
+  <br/>
+  writeTo(GYRO, 0x16, (readFrom(GYRO, 0x16) &amp; ~B00000111) | filterAndSampleRate);       // DLPF_FS = 0x16, DLPFFS_DLPF_CFG = 0x07
+  <br/>
+  <br/>
+  // Set Clock source
+  <br/>
+  writeTo(GYRO, 0x3e, (readFrom(GYRO, 0x3e) &amp; ~B00000111) | clockSrc);                 // PWR_MGM = 0x3e, PWRMGM_CLK_SEL = 0x07
+  <br/>
+  <br/>
+  // Set ITG Ready
+  <br/>
+  writeTo(GYRO, 0x17, (readFrom(GYRO, 0x17) &amp; ~B00000100) | (itgReady &lt;&lt; 2));           // INT_CFG = 0x17, INTCFG_ITG_RDY_EN = 0x04
+  <br/>
+  <br/>
+  // Set Raw Ready
+  <br/>
+  writeTo(GYRO, 0x17, (readFrom(GYRO, 0x17) &amp; ~B00000001) | rawReady);                   // INT_CFG = 0x17, INTCFG_RAW_RDY_EN = 0x01
+  <br/>
+  <br/>
+  // Startup delay
+  <br/>
+  delay(50);    // 50ms from gyro startup
+  <br/>
+  delay(20);    // 20ms register r/w startup
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // Luetaan kiihtyvyysanturi
+  <br/>
+  void readGyro() {
+  <br/>
+  uint8_t  buffer[6];
+  <br/>
+  <br/>
+  readFrom(GYRO, 0x1d, buffer, 6);        // GYRO_XOUT0 = 0x1d, .. GYRO_ZOUT1 = 0x22, = 6 bytes
+  <br/>
+  <br/>
+  gyro_dx = ((((int)buffer[0]) &lt;&lt; 8) | buffer[1]);
+  <br/>
+  gyro_dy = ((((int)buffer[2]) &lt;&lt; 8) | buffer[3]);
+  <br/>
+  gyro_dz = ((((int)buffer[4]) &lt;&lt; 8) | buffer[5]);
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // Alustetaan magnetometri
+  <br/>
+  void initMagnetometer() {
+  <br/>
+  uint8_t   id[3];
+  <br/>
+  readFrom(MAG, 0x10, id, 3);                // IdentificationRegisterA = 0x10,  .. IdentificationRegisterC = 0x12, = 3 bytes
+  <br/>
+  //  if (id[0] != 'H' || id[1] != '4' || id[2] != '3') HALT();
+  <br/>
+  <br/>
+  writeTo(MAG, 0x00, B00011100);            // ConfigurationRegisterA = 0x00, Samples per measureent = 1, Data output rate = 75 Hz, No bias
+  <br/>
+  <br/>
+  uint8_t reg;
+  <br/>
+  float gauss;
+  <br/>
+  float scale;
+  <br/>
+  <br/>
+  reg = 0x00, gauss = 0.88, scale = 0.73;
+  <br/>
+  // reg = 0x01, gauss = 1.30, scale = 0.92;
+  <br/>
+  // reg = 0x02, gauss = 1.90, scale = 1.22;
+  <br/>
+  // reg = 0x03, gauss = 2.50, scale = 1.52;
+  <br/>
+  // reg = 0x04, gauss = 4.00, scale = 2.27;
+  <br/>
+  // reg = 0x05, gauss = 4.70, scale = 2.56;
+  <br/>
+  // reg = 0x06, gauss = 5.60, scale = 3.03;
+  <br/>
+  //reg = 0x07, gauss = 8.10, scale = 4.35;
+  <br/>
+  writeTo(MAG, 0x01, reg &lt;&lt; 5);            // ConfigurationRegisterB = 0x01, setting is in the top 3 bits of the register
+  <br/>
+  <br/>
+  //writeTo(MAG, 0x02, B00000001);            // ModeRegister = 0x02, Single-measurement mode
+  <br/>
+  writeTo(MAG, 0x02, B00000000);            // ModeRegister = 0x02, Continuous-measurement mode
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // Luetaan magnetometri
+  <br/>
+  void readMagnetometer() {
+  <br/>
+  <br/>
+  if (readFrom(MAG, 0x09) &amp; B000001 != 1) {    // StatusRegister = 0x09
+  <br/>
+  mag_x = 0;
+  <br/>
+  mag_y = 0;
+  <br/>
+  mag_z = 0;
+  <br/>
+  // HALT();
+  <br/>
+  return;
+  <br/>
+  }
+  <br/>
+  <br/>
+  uint8_t  buffer[6];
+  <br/>
+  <br/>
+  readFrom(MAG, 0x03, buffer, 6);        // DataRegisterBegin = 0x03, = 6 bytes
+  <br/>
+  <br/>
+  mag_x = ((((int)buffer[0]) &lt;&lt; 8) | buffer[1]);
+  <br/>
+  mag_y = ((((int)buffer[2]) &lt;&lt; 8) | buffer[3]);
+  <br/>
+  mag_z = ((((int)buffer[4]) &lt;&lt; 8) | buffer[5]);
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  void setup() {
+  <br/>
+  pinMode(13, OUTPUT);
+  <br/>
+  digitalWrite(13, LOW); // Ledi 13 pois päältä
+  <br/>
+  <br/>
+  Wire.begin();              // Join I2C bus
+  <br/>
+  Serial.begin(115200);
+  <br/>
+  <br/>
+  initAccelerometer();
+  <br/>
+  initGyro();
+  <br/>
+  initMagnetometer();
+  <br/>
+  <br/>
+  // Odotetaan joku merkki ennen kuin aletaan lähettämään
+  <br/>
+  while (Serial.available() == 0) {
+  <br/>
+  // odotetaan
+  <br/>
+  }
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+  void writeInt(int value) {
+  <br/>
+  Serial.write(value &amp; 0xff);
+  <br/>
+  Serial.write((value &gt;&gt; 8) &amp; 0xff);
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  void loop() {
+  <br/>
+  <br/>
+  Serial.print("[");
+  <br/>
+  Serial.print(micros());
+  <br/>
+  Serial.print("]");
+  <br/>
+  <br/>
+  readAccelerometer();
+  <br/>
+  readGyro();
+  <br/>
+  readMagnetometer();
+  <br/>
+  /*
+  <br/>
+  Serial.print(" acc(");
+  <br/>
+  Serial.print(acc_ddx);
+  <br/>
+  Serial.print(",");
+  <br/>
+  Serial.print(acc_ddy);
+  <br/>
+  Serial.print(",");
+  <br/>
+  Serial.print(acc_ddz);
+  <br/>
+  Serial.print(") gyro(");
+  <br/>
+  Serial.print(gyro_dx);
+  <br/>
+  Serial.print(",");
+  <br/>
+  Serial.print(gyro_dy);
+  <br/>
+  Serial.print(",");
+  <br/>
+  Serial.print(gyro_dz);
+  <br/>
+  Serial.print(") mag(");
+  <br/>
+  Serial.print(mag_x);
+  <br/>
+  Serial.print(",");
+  <br/>
+  Serial.print(mag_y);
+  <br/>
+  Serial.print(",");
+  <br/>
+  Serial.print(mag_z);
+  <br/>
+  Serial.print(")");
+  <br/>
+  Serial.println();
+  <br/>
+  */
+  <br/>
+  writeInt(-1);
+  <br/>
+  writeInt(acc_ddx);
+  <br/>
+  writeInt(acc_ddy);
+  <br/>
+  writeInt(acc_ddy);
+  <br/>
+  <br/>
+  <br/>
+  delay(50);
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  //Wycliffe 0503517554 La 31.3. wraduma@gmail.com
+  <br/>
+  <br/>
+  <br/>
+  //Arduino
+  <br/>
+  <br/>
+  // Aristan Sparkfunin 9DOF Stick -
+  <a href="http://www.sparkfun.com/products/10724">
+   http://www.sparkfun.com/products/10724
+  </a>
+  <br/>
+  // Arduino 1.0 ympäristölle
+  <br/>
+  <br/>
+  <br/>
+  #include &lt;Wire.h&gt;
+  <br/>
+  <br/>
+  <br/>
+  // Kiihtyvyys
+  <br/>
+  int16_t acc_ddx = 0;
+  <br/>
+  int16_t acc_ddy = 0;
+  <br/>
+  int16_t acc_ddz = 0;
+  <br/>
+  const uint8_t ACC = 0x53;          // ADSL345 3-Axis Accelerometer
+  <br/>
+  <br/>
+  <br/>
+  // Kulmanopeus
+  <br/>
+  int gyro_dx = 142;
+  <br/>
+  int gyro_dy = 143;
+  <br/>
+  int gyro_dz = 144;
+  <br/>
+  const uint8_t GYRO = 0x68;        // ITG-3200 3-Axis MEMS Gyro
+  <br/>
+  <br/>
+  <br/>
+  // Magneettikenttä
+  <br/>
+  int mag_x = 242;
+  <br/>
+  int mag_y = 243;
+  <br/>
+  int mag_z = 243;
+  <br/>
+  const uint8_t MAG = 0x1e;          // HMC5883L 3-Axis Magnetometer
+  <br/>
+  <br/>
+  <br/>
+  // Kun joku menee pieleen, vilkutellaan lediä ja jäädään tähän
+  <br/>
+  void HALT() {
+  <br/>
+  while (true) {
+  <br/>
+  digitalWrite(13, HIGH);
+  <br/>
+  delay(500);
+  <br/>
+  digitalWrite(13, LOW);
+  <br/>
+  delay(500);
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // Kirjoitetaan yksi tavu I2C-laitteelle
+  <br/>
+  void writeTo(uint8_t device, uint8_t address, uint8_t value) {
+  <br/>
+  Wire.beginTransmission(device);
+  <br/>
+  Wire.write(address);
+  <br/>
+  Wire.write(value);
+  <br/>
+  Wire.endTransmission();
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // Luetaan yksi tavu I2C-laitteelta
+  <br/>
+  uint8_t readFrom(uint8_t device, uint8_t address) {
+  <br/>
+  uint8_t retval[1];
+  <br/>
+  readFrom(device, address, retval, 1);
+  <br/>
+  return *retval;
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // Luetaan N-tavua I2C-laitteelta
+  <br/>
+  void readFrom(uint8_t device, uint8_t address, uint8_t * buffer, uint8_t length) {
+  <br/>
+  Wire.beginTransmission(device);
+  <br/>
+  Wire.write(address);             // sends address to read from
+  <br/>
+  Wire.endTransmission();         // end transmission
+  <br/>
+  <br/>
+  Wire.beginTransmission(device);
+  <br/>
+  Wire.requestFrom(device, length);    // request length bytes from device
+  <br/>
+  <br/>
+  uint8_t i = 0;
+  <br/>
+  while(Wire.available() &amp;&amp; i &lt; length) {        // device may send less than requested (abnormal)
+  <br/>
+  buffer[i++] = Wire.read();    // receive a byte
+  <br/>
+  }
+  <br/>
+  <br/>
+  if(i != length) HALT();
+  <br/>
+  <br/>
+  Wire.endTransmission();         // end transmission
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // Alustetaan kiihtyvyysanturi
+  <br/>
+  void initAccelerometer() {
+  <br/>
+  // Turn on the ADXL345
+  <br/>
+  writeTo(ACC, 0x2d, 0x00);           // ADXL345_POWER_CTL = 0
+  <br/>
+  writeTo(ACC, 0x2d, 0x16);           // ADXL345_POWER_CTL = 16
+  <br/>
+  writeTo(ACC, 0x2d, 0x08);           // ADXL345_POWER_CTL = 8
+  <br/>
+  <br/>
+  writeTo(ACC, 0x31, 0x08);           // ADXL345_DATA_FORMAT = 8
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // Luetaan kiihtyvyysanturi
+  <br/>
+  void readAccelerometer() {
+  <br/>
+  uint8_t  buffer[6];
+  <br/>
+  <br/>
+  readFrom(ACC, 0x32, buffer, 6);        // ADXL345_DATAX0 = 0x32, ... ADXL345_DATAZ1 = 0x37, = 6 bytes
+  <br/>
+  <br/>
+  // Each axis reading comes in 10 bit resolution, ie 2 bytes.  Least Significat Byte first!!
+  <br/>
+  // thus we are converting both bytes in to one int
+  <br/>
+  acc_ddx = ((((int)buffer[1]) &lt;&lt; 8) | buffer[0]);
+  <br/>
+  acc_ddy = ((((int)buffer[3]) &lt;&lt; 8) | buffer[2]);
+  <br/>
+  acc_ddz = ((((int)buffer[5]) &lt;&lt; 8) | buffer[4]);
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // Alustetaan gyroskooppi
+  <br/>
+  void initGyro() {
+  <br/>
+  <br/>
+  const uint8_t sampleRateDivider = 0;         // NOSRDIVIDER     = default    FsampleHz=SampleRateHz/(divider+1)
+  <br/>
+  const uint8_t scaleRange = 3;                // RANGE2000       = default
+  <br/>
+  const uint8_t filterAndSampleRate = 0;       // BW256_SR8       = default    256Khz BW and 8Khz SR
+  <br/>
+  const uint8_t clockSrc = 1;                  // PLL_XGYRO_REF   ?
+  <br/>
+  bool itgReady = true;
+  <br/>
+  bool rawReady = true;
+  <br/>
+  <br/>
+  // Set sample rate
+  <br/>
+  writeTo(GYRO, 0x15, sampleRateDivider);                                                // SMPLRT_DIV = 0x15        RW   SETUP: Sample Rate Divider
+  <br/>
+  <br/>
+  // Set Full scale range
+  <br/>
+  writeTo(GYRO, 0x16, (readFrom(GYRO, 0x16) &amp; ~B00011000) | (scaleRange &lt;&lt; 3));         // DLPF_FS = 0x16, DLPFFS_FS_SEL = 0x18
+  <br/>
+  <br/>
+  // Set Filter and Sample rate
+  <br/>
+  writeTo(GYRO, 0x16, (readFrom(GYRO, 0x16) &amp; ~B00000111) | filterAndSampleRate);       // DLPF_FS = 0x16, DLPFFS_DLPF_CFG = 0x07
+  <br/>
+  <br/>
+  // Set Clock source
+  <br/>
+  writeTo(GYRO, 0x3e, (readFrom(GYRO, 0x3e) &amp; ~B00000111) | clockSrc);                 // PWR_MGM = 0x3e, PWRMGM_CLK_SEL = 0x07
+  <br/>
+  <br/>
+  // Set ITG Ready
+  <br/>
+  writeTo(GYRO, 0x17, (readFrom(GYRO, 0x17) &amp; ~B00000100) | (itgReady &lt;&lt; 2));           // INT_CFG = 0x17, INTCFG_ITG_RDY_EN = 0x04
+  <br/>
+  <br/>
+  // Set Raw Ready
+  <br/>
+  writeTo(GYRO, 0x17, (readFrom(GYRO, 0x17) &amp; ~B00000001) | rawReady);                   // INT_CFG = 0x17, INTCFG_RAW_RDY_EN = 0x01
+  <br/>
+  <br/>
+  // Startup delay
+  <br/>
+  delay(50);    // 50ms from gyro startup
+  <br/>
+  delay(20);    // 20ms register r/w startup
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // Luetaan kiihtyvyysanturi
+  <br/>
+  void readGyro() {
+  <br/>
+  uint8_t  buffer[6];
+  <br/>
+  <br/>
+  readFrom(GYRO, 0x1d, buffer, 6);        // GYRO_XOUT0 = 0x1d, .. GYRO_ZOUT1 = 0x22, = 6 bytes
+  <br/>
+  <br/>
+  gyro_dx = ((((int)buffer[0]) &lt;&lt; 8) | buffer[1]);
+  <br/>
+  gyro_dy = ((((int)buffer[2]) &lt;&lt; 8) | buffer[3]);
+  <br/>
+  gyro_dz = ((((int)buffer[4]) &lt;&lt; 8) | buffer[5]);
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // Alustetaan magnetometri
+  <br/>
+  void initMagnetometer() {
+  <br/>
+  uint8_t   id[3];
+  <br/>
+  readFrom(MAG, 0x10, id, 3);                // IdentificationRegisterA = 0x10,  .. IdentificationRegisterC = 0x12, = 3 bytes
+  <br/>
+  //  if (id[0] != 'H' || id[1] != '4' || id[2] != '3') HALT();
+  <br/>
+  <br/>
+  writeTo(MAG, 0x00, B00011100);            // ConfigurationRegisterA = 0x00, Samples per measureent = 1, Data output rate = 75 Hz, No bias
+  <br/>
+  <br/>
+  uint8_t reg;
+  <br/>
+  float gauss;
+  <br/>
+  float scale;
+  <br/>
+  <br/>
+  reg = 0x00, gauss = 0.88, scale = 0.73;
+  <br/>
+  // reg = 0x01, gauss = 1.30, scale = 0.92;
+  <br/>
+  // reg = 0x02, gauss = 1.90, scale = 1.22;
+  <br/>
+  // reg = 0x03, gauss = 2.50, scale = 1.52;
+  <br/>
+  // reg = 0x04, gauss = 4.00, scale = 2.27;
+  <br/>
+  // reg = 0x05, gauss = 4.70, scale = 2.56;
+  <br/>
+  // reg = 0x06, gauss = 5.60, scale = 3.03;
+  <br/>
+  //reg = 0x07, gauss = 8.10, scale = 4.35;
+  <br/>
+  writeTo(MAG, 0x01, reg &lt;&lt; 5);            // ConfigurationRegisterB = 0x01, setting is in the top 3 bits of the register
+  <br/>
+  <br/>
+  //writeTo(MAG, 0x02, B00000001);            // ModeRegister = 0x02, Single-measurement mode
+  <br/>
+  writeTo(MAG, 0x02, B00000000);            // ModeRegister = 0x02, Continuous-measurement mode
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // Luetaan magnetometri
+  <br/>
+  void readMagnetometer() {
+  <br/>
+  <br/>
+  if (readFrom(MAG, 0x09) &amp; B000001 != 1) {    // StatusRegister = 0x09
+  <br/>
+  mag_x = 0;
+  <br/>
+  mag_y = 0;
+  <br/>
+  mag_z = 0;
+  <br/>
+  // HALT();
+  <br/>
+  return;
+  <br/>
+  }
+  <br/>
+  <br/>
+  uint8_t  buffer[6];
+  <br/>
+  <br/>
+  readFrom(MAG, 0x03, buffer, 6);        // DataRegisterBegin = 0x03, = 6 bytes
+  <br/>
+  <br/>
+  mag_x = ((((int)buffer[0]) &lt;&lt; 8) | buffer[1]);
+  <br/>
+  mag_y = ((((int)buffer[2]) &lt;&lt; 8) | buffer[3]);
+  <br/>
+  mag_z = ((((int)buffer[4]) &lt;&lt; 8) | buffer[5]);
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  void setup() {
+  <br/>
+  pinMode(13, OUTPUT);
+  <br/>
+  digitalWrite(13, LOW); // Ledi 13 pois päältä
+  <br/>
+  <br/>
+  Wire.begin();              // Join I2C bus
+  <br/>
+  Serial.begin(115200);
+  <br/>
+  <br/>
+  initAccelerometer();
+  <br/>
+  initGyro();
+  <br/>
+  initMagnetometer();
+  <br/>
+  <br/>
+  // Odotetaan joku merkki ennen kuin aletaan lähettämään
+  <br/>
+  <br/>
+  <br/>
+  //while (Serial.available() == 0) {
+  <br/>
+  // odotetaan
+  <br/>
+  //}
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  void writeInt(int value) {
+  <br/>
+  Serial.write(value &amp; 0xff);
+  <br/>
+  Serial.write((value &gt;&gt; 8) &amp; 0xff);
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  void loop() {
+  <br/>
+  /*
+  <br/>
+  Serial.print("[");
+  <br/>
+  Serial.print(micros());
+  <br/>
+  Serial.print("]");
+  <br/>
+  */
+  <br/>
+  readAccelerometer();
+  <br/>
+  readGyro();
+  <br/>
+  readMagnetometer();
+  <br/>
+  /*
+  <br/>
+  Serial.print(" acc(");
+  <br/>
+  Serial.print(acc_ddx);
+  <br/>
+  Serial.print(",");
+  <br/>
+  Serial.print(acc_ddy);
+  <br/>
+  Serial.print(",");
+  <br/>
+  Serial.print(acc_ddz);
+  <br/>
+  Serial.print(") gyro(");
+  <br/>
+  Serial.print(gyro_dx);
+  <br/>
+  Serial.print(",");
+  <br/>
+  Serial.print(gyro_dy);
+  <br/>
+  Serial.print(",");
+  <br/>
+  Serial.print(gyro_dz);
+  <br/>
+  Serial.print(") mag(");
+  <br/>
+  Serial.print(mag_x);
+  <br/>
+  Serial.print(",");
+  <br/>
+  Serial.print(mag_y);
+  <br/>
+  Serial.print(",");
+  <br/>
+  Serial.print(mag_z);
+  <br/>
+  Serial.print(")");
+  <br/>
+  Serial.println();
+  <br/>
+  */
+  <br/>
+  writeInt(-1);
+  <br/>
+  writeInt(acc_ddx);
+  <br/>
+  writeInt(acc_ddy);
+  <br/>
+  writeInt(acc_ddy);
+  <br/>
+  <br/>
+  <br/>
+  delay(50);
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  // Processing
+  <br/>
+  <br/>
+  /**
+  <br/>
+  * Rotate 1.
+  <br/>
+  *
+  <br/>
+  * Rotating simultaneously in the X and Y axis.
+  <br/>
+  * Transformation functions such as rotate() are additive.
+  <br/>
+  * Successively calling rotate(1.0) and rotate(2.0)
+  <br/>
+  * is equivalent to calling rotate(3.0).
+  <br/>
+  */
+  <br/>
+  <br/>
+  // Kiihtyvyys
+  <br/>
+  float acc_ddx = 0;
+  <br/>
+  float acc_ddy = 0;
+  <br/>
+  float acc_ddz = -1;
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  // Kulmanopeus
+  <br/>
+  float gyro_dx = 0;
+  <br/>
+  float gyro_dy = 0;
+  <br/>
+  float gyro_dz = 0;
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  // Magneettikenttä
+  <br/>
+  float mag_x = 0;
+  <br/>
+  float mag_y = 0;
+  <br/>
+  float mag_z = -1;
+  <br/>
+  <br/>
+  <br/>
+  float a = 0.0;
+  <br/>
+  float rSize;  // rectangle size
+  <br/>
+  <br/>
+  //Read Serial
+  <br/>
+  import processing.serial.*;
+  <br/>
+  Serial myPort;  // The serial port
+  <br/>
+  <br/>
+  <br/>
+  void setup() {
+  <br/>
+  size(640, 360, P3D);
+  <br/>
+  rSize = width / 6;
+  <br/>
+  noStroke();
+  <br/>
+  fill(204, 204);
+  <br/>
+  // List all the available serial ports
+  <br/>
+  println(Serial.list());
+  <br/>
+  // I know that the first port in the serial list on my mac
+  <br/>
+  // is always my  Keyspan adaptor, so I open Serial.list()[0].
+  <br/>
+  // Open whatever port is the one you're using.
+  <br/>
+  myPort = new Serial(this, Serial.list()[5], 115200);
+  <br/>
+  //delay(2000);
+  <br/>
+  myPort.write ('9');
+  <br/>
+  }
+  <br/>
+  <br/>
+  short readShort() {
+  <br/>
+  short val = 0;
+  <br/>
+  int foo = myPort.read() &amp; 0xff;
+  <br/>
+  foo += (myPort.read() &amp; 0xff) &lt;&lt; 8;
+  <br/>
+  val = (short)foo;
+  <br/>
+  // short val = (short)myPort.read() &amp; 0xff;
+  <br/>
+  // val += (short)((myPort.read() &amp; 0xff) &lt;&lt; 8);
+  <br/>
+  return val;
+  <br/>
+  }
+  <br/>
+  <br/>
+  void draw() {
+  <br/>
+  if(myPort.available()&gt;=8) {
+  <br/>
+  int val = readShort();
+  <br/>
+  if (val == -1) {
+  <br/>
+  acc_ddx = readShort();
+  <br/>
+  acc_ddy = readShort();
+  <br/>
+  acc_ddz = readShort();
+  <br/>
+  } else {
+  <br/>
+  print("erro val = ");
+  <br/>
+  print(val);
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  background(0);
+  <br/>
+  a += 0.005;
+  <br/>
+  if(a &gt; TWO_PI) {
+  <br/>
+  a = 0.0;
+  <br/>
+  }
+  <br/>
+  <br/>
+  translate(width/2, height/2);
+  <br/>
+  <br/>
+  rotateX(a);
+  <br/>
+  //
+  <br/>
+  rotateY(a * 2.0);
+  <br/>
+  rect(-rSize, -rSize, rSize*2, rSize*2);
+  <br/>
+  <br/>
+  rotateX(a * acc_ddx/100);
+  <br/>
+  rotateY(a * 2.002);
+  <br/>
+  rect(-rSize, -rSize, rSize*2, rSize*2);
+  <br/>
+  <br/>
+  while (myPort.available() &gt; 0) {
+  <br/>
+  int inByte = myPort.read();
+  <br/>
+  println(inByte);
+  <br/>
+  }
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+  //Wycliffe 0503517554 La 31.3. wraduma@gmail.com
+  <br/>
+  <br/>
+ </body>
 </html>

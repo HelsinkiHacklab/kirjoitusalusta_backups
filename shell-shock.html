@@ -1,44 +1,85 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<title>/shell-shock</title>
-</head>
-<body>Shell shock on jatkoa Etydedes musiikkiprojektille. Päätin aloittaa tyhjältä pöydältä koska pythonin ja pygame alkavat vakavasti häntiä reaaliaikaisessa musiikin generoinnissa. Tulin siihen tulokseen että olisi parempi tuottaa ensin valmis midi-tiedosto jota soitettaisiin normaalilla playerilla. Tiedoston generointiin ei mene kovin kauan ja soitto pysyy rytmissä, generoivasta ohjelmasta voidaan tehdä paljon kehittyneempi. Jos nopeus tuottaa ongelmaa voidaan parsia useista midi tiedostoista alun jo soidessa. Tutkin eri kielivaihtoehtoja ja päädyin LISP:iin. Softasta on tarkoitus tulla paljon kehittyneempi ja se sisältää suuren määrän sääntöjä. LISP antaa mahdollisuuden tehdä koodista itse muokkaavaa mikä muistuttaa musiikillinen variointia. Lisäksi kielen voi määritellä mieleisekseen. Lopuksi LISP kääntäjät tuottavat usein C-koodia jota on helppo portata eri ympäristöihin. Ajatuksena on siis aluksi tehdä Scemellä koodi. Kääntää se C:lle. Kääntää C ohjelma ja tuottaa sillä midi-tiedosto ja soittaa se normaalilla midi playerillä. Ja joku perl scripti käyttäjää varten.&nbsp;<br
-/><br
-/>Shell-shock! on mielikuvitus rock-bandin nimi. En halua tuottaa tylsää teknopimpupusta josta minulla ei ole mitään kokemusta vaan menen musiikkilajin pariin jonka parhaiten tunnen. Näin ollen. Polyfonia koostuu normaalibandistä 1-4 kitaraa, basso koskettimet ja rummut. Ei välttämättä kaikkea. Laulun generointi oli myös ajatuksessa. Lyriikkojen generointi on mahdollista jopa helppoa kuten myös melodian. Ongelmana on saada puhesyntetisaattori kuullostamaan muulta kuin syntymäkuuron robotin ääni auto-tunen läpi raiskattuna. Saattaisi jopa kuullostaa hauskalta (laulajan ääniala ei ainakan olisi ongelma). Päätin kuitenkin tehdä ensin instrumentaalibandin. Palkataan laulaja myöhemmin.&nbsp;<br
-/><br
-/>Keskityn kitaraan ja kitarasooloihin koska tunnen instrumentin parhaiten. Rummut on hiukan tuntematonta aluetta. Täytynee tutkia. Ainakin ne on helpompi generoida kun tuottaa tarttuva melodia. Uskon että on mahdollista apinoida eri kitaristien soittotyylejä. Käyttäjä voinee valita ja määritellä mieleisensä. Omat suosikit on tietenkin ekana toteutettavien listalla: Iommi, Page, May, Hendrix, Yngwie (ei ehkä mieleisin muttamenköön), Van Halen, Vai. Basisteista pidän eniten Steve Harriksesta joten rumplaiksi käynee vain Nico Brain.<br
-/><br
-/>Eka vaihe on toteuttaa rutiini joka tuottaa soittokelpoisia midi-tiedostoja. Ihan sama mitä tuottaa kunhan ne soivat :-) Riittävä polyfonia ja multitimbraalisuus. 32 ääntä riittänee (kitarat 2x6 + basso 4 + rummut 6 + koskettimet 10 ).&nbsp;<br
-/><br
-/>Ohjelman osat<br
-/><br
-/><ul><li>Fraktaalikäyrän tuottaja - täysin satunnainen käyrä ei kuullosta luonnolliselta. Pitäisi voida myös määritellä käyrän alku ja loppukorkeus.</li
-><li>Kompperi</li
-><li>Synkopiaattori</li
-><li>Riffigeneraattori</li
-><li>Arpeggiaattori</li
-><li>Sointukulkujen luoja</li
-><li>Melodymaker (Mm)</li
-><li>Strukturoija</li
-><li>Fraseeraja</li
-><li>Kontrapunktisti</li
-><li>Stylisti</li
-><li>Kitaristi</li
-><li>Basisti</li
-><li>Rumpali<br/><br
-/></li></ul
->Kuten näkyy kaikki vaikuttaa vähän kaikkeen joten ohjelmasta tulee mutkikas. Onneksi tulosta ei ole determisesti määritelty joten pienet virheet ei haittaa. Muusikon ohje kuuluukin jos teet virheen tee se uudelleen niin yleisö luule että se kuuluu sävellykseen. Jatkan kehittelyä. Omalla koneella. Ja pävittelen tänne kun jaksan.<br
-/><br
-/><br
-/>2012.10.22 Alku. Chicken Scheme kääntäjä asennettu. Kertailen Schemeä. Pähkäilyä<br
-/><br
-/><br
-/><br
-/><br
-/>&nbsp;<br
-/><br
-/></body>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /shell-shock
+  </title>
+ </head>
+ <body>
+  Shell shock on jatkoa Etydedes musiikkiprojektille. Päätin aloittaa tyhjältä pöydältä koska pythonin ja pygame alkavat vakavasti häntiä reaaliaikaisessa musiikin generoinnissa. Tulin siihen tulokseen että olisi parempi tuottaa ensin valmis midi-tiedosto jota soitettaisiin normaalilla playerilla. Tiedoston generointiin ei mene kovin kauan ja soitto pysyy rytmissä, generoivasta ohjelmasta voidaan tehdä paljon kehittyneempi. Jos nopeus tuottaa ongelmaa voidaan parsia useista midi tiedostoista alun jo soidessa. Tutkin eri kielivaihtoehtoja ja päädyin LISP:iin. Softasta on tarkoitus tulla paljon kehittyneempi ja se sisältää suuren määrän sääntöjä. LISP antaa mahdollisuuden tehdä koodista itse muokkaavaa mikä muistuttaa musiikillinen variointia. Lisäksi kielen voi määritellä mieleisekseen. Lopuksi LISP kääntäjät tuottavat usein C-koodia jota on helppo portata eri ympäristöihin. Ajatuksena on siis aluksi tehdä Scemellä koodi. Kääntää se C:lle. Kääntää C ohjelma ja tuottaa sillä midi-tiedosto ja soittaa se normaalilla midi playerillä. Ja joku perl scripti käyttäjää varten.
+  <br/>
+  <br/>
+  Shell-shock! on mielikuvitus rock-bandin nimi. En halua tuottaa tylsää teknopimpupusta josta minulla ei ole mitään kokemusta vaan menen musiikkilajin pariin jonka parhaiten tunnen. Näin ollen. Polyfonia koostuu normaalibandistä 1-4 kitaraa, basso koskettimet ja rummut. Ei välttämättä kaikkea. Laulun generointi oli myös ajatuksessa. Lyriikkojen generointi on mahdollista jopa helppoa kuten myös melodian. Ongelmana on saada puhesyntetisaattori kuullostamaan muulta kuin syntymäkuuron robotin ääni auto-tunen läpi raiskattuna. Saattaisi jopa kuullostaa hauskalta (laulajan ääniala ei ainakan olisi ongelma). Päätin kuitenkin tehdä ensin instrumentaalibandin. Palkataan laulaja myöhemmin.
+  <br/>
+  <br/>
+  Keskityn kitaraan ja kitarasooloihin koska tunnen instrumentin parhaiten. Rummut on hiukan tuntematonta aluetta. Täytynee tutkia. Ainakin ne on helpompi generoida kun tuottaa tarttuva melodia. Uskon että on mahdollista apinoida eri kitaristien soittotyylejä. Käyttäjä voinee valita ja määritellä mieleisensä. Omat suosikit on tietenkin ekana toteutettavien listalla: Iommi, Page, May, Hendrix, Yngwie (ei ehkä mieleisin muttamenköön), Van Halen, Vai. Basisteista pidän eniten Steve Harriksesta joten rumplaiksi käynee vain Nico Brain.
+  <br/>
+  <br/>
+  Eka vaihe on toteuttaa rutiini joka tuottaa soittokelpoisia midi-tiedostoja. Ihan sama mitä tuottaa kunhan ne soivat :-) Riittävä polyfonia ja multitimbraalisuus. 32 ääntä riittänee (kitarat 2x6 + basso 4 + rummut 6 + koskettimet 10 ).
+  <br/>
+  <br/>
+  Ohjelman osat
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Fraktaalikäyrän tuottaja - täysin satunnainen käyrä ei kuullosta luonnolliselta. Pitäisi voida myös määritellä käyrän alku ja loppukorkeus.
+   </li>
+   <li>
+    Kompperi
+   </li>
+   <li>
+    Synkopiaattori
+   </li>
+   <li>
+    Riffigeneraattori
+   </li>
+   <li>
+    Arpeggiaattori
+   </li>
+   <li>
+    Sointukulkujen luoja
+   </li>
+   <li>
+    Melodymaker (Mm)
+   </li>
+   <li>
+    Strukturoija
+   </li>
+   <li>
+    Fraseeraja
+   </li>
+   <li>
+    Kontrapunktisti
+   </li>
+   <li>
+    Stylisti
+   </li>
+   <li>
+    Kitaristi
+   </li>
+   <li>
+    Basisti
+   </li>
+   <li>
+    Rumpali
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Kuten näkyy kaikki vaikuttaa vähän kaikkeen joten ohjelmasta tulee mutkikas. Onneksi tulosta ei ole determisesti määritelty joten pienet virheet ei haittaa. Muusikon ohje kuuluukin jos teet virheen tee se uudelleen niin yleisö luule että se kuuluu sävellykseen. Jatkan kehittelyä. Omalla koneella. Ja pävittelen tänne kun jaksan.
+  <br/>
+  <br/>
+  <br/>
+  2012.10.22 Alku. Chicken Scheme kääntäjä asennettu. Kertailen Schemeä. Pähkäilyä
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+ </body>
 </html>
