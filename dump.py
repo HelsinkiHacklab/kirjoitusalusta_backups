@@ -81,6 +81,12 @@ class fetcher:
 
 if __name__ == '__main__':
     # TODO: allow specifying entry URL via command line ?
+    # Ugly but so is making a separate running these commands and this python program..
+    import os
+    os.system('git pull')
     jm = jobmanager(DEFAULT_ENTRY_URL)
     jm.run()
+    os.system('git add *.html')
+    os.system("git commit -m 'automatic commit from the dump.py script'")
+    os.system('git push')
 
