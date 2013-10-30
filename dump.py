@@ -61,7 +61,7 @@ class fetcher:
             return False
         soup = BeautifulSoup(fp)
         
-        recurse_links = = soup.find_all('a', href=PAD_RECURSE_HREF_RE)
+        recurse_links = soup.find_all('a', href=PAD_RECURSE_HREF_RE)
         for tag in recurse_links:
             # Doublecheck the url is sane pad
             new_pad_url = tag['href']
@@ -77,7 +77,7 @@ class fetcher:
 
         # Dump the soup to a file
         with open(htmlfile, 'w') as f:
-            f.write(soup.prettify())
+            f.write(soup.prettify().encode('utf-8'))
 
 if __name__ == '__main__':
     # TODO: allow specifying entry URL via command line ?
