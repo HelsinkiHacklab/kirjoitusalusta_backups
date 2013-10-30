@@ -1,4 +1,5 @@
 #!/usr/bin/python
+from __future__ import with_statement
 import re, urllib2
 try:
     from bs4 import BeautifulSoup
@@ -8,9 +9,18 @@ except ImportError:
 # Some configurable things
 DEFAULT_ENTRY_URL = "http://kirjoitusalusta.fi/hacklab"
 ETHERPAD_BASE = "http://kirjoitusalusta.fi/"
+# How to extract the pad name from the pad url
 PAD_NAME_RE = re.compile('^%s(?P<padname>[^/]+).*$' % ETHERPAD_BASE)
-PAD_EXPORT_FORMAT = 'http://kirjoitusalusta.fi/ep/pad/export/%s/latest?format=html'
+# How to form the HTML export URL, takes single %s where the pad name goes
+PAD_EXPORT_URL_FORMAT = 'http://kirjoitusalusta.fi/ep/pad/export/%s/latest?format=html'
+# By default recurse to any and all urls under this same etherpad instance
+PAD_RECURSE_HREF_RE = re.compile('^%s' % ETHERPAD_BASE)
+# Again takes single %s which is the pad name
+PAD_EXPORT_FILENAME = '%s.html'
 
+# pad url and export url example (as a reminder)
+# http://kirjoitusalusta.fi/hacklab
+# http://kirjoitusalusta.fi/ep/pad/export/hacklab/latest?format=html
 
 class jobmanager:
     def __init__(self, entry_url):
@@ -38,15 +48,14 @@ class fetcher:
         # This is just a reference so we can push jobs to the queue
         self.queuemanager = queuemanager
 
-# http://kirjoitusalusta.fi/hacklab
-# http://kirjoitusalusta.fi/ep/pad/export/hacklab/latest?format=html
-
     def fetch(self, pad_url):
         """This will fetch a single HTML export of a pad, add any other pads found in it to the job queue and rewrite links to local files"""
         m = PAD_NAME_RE.search(pad_url)
         if not m:
             return False
-        export_url = PAD_EXPORT_FORMAT % m.group('padname')
+        pad_name = m.group('padname')
+        htmlfile = PAD_EXPORT_FILENAME % pad_name
+        export_url = PAD_EXPORT_URL_FORMAT % pad_name
         print "Fetching %s" % export_url
         try:
             fp = urllib2.urlopen(export_url)
@@ -54,8 +63,24 @@ class fetcher:
             print "Failed to fetchs %s: %s" % (export_url, e)
             return False
         soup = BeautifulSoup(fp)
-        print soup
+        
+        recurse_links = = soup.find_all('a', href=PAD_RECURSE_HREF_RE)
+        for tag in recurse_links:
+            # Doublecheck the url is sane pad
+            new_pad_url = tag['href']
+            m2 = PAD_NAME_RE.search(new_pad_url)
+            if not m2:
+                continue
+            new_pad_name = m2.group('padname')
+            new_htmlfile = PAD_EXPORT_FILENAME % new_pad_name
+            # Add to processing list
+            self.queuemanager.add_to_queue(new_pad_url)
+            # Rewrite the link to point to the local file to be (since doing it afterwards, while slightly safer, is just too much work for now)
+            tag['href'] = './%s' % new_htmlfile
 
+        # Dump the soup to a file
+        with open(htmlfile, 'w') as f:
+            f.write(soup.prettify())
 
 if __name__ == '__main__':
     # TODO: allow specifying entry URL via command line ?
