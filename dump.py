@@ -3,8 +3,6 @@ from __future__ import with_statement
 import re, urllib2
 try:
     from bs4 import BeautifulSoup
-except ImportError:
-    from BeautifulSoup import BeautifulSoup
 
 # Some configurable things
 DEFAULT_ENTRY_URL = "http://kirjoitusalusta.fi/hacklab"
