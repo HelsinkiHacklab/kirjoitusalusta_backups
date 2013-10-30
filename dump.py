@@ -1,6 +1,11 @@
 #!/usr/bin/python
-ETHERPAD_BASE="http://kirjoitusalusta.fi/"
-DEFAULT_ENTRY_URL="http://kirjoitusalusta.fi/hacklab"
+from bs4 import BeautifulSoup
+import re, urllib2
+DEFAULT_ENTRY_URL = "http://kirjoitusalusta.fi/hacklab"
+ETHERPAD_BASE = "http://kirjoitusalusta.fi/"
+PAD_NAME_RE = re.compile('^%s(?P<padname>[^/]+).*$' % ETHERPAD_BASE)
+PAD_EXPORT_FORMAT = 'http://kirjoitusalusta.fi/ep/pad/export/%s/latest?format=html'
+
 
 class jobmanager:
     def __init__(self, entry_url):
@@ -30,10 +35,20 @@ class fetcher:
 # http://kirjoitusalusta.fi/hacklab
 # http://kirjoitusalusta.fi/ep/pad/export/hacklab/latest?format=html
 
-    def fetch(self, url):
+    def fetch(self, pad_url):
         """This will fetch a single HTML export of a pad, add any other pads found in it to the job queue and rewrite links to local files"""
-        pass
-
+        m = PAD_NAME_RE.search(pad_url)
+        if not m:
+            return False
+        export_url = PAD_EXPORT_FORMAT % m.group('padname')
+        print "Fetching %s" % export_url
+        try:
+            fp = urllib2.urlopen(export_url)
+        except urllib2.URLError,e:
+            print "Failed to fetchs %s: %s" % (export_url, e)
+            return False
+        soup = BeautifulSoup(fp)
+        print soup
 
 
 if __name__ == '__main__':
