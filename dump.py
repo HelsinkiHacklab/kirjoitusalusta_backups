@@ -1,12 +1,11 @@
 #!/usr/bin/python
 from __future__ import with_statement
 import re, urllib2
-try:
-    from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 
 # Some configurable things
-DEFAULT_ENTRY_URL = "http://kirjoitusalusta.fi/hacklab"
-ETHERPAD_BASE = "http://kirjoitusalusta.fi/"
+DEFAULT_ENTRY_URL = 'http://kirjoitusalusta.fi/hacklab'
+ETHERPAD_BASE = 'http://kirjoitusalusta.fi/'
 # How to extract the pad name from the pad url
 PAD_NAME_RE = re.compile('^%s(?P<padname>[^/]+).*$' % ETHERPAD_BASE)
 # How to form the HTML export URL, takes single %s where the pad name goes
