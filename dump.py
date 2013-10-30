@@ -1,6 +1,11 @@
 #!/usr/bin/python
-from bs4 import BeautifulSoup
 import re, urllib2
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
+    from BeautifulSoup import BeautifulSoup
+
+# Some configurable things
 DEFAULT_ENTRY_URL = "http://kirjoitusalusta.fi/hacklab"
 ETHERPAD_BASE = "http://kirjoitusalusta.fi/"
 PAD_NAME_RE = re.compile('^%s(?P<padname>[^/]+).*$' % ETHERPAD_BASE)
@@ -24,6 +29,7 @@ class jobmanager:
     def run(self):
         while(len(self.job_queue) > 0):
             url = self.job_queue.pop(0)
+            self.fetcher.fetch(url)
 
 class fetcher:
     """This will take a pad URL (under ETHERPAD_BASE) and dump it as HTML, then follow any links to same etherpad server and dump those as well"""
