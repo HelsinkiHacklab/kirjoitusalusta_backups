@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-courses-arduino
+  </title>
+ </head>
+ <body>
+  Analog read to serial code:
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    <a href="http://pastebin.com/nDEwzdgq">
+     http://pastebin.com/nDEwzdgq
+    </a>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  ...
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   Kaupat
+  </b>
+  <br/>
+  - partco
+  <br/>
+  -dx
+  <br/>
+  <br/>
+  <b>
+   Softat
+  </b>
+  <br/>
+  -
+  <a href="http://fritzing.org">
+   http://fritzing.org
+  </a>
+  <br/>
+  - circuitsimu
+  <br/>
+  <br/>
+  <b>
+   Linkit
+  </b>
+  <br/>
+  <a href="./hacklab-ArduinoComic.html">
+   http://kirjoitusalusta.fi/hacklab-ArduinoComic
+  </a>
+  <br/>
+  <a href="http://soloarduino.blogspot.fi/2013/07/sensores-keyes.html">
+   http://soloarduino.blogspot.fi/2013/07/sensores-keyes.html
+  </a>
+  <br/>
+  arduinolla toteutettuja nallen kädenheilutuksia:
+  <br/>
+  <a href="https://github.com/opinsys/ohjelmointi-opetuksessa#vilkutus">
+   https://github.com/opinsys/ohjelmointi-opetuksessa#vilkutus
+  </a>
+  <br/>
+  <a href="https://github.com/opinsys/ohjelmointi-opetuksessa/tree/master/kytkentakaaviot">
+   https://github.com/opinsys/ohjelmointi-opetuksessa/tree/master/kytkentakaaviot
+  </a>
+  <br/>
+  <br/>
+  <b>
+   Projekteja
+  </b>
+  <br/>
+  - RGB led +  3x potikkaa
+  <br/>
+  - 2x servoa + 2x potikkajoikka
+  <br/>
+  - vedenpinnan mittaus
+  <br/>
+  <br/>
+  <br/>
+  <a href="./hacklab-courses-arduino.html">
+   http://kirjoitusalusta.fi/hacklab-courses-arduino
+  </a>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   <u>
+    Analogimittari serialiin
+   </u>
+  </b>
+  <br/>
+  <br/>
+  const int analogInPin = A0;  // Analog input pin that the potentiometer is attached to
+  <br/>
+  const int analogOutPin = 9; // Analog output pin that the LED is attached to
+  <br/>
+  <br/>
+  int sensorValue = 0;        // value read from the pot
+  <br/>
+  int outputValue = 0;        // value output to the PWM (analog out)
+  <br/>
+  <br/>
+  void setup() {
+  <br/>
+  // initialize serial communications at:
+  <br/>
+  Serial.begin(115200);
+  <br/>
+  pinMode(analogInPin, INPUT);
+  <br/>
+  pinMode(analogOutPin, OUTPUT);
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+  void loop() {
+  <br/>
+  // read the analog in value:
+  <br/>
+  sensorValue = analogRead(analogInPin);
+  <br/>
+  // map it to the range of the analog out:
+  <br/>
+  outputValue = constrain(map(sensorValue, 200, 900, 0, 255), 0, 255);
+  <br/>
+  <br/>
+  // change the analog out value:
+  <br/>
+  analogWrite(analogOutPin, outputValue);
+  <br/>
+  <br/>
+  for (int i = 0; i &lt; 64; i++) {
+  <br/>
+  if (outputValue/4 &gt; i) {
+  <br/>
+  Serial.print("|");
+  <br/>
+  } else {
+  <br/>
+  Serial.print(".");
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  Serial.println();
+  <br/>
+  <br/>
+  delay(25);
+  <br/>
+  }
+  <br/>
+  <br/>
+  <b>
+   <u>
+    Ultraäänisensori ohjaa servoa
+   </u>
+  </b>
+  <br/>
+  <br/>
+  include &lt;Servo.h&gt; // määritellään servo tässä alussa
+  <br/>
+  <br/>
+  Servo myservo;  // create servo object to control a servo
+  <br/>
+  // a maximum of eight servo objects can be created
+  <br/>
+  int pos = 0;    // variable to store the servo position - pos on asento
+  <br/>
+  <br/>
+  const int TrigPin = 2;
+  <br/>
+  const int EchoPin = 3;
+  <br/>
+  float cm;
+  <br/>
+  <br/>
+  void setup()
+  <br/>
+  {
+  <br/>
+  myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+  <br/>
+  Serial.begin(9600);
+  <br/>
+  pinMode(TrigPin, OUTPUT);
+  <br/>
+  pinMode(EchoPin, INPUT);
+  <br/>
+  }
+  <br/>
+  <br/>
+  void loop()
+  <br/>
+  {
+  <br/>
+  cm = 1000;
+  <br/>
+  digitalWrite(TrigPin, LOW); //Low-high-low level sent a short time pulse to TrigPin
+  <br/>
+  delayMicroseconds(2);
+  <br/>
+  digitalWrite(TrigPin, HIGH);
+  <br/>
+  delayMicroseconds(10);
+  <br/>
+  digitalWrite(TrigPin, LOW);
+  <br/>
+  cm = pulseIn(EchoPin, HIGH) / 58.0; //Echo time converted into cm
+  <br/>
+  cm = (int(cm * 100.0)) / 100.0; // retain two decimal places
+  <br/>
+  Serial.print(cm); // kirjoittaa cm:n arvon konsoliin
+  <br/>
+  Serial.print("cm");
+  <br/>
+  Serial.println();
+  <br/>
+  delay(100);
+  <br/>
+  if (cm &gt;= 0 &amp;&amp; cm &lt;= 20)
+  <br/>
+  {
+  <br/>
+  for(pos = 0; pos &lt; 180; pos += 1)  // goes from 0 degrees to 180 degrees
+  <br/>
+  {                                  // in steps of 1 degree
+  <br/>
+  myservo.write(pos);              // tell servo to go to position in variable 'pos'
+  <br/>
+  delay(5);                       // waits 15ms for the servo to reach the position
+  <br/>
+  }
+  <br/>
+  for(pos = 180; pos&gt;=1; pos-=1)     // goes from 180 degrees to 0 degrees
+  <br/>
+  {
+  <br/>
+  myservo.write(pos);              // tell servo to go to position in variable 'pos'
+  <br/>
+  delay(70);          // waits 15ms for the servo to reach the position
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  <br/>
+ </body>
+</html>
