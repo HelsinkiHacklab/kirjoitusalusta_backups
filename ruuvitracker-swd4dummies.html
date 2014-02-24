@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /ruuvitracker-swd4dummies
+  </title>
+ </head>
+ <body>
+  <br/>
+  17:47 &lt;
+  <b>
+   •rambo_
+  </b>
+  &gt; olikos meillä jossain joku step-by-step for-dummies ohje debuggerin käyttöön, mulla olis lainassa yksi discovery-lauta mutta en ole ikinä käyttäny sitä mihinkään (lainasinkin sen vaan sen takia että olis teoriassa debuggeri
+  <br/>
+  17:48 &lt;
+  <b>
+   •rambo_
+  </b>
+  &gt; gdb:llä joskus jotain stack-traceja linux-ohjelmista kattonu mutta sekin lähinnä toimittaakseni ne eteenpäin varsinaiselle softan kehittäjälle
+  <br/>
+  17:49 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; rambo_: onko sulla se f4 disco kytkettynä kiinni jo?
+  <br/>
+  17:50 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; siis SWD-pinnit
+  <br/>
+  17:53 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; ja onko ubuntu? Ja onko openocd ja joku toolchain asennettuna?
+  <br/>
+  18:00 &lt;
+  <b>
+   •rambo_
+  </b>
+  &gt; on se ruuvitracker VM:mä...
+  <br/>
+  18:01 &lt;
+  <b>
+   •rambo_
+  </b>
+  &gt; kunhan rupesin vasta pohdiskelemaan että vois olla ihan hyödyksi ton SD-kortti kaman selvittelyssä
+  <br/>
+  18:01 &lt;
+  <b>
+   •rambo_
+  </b>
+  &gt; pitää kolvailla pinnitkin ensin
+  <br/>
+  18:02 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; mulla on vähän kokemuksia VM:ien usbeista, mutta ilmeisesti se sulla toimii
+  <br/>
+  18:02 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; sudo apt-get install openocd
+  <br/>
+  18:02 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; ja joku gdb sulla varmaan jo siellä on
+  <br/>
+  18:03 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; sitten yhdessä xtermissä: openocd -f "interface/stlink-v2.cfg" -f "target/stm32f4x_stlink.cfg"
+  <br/>
+  18:04 &lt;
+  <b>
+   •rambo_
+  </b>
+  &gt; kyllä se USB Parallels:issa toimii ihan hyvin, joskus vaan saa hepulin jos irrottaa ja kytkee laitteita turhan tiuhaan tahtiin (Esim sen testipenkin relelillä)
+  <br/>
+  18:04 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; onko udev-säännöt kunnossa, jotta ei tartte sudoa?
+  <br/>
+  18:05 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; mulla on /etc/udev/rules.d/99-openocd.rules -failissa:
+  <br/>
+  18:05 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", SYSFS{idVendor}=="0483", MODE="0666"
+  <br/>
+  18:05 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; no, näemmä mulla on myös 10-stlink2.rules -faili:
+  <br/>
+  18:05 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3748", MODE="660", GROUP="plugdev"
+  <br/>
+  18:06 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; toi 660 + plugdev on oikeampi lähestymistapa kuin toi 0666 mode
+  <br/>
+  18:07 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; openocd:n jälkeen toiseen xtermiin: arm-none-eabi-gdb -ex "target remote localhost:3333" build/ruuvitracker.elf
+  <br/>
+  18:08 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; aina, kun käynnistää gdb:n: monitor reset halt
+  <br/>
+  18:08 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; ja kun haluaa käynnistää koodin suorituksen: cont
+  <br/>
+  18:08 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; jos haluaa fläshätä tuon ruuvitracker.elf:in:
+  <br/>
+  18:08 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; monitor reset halt
+  <br/>
+  18:08 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; load
+  <br/>
+  18:08 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; monitor reset halt
+  <br/>
+  18:08 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; cont
+  <br/>
+  18:09 &lt;
+  <b>
+   •rambo_
+  </b>
+  &gt; saitko muuten jotain lisäselkoa siihen WFI vs SWD juttuun ?
+  <br/>
+  18:10 &lt;
+  <b>
+   •kulve
+  </b>
+  &gt; en tutkinut sen tarkemmin. Huomasin vaan, että datasheet kertoi, ettei se toimi defaulttina, mutta kikkailemalla jollain rekistereillä sen saa toimimaan
+  <br/>
+  <br/>
+  ja VM:ssä ei ole noita scriptejä vakiona joten
+  <br/>
+  <a href="https://github.com/JorgeAparicio/bareCortexM/tree/master/openocd">
+   https://github.com/JorgeAparicio/bareCortexM/tree/master/openocd
+  </a>
+  <br/>
+  <br/>
+  RevC2 pinout:
+  <a href="https://www.dropbox.com/s/5rj16nbaidaswx7/rt_c2_pinout.pdf">
+   https://www.dropbox.com/s/5rj16nbaidaswx7/rt_c2_pinout.pdf
+  </a>
+  <br/>
+  <br/>
+  <br/>
+ </body>
+</html>
