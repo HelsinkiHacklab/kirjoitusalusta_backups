@@ -8,6 +8,13 @@
   </title>
  </head>
  <body>
+  <b>
+   SWD pikaohje
+  </b>
+  <br/>
+  <br/>
+  Sorry, this one is in finnish only.
+  <br/>
   <br/>
   17:47 &lt;
   <b>
@@ -171,24 +178,17 @@
   </b>
   &gt; cont
   <br/>
-  18:09 &lt;
-  <b>
-   •rambo_
-  </b>
-  &gt; saitko muuten jotain lisäselkoa siihen WFI vs SWD juttuun ?
-  <br/>
-  18:10 &lt;
-  <b>
-   •kulve
-  </b>
-  &gt; en tutkinut sen tarkemmin. Huomasin vaan, että datasheet kertoi, ettei se toimi defaulttina, mutta kikkailemalla jollain rekistereillä sen saa toimimaan
-  <br/>
   <br/>
   ja VM:ssä ei ole noita scriptejä vakiona joten
   <br/>
   <a href="https://github.com/JorgeAparicio/bareCortexM/tree/master/openocd">
    https://github.com/JorgeAparicio/bareCortexM/tree/master/openocd
   </a>
+  &lt;- ei riittänyt yksinään, asenna uudempi openocd jessiestä (voi olla myös hyvä idea päivittää dist-upgradella kaikki koska mm libc päivittyi...)
+  <b>
+   jos teet dist-upgraden muista ajaa "apt-get install libgmp3c2"
+  </b>
+  jotta ko kirjasto (jota ilman ei voi kääntää softaa) merkataan käsin asennetuksi ja autoremove ei heitä sitä mäkeen.
   <br/>
   <br/>
   RevC2 pinout:
@@ -196,6 +196,11 @@
    https://www.dropbox.com/s/5rj16nbaidaswx7/rt_c2_pinout.pdf
   </a>
   <br/>
+  <br/>
+  SWD vs WFI:
+  <a href="./ruuvitracker-swd-vs-wfi.html">
+   http://kirjoitusalusta.fi/ruuvitracker-swd-vs-wfi
+  </a>
   <br/>
   <br/>
  </body>
