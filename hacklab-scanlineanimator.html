@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-scanlineanimator
+  </title>
+ </head>
+ <body>
+  #include "FastLED.h"
+  <br/>
+  <br/>
+  // How many leds in your strip?
+  <br/>
+  #define NUM_LEDS 60
+  <br/>
+  <br/>
+  // For led chips like Neopixels, which have a data line, ground, and power, you just
+  <br/>
+  // need to define DATA_PIN.  For led chipsets that are SPI based (four wires - data, clock,
+  <br/>
+  // ground, and power), like the LPD8806, define both DATA_PIN and CLOCK_PIN
+  <br/>
+  #define DATA_PIN 11
+  <br/>
+  #define CLOCK_PIN 13
+  <br/>
+  <br/>
+  // Define the array of leds
+  <br/>
+  CRGB leds[NUM_LEDS];
+  <br/>
+  <br/>
+  CRGB c;
+  <br/>
+  <br/>
+  int start = 0;
+  <br/>
+  <br/>
+  void setup() {
+  <br/>
+  FastLED.addLeds&lt;NEOPIXEL, DATA_PIN&gt;(leds, NUM_LEDS);
+  <br/>
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+  void loop() {
+  <br/>
+  <br/>
+  wave();
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  void wave() {
+  <br/>
+  CRGB topColor = randomColor(150, 20, 100, 20, 200, 40);
+  <br/>
+  CRGB midColor = randomColor(145, 30, 160, 40, 90, 40);
+  <br/>
+  CRGB botColor = randomColor(135, 40, 200, 20, 30, 30);
+  <br/>
+  CRGB mid2Color = randomColor(125, 30, 160, 40, 50, 30);
+  <br/>
+  <br/>
+  int overallDelay = random8(0, 10);
+  <br/>
+  int botDelay = random8(60, 80) + overallDelay;
+  <br/>
+  int midDelay = random8(20, 40) + overallDelay;
+  <br/>
+  int topDelay = random8(5, 10)  + overallDelay;
+  <br/>
+  int mid2Delay = random8(7, 20) + overallDelay;
+  <br/>
+  <br/>
+  int steps = 64;
+  <br/>
+  int steps2 = 40;
+  <br/>
+  <br/>
+  scrollSection(botDelay, steps, botColor);
+  <br/>
+  scrollSection(midDelay, steps, midColor);
+  <br/>
+  scrollSection(topDelay, steps2, topColor);
+  <br/>
+  scrollSection(mid2Delay, steps2, mid2Color);
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  CRGB randomColor(int hue, int hueVar, int sat, int satVar, int val, int valVar) {
+  <br/>
+  int h = randomVar(hue, hueVar);
+  <br/>
+  int s = randomVar(sat, satVar);
+  <br/>
+  int v = randomVar(val, valVar);
+  <br/>
+  <br/>
+  return CHSV(h, s, v);
+  <br/>
+  }
+  <br/>
+  <br/>
+  int randomVar(int value, int variation) {
+  <br/>
+  //int result = value - variation / 2 + (random16(variation) + random16(variation)) / 2;
+  <br/>
+  int result = value - variation / 2 + random(variation);
+  <br/>
+  <br/>
+  if (result &lt;= 0) return 0;
+  <br/>
+  else if (result &gt;= 255) return 255;
+  <br/>
+  else return result;
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  void scrollSection(int stepDelay, int steps, CRGB toColor) {
+  <br/>
+  CRGB fromColor = leds[0];
+  <br/>
+  CRGB color;
+  <br/>
+  <br/>
+  int stepSize = 256 / steps;
+  <br/>
+  <br/>
+  for(int i = 0; i &lt;= 256; i += stepSize) {
+  <br/>
+  color.r = mix(i, fromColor.r, toColor.r);
+  <br/>
+  color.g = mix(i, fromColor.g, toColor.g);
+  <br/>
+  color.b = mix(i, fromColor.b, toColor.b);
+  <br/>
+  <br/>
+  scrollPixel(color);
+  <br/>
+  <br/>
+  FastLED.show();
+  <br/>
+  <br/>
+  delay(stepDelay);
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  <br/>
+  uint8_t mix(uint16_t t, uint8_t from, uint8_t to) {
+  <br/>
+  return uint8_t( (((to * t) + ((256 - t) * from) ) &gt;&gt; 8) );
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  void scrollPixel(CRGB color) {
+  <br/>
+  <br/>
+  for(int i = NUM_LEDS; i &gt; 0; i--) {
+  <br/>
+  <br/>
+  leds[i].r = leds[i - 1].r;
+  <br/>
+  leds[i].g = leds[i - 1].g;
+  <br/>
+  leds[i].b = leds[i - 1].b;
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+  leds[0].r = color.r;
+  <br/>
+  leds[0].g = color.g;
+  <br/>
+  leds[0].b = color.b;
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+ </body>
+</html>
