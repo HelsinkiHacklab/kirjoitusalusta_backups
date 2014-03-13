@@ -10,11 +10,9 @@
  <body>
   #include "FastLED.h"
   <br/>
-  <br/>
   // How many leds in your strip?
   <br/>
   #define NUM_LEDS 60
-  <br/>
   <br/>
   // For led chips like Neopixels, which have a data line, ground, and power, you just
   <br/>
@@ -24,77 +22,76 @@
   <br/>
   #define DATA_PIN 11
   <br/>
-  #define CLOCK_PIN 13
-  <br/>
+  #define CLOCK_PIN 10
   <br/>
   // Define the array of leds
   <br/>
   CRGB leds[NUM_LEDS];
   <br/>
-  <br/>
   CRGB c;
   <br/>
-  <br/>
   int start = 0;
-  <br/>
   <br/>
   void setup() {
   <br/>
   FastLED.addLeds&lt;NEOPIXEL, DATA_PIN&gt;(leds, NUM_LEDS);
   <br/>
   <br/>
-  <br/>
   }
-  <br/>
   <br/>
   void loop() {
   <br/>
+  wave(0);
   <br/>
-  wave();
+  wave(2);
   <br/>
+  wave(2);
+  <br/>
+  wave(0);
+  <br/>
+  wave(3);
+  <br/>
+  wave(4);
+  <br/>
+  wave(20);
   <br/>
   }
   <br/>
+  void wave(int additionalIntensity) {
   <br/>
   <br/>
-  void wave() {
-  <br/>
-  CRGB topColor = randomColor(150, 20, 100, 20, 200, 40);
+  CRGB topColor = randomColor(150 + additionalIntensity, 50, 100, 20, 40 + additionalIntensity * 2, 40);
   <br/>
   CRGB midColor = randomColor(145, 30, 160, 40, 90, 40);
   <br/>
-  CRGB botColor = randomColor(135, 40, 200, 20, 30, 30);
+  CRGB botColor = randomColor(135, 50, 200, 20, 30, 30);
   <br/>
-  CRGB mid2Color = randomColor(125, 30, 160, 40, 50, 30);
+  CRGB mid2Color = randomColor(125, 40, 160, 40, 40 + additionalIntensity, 30);
   <br/>
+  int overallDelay = random8(0, 100) + additionalIntensity * 3;
   <br/>
-  int overallDelay = random8(0, 10);
-  <br/>
-  int botDelay = random8(60, 80) + overallDelay;
+  int botDelay = random8(30, 60) + overallDelay;
   <br/>
   int midDelay = random8(20, 40) + overallDelay;
   <br/>
-  int topDelay = random8(5, 10)  + overallDelay;
+  int topDelay = random8(5, 20)  + overallDelay;
   <br/>
-  int mid2Delay = random8(7, 20) + overallDelay;
+  int mid2Delay = random8(7, 30) + overallDelay;
   <br/>
   <br/>
   int steps = 64;
   <br/>
   int steps2 = 40;
   <br/>
-  <br/>
   scrollSection(botDelay, steps, botColor);
   <br/>
   scrollSection(midDelay, steps, midColor);
   <br/>
-  scrollSection(topDelay, steps2, topColor);
+  scrollSection(topDelay, steps, topColor);
   <br/>
-  scrollSection(mid2Delay, steps2, mid2Color);
+  scrollSection(mid2Delay, steps, mid2Color);
   <br/>
   }
-  <br/>
-  <br/>
   <br/>
   CRGB randomColor(int hue, int hueVar, int sat, int satVar, int val, int valVar) {
   <br/>
@@ -104,18 +101,15 @@
   <br/>
   int v = randomVar(val, valVar);
   <br/>
-  <br/>
   return CHSV(h, s, v);
   <br/>
   }
-  <br/>
   <br/>
   int randomVar(int value, int variation) {
   <br/>
   //int result = value - variation / 2 + (random16(variation) + random16(variation)) / 2;
   <br/>
   int result = value - variation / 2 + random(variation);
-  <br/>
   <br/>
   if (result &lt;= 0) return 0;
   <br/>
@@ -124,8 +118,6 @@
   else return result;
   <br/>
   }
-  <br/>
-  <br/>
   <br/>
   void scrollSection(int stepDelay, int steps, CRGB toColor) {
   <br/>
@@ -148,7 +140,6 @@
   <br/>
   scrollPixel(color);
   <br/>
-  <br/>
   FastLED.show();
   <br/>
   <br/>
@@ -158,14 +149,11 @@
   <br/>
   }
   <br/>
-  <br/>
   uint8_t mix(uint16_t t, uint8_t from, uint8_t to) {
   <br/>
   return uint8_t( (((to * t) + ((256 - t) * from) ) &gt;&gt; 8) );
   <br/>
   }
-  <br/>
-  <br/>
   <br/>
   void scrollPixel(CRGB color) {
   <br/>
@@ -179,9 +167,7 @@
   <br/>
   leds[i].b = leds[i - 1].b;
   <br/>
-  <br/>
   }
-  <br/>
   <br/>
   leds[0].r = color.r;
   <br/>
