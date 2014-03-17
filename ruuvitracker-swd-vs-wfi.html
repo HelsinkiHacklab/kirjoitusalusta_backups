@@ -9,9 +9,16 @@
  </head>
  <body>
   <b>
-   The short version
+   <u>
+    The short version
+   </u>
   </b>
   <br/>
+  <br/>
+  Boot the device to bootloader, attach gdb and:
+  <br/>
+  <br/>
+  monitor reset halt
   <br/>
   set {int}0xE0042004 = 7
   <br/>
