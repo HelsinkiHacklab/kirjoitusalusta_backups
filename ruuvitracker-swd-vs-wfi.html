@@ -18,9 +18,30 @@
   Boot the device to bootloader, attach gdb and:
   <br/>
   <br/>
+  If attaching fails read below.
+  <br/>
+  <br/>
   monitor reset halt
   <br/>
   set {int}0xE0042004 = 7
+  <br/>
+  <br/>
+  <b>
+   <u>
+    In case attach fails
+   </u>
+  </b>
+  <br/>
+  <br/>
+  Add to end of stm32f4x_stlink.cfg (usually found in /usr/share/openocd/scripts/target)
+  <br/>
+  <br/>
+  # reset and halt on gdb-attach
+  <br/>
+  $_TARGETNAME configure -event gdb-attach { reset halt }
+  <br/>
+  <br/>
+  This forces target reset and halt on attach which prevents problems caused by the idle-sleep
   <br/>
   <br/>
   <b>
