@@ -212,14 +212,48 @@
         This is the recommended Open Source one for Ultimaker
         <br/>
         <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
        </li>
       </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Printing text
+    <ul>
+     <li>
+      Inkscape
+      <ul>
+       <li>
+        Create text, size: big (150-300ish)
+       </li>
+       <li>
+        Object to path
+       </li>
+       <li>
+        Ungroup
+       </li>
+       <li>
+        Extensions-&gt;Modify path-&gt;Flatten beziers (flatness ~0.3-1)
+       </li>
+       <li>
+        Export as dxf (uncheck both spline checkboxes)
+       </li>
+      </ul>
+     </li>
+     <li>
+      Openscad
+      <ul>
+       <li>
+        linear_extrude(height = 100) import("drawing.dxf");
+       </li>
+      </ul>
+     </li>
+     <li>
+      Profit!
+      <br/>
+      <br/>
+      <br/>
+      <br/>
      </li>
     </ul>
    </li>
