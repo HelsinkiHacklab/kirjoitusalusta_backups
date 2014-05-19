@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-openscad
+  </title>
+ </head>
+ <body>
+  <b>
+   OpenSCAD ALKEET (Tampere, 2014-04-17)
+  </b>
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    <b>
+     asennus (openscad.org)
+    </b>
+    <br/>
+    <br/>
+   </li>
+   <li>
+    pohjatiedot
+   </li>
+   <li>
+    perusperiaatteet
+    <ul>
+     <li>
+      koodia, compile (F5), +render (F6)
+     </li>
+     <li>
+      hiiri: vasen, oikea, keski, shift
+     </li>
+     <li>
+      show axes
+     </li>
+     <li>
+      parametrinen
+      <ul>
+       <li>
+        muuttujat
+        <ul>
+         <li>
+          var = 10;
+         </li>
+         <li>
+          example017
+          <br/>
+          <br/>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <a href="http://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language">
+   http://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language
+  </a>
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    cube([2,3,4]);
+    <ul>
+     <li>
+      vektori
+     </li>
+     <li>
+      cube([2,3,4], center=true);
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+   <li>
+    sphere(r=2);
+    <ul>
+     <li>
+      sphere(d=4);
+     </li>
+    </ul>
+   </li>
+   <li>
+    cylinder(h=10, r1=10, r2=20, center=true);
+    <br/>
+    <br/>
+   </li>
+   <li>
+    translate([2,4,0])
+   </li>
+   <li>
+    scale([2,2,2])
+   </li>
+   <li>
+    resize([2,3,4])
+    <ul>
+     <li>
+      resize([2,0,0], auto=true)
+     </li>
+    </ul>
+   </li>
+   <li>
+    rotate([0,90,0])
+   </li>
+   <li>
+    mirror([0,1,0])
+    <br/>
+    <br/>
+   </li>
+   <li>
+    minkowski()
+   </li>
+   <li>
+    hull()
+   </li>
+   <li>
+    union()
+   </li>
+   <li>
+    difference()
+   </li>
+   <li>
+    intersection()
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+   <li>
+    Modifiers=?
+    <ul>
+     <li>
+      #
+     </li>
+     <li>
+      *
+     </li>
+     <li>
+      %
+     </li>
+     <li>
+      !
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+   <li>
+    module palanen(a, b, c) {}
+    <ul>
+     <li>
+      ring.scad
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+   <li>
+    export (stl)
+    <ul>
+     <li>
+      3d-tulostukseen
+     </li>
+     <li>
+      "Object isn't a valid 2-manifold! Modify your design.."
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   Enemmän ja lisää
+  </b>
+  <br/>
+  <ul>
+   <li>
+    for-loop
+   </li>
+   <li>
+    offset (2014)
+   </li>
+   <li>
+    images, surface
+   </li>
+   <li>
+    2d-subsystem
+    <ul>
+     <li>
+      circle
+     </li>
+     <li>
+      square
+     </li>
+     <li>
+      polygon
+     </li>
+     <li>
+      import
+     </li>
+     <li>
+      rotate_extrude
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </body>
+</html>
