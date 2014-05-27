@@ -15,11 +15,152 @@
   </b>
   <br/>
   <br/>
+  "Soda" here refers to anything in a form factor similar to the 0.5l PET bottle, glass bottles are not an impossibility (Club Mate comes in such) but we'd like to avoid those due to much higher likelyhood of breakage.
+  <br/>
+  <br/>
   A soda bottle vending machine we got from Nixu. "does not cool" was the diagnosis, Rambo&amp;Dist fixed this problem (the fan that was supposed to cool down the hot-side heat exchanged was completely stuck and the fan that was supposed to spread cool air on the cool-side was making horrible noises. Both are now fixed).
   <br/>
   <br/>
-  More to follow.
+  <b>
+   Next steps:
+  </b>
   <br/>
   <br/>
+  1. Reverse-engineer all the internal wiring (which is 220V relay logic)
+  <br/>
+  <br/>
+  This requires two to three people, two that can be trusted to not get themselves or anyone else hurt with the 220V and if there is a third one his job is to write things down as the two make measurements.
+  <br/>
+  <br/>
+  My (rambo) current plan is to put
+  <b>
+   everything
+  </b>
+  to a graph database (like Neo4j) as nodes (as in each individual switch or relay contact gets a node, in addition to the switch/relay itself) and then do shortest path analysis and whatnot to figure out the schema. This plan might sound stupid to you, and it might be but I have a gut feeling that trying to draw the schema as we go is not going to work...
+  <br/>
+  <br/>
+  Naturally everything needs to be photographed and labelled as we go along regardles of any other intermediate documentation methods to attain the goal of proper schema.
+  <br/>
+  <br/>
+  2. Figure out whether to replace some parts of it (like all the sensing switches...) with something safer (though since some of it
+  <b>
+   has
+  </b>
+  to stay 220V [the motors for example] it might be better to keep any false notions of safety far away).
+  <br/>
+  <br/>
+  This can be though about
+  <b>
+   after
+  </b>
+  we have a schema
+  <br/>
+  <br/>
+  3. Make software/hardware driver that only cares about the state of the machine
+  <br/>
+  <br/>
+  Parts:
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Barcode reader
+   </li>
+   <li>
+    Embedded linux machine (Beagleboard or something)
+   </li>
+   <li>
+    Relay board
+    <ul>
+     <li>
+      There's a huge one in there already, a smaller one will do just fine and will be simpler to use
+     </li>
+    </ul>
+   </li>
+   <li>
+    optoisolated taps to the lane bottle-detect switches
+    <ul>
+     <li>
+      probably we want a small MCU doing the debouncing on these since we're not going to be running a proper realtime kernel.
+     </li>
+    </ul>
+   </li>
+   <li>
+    OPTIONAL: Temperature sensor
+   </li>
+   <li>
+    OPTIONAL: bypass the internal thermostat for better temperature control
+   </li>
+   <li>
+    OPTIONAL: water sensor (to detect broken bottles earlier than next refill)
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Quick specs
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Keeps track of stacks of barcodes (==bottles) in each lane
+   </li>
+   <li>
+    Can be queried for the status (returns stacks of barcodes for each lane)
+   </li>
+   <li>
+    Can be instructed to release a bottle on lane X
+   </li>
+   <li>
+    Keeps track of events (vend/refill) for historical analysis by barcode.
+    <ul>
+     <li>
+      Can be queried for slices of history by time
+     </li>
+    </ul>
+   </li>
+   <li>
+    Use special barcodes (printed on the machine itself) for entering/exiting refill mode so there no need for use of a separate computer (or keyboard+display) when refilling.
+   </li>
+   <li>
+    Automatic backup of the history database to somewhere safe
+   </li>
+   <li>
+    RESTful interface (with strong[ish] authentication)
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Keep is small and simple, make it robust. Crush feature creep mercilessly.
+  <br/>
+  <br/>
+  4. Make software that can be used to buy soda
+  <br/>
+  <br/>
+  This is a different piece of software, probably running on a completely different piece of embedded linux HW.
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Keep track of everyones "bar tab"
+   </li>
+   <li>
+    Show what's up next on each lane (Map barcodes to product names)
+   </li>
+   <li>
+    Show general fill status
+   </li>
+   <li>
+    Show fill status by product name
+   </li>
+   <li>
+    Show product popularity curves (how quickly brand X sells after refill etc).
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
  </body>
 </html>
