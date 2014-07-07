@@ -76,6 +76,77 @@
   <br/>
   <b>
    <u>
+    Ohjelmistot
+   </u>
+  </b>
+  <br/>
+  <br/>
+  <b>
+   Miniterm
+  </b>
+  -yhteyden ottaminen:
+  <br/>
+  <b>
+   miniterm.py /dev/ttyACM0 115200
+  </b>
+  <br/>
+  Smoothie ymmärtää seuraavia komentoja
+  <br/>
+  <a href="http://smoothieware.org/supported-g-codes">
+   http://smoothieware.org/supported-g-codes
+  </a>
+  <br/>
+  <br/>
+  <b>
+   Vastauksen tulisi olla:
+  </b>
+  <br/>
+  hacklab@HPxw9300-70G:~$ miniterm.py /dev/ttyACM0 115200
+  <br/>
+  --- Miniterm on /dev/ttyACM0: 115200,8,N,1 ---
+  <br/>
+  --- Quit: Ctrl+]  |  Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H ---
+  <br/>
+  Smoothie
+  <br/>
+  ok
+  <br/>
+  <br/>
+  <b>
+   Kokeile seuraavia kirjoittamalla minitermiin
+  </b>
+  <br/>
+  M17                          (ota stepperit käyttöön, pitäisivät nyt lukkiutua paikoilleen)
+  <br/>
+  G1 X20 Y-2.3 F200   (liikuta vähän moottoria)
+  <br/>
+  M18                         (vapauta stepperit, nyt näitä voi liikutella käsin)
+  <br/>
+  M119                       (liikuta kelkkaa laitoihin ja lue komennolla rajakytkimen status)
+  <br/>
+  <br/>
+  <b>
+   Vianetsintä:
+  </b>
+  <br/>
+  Löytyykö ttyACM0?
+  <br/>
+  <b>
+   ls /dev/ttyACM*
+  </b>
+  <br/>
+  Kokeile ACM1 jos ei nollaa löydy. Irroita USB-johto ja etsi uudestaan.
+  <br/>
+  <br/>
+  Graafinen käyttöliittymä on nimeltään
+  <b>
+   Pointerface
+  </b>
+  .
+  <br/>
+  <br/>
+  <b>
+   <u>
     Uuden ohjainpiirin asentaminen ja muut huoltotyöt (kesä 2014).
    </u>
   </b>
@@ -135,16 +206,29 @@
   Ostettu
   <br/>
   <br/>
-  Uusi rajakytkin
+  <s>
+   Uusi rajakytkin
+  </s>
   <br/>
   <a href="http://www.partco.biz/verkkokauppa/product_info.php?products_id=6882">
-   http://www.partco.biz/verkkokauppa/product_info.php?products_id=6882
+   <s>
+    http://www.partco.biz/verkkokauppa/product_info.php?products_id=6882
+   </s>
   </a>
+  <s>
+  </s>
+  ostettu
   <br/>
   <br/>
   <b>
    Sovitelevy
   </b>
+  <br/>
+  <br/>
+  <b>
+   2014-07-03
+  </b>
+  , jssmk: Löydetty ilmeisesti y-rajakytkimen virheellisen mahdollinen ongelmakohta: lattakaapeli oli huonosti kiinnitetty sovitelevyyn. Optohaarukka ehditty vaihtaa joka tapauksessa ja joitain juotoksia varmistella. Minitermillä ei saatu luettua kuin x-akselin rajakytkintä, eli ongelma jatkuu. Reilulla ulkoisella valaistuksella optisen transistorin vastus jää pariin ohmiin ja pimeässä se on yli 500K, mikä vaikuttaa hyvältä. Olisiko sittenkin konffaustiedoston ongelma? Ymin vs. Ymax -asetus?
   <br/>
   <br/>
   <b>

@@ -42,6 +42,14 @@
   Naturally everything needs to be photographed and labelled as we go along regardles of any other intermediate documentation methods to attain the goal of proper schema.
   <br/>
   <br/>
+  Easy version (done): treat it as black box, here is how it is controlled:
+  <a href="https://gist.github.com/tanelikaivola/1753dd5f55003650c98c">
+   https://gist.github.com/tanelikaivola/1753dd5f55003650c98c
+  </a>
+  The "Aktivoi" relay needs to be pulsed first, then we can pulse the relay for the correct lane, the pulses don't need to be long, exact lenght requirement is not known (the lane timings etc are handled mechanically) with cam wheels and switches.
+  <br/>
+  <br/>
+  <br/>
   2. Figure out whether to replace some parts of it (like all the sensing switches...) with something safer (though since some of it
   <b>
    has
@@ -161,9 +169,26 @@
     <br/>
     <br/>
     <br/>
-    <br/>
-    <br/>
    </li>
   </ul>
+  Log entry @ 2014-07-07 02:21:
+  <br/>
+  <br/>
+  Relays documented in falstad-format:
+  <a href="https://gist.github.com/tanelikaivola/1753dd5f55003650c98c">
+   https://gist.github.com/tanelikaivola/1753dd5f55003650c98c
+  </a>
+  <br/>
+  <br/>
+  Old harder to drive relay board was malfunctioning. Relay board isnow replaced with two other relay boards (4x relays each). 5 relays are used.
+  <br/>
+  <br/>
+  One is for activation (money inserted, all lanes unlocked), 4 are for each lane (trigger for activating a motor in a lane, switches keep the motor spinning until it completes half a rotation).
+  <br/>
+  <br/>
+  - dist &amp; rambo
+  <br/>
+  <br/>
+  <br/>
  </body>
 </html>
