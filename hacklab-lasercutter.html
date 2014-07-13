@@ -47,19 +47,19 @@
   Sensitive precision instrument, do not move or even touch.
   <br/>
   <br/>
-  <s>
-   Otto (Mäkelä) ja Rambo tuntevat laitteen ATM parhaiten.
-   <b>
-    |
-   </b>
-  </s>
-  <s>
-  </s>
-  Ask Rambo or Otto (Mäkelä) if you want to know something.
+  <b>
+   Älä liikuta X tai Y kelkkaa ilman että laitteessa on virrat
+  </b>
+  (steppereiden kelojen generoimat jännitepiikit voi vahingoittaa ohjainpiirejä jos niillä ei ole virtaa.).
   <br/>
   <br/>
-  Anacron on varmaan nykyään säätänyt enemmän kuin rambo/otto, en nyt muista ketkä kaikki olivat tehneet puolijärjestelmällisiä kokeita materiaaleilla/tehoilla/liikenopeuksilla.
+  <b>
+   Muista käyttää suojalaseja (Eagle pair, 10600nm OD5) !
+  </b>
+  Suojalasien rikkominen/hukkaus tai käyttö mihinkään muuhun tarkoitukseen kuin juuri tältä laitteelta suojautumiseen on kielletty!
   <br/>
+  <br/>
+  Varmista että jäähdytysvesi kiertää, tätä varten vesisäiliössä kelluu asioita joiden pitäisi hiukan liikkua kun vesi liikkuu. Varmista että kärynpoisto imee (ottaa hetken päästä täyteen nopeuteen)
   <br/>
   <br/>
   <b>
@@ -122,11 +122,17 @@
   <br/>
   M17                          (ota stepperit käyttöön, pitäisivät nyt lukkiutua paikoilleen)
   <br/>
-  G1 X20 Y-2.3 F200   (liikuta vähän moottoria)
+  G1 X20 Y-2.3 F200   (liikuta vähän moottoria, HUOM: mikään ei estä ajamasta tarkoituksella endstopin yli, älä kokeile.)
   <br/>
-  M18                         (vapauta stepperit, nyt näitä voi liikutella käsin)
+  M84                         (vapauta stepperit, nyt näitä voi liikutella käsin)
   <br/>
   M119                       (liikuta kelkkaa laitoihin ja lue komennolla rajakytkimen status)
+  <br/>
+  G28 X                     (home X, ajaa endstoppiin ja pysähtyy)
+  <br/>
+  G28 Y                     (home Y)
+  <br/>
+  version                    (firmwaren versio)
   <br/>
   <br/>
   <b>
@@ -155,6 +161,14 @@
    Pronterface
   </b>
   , ja se löytyy kaivertimen koneelta valmiiksi asennettuna.
+  <br/>
+  <br/>
+  <b>
+   Firmware
+  </b>
+  , tällä hetkellä asennettu versio:
+  <br/>
+  Build version: master-8863966, Build date: Jun 30 2014 04:10:21, MCU: LPC1768, System Clock: 100MHz
   <br/>
   <br/>
   <b>
@@ -242,10 +256,46 @@
   </b>
   <br/>
   <br/>
+  <s>
+   Firmis täytyisi päivittää. Tähän tarvitaan adapteri SD-korttia varten.
+  </s>
+  &lt;- päivitetty Build version: master-8863966, Build date: Jun 30 2014 04:10:21, MCU: LPC1768, System Clock: 100MHz (ja voi tehdä smoothien oman usb-massamuistin läpi, pitää vaan irrottaa usb-kaapeli kokonaan välillä).
+  <br/>
+  <br/>
+  <b>
+   2014-07-13
+  </b>
+  rambo: laserputken ohjaus kytketty smoothieen ja testattu että pelaa,kärynpoistoletku sovitettu pakkausteipillä, toimii. 1000mm/min tuntuu olevan aika hyvä feerate 15mA virralle, aika monta kertaa saa silti ajaa (mutta on parempi ajaa monta kertaa nopeasti kuin kerran hitaasti ettei ympäröivä materiaali kuumene liikaa). Kärynpoiston puhallin on nyt samassa kytkimellisessä jakorasiassa kuin vesipumppu ja itse kaivertimen virrat. Jos ei aja homeen (G28) niin ohjelman 0,0 on siinä missä laserin pää oli, voi käsin siirrellä hyvään alkupisteeseen ennen ohjelman käynnistämistä (
+  <b>
+   muista
+  </b>
+  sammuttaa stepperit ensin: G18 ja että kelkkoja ei saa liikuttaa jos laitteessa ei ole virtoja),
+  <b>
+   Kts padin loppu Inkscapesta GCoden luontiin ja sitten sen suorittamiseen.
+  </b>
+  TODO: hommaa jotain ylikellottajien vesijäähyjen suoja-ainetta, jos on sellaista jossa on jotain glitteriä millä näkee virtauksen niin aina parempi ;)
+  <br/>
+  <br/>
+  <b>
+   2014-07-12
+  </b>
+  rambo: endstoppeja säädetty, nyt toimii molemmat. moottorien virranrajoitinta säädetty, nyt ei kuumene kohtuuttomasti. 3000mm/min liikenopeudella resonoi ikävästi, käytä suurempia. Laserputki käännetty niin että ilmakuplat tulee pois, beam path säädetty (
+  <b>
+   HUOM
+  </b>
+  : suuntausruuvien kiristysmuttereita ei ole kiristetty siinä pelossa että se vaikuttaisi suuntaukseen...)
+  <br/>
+  <br/>
+  Pikainfoa laserin ohjauksesta smoothiella:
+  <a href="https://www.kickstarter.com/projects/logxen/smoothieboard-the-future-of-cnc-motion-control/comments?cursor=6185480#comment-6185479">
+   https://www.kickstarter.com/projects/logxen/smoothieboard-the-future-of-cnc-motion-control/comments?cursor=6185480#comment-6185479
+  </a>
+  <br/>
+  <br/>
   <b>
    2014-07-11,
   </b>
-  jssmk: Viime tiistain opetusten jälkeen testattu Y-rajakytkimen porttia IR-valoa (950 nm) läpäisemättömällä metallilevyllä. Nyt molempia rajaportteja voi lukea myös Minitermillä! Nailon-ruuvi ostettu ja asennettu. Optisen y-rajakytkimen metallinen suljinliuska ei ylettynyt portin kohdalle jostain syystä? Liuskaa pidennetty ja nyt toimii paremmin. Voi tarvittaessa lyhentää liuskaa parempaan pituuteen, jos tarvitsee. Jostain syystä Pronterface antaa törmäillä laitoihin vapaasti, eikä välitä rajakytkimistä ollenkaan.
+  jssmk: Viime tiistain opetusten jälkeen testattu Y-rajakytkimen porttia IR-valoa (950 nm) läpäisemättömällä metallilevyllä. Nyt molempia rajaportteja voi lukea myös Minitermillä! Nailon-ruuvi ostettu ja asennettu. Optisen y-rajakytkimen metallinen suljinliuska ei ylettynyt portin kohdalle jostain syystä? Liuskaa pidennetty ja nyt toimii paremmin. Voi tarvittaessa lyhentää liuskaa parempaan pituuteen, jos tarvitsee. Jostain syystä Pronterface antaa törmäillä laitoihin vapaasti, eikä välitä rajakytkimistä ollenkaan. X-rajakytkin ei taas vuorostaan toimi oikein. Laite lukee portin tilan oikein vain satunnaisesti. Jännitteet pitäisi olla kuitenkin ihan ok? Kontaktihäiriö?
   <br/>
   <br/>
   <b>
@@ -272,7 +322,7 @@
   </b>
   <br/>
   <br/>
-  Rambo on tässä välissä tehnyt muutoksia ohjauspaneeliin. Uusia kytkimiä mm. laserputken käynnistykselle ja säteen katkaisulle. Toimii releellä, eli nyt säde katkeaa joko luukun avautuessa tai painettaessa punaista nappia ja palautuu ainoastaan vihreästä napista. Punaisen suojaläpän alla oleva kytkin käynnistää varsinaisen putken.
+  Rambo on tässä välissä tehnyt muutoksia ohjauspaneeliin. Uusia kytkimiä mm. laserputken käynnistykselle ja säteen katkaisulle. Toimii releellä, eli nyt säde katkeaa joko luukun avautuessa tai painettaessa punaista nappia ja palautuu ainoastaan vihreästä napista. Punaisen suojaläpän alla oleva kytkin toimii putken testaamiseen, se siis "ampuu" kun sen kääntää aivan oikealle (palautuu automaattisesti keskelle).
   <br/>
   <br/>
   <b>
@@ -866,19 +916,16 @@
         Näillä näkymin tulee tämmönen w niitä saa, suunittelijalla on samanlainen laseri kuin meillä ja prototyypit on toimineet siinä erittäin hyvin.
         <br/>
         <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
        </li>
       </ul>
      </li>
     </ul>
    </li>
   </ul>
-  <b>
-   TODO
-  </b>
-  <br/>
-  Etsi samanlaista lattakaapelia jota on käytetty laserleikkurissa stepperinohjaukseen (12 johtimista,valkeaa) liittimineen, pituudella ei ole väliä!
-  <br/>
-  <br/>
   <b>
    Linkkejä
   </b>
@@ -955,6 +1002,58 @@
   <br/>
   <br/>
   gerbv -b "#ffffff" -f "#000000"  -o foo.png -B 0  -D 1000 -x png ledcontroller.GTP
+  <br/>
+  <br/>
+  <br/>
+  ------------------
+  <br/>
+  <br/>
+  linuxcnc (sim)
+  <br/>
+  <br/>
+  echo "deb
+  <a href="http://buildbot.linuxcnc.org/">
+   http://buildbot.linuxcnc.org/
+  </a>
+  precise v2.5_branch-sim" &gt;&gt;/etc/apt/sources.list.d/linuxcnc.list
+  <br/>
+  apt-key adv --keyserver pgpkeys.mit.edu --recv-key EF1B07FEE0EE663E
+  <br/>
+  <br/>
+  <br/>
+  -----
+  <br/>
+  <br/>
+  inkscape plugareita
+  <br/>
+  <br/>
+  <a href="http://www.instructables.com/id/Pocket-laser-engraver/step7/Getting-the-software-ready/">
+   http://www.instructables.com/id/Pocket-laser-engraver/step7/Getting-the-software-ready/
+  </a>
+  <br/>
+  <a href="http://wiki.thinkhaus.org/index.php?title=THLaser_Plugin">
+   http://wiki.thinkhaus.org/index.php?title=THLaser_Plugin
+  </a>
+  <br/>
+  <a href="http://cnc-club.com/forum/viewtopic.php?t=35">
+   http://cnc-club.com/forum/viewtopic.php?t=35
+  </a>
+  <br/>
+  <br/>
+  Laserengaver extension GCode output works, max speed seems to be 1000 but inches mode makes rather square circles. Changin the speed (by changing all F-parameters) in mm mode does not cause
+  <br/>
+  this. Of course 1000mm/min is quite fast, for cutting we might want to go slower.
+  <br/>
+  <br/>
+  Copy the output file to the disk exposed by smoothie, then use the terminal and type "play /sd/myfile.nc", this will start the program.
+  <br/>
+  <br/>
+  GCode tools is mill oriented and not very usefull for lasers
+  <br/>
+  <br/>
+  THLaser crashes with various errors.
+  <br/>
+  <br/>
   <br/>
   <br/>
  </body>
