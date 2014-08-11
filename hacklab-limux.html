@@ -21,6 +21,9 @@
   A soda bottle vending machine we got from Nixu. "does not cool" was the diagnosis, Rambo&amp;Dist fixed this problem (the fan that was supposed to cool down the hot-side of heat exchanger was completely stuck and the fan that was supposed to spread cool air on the cool-side was making horrible noises. Both are now fixed).
   <br/>
   <br/>
+  Log at end of file, last entry @ 2014-08-10 20:53.
+  <br/>
+  <br/>
   <b>
    Next steps:
   </b>
@@ -179,6 +182,19 @@
     <br/>
    </li>
   </ul>
+  Log entry @ 2014-08-10 20:53:
+  <br/>
+  <br/>
+  Last night soldered level shifters to breakout board (
+  <a href="https://github.com/HelsinkiHacklab/ledmatrix/blob/master/max33xxE_breakout_sch.pdf)">
+   https://github.com/HelsinkiHacklab/ledmatrix/blob/master/max33xxE_breakout_sch.pdf)
+  </a>
+  and connected them to a BeagleBoard (c4). We can now control the relays from the BB, a potential problem is that the lines are pulled on boot before we can assign them to outputs, so at least the activation relay control needs to be inverted.
+  <br/>
+  <br/>
+  - rambo
+  <br/>
+  <br/>
   Log entry @ 2014-07-07 02:21:
   <br/>
   <br/>
