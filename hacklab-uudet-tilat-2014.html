@@ -108,6 +108,11 @@
             <ul>
              <li>
               Siihen ei saa (varmaan) ladattua omia sovelluksia kortille (tai edes mitään järkevää infoa irti siitä kortista, jos palauttaa aina randomin id-numeron [kuten kaikkien turvallisten ratkaisuiden kuuluu] ja ei voi ladata omaa sovellusta kortille niin sitä korttia ei voi käyttää mitenkään kenenkään tunnistamiseen ellei sitten ole salausavaimia siihen matkakortti-sovellukseen), tavallaan kätevää tietty jos voisi järkevästi käyttää matkakorttia mutta en usko että onnistuu...
+              <ul>
+               <li>
+                UUID:n testatusti pystyy lukemaan matkakortilta PN532:lla ja se tulee aina vakiona, eli näitä voi käyttää tyhmien ja epäturvallisten korttien korvikkeena (sen UUID:n kloonaus kiinakortille on aika triviaali harjoitus)
+               </li>
+              </ul>
              </li>
              <li>
               OK. Ainakin Lontoon Hackerspace on tyytynyt käyttämään bussikorttia avaimena:
