@@ -104,7 +104,10 @@
   </a>
   <br/>
   <br/>
-  Keerbot nimisellä pluginilla saa inkscapesta gcodea ulos
+  <s>
+   Keerbot nimisellä pluginilla saa inkscapesta gcodea ulos
+  </s>
+  Keerbotin  ohje käyttää gcodetoolsia ja ei muutenkaan koske meidän use-casea &lt;- rambo
   <br/>
   <br/>
   <b>
@@ -1105,7 +1108,10 @@
   Copy the output file to the disk exposed by smoothie, then use the terminal and type "play /sd/myfile.nc", this will start the program.
   <br/>
   <br/>
-  GCode tools is mill oriented and not very usefull for lasers
+  GCode tools
+  <s>
+   is mill oriented and not very usefull for lasers
+  </s>
   <br/>
   <br/>
   THLaser crashes with various errors.
@@ -1114,7 +1120,75 @@
   ---
   <br/>
   <br/>
-  Keerbot softa + inkscape?
+  GCode tools pikaohje
+  <br/>
+  <br/>
+  1. Lataa SVG
+  <br/>
+  2. Valitse leikattava path (grouppaa tjsp mutta huolehdi että on oikea pathi)
+  <br/>
+  3. Extensions -&gt; GCodetools -&gt; path to gcode
+  <br/>
+  4. Preferences tabilla varmista että additional post-processor on:
+  <br/>
+  <br/>
+  regex("G0?(0|1)\s*Z\s*[\-0-9\,\.]+.*", "(removed Z)");
+  <br/>
+  <br/>
+  Ja että Directory on jotain järkevää
+  <br/>
+  <br/>
+  5. Takaisin Path to Gcode tabiin ja "Apply"
+  <br/>
+  <br/>
+  "
+  <br/>
+  Orientation points have not been defined! A default set of orientation points has been automatically added.
+  <br/>
+  <br/>
+  Cutting tool has not been defined! A default tool has been automatically added.
+  <br/>
+  "
+  <br/>
+  <br/>
+  Ei tartte välittää
+  <br/>
+  <br/>
+  6. Katso että kuvaan lisätyt työstömerkit näyttää jotenkin järkeviltä
+  <br/>
+  7. kopioi luotu .ngc-tiedosto smoothielle (näkyy USB-levynä)
+  <br/>
+  8. minitermillä anna smoothielle komento "play /sd/myfile.ngc"
+  <br/>
+  <br/>
+  miniterm.py -b 115200 -p /dev/ttyACM0
+  <br/>
+  (ctrl-altgr-0 pääsee pois minitermistä.)
+  <br/>
+  <br/>
+  9. katso että liikkeet näyttää järkeviltä
+  <br/>
+  10. laita laser-enable päälle (iso vihreä nappi)
+  <br/>
+  11. säädä teho materiaalista riippuen
+  <br/>
+  12. aja play uudestaan
+  <br/>
+  13. toista playta kunnes olet päässyt materiaalista läpi, on parempi ajaa monta kertaa pienemmällä teholla/suuremmalla liikenopeudella kuin isommalla (syitä on monia)
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <a href="http://www.cnc-club.ru/forum/viewtopic.php?f=33&amp;t=35&amp;start=420">
+   http://www.cnc-club.ru/forum/viewtopic.php?f=33&amp;t=35&amp;start=420
+  </a>
+  Voi kiinnostaa
+  <br/>
+  <a href="http://alastair.d-silva.org/laser-cutting-g-code-pepakura">
+   http://alastair.d-silva.org/laser-cutting-g-code-pepakura
+  </a>
+  kanssa
+  <br/>
   <br/>
   <br/>
  </body>
