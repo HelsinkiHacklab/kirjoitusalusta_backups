@@ -30,6 +30,13 @@
   </a>
   <br/>
   <br/>
+  Buildlogia voi jatkaa täällä:
+  <br/>
+  <a href="https://discourse.hacklab.fi/t/optisen-kaivertimen-buildlog/69">
+   https://discourse.hacklab.fi/t/optisen-kaivertimen-buildlog/69
+  </a>
+  <br/>
+  <br/>
   <b>
    Alkusanat | First things
   </b>
@@ -48,9 +55,9 @@
   <br/>
   <br/>
   <b>
-   Älä liikuta X tai Y kelkkaa ilman että laitteessa on virrat
+   Älä liikuta X tai Y kelkkaa käsin, varsinkaan ilman että laitteessa on virrat
   </b>
-  (steppereiden kelojen generoimat jännitepiikit voi vahingoittaa ohjainpiirejä jos niillä ei ole virtaa.).
+  (steppereiden kelojen generoimat jännitepiikit voi vahingoittaa ohjainpiirejä).
   <br/>
   <br/>
   <b>
@@ -95,6 +102,12 @@
   <a href="http://smoothieware.org/supported-g-codes">
    http://smoothieware.org/supported-g-codes
   </a>
+  <br/>
+  <br/>
+  <s>
+   Keerbot nimisellä pluginilla saa inkscapesta gcodea ulos
+  </s>
+  Keerbotin  ohje käyttää gcodetoolsia ja ei muutenkaan koske meidän use-casea &lt;- rambo
   <br/>
   <br/>
   <b>
@@ -251,11 +264,48 @@
   </s>
   <br/>
   <br/>
+  Muuta mahdollisesti tarvittavaa:
+  <br/>
+  <ul>
+   <li>
+    honeycomb-verkko
+   </li>
+   <li>
+    air-assist -suutin
+   </li>
+   <li>
+    jäähdytinneste
+    <br/>
+    <br/>
+   </li>
+  </ul>
   <b>
    Sovitelevy
   </b>
   <br/>
   <br/>
+  <b>
+   2014-09-17
+  </b>
+  Ollaan siirrytty Discoursen puolelle pitämään lokia
+  <br/>
+  <br/>
+  <b>
+   2014-09-14
+  </b>
+  Amatöörin sähläämä sovitelevy oli siis tehty pieleen ja smoothie hörppäsi jotain epäsopivaa, mutta ilmeisesti siis moottorinohjaus kuitenkin toimii ja laserinohjauksen voi mapata uudestaan. Virhe pitäisi nyt olla korjattu, uusi levy paikallaan ja testausta vaille. Levyä kokeiltu labravirtalähteen kanssa ja yritetty varmistaa, ettei mitään vääriä jännitteitä eksy enää väärin paikkoihin.
+  <br/>
+  <br/>
+  <b>
+   2014-08-19
+  </b>
+  Tietokoneessa ei kai mitään vikaa. Uusi versio sovitelevystä valmistumassa. Sis. 7404-piirin 3,3V--&gt;5V -logiikkajännitteen nostoa varten. Rambo osti suojadiodit (TVS) Smoothielle stepperien manuaalisessa liikuttelussa syntyviä jännitepiikkejä vastaan. Ruuvataan kiinni smoothien stepperiportteihin.
+  <br/>
+  <br/>
+  <b>
+   2014-07-22
+  </b>
+  jssmk: Laserille tarkoitettua tietokonetta ei saatu käynnistettyä.
   <br/>
   <br/>
   <b>
@@ -358,6 +408,14 @@
   <a href="http://forum.planet-cnc.com/viewtopic.php?f=11&amp;t=127">
    http://forum.planet-cnc.com/viewtopic.php?f=11&amp;t=127
   </a>
+  <br/>
+  <b>
+   ^
+  </b>
+  Otin yhteyttä tämän levyn tekijään, jos tälle saisi vaikka avoimen lisenssin. Antoi vapaan luvan käyttää tiedostoja miten haluan. Sovitelevyni perustui tähän alkuperäissuunnitelmaan, ja muokkasin sen toimimaan paremmin Smoothien kanssa. Nyt muokatun levyn voi myös jakaa vapaasti dokumentaation mukana.
+  <b>
+   (jssmk 2014-07-21)
+  </b>
   <br/>
   Huom:  käyttää eri nauhakaapeliliitintä, jossa pinnien sijainti on  toisenlainen, eli ei voi käyttää suoraan jos edetään jo hankituilla  osilla. Pinnijärjestys on kytkentäkaaviossa ilmeisesti käänteinen 1 =  12, 2 = 11 jne (tai sitten olen itse käsittänyt jotain väärinpäin).
   <br/>
@@ -1050,11 +1108,86 @@
   Copy the output file to the disk exposed by smoothie, then use the terminal and type "play /sd/myfile.nc", this will start the program.
   <br/>
   <br/>
-  GCode tools is mill oriented and not very usefull for lasers
+  GCode tools
+  <s>
+   is mill oriented and not very usefull for lasers
+  </s>
   <br/>
   <br/>
   THLaser crashes with various errors.
   <br/>
+  <br/>
+  ---
+  <br/>
+  <br/>
+  GCode tools pikaohje
+  <br/>
+  <br/>
+  1. Lataa SVG
+  <br/>
+  2. Valitse leikattava path (grouppaa tjsp mutta huolehdi että on oikea pathi)
+  <br/>
+  3. Extensions -&gt; GCodetools -&gt; path to gcode
+  <br/>
+  4. Preferences tabilla varmista että additional post-processor on:
+  <br/>
+  <br/>
+  regex("G0?(0|1)\s*Z\s*[\-0-9\,\.]+.*", "(removed Z)");
+  <br/>
+  <br/>
+  Ja että Directory on jotain järkevää
+  <br/>
+  <br/>
+  5. Takaisin Path to Gcode tabiin ja "Apply"
+  <br/>
+  <br/>
+  "
+  <br/>
+  Orientation points have not been defined! A default set of orientation points has been automatically added.
+  <br/>
+  <br/>
+  Cutting tool has not been defined! A default tool has been automatically added.
+  <br/>
+  "
+  <br/>
+  <br/>
+  Ei tartte välittää
+  <br/>
+  <br/>
+  6. Katso että kuvaan lisätyt työstömerkit näyttää jotenkin järkeviltä
+  <br/>
+  7. kopioi luotu .ngc-tiedosto smoothielle (näkyy USB-levynä)
+  <br/>
+  8. minitermillä anna smoothielle komento "play /sd/myfile.ngc"
+  <br/>
+  <br/>
+  miniterm.py -b 115200 -p /dev/ttyACM0
+  <br/>
+  (ctrl-altgr-0 pääsee pois minitermistä.)
+  <br/>
+  <br/>
+  9. katso että liikkeet näyttää järkeviltä
+  <br/>
+  10. laita laser-enable päälle (iso vihreä nappi)
+  <br/>
+  11. säädä teho materiaalista riippuen
+  <br/>
+  12. aja play uudestaan
+  <br/>
+  13. toista playta kunnes olet päässyt materiaalista läpi, on parempi ajaa monta kertaa pienemmällä teholla/suuremmalla liikenopeudella kuin isommalla (syitä on monia)
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <a href="http://www.cnc-club.ru/forum/viewtopic.php?f=33&amp;t=35&amp;start=420">
+   http://www.cnc-club.ru/forum/viewtopic.php?f=33&amp;t=35&amp;start=420
+  </a>
+  Voi kiinnostaa
+  <br/>
+  <a href="http://alastair.d-silva.org/laser-cutting-g-code-pepakura">
+   http://alastair.d-silva.org/laser-cutting-g-code-pepakura
+  </a>
+  kanssa
   <br/>
   <br/>
   <br/>

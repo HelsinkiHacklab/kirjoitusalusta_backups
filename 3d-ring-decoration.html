@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /3d-ring-decoration
+  </title>
+ </head>
+ <body>
+  <br/>
+  $fs = 0.1;
+  <br/>
+  $fa = 1;
+  <br/>
+  <br/>
+  module decoration1()
+  <br/>
+  {
+  <br/>
+  cube(10,center=true);
+  <br/>
+  }
+  <br/>
+  <br/>
+  module ring(r0, r1, r2, h, dn)
+  <br/>
+  {
+  <br/>
+  difference() {
+  <br/>
+  union() {
+  <br/>
+  cylinder(r=r1,h=h,center=true);
+  <br/>
+  intersection() {
+  <br/>
+  for(i=[0:dn-1]) {
+  <br/>
+  rotate([0,0,360/dn*i]) translate([r1,0,0]) rotate([0,90,0]) decoration1();
+  <br/>
+  };
+  <br/>
+  cylinder(r=r2,h=h,center=true);
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  cylinder(r=r0,h=h+1,center=true);
+  <br/>
+  }
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+  ring(35, 40, 45, 20, 9);
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+ </body>
+</html>

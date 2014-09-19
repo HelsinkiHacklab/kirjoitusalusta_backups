@@ -20,6 +20,26 @@
   <br/>
   <br/>
   <br/>
+  Status:
+  <br/>
+  <br/>
+  3 stepper drivers destroyed :( it seems the dual-motor setup can induce too high voltage spikes if the current limit is turned up too high (and if it's too low we have no torque...)
+  <br/>
+  <br/>
+  Replacements:
+  <a href="http://www.robomaa.com/index.php?main_page=product_info&amp;cPath=1008_1082&amp;products_id=1233">
+   http://www.robomaa.com/index.php?main_page=product_info&amp;cPath=1008_1082&amp;products_id=1233
+  </a>
+  (TODO: someone needs to order these) or maybe something beefier that does not care som much if the motor coils cause voltage spikes... Adding 35V TVS (Transient Voltage Supresssor) might be a good idea... (unidirectional ought to be ok)
+  <br/>
+  <br/>
+  In theory
+  <a href="http://www.pololu.com/product/2133/specs">
+   http://www.pololu.com/product/2133/specs
+  </a>
+  should work too, Rambo tried with two of his but it seems they either were already broken or immediately destroyed themselves, trying them separate from the RAMPs board led to much heat (though they did not seem to overheat on the board, maybe the fan was hiding problems...)
+  <br/>
+  <br/>
   <br/>
   <br/>
  </body>
