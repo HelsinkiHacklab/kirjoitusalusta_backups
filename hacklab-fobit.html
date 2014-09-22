@@ -13,6 +13,9 @@
   </b>
   <br/>
   <br/>
+  Tämä on tekninen dokumentti ja koskee lähinnä kuvion implementoijia, muut voivat mielenkiinnosta lukea mutta jos on kommentteja tai kysymyksia niin esitä ne IRCissä rambolle ja distille.
+  <br/>
+  <br/>
   Alkuun lähinnä ulko-oven solenoidilukkoon, tulevaisuudessa voisi kuitata fobilla sähköt päälle työpisteeseen/-koneeseen.
   <br/>
   <br/>
@@ -53,6 +56,11 @@
       <a href="http://www.seeedstudio.com/depot/Xadow-Breakout-p-1519.html">
        http://www.seeedstudio.com/depot/Xadow-Breakout-p-1519.html
       </a>
+      <ul>
+       <li>
+        Ei välttämätön, lukijan piirin alla on padit joihin saa kolvattua johdot.
+       </li>
+      </ul>
      </li>
      <li>
       tulossa koeponnistukseen
@@ -112,7 +120,12 @@
     HacklabApp
     <ul>
      <li>
-      Kopio kortin UUID:stä (voidaan varmentaa että kukaan ei yritä feikata kortin anonyymisti luettavaa UUID:tä)
+      Kopio kortin UID:stä (voidaan varmentaa että kukaan ei yritä feikata kortin anonyymisti luettavaa UID:tä)
+      <ul>
+       <li>
+        Tai joku muu UID, mutta sitten nämä molemmat pitää olla jäsenkannassa
+       </li>
+      </ul>
      </li>
      <li>
       Jäsennumero
@@ -121,7 +134,7 @@
       muuta ??
      </li>
      <li>
-      Salattu avaimella joka johdetaan kortin UUIDsta ja "master" avaimesta (ko masteri ei ole sama jolla kortti on formatoitu)
+      Salattu avaimella joka johdetaan kortin UIDsta ja "master" avaimesta (ko masteri ei ole sama jolla kortti on formatoitu)
       <ul>
        <li>
         Näin jos joku onnistuu häxäämään avaimen jotenkin (tälle fobille ei juuri nyt ole tunnettuja hyökkäyksiä ihmisten budjetissa) niin saa vain oman korttinsa avaimen eikä kaikkia.
@@ -133,7 +146,7 @@
     </ul>
    </li>
   </ul>
-  Tosin aivan eka revisio alkuperäisen suunnitelman mukaisesti toimii pelkästään kortiin UUID:lla
+  Tosin aivan eka revisio alkuperäisen suunnitelman mukaisesti toimii pelkästään kortiin UID:lla &lt;- 2014.09.21 rambo: toimii, tosin jäsenkannasta puuttuu tiedot joten avainkannan generointi on käsipeliä
   <br/>
   <br/>
   Ovissa tms "high security" kohdissa on lukija jonka takana on riittävästi älyä ja tehoa neuvotella noi kryptojutut ja varmistaa että kulkuoikat yms on voimassa (ja ajaa GPIO:n läpi esim solenoidilukkoja). Se että onko tämä raspberrypi vai beagleboardblack (vai jokumuu) on vielä auki.
@@ -142,7 +155,7 @@
   Nämä älykkäämmät vehkeet saavat kopion kulkuoikeuskannasta alaspäin jäsenrekisteripalvelimelta. ne synkkaavat ylöspäin lokitietoa siitä ketkä ovat kulkeneet ja milloin.
   <br/>
   <br/>
-  Nämä älykkäämmät vehkeet ottavat myös vastaan UDP(?) broadcasteja tyhmemmiltä vehkeiltä (jos esim työpöytään kuitataan sähköt fobilla, tähän käytetään pelkkää kortin UUIDta ja ei tarkistella mitään muuta joka vaatisi krypton laskentaa yms) ja tallentavat tiedot lokiin (joka synkkautuu sitten palvelimelle).
+  Nämä älykkäämmät vehkeet ottavat myös vastaan UDP(?) broadcasteja tyhmemmiltä vehkeiltä (jos esim työpöytään kuitataan sähköt fobilla, tähän käytetään pelkkää kortin UIDta ja ei tarkistella mitään muuta joka vaatisi krypton laskentaa yms) ja tallentavat tiedot lokiin (joka synkkautuu sitten palvelimelle).
   <br/>
   <br/>
   <br/>
@@ -184,7 +197,7 @@
   </b>
   <br/>
   <br/>
-  SQLite riittänee enemmän kuin hyvin, liimaksit imuroi esim SCP:llä (public key, no password)  tunnuksella jolla on ainoastaan lukuoikeus ko tiedostoon.
+  SQLite riittänee enemmän kuin hyvin, liimaksit imuroi esim SCP:llä (public key, no password)  tunnuksella jolla on ainoastaan lukuoikeus ko tiedostoon. Jäsenrekisteripalvelin generoi tämän kannan erikseen esim kerran tunnissa.
   <br/>
   <br/>
   <br/>
