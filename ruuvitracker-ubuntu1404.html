@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /ruuvitracker-ubuntu1404
+  </title>
+ </head>
+ <body>
+  Quick notes about setting up devel env on Trusty
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Install
+    <a href="https://launchpad.net/~terry.guo/+archive/ubuntu/gcc-arm-embedded">
+     https://launchpad.net/~terry.guo/+archive/ubuntu/gcc-arm-embedded
+    </a>
+    <ul>
+     <li>
+      sudo add-apt-repository ppa:terry.guo/gcc-arm-embedded
+     </li>
+     <li>
+      sudo apt-get update
+     </li>
+     <li>
+      sudo apt-get install gcc-arm-none-eabi=4.8.4.2014q3-0trusty11
+     </li>
+    </ul>
+   </li>
+   <li>
+    Install openocd 0.8.0 from deb
+    <a href="https://launchpad.net/ubuntu/+source/openocd">
+     https://launchpad.net/ubuntu/+source/openocd
+    </a>
+    <ul>
+     <li>
+      wget
+      <a href="https://launchpad.net/ubuntu/+archive/primary/+files/openocd_0.8.0-1_i386.deb">
+       https://launchpad.net/ubuntu/+archive/primary/+files/openocd_0.8.0-1_i386.deb
+      </a>
+     </li>
+     <li>
+      sudo dpkg -i openocd_0.8.0-1_i386.deb
+     </li>
+     <li>
+      sudo apt-get -f install (to fix dependencies)
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  With Nucleos the STLink version is 2-1 so use correct interface:
+  <br/>
+  <br/>
+  openocd -f "interface/stlink-v2-1.cfg" -f "target/stm32f4x_stlink.cfg"
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+ </body>
+</html>
