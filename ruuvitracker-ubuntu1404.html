@@ -13,10 +13,11 @@
   <br/>
   <ul>
    <li>
-    Install
+    Install toolchain (
     <a href="https://launchpad.net/~terry.guo/+archive/ubuntu/gcc-arm-embedded">
      https://launchpad.net/~terry.guo/+archive/ubuntu/gcc-arm-embedded
     </a>
+    )
     <ul>
      <li>
       sudo add-apt-repository ppa:terry.guo/gcc-arm-embedded
@@ -26,6 +27,45 @@
      </li>
      <li>
       sudo apt-get install gcc-arm-none-eabi=4.8.4.2014q3-0trusty11
+     </li>
+    </ul>
+   </li>
+   <li>
+    Install stlink (
+    <a href="https://github.com/texane/stlink">
+     https://github.com/texane/stlink
+    </a>
+    )
+    <ul>
+     <li>
+      sudo apt-get install git-core build-essential autoconf libusb-1.0-0-dev
+     </li>
+     <li>
+      git clone
+      <a href="https://github.com/texane/stlink.git">
+       https://github.com/texane/stlink.git
+      </a>
+     </li>
+     <li>
+      cd stlink
+     </li>
+     <li>
+      ./autogen.sh
+     </li>
+     <li>
+      ./configure
+     </li>
+     <li>
+      make
+     </li>
+     <li>
+      sudo make install
+     </li>
+     <li>
+      sudo cp *.rules /etc/udev/rules.d/
+     </li>
+     <li>
+      sudo udevadm control --reload-rules
      </li>
     </ul>
    </li>
@@ -52,13 +92,23 @@
     </ul>
    </li>
   </ul>
-  With Nucleos the STLink version is 2-1 so use correct interface:
+  With
+  <b>
+   Nucleo
+  </b>
+  s the STLink version is 2-1 so use correct interface:
   <br/>
   <br/>
   openocd -f "interface/stlink-v2-1.cfg" -f "target/stm32f4x_stlink.cfg"
   <br/>
   <br/>
+  <b>
+   Discovery
+  </b>
+  boards have STLink version 2
   <br/>
+  <br/>
+  openocd -f "interface/stlink-v2.cfg" -f "target/stm32f4x_stlink.cfg"
   <br/>
   <br/>
   <br/>
