@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /3d-fob
+  </title>
+ </head>
+ <body>
+  module fob() {
+  <br/>
+  difference() {
+  <br/>
+  minkowski () {
+  <br/>
+  difference() {
+  <br/>
+  hull() {
+  <br/>
+  cylinder(h=3,r=40/2,center=true);
+  <br/>
+  translate([0,20,0]) cylinder(h=3,r=20/2,center=true);
+  <br/>
+  }
+  <br/>
+  translate([0,24,0]) scale([2,1.5,1]) cylinder(h=5,r=5/2, center=true);
+  <br/>
+  }
+  <br/>
+  sphere(r=1);
+  <br/>
+  }
+  <br/>
+  translate([0,0,4]) cylinder(h=5,r=38/2,center=true);
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  <br/>
+  fob();
+  <br/>
+  <br/>
+ </body>
+</html>
