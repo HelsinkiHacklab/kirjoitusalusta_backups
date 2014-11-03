@@ -1,0 +1,843 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-x-arduino
+  </title>
+ </head>
+ <body>
+  Muisteluja Arduinon alkeiskurssien demoista,
+  <b>
+   saa muokata ja lisäillä kysymyksiä.
+  </b>
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   <u>
+    0. Asennus
+   </u>
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Arduino IDE asennettuna
+   </li>
+   <li>
+    File ► Examples ► 01.Basics ► Blink
+    <ul>
+     <li>
+      testattu ohjemointi
+      <ul>
+       <li>
+        Arduino UNO:lla standard USB serial driver
+       </li>
+       <li>
+        Arduino Nano:lla tai Duemilanovella FTDI serial driver
+       </li>
+      </ul>
+     </li>
+     <li>
+      Linuxit saattaa vaatia, että käyttäjä lisätään dialup-grouppiin ja kirjaudutaan uudestaan
+     </li>
+     <li>
+      Macissä taitaa toimia aina suoraan
+     </li>
+     <li>
+      Windowseissa riippuu kaikesta, tähän pitää ensi kerralla kerätä eri versioiden asennus uusimmalla Arduino releasella
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   <u>
+    1. LEDien vilkuttelua
+   </u>
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Muokataan Blink-esimerkkiä siten, että ledi on päällä puoli sekunttia ja pois päältä kaksi sekunttia
+   </li>
+   <li>
+    Tallennetaan esimerkki Save As:llä eri nimisenä omaan projektikansioon
+    <ul>
+     <li>
+      kerrotaan että Upload ohjelmoi, mutta ei tallenna tiedostoa ja että IDE on todella helppo saada täysin jumiin ja viimeiset muutokset katoavat jos ei muista välillä tallentaa
+     </li>
+     <li>
+      kerrotaan että Arduino-projektit koostuvat kansiosta ja saman nimisestä .ino (vanhat projektit .pde) tiedostosta sekä mahdollisesti muista .h yms. lisätiedostoista
+     </li>
+     <li>
+      projektin nimessä ei saa olla erikoismerkkejä, välilyöntejä eikä se saa alkaa numerolla
+      <ul>
+       <li>
+        sen pitää täyttää Java-ohjelmointikielen luokan nimen vaatimukset, koska IDE on tehty Javalla (todo: pitää tarkistaa mikä tilanne nykyään)
+       </li>
+       <li>
+        Arduino 'kieli' on itse asiassa syntaksiltaan C++:aa, ilman standardikirjastoja, mutta siitä nyt ei alkeiskurssilla paljon tarvi välittää
+        <br/>
+        <br/>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Tässä pitäisi puhua LEDeistä  pitkään.
+   </li>
+   <li>
+    Seuraavana opetellaan leipälaudan käyttöä, painotetaan etuvastuksen käyttöä
+    <u>
+     aina
+    </u>
+    kun ledejä kytketään mihinkään, sopivat arvot saa netistä löytyvillä laskimilla ja sen tulisi olla jotain 100-400 ohmin välillä
+   </li>
+   <li>
+    muokataan ohjelmaa siten, että se käyttää ulkoista lediä pinnin 10 kautta, (sen lisäksi, että 13 on käytössä; jos aikaa riittää, niin laitetaan vilkkumaan eri tahtiin)
+   </li>
+   <li>
+    muokataan ohjelmaa siten, että kokeillaan (jos käytössä skooppi demotaan myös)
+    <ul>
+     <li>
+      analogWrite(10, 52);
+     </li>
+     <li>
+      analogWrite(10, 178);
+     </li>
+     <li>
+      analogWrite(10, 255);
+     </li>
+    </ul>
+   </li>
+   <li>
+    kerrotaan, että analogWrite oikeasti on digitaalinen PWM ellei sitä esim. kondensaattorilla tasoita, mutta ledien ohjaamiseen se on optimaalinen
+   </li>
+   <li>
+    (todo: lisää kunhan muistiin tulee)
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   <u>
+    2. Analogisen jännitteen mittaamista
+   </u>
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Otetaan pohjaksi File ► Examples ► 03.Analog ► AnalogInOutSerial
+    <ul>
+     <li>
+      kytketään potentiometrin päät Vcc ja Gnd ja keskipiikki A0
+     </li>
+     <li>
+      kytketään ukoinen ledi etuvastuksella pinniin 9
+     </li>
+     <li>
+      katsotaan Serial Monitorilla arvoja
+     </li>
+     <li>
+      nostetaan baudirate 115200 ohjelmassa ja monitorissa ja jatkossa käytetään aina tätä koska muuten suotta hidastetaan Arduinon toimintaa
+      <ul>
+       <li>
+        demotaan miltä näyttää jos baudiratet eivät ole samat tietokoneen päässä kuin millä Arduino dataa kirjoittaa
+       </li>
+      </ul>
+     </li>
+     <li>
+      muistetaan aina laittaa ohjelmaan rivinvaihto ja delay jos se kirjoittaa jotain serialiin
+     </li>
+     <li>
+      opetellaan muuttamaan ohjelmaa siten, että potentiometri toimii käänteisesti
+      <ul>
+       <li>
+        vihje: (255 - outputValue)
+       </li>
+       <li>
+        tätä tullaan tarvitsemaan RGB-ledien kanssa koska niistä monet ovat common anode -tyyppisiä
+        <br/>
+        <br/>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  Tästä kohdasta puuttuu jotain.
+  <br/>
+  koodista / syntaksista  tai muuttujista en sano mitään.
+  <br/>
+  En sano myöskään paljoa siitä, että se FOR-silmukka ei nyt vaan ole helpposti omaksuttava juttu jos sitä ei saa luntata jostain. (asiana se on ymmärrettävissä, mutta se kirjoittaminen ei ole ihan itsestään selvää)
+  <br/>
+  <br/>
+  <b>
+   <u>
+    2.5 kynnys vaikka kolmella LEDillä. (jos mahtuisi päivän ohjelmaan)
+   </u>
+  </b>
+  <br/>
+  void loop() {
+  <br/>
+  // read the sensor:
+  <br/>
+  int sensorReading = analogRead(A0);
+  <br/>
+  // map the sensor range to a range of three options:
+  <br/>
+  int range = map(sensorReading, sensorMin, sensorMax, 0, 2);
+  <br/>
+  ......
+  <br/>
+  <br/>
+  <b>
+   <u>
+    3. RGB-ledin PWM ohjausta
+   </u>
+  </b>
+  <br/>
+  <ul>
+   <li>
+    ensin testataan etuvastukset eri värikomponenteille jotta saadaan aikaan valkoinen kun ledi on kytketty Vcc ja Gnd ja samalla selviää onko se common anode vai common catode tyyppinen
+   </li>
+   <li>
+    Harjoitellaan kirjottamaan sanelun mukaan ohjelma tyhjästä
+    <ul>
+     <li>
+      alussa määritetään kolme vakiomuuttujaa jotka määrittelevät ledin pinninumerot, valitaan vapaasti kuudesta PWM:n osaavasta pinnistä
+     </li>
+     <li>
+      setupissa määritetään kyseiset pinnit ulostuloiksi
+     </li>
+     <li>
+      loopissa tehdään kuusi for-simukkaa, kaksi joka värille joissa
+      <ul>
+       <li>
+        ensin punaisen pwm arvo menee 0:sta 255:een ja joka arvoa pidetään 5 millisekunttia
+       </li>
+       <li>
+        sitten arvo laitetaan 255:sta 0:aan vastaavasti
+       </li>
+       <li>
+        vastaavat kaksi silmukkaa vihreälle ja siniselle ledille
+       </li>
+       <li>
+        silmukoiden jälkeen sekunnin delay, jotta huomataan jos ledin värit väärässä järjestyksessä
+       </li>
+      </ul>
+     </li>
+     <li>
+      tämän jälkeen muutellaan silmukoiden järjestystä ja ihmetellään loputulosta
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  Tässä sitä 'sanelua'
+  <br/>
+  <br/>
+  <b>
+   const
+  </b>
+  <b>
+   int
+  </b>
+  punaisenLedinPinni = 11;
+  <br/>
+  <b>
+   const
+  </b>
+  <b>
+   int
+  </b>
+  vihreanLedinPinni = 10;
+  <br/>
+  <b>
+   const
+  </b>
+  <b>
+   int
+  </b>
+  sinisenLedinPinni =  9;
+  <br/>
+  <br/>
+  <b>
+   void
+  </b>
+  <i>
+   setup
+  </i>
+  () {
+  <br/>
+  pinMode(punaisenLedinPinni,
+  <i>
+   OUTPUT
+  </i>
+  );
+  <br/>
+  pinMode(vihreanLedinPinni,
+  <i>
+   OUTPUT
+  </i>
+  );
+  <br/>
+  pinMode(sinisenLedinPinni,
+  <i>
+   OUTPUT
+  </i>
+  );
+  <br/>
+  }
+  <br/>
+  <br/>
+  <b>
+   void
+  </b>
+  <i>
+   loop
+  </i>
+  () {
+  <br/>
+  // for-simukassa ensin kerrotaan ns. silmukkamuuttuja ja annetaan sille alkuarvo
+  <br/>
+  // sitten seuraavana tulee ehto että kuinka kauan silmukkaa pyöritetään
+  <br/>
+  // ja viimeisenä muutetaan muuttujaa sopivasti, tässä käytty ++ koska se on todella
+  <br/>
+  // yleinen C-kielen tyylisissä ohjelmointikielissä lyhennys tästä:
+  <br/>
+  // punaisenArvo = punaisenArvo + 1
+  <br/>
+  // ja vertailussa käytettytty &lt;= tarkoittaa pienempi tai yhtäsuuri kuin
+  <br/>
+  // sitten aaltosulkujen sisältö suoritetaan aina joka kierroksella ja silmukkamuuttuja
+  <br/>
+  // käytettävissä, ei tietysti pakko jos ei tarvetta
+  <br/>
+  // eli tässä se saa arvot 0, 1, ..., 254 ja 255
+  <br/>
+  <b>
+   for
+  </b>
+  (
+  <b>
+   int
+  </b>
+  punaisenArvo = 0; punaisenArvo &lt;= 255; punaisenArvo++) {
+  <br/>
+  <i>
+   analogWrite
+  </i>
+  (punaisenLedinPinni , punaisenArvo);
+  <br/>
+  <i>
+   delay
+  </i>
+  (5);
+  <br/>
+  }
+  <br/>
+  // Tässä vastaavasti 255, 254, ..., 1, 0
+  <br/>
+  <b>
+   for
+  </b>
+  (
+  <b>
+   int
+  </b>
+  punaisenArvo = 255; punaisenArvo &gt;= 0; punaisenArvo--) {
+  <br/>
+  <i>
+   analogWrite
+  </i>
+  (punaisenLedinPinni , punaisenArvo);
+  <br/>
+  <i>
+   delay
+  </i>
+  (5);
+  <br/>
+  }
+  <br/>
+  <br/>
+  <b>
+   for
+  </b>
+  (
+  <b>
+   int
+  </b>
+  vihreanArvo = 0; vihreanArvo &lt;= 255; vihreanArvo++) {
+  <br/>
+  <i>
+   analogWrite
+  </i>
+  (vihreanLedinPinni , vihreanArvo);
+  <br/>
+  <i>
+   delay
+  </i>
+  (5);
+  <br/>
+  }
+  <br/>
+  <b>
+   for
+  </b>
+  (
+  <b>
+   int
+  </b>
+  vihreanArvo = 255; vihreanArvo &gt;= 0; vihreanArvo--) {
+  <br/>
+  <i>
+   analogWrite
+  </i>
+  (vihreanLedinPinni , vihreanArvo);
+  <br/>
+  <i>
+   delay
+  </i>
+  (5);
+  <br/>
+  }
+  <br/>
+  <br/>
+  <b>
+   for
+  </b>
+  (
+  <b>
+   int
+  </b>
+  sinisenArvo = 0; sinisenArvo &lt;= 255; sinisenArvo++) {
+  <br/>
+  <i>
+   analogWrite
+  </i>
+  (sinisenLedinPinni , sinisenArvo);
+  <br/>
+  <i>
+   delay
+  </i>
+  (5);
+  <br/>
+  }
+  <br/>
+  <b>
+   for
+  </b>
+  (
+  <b>
+   int
+  </b>
+  sinisenArvo = 255; sinisenArvo &gt;= 0; sinisenArvo--) {
+  <br/>
+  <i>
+   analogWrite
+  </i>
+  (sinisenLedinPinni , sinisenArvo);
+  <br/>
+  <i>
+   delay
+  </i>
+  (5);
+  <br/>
+  }
+  <br/>
+  <br/>
+  <i>
+   delay
+  </i>
+  (1000);
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+  <b>
+   <u>
+    4. Servon ohjausta potikalla
+   </u>
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Nyt pitäisi omin neuvoin saada toimimaan File ► Examples ► Servo ► Knob
+    <ul>
+     <li>
+      etsitään vastaava tutoriaali
+      <a href="http://arduino.cc/en/Tutorial/HomePage">
+       http://arduino.cc/en/Tutorial/HomePage
+      </a>
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   <u>
+    5. Muiden analogisten sensoreiden lukeminen
+   </u>
+  </b>
+  <br/>
+  <ul>
+   <li>
+    kirjoitetaan seuraava ohjelma ja testataan se potentiometrillä
+   </li>
+   <li>
+    sitten kytketään 'vastusjakoon' fototransistori, fotoresistori tai joku vastaava ja toiseksi joku kiinteä vastus 1k, 10k, 100k tai 1M ohmin joukosta siten että sensoria aktivoimalla saadaan mahdollisimman suuri arvojen vaihtelu
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  ohjelma 5 alkaa tästä -&gt;
+  <br/>
+  <br/>
+  // Tällä voidaan helpommin visualisoida analogisten antureiden arvoalueita. Testaa ensin potentiometrillä.
+  <br/>
+  <br/>
+  <b>
+   void
+  </b>
+  <i>
+   setup
+  </i>
+  () {
+  <br/>
+  <i>
+   Serial.begin
+  </i>
+  (115200);
+  <br/>
+  }
+  <br/>
+  <br/>
+  // Tulostaa luvun 0..1023 aina neljän merkin mittaisena "   0", "  99", .. " 999", "1023"
+  <br/>
+  <b>
+   void
+  </b>
+  tulosta_arvo(
+  <b>
+   int
+  </b>
+  analogi_arvo) {
+  <br/>
+  <b>
+   if
+  </b>
+  (analogi_arvo &lt; 10) {
+  <br/>
+  <i>
+   Serial.print
+  </i>
+  ("   ");
+  <br/>
+  }
+  <b>
+   else if
+  </b>
+  (analogi_arvo &lt; 100) {
+  <br/>
+  <i>
+   Serial.print
+  </i>
+  ("  ");
+  <br/>
+  }
+  <b>
+   else if
+  </b>
+  (analogi_arvo &lt; 1000) {
+  <br/>
+  <i>
+   Serial.print
+  </i>
+  (" ");
+  <br/>
+  }
+  <br/>
+  <br/>
+  <i>
+   Serial.print
+  </i>
+  (analogi_arvo);
+  <br/>
+  }
+  <br/>
+  <br/>
+  // Palkin pituus pitää säätää oman näytön mukaan siten, että Serial Monitorissa rivit mahtuvat ruudulle, mutta ovat mahdollisimman pitkiä
+  <br/>
+  <b>
+   void
+  </b>
+  piirra_palkki(
+  <b>
+   int
+  </b>
+  analogi_arvo,
+  <b>
+   int
+  </b>
+  palkin_pituus = 80) {
+  <br/>
+  // Skaalataan arvo 0..1023 piirtoa varten 0..palkin_pituus
+  <br/>
+  <b>
+   int
+  </b>
+  palkin_arvo = (
+  <b>
+   long
+  </b>
+  (analogi_arvo)*palkin_pituus)/1023;
+  <br/>
+  <br/>
+  // Piirretään palkki "======&gt;.....·.........·" tyylisesti, tätä koodia ei tarvitse ymmärtää
+  <br/>
+  <b>
+   for
+  </b>
+  (
+  <b>
+   int
+  </b>
+  i = 0; i &lt; palkin_pituus; ++i) {
+  <br/>
+  <b>
+   if
+  </b>
+  (palkin_arvo &gt; i) {
+  <br/>
+  <i>
+   Serial.print
+  </i>
+  ("=");
+  <br/>
+  }
+  <b>
+   else if
+  </b>
+  (palkin_arvo == i) {
+  <br/>
+  <i>
+   Serial.print
+  </i>
+  ("&gt;");
+  <br/>
+  }
+  <b>
+   else if
+  </b>
+  (i % 10 == 0) {
+  <br/>
+  <i>
+   Serial.write
+  </i>
+  (0xb7);  //  "·"
+  <br/>
+  }
+  <b>
+   else
+  </b>
+  {
+  <br/>
+  <i>
+   Serial.write
+  </i>
+  (".");  //  "."
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  <br/>
+  <b>
+   void
+  </b>
+  <i>
+   loop
+  </i>
+  () {
+  <br/>
+  // Luetaan analogi arvo
+  <br/>
+  <b>
+   int
+  </b>
+  arvo =
+  <i>
+   analogRead
+  </i>
+  (A0);
+  <br/>
+  <br/>
+  // Tulostetaan arvo tasaleveisenä lukuna
+  <br/>
+  tulosta_arvo(arvo);
+  <br/>
+  <br/>
+  // Piirretään perään palkkina, säädä oman ruudun leveyden ja Serial Monitorin mukaan
+  <br/>
+  piirra_palkki(arvo, 80);
+  <br/>
+  <br/>
+  // Muistetaan rivinvaihto, tai muuten Serial Monitor menee jumiin
+  <br/>
+  <i>
+   Serial.println
+  </i>
+  ();
+  <br/>
+  <br/>
+  // Tällä voidaan hidastaa piirtoa
+  <br/>
+  <i>
+   delay
+  </i>
+  (10);
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  &lt;-- ohelma 5 loppuu tähän
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  -- kilpurille :
+  <br/>
+  <br/>
+  <b>
+   const
+  </b>
+  <b>
+   int
+  </b>
+  punaisenLedinPinni = 11;
+  <br/>
+  <b>
+   const
+  </b>
+  <b>
+   int
+  </b>
+  vihreanLedinPinni = 10;
+  <br/>
+  <b>
+   const
+  </b>
+  <b>
+   int
+  </b>
+  sinisenLedinPinni =  9;
+  <br/>
+  <br/>
+  <b>
+   const
+  </b>
+  <b>
+   int
+  </b>
+  punaisenArvoPantterille = 255;    // punainen saa olla täysillä
+  <br/>
+  <b>
+   const
+  </b>
+  <b>
+   int
+  </b>
+  vihreanArvoPantterille = 0;            // vihreätä ei pantteriin tarvita
+  <br/>
+  <b>
+   const
+  </b>
+  <b>
+   int
+  </b>
+  sinisenArvoPantterille =  100;        // tätä arvoa säädät
+  <br/>
+  <br/>
+  <b>
+   void
+  </b>
+  <i>
+   setup
+  </i>
+  () {
+  <br/>
+  pinMode(punaisenLedinPinni,
+  <i>
+   OUTPUT
+  </i>
+  );
+  <br/>
+  pinMode(vihreanLedinPinni,
+  <i>
+   OUTPUT
+  </i>
+  );
+  <br/>
+  pinMode(sinisenLedinPinni,
+  <i>
+   OUTPUT
+  </i>
+  );
+  <br/>
+  <br/>
+  analogWrite(punaisenLedinPinni, punaisenArvoPantterille);
+  <br/>
+  analogWrite(vihreanLedinPinni, vihreanArvoPantterille);
+  <br/>
+  analogWrite(sinisenLedinPinni, sinisenArvoPantterille);
+  <br/>
+  }
+  <br/>
+  <br/>
+  <b>
+   void
+  </b>
+  <i>
+   loop
+  </i>
+  () {
+  <br/>
+  // loopissa ei tarvitse tässä tehdä mitää, koska Arduinon rauta hoitaa PWM:t taustalla
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+ </body>
+</html>
