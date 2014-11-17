@@ -837,6 +837,54 @@
   }
   <br/>
   <br/>
+  ------- MultiBlink --------
+  <br/>
+  <br/>
+  // Vilkutetaan kahta lediä täysin toisistaan riippumatta, tätä ei delay:llä pysty tekemään
+  <br/>
+  void setup() {
+  <br/>
+  pinMode(12, OUTPUT);
+  <br/>
+  pinMode(11, OUTPUT);
+  <br/>
+  }
+  <br/>
+  <br/>
+  const int viive1 = 300;
+  <br/>
+  const int viive2 = 700;
+  <br/>
+  <br/>
+  long aika1 = 0;
+  <br/>
+  long aika2 = 0;
+  <br/>
+  <br/>
+  // the loop function runs over and over again forever
+  <br/>
+  void loop() {
+  <br/>
+  if (millis() - aika1 &gt; viive1) {
+  <br/>
+  aika1 = millis();
+  <br/>
+  digitalWrite(11, !digitalRead(11));
+  <br/>
+  }
+  <br/>
+  <br/>
+  if (millis() - aika2 &gt; viive2) {
+  <br/>
+  aika2 = millis();
+  <br/>
+  digitalWrite(12, !digitalRead(12));
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  <br/>
   <br/>
   <br/>
  </body>

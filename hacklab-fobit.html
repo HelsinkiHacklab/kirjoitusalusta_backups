@@ -174,7 +174,7 @@
       </ul>
      </li>
      <li>
-      Jäsennumero
+      Jäsennumero ??
      </li>
      <li>
       muuta ??
@@ -249,6 +249,56 @@
   SQLite riittänee enemmän kuin hyvin, liimaksit imuroi esim SCP:llä (public key, no password)  tunnuksella jolla on ainoastaan lukuoikeus ko tiedostoon. Jäsenrekisteripalvelin generoi tämän kannan erikseen esim kerran tunnissa.
   <br/>
   <br/>
+  <b>
+   Jäsenkantaan uudet jutut
+  </b>
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    ACL modeli
+    <ul>
+     <li>
+      Lyhyt kuvaus, bitin numero
+     </li>
+    </ul>
+   </li>
+   <li>
+    PersonACL modeli
+    <ul>
+     <li>
+      Linkki ACL:n ja personin välille, eli kenelle annettu mitkä oikat
+     </li>
+    </ul>
+   </li>
+   <li>
+    Card modeli
+    <ul>
+     <li>
+      string UID
+     </li>
+     <li>
+      boolean Revoked
+      <ul>
+       <li>
+        Kadonneiden tms korttien kuoletus
+       </li>
+      </ul>
+     </li>
+     <li>
+      Linkki personiin
+      <ul>
+       <li>
+        Yhdellä henkilöllä voi siis olla useampi kortti mutta yleensä vain yksi niistä on jotain muuta kuin revoked
+        <br/>
+        <br/>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  Varsinainen ovien SQLite korttikanta muodostetaan hakemalla ensin revoked kortit toiseen tauluun ja sitten koostamalla henkilöiden korteista ja ACL:stä itse keys-taulun sisältö. ACL:ät ovat siis henkilöön eikä korttiin sidottuja.
   <br/>
   <br/>
  </body>
