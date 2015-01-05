@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-x-digi-perus
+  </title>
+ </head>
+ <body>
+  <br/>
+  <ul>
+   <li>
+    2015-01-08 18:00 to — 21:00 to
+    <b>
+     Digitaalitekniikan peruskurssi, osa 1/6
+    </b>
+    <ul>
+     <li>
+      pikakertaus flipareista, latcheista, muxeista ja kombinaatiologiikasta
+     </li>
+     <li>
+      motivointia: miksi tarvitaan ohjelmoitavia piirejä?
+     </li>
+     <li>
+      pääjako: "SPLD", CPLD, FPGA
+      <ul>
+       <li>
+        <a href="http://en.wikipedia.org/wiki/Simple_programmable_logic_device">
+         http://en.wikipedia.org/wiki/Simple_programmable_logic_device
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li>
+      SPLD-perusrakenteet: PROM, PLA, PAL/GAL
+     </li>
+     <li>
+      CPLD-rakenne
+     </li>
+     <li>
+      käsitteinä (ymmärrys, että tällaisia tarvitaan):
+      <ul>
+       <li>
+        HDL-kielet
+       </li>
+       <li>
+        kehitysympäristöt
+       </li>
+      </ul>
+     </li>
+     <li>
+      kotitehtävä: ISE:n asennus?
+      <ul>
+       <li>
+        jos liian vaativaa, tehdään seuraavassa istunnossa
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    2015-01-15 18:00 to — 21:00 to
+    <b>
+     Digitaalitekniikan peruskurssi, osa 2/6
+    </b>
+    <ul>
+     <li>
+      demo: yksinkertaisen sovelluksen tekeminen alusta loppuun ISE:llä, ohjelmointi impactilla ja ajaminen demolaudalla
+     </li>
+     <li>
+      jos laudat on jo saatu ja ISE:t asennettu, kurssilaiset harjoittelee samaa
+     </li>
+     <li>
+      entry-metodina kytkentäkaavio tässä vaiheessa
+     </li>
+     <li>
+      VHDL/Verilog-päätös
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+   <li>
+    2015-01-22 18:00 to — 21:00 to
+    <b>
+     Digitaalitekniikan peruskurssi, osa 3/6
+    </b>
+    <ul>
+     <li>
+      tähän Jari ei varmaankaan pääse osallistumaan
+      <ul>
+       <li>
+        suovula vetää..
+       </li>
+      </ul>
+     </li>
+     <li>
+      monimutkaisempia kytkentäkaaviolla tehtäviä sovelluksia (esim. Larson-skanneri)
+     </li>
+     <li>
+      valitun HDL-kielen perusteita
+      <ul>
+       <li>
+        ..sillä ehdolla, että kielenä on Verilog, koska VHDL:ää en kerkiä nyt riviäkään opiskelemaan
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    2015-01-29 18:00 to — 21:00 to
+    <b>
+     Digitaalitekniikan peruskurssi, osa 4/6
+    </b>
+    <ul>
+     <li>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+   <li>
+    2015-02-05 18:00 to — 21:00 to
+    <b>
+     Digitaalitekniikan peruskurssi, osa 5/6
+    </b>
+    <br/>
+    <br/>
+   </li>
+   <li>
+    <br/>
+   </li>
+   <li>
+    2015-02-12 18:00 to — 21:00 to
+    <b>
+     Digitaalitekniikan peruskurssi, osa 6/6
+    </b>
+   </li>
+  </ul>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   ISE Webpack asennus
+  </b>
+  <br/>
+  <br/>
+  Download-sivu:
+  <br/>
+  <br/>
+  <a href="http://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/design-tools.html">
+   http://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/design-tools.html
+  </a>
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    kannattaa ottaa neljänä vajaan 2GB palasena, tulee todennäköisemmin perille
+   </li>
+   <li>
+    asennettava tuote on ISE Webpack, muut vaihtoehdot eivät ole ilmaisia
+   </li>
+   <li>
+    asennus kestää
+    <u>
+     kauan
+    </u>
+   </li>
+   <li>
+    vaatii lisenssin
+    <ul>
+     <li>
+      lisenssitiedoston saa, kun rekisteröityy Xilinxin sivuille
+     </li>
+    </ul>
+   </li>
+  </ul>
+  HUOM! Ilmeisesti uusimman ISE:n (14.7) asennus mihin tahansa Linuxiin ei käykään noin vaan. Xilinxin release note lupaa vain Red Hat ja SUSE distrot.
+  <br/>
+  Netissä / Youtubessa on materiaalia kuinka asennetaan Ubuntuun, mutta ei ilmeisesti mitään täydellistä ohjeistusta.
+  <br/>
+  <br/>
+ </body>
+</html>
