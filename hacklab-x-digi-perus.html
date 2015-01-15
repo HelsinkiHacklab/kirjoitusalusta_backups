@@ -71,7 +71,7 @@
       demo: yksinkertaisen sovelluksen tekeminen alusta loppuun ISE:llä, ohjelmointi impactilla ja ajaminen demolaudalla
      </li>
      <li>
-      ISE:n asennus omiin koneisiin, tässä testiasennus Ubuntu 14.10:lle:
+      ISE:n asennus omiin koneisiin, tässä testiasennus Ubuntu 14.10 64-bittiselle:
       <ul>
        <li>
         oletetaan että on tehty tunnus
@@ -104,13 +104,70 @@
           tämä tiedosto löytyy labin usbitikulta, eli ei tarvi ladata hitaalla netillä
          </li>
          <li>
-          tarkistetaan eheys: md5sum
+          tarkistetaan eheys:
           <i>
-           Xilinx_ISE_DS_Lin_14.7_1015_1.tar
+           md5sum Xilinx_ISE_DS_Lin_14.7_1015_1.tar
           </i>
           <ul>
            <li>
             e8065b2ffb411bb74ae32efa475f9817
+           </li>
+          </ul>
+         </li>
+         <li>
+          puretaan komennolla:
+          <i>
+           tar -xvf Xilinx_ISE_DS_Lin_14.7_1015_1.tar
+          </i>
+          <ul>
+           <li>
+            vaatii tilaa X GB ja kestä hetken riippuen konesta
+           </li>
+          </ul>
+         </li>
+         <li>
+          siirrytään purettuun kansioon:
+          <i>
+           cd Xilinx_ISE_DS_Lin_14.7_1015_1/
+          </i>
+         </li>
+         <li>
+          ajetaan asennus:
+          <i>
+           sudo ./xsetup
+          </i>
+         </li>
+         <li>
+          -&gt; Next -&gt; [X] [X] -&gt; Next -&gt; [X] -&gt; Next -&gt; ISE WebPACK -&gt; Next
+         </li>
+         <li>
+          valitaan kaikki, myös kaapeliajuri -&gt; [X] [X] [x] [X]
+         </li>
+         <li>
+          oletuskansio "/opt/Xilinx" kelpaa -&gt; Next -&gt; Install
+          <ul>
+           <li>
+            tämä sitten kestääkin, kahvitauko
+           </li>
+          </ul>
+         </li>
+         <li>
+          lopussa tulee ilmoitus että XX ajurin asennus epäonnistui, mutta ei hätää:
+          <ul>
+           <li>
+            <a href="http://www.srns.ru/wiki/Blog:Korogodin/2014-08-14_Xilinx_USB_Cable_driver_%D0%BD%D0%B0_14.04">
+             http://www.srns.ru/wiki/Blog:Korogodin/2014-08-14_Xilinx_USB_Cable_driver_%D0%BD%D0%B0_14.04
+            </a>
+           </li>
+           <li>
+            juu, ei vielä tietoa toimiiko, eli älkää koittako :)
+           </li>
+           <li>
+            <a href="http://rmdir.de/~michael/xilinx/http://forums.xilinx.com/t5/General-Technical-Discussion/Problem-with-PlanAHead-iMPACT-and-Ubuntu-14/td-p/522739">
+             http://rmdir.de/~michael/xilinx/http://forums.xilinx.com/t5/General-Technical-Discussion/Problem-with-PlanAHead-iMPACT-and-Ubuntu-14/td-p/522739
+            </a>
+            <br/>
+            <br/>
             <br/>
             <br/>
            </li>
@@ -204,14 +261,58 @@
   <br/>
   <br/>
   <br/>
+  <br/>
   <b>
-   ISE Webpack asennus
+   <u>
+    ISE Webpack asennus (työnalla parhaillaan...)
+   </u>
   </b>
   <br/>
-  <br/>
-  Päivitetään tähän kun testattu
-  <br/>
-  <br/>
+  <ul>
+   <li>
+    mene
+    <a href="http://www.xilinx.com/">
+     http://www.xilinx.com/
+    </a>
+   </li>
+   <li>
+    tee uusi käyttäjätunnus jos ei jo ole -&gt; Sign in
+   </li>
+   <li>
+    oikealta alhaalta -&gt; Create Account
+    <ul>
+     <li>
+      näiden tietojen täyttäminen omalla vastuulla, tässä haetaan selvästi työsähköpostia eikä harrastelijoita, mutta kaikki osoitteet on tainneet kuitenkin kelvata
+     </li>
+     <li>
+      sähköpostiin sitten kolahtaa varmistusmaili jonka linkkiä klikkaamalla tunnus alkaa toimia
+     </li>
+    </ul>
+   </li>
+   <li>
+    mennään uudestaan pääsivulle
+    <a href="http://www.xilinx.com/">
+     http://www.xilinx.com/
+    </a>
+   </li>
+   <li>
+    kirjaudutaan tunnuksilla sisään -&gt; Sign in
+   </li>
+   <li>
+    -&gt; Support -&gt; Downloads and Licensing -&gt; Get License File
+   </li>
+   <li>
+    tänne sitten joutuukin jo kertomaan enemmän itsestään ja yrityksestään, omin avuin pitää tästäkin selvitä
+   </li>
+   <li>
+    -&gt; Product Licensing -&gt; Create New License -&gt; Certificate Based Licenses
+   </li>
+   <li>
+    -&gt; [X] ISE WebPACK License -&gt; Generate Node-Locked License -&gt; ... -&gt; Next
+    <br/>
+    <br/>
+   </li>
+  </ul>
   <s>
    Download-sivu:
   </s>
