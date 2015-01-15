@@ -141,7 +141,14 @@
           -&gt; Next -&gt; [X] [X] -&gt; Next -&gt; [X] -&gt; Next -&gt; ISE WebPACK -&gt; Next
          </li>
          <li>
-          valitaan kaikki, myös kaapeliajuri -&gt; [X] [X] [x] [X]
+          valitaan kaikki,
+          <s>
+           myös kaapeliajuri
+          </s>
+          -&gt; [X] [X] [x]
+          <s>
+           [X]
+          </s>
          </li>
          <li>
           oletuskansio "/opt/Xilinx" kelpaa -&gt; Next -&gt; Install
@@ -152,19 +159,57 @@
           </ul>
          </li>
          <li>
-          lopussa tulee ilmoitus että XX ajurin asennus epäonnistui, mutta ei hätää:
+          xx Platform USB  Cable, yritys 42...
+          <ul>
+           <li>
+            <i>
+             cd /opt/Xilinx
+            </i>
+           </li>
+           <li>
+            <i>
+             sudo git clone git://git.zerfleddert.de/usb-driver
+            </i>
+           </li>
+           <li>
+            <i>
+             sudo apt-get install libc6-dev-i386
+            </i>
+           </li>
+           <li>
+            <br/>
+           </li>
+          </ul>
+         </li>
+         <li>
+          <s>
+           lopussa tulee ilmoitus että XX ajurin asennus epäonnistui, mutta ei hätää:
+          </s>
           <ul>
            <li>
             <a href="http://www.srns.ru/wiki/Blog:Korogodin/2014-08-14_Xilinx_USB_Cable_driver_%D0%BD%D0%B0_14.04">
-             http://www.srns.ru/wiki/Blog:Korogodin/2014-08-14_Xilinx_USB_Cable_driver_%D0%BD%D0%B0_14.04
+             <s>
+              http://www.srns.ru/wiki/Blog:Korogodin/2014-08-14_Xilinx_USB_Cable_driver_%D0%BD%D0%B0_14.04
+             </s>
             </a>
            </li>
            <li>
-            juu, ei vielä tietoa toimiiko, eli älkää koittako :)
+            <s>
+             juu, ei vielä tietoa toimiiko, eli älkää koittako :)
+            </s>
            </li>
            <li>
-            <a href="http://rmdir.de/~michael/xilinx/http://forums.xilinx.com/t5/General-Technical-Discussion/Problem-with-PlanAHead-iMPACT-and-Ubuntu-14/td-p/522739">
-             http://rmdir.de/~michael/xilinx/http://forums.xilinx.com/t5/General-Technical-Discussion/Problem-with-PlanAHead-iMPACT-and-Ubuntu-14/td-p/522739
+            <a href="http://rmdir.de/~michael/xilinx/">
+             <s>
+              http://rmdir.de/~michael/xilinx/
+             </s>
+            </a>
+           </li>
+           <li>
+            <a href="http://forums.xilinx.com/t5/General-Technical-Discussion/Problem-with-PlanAHead-iMPACT-and-Ubuntu-14/td-p/522739">
+             <s>
+              http://forums.xilinx.com/t5/General-Technical-Discussion/Problem-with-PlanAHead-iMPACT-and-Ubuntu-14/td-p/522739
+             </s>
             </a>
             <br/>
             <br/>
@@ -311,62 +356,10 @@
     -&gt; [X] ISE WebPACK License -&gt; Generate Node-Locked License -&gt; ... -&gt; Next
     <br/>
     <br/>
+    <br/>
+    <br/>
    </li>
   </ul>
-  <s>
-   Download-sivu:
-  </s>
-  <br/>
-  <br/>
-  <a href="http://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/design-tools.html">
-   <s>
-    http://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/design-tools.html
-   </s>
-  </a>
-  <br/>
-  <br/>
-  <ul>
-   <li>
-    <s>
-     kannattaa ottaa neljänä vajaan 2GB palasena, tulee todennäköisemmin perille
-    </s>
-   </li>
-   <li>
-    <s>
-     asennettava tuote on ISE Webpack, muut vaihtoehdot eivät ole ilmaisia
-    </s>
-   </li>
-   <li>
-    <s>
-     asennus kestää
-     <u>
-      kauan
-     </u>
-    </s>
-   </li>
-   <li>
-    <s>
-     vaatii lisenssin
-    </s>
-    <ul>
-     <li>
-      <s>
-       lisenssitiedoston saa, kun rekisteröityy Xilinxin sivuille
-      </s>
-     </li>
-    </ul>
-   </li>
-  </ul>
-  <s>
-   HUOM! Ilmeisesti uusimman ISE:n (14.7) asennus mihin tahansa Linuxiin ei käykään noin vaan. Xilinxin release note lupaa vain Red Hat ja SUSE distrot.
-  </s>
-  <br/>
-  <s>
-   Netissä / Youtubessa on materiaalia kuinka asennetaan Ubuntuun, mutta ei ilmeisesti mitään täydellistä ohjeistusta.
-  </s>
-  <br/>
-  <br/>
-  <br/>
   <b>
    Kiinalainen testilauta
   </b>
