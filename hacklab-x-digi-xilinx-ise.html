@@ -1,0 +1,354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-x-digi-xilinx-ise
+  </title>
+ </head>
+ <body>
+  <b>
+   <u>
+    Xilinx käyttäjätunnuksen teko
+   </u>
+  </b>
+  <br/>
+  <ul>
+   <li>
+    mene
+    <a href="http://www.xilinx.com/">
+     http://www.xilinx.com/
+    </a>
+   </li>
+   <li>
+    tee uusi käyttäjätunnus jos ei jo ole -&gt; Sign in
+   </li>
+   <li>
+    oikealta alhaalta -&gt; Create Account
+    <ul>
+     <li>
+      näiden  tietojen täyttäminen omalla vastuulla, tässä haetaan selvästi työsähköpostia eikä harrastelijoita, mutta kaikki osoitteet on tainneet  kuitenkin kelvata
+     </li>
+     <li>
+      sähköpostiin sitten kolahtaa varmistusmaili jonka linkkiä klikkaamalla tunnus alkaa toimia
+     </li>
+    </ul>
+   </li>
+   <li>
+    mennään uudestaan pääsivulle
+    <a href="http://www.xilinx.com/">
+     http://www.xilinx.com/
+    </a>
+   </li>
+   <li>
+    kirjaudutaan tunnuksilla sisään -&gt; Sign in
+   </li>
+   <li>
+    -&gt; Support -&gt; Downloads and Licensing -&gt; Get License File
+   </li>
+   <li>
+    tänne sitten joutuukin jo kertomaan enemmän itsestään ja yrityksestään, omin avuin pitää tästäkin selvitä
+   </li>
+   <li>
+    -&gt; Product Licensing -&gt; Create New License -&gt; Certificate Based Licenses
+   </li>
+   <li>
+    -&gt; [X] ISE WebPACK License -&gt; Generate Node-Locked License -&gt; ... -&gt; Next
+    <ul>
+     <li>
+      <i>
+       "*, *, *, Node, *, nimi, päivä"
+      </i>
+      tyylinen lisenssi tuntuu toimivan
+     </li>
+    </ul>
+   </li>
+   <li>
+    Manage Licenses sivun vasemmasta alalaidasta löytyy pieni nuoli alaspäin ikoni, sillä voi ladata lisenssitiedoston koneelle valmiiksi
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   <u>
+    Xilinx ISE WebPACK -kehitysympäristön asennus, Ubuntu 14.10 64-bit
+   </u>
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Ubuntu ei ole virallisesti tuettujen listalla, mutta toimii kyllä näillä ohjeilla
+   </li>
+   <li>
+    oletetaan että on tehty tunnus
+    <a href="http://www.xilinx.com/">
+     http://www.xilinx.com/
+    </a>
+    -sivulle ja logattu sisään
+   </li>
+   <li>
+    Downloads -&gt; ISE Design Tools -&gt; 14.7
+   </li>
+   <li>
+    mutta ei haluta käyttää heidän typerää download manageria vaan suorat linkit tiedostoihin
+    <ul>
+     <li>
+      'If you wish to bypass the use of the Xilinx download manager, please see AR# 5784' -&gt;
+      <a href="http://www.xilinx.com/support/answers/57840.html">
+       http://www.xilinx.com/support/answers/57840.html
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li>
+    <i>
+     -&gt; ISE Design Suite - 14.7 Full Product Installation for Linux (TAR/GZIP - 6.09 GB)
+    </i>
+    <ul>
+     <li>
+      tiedot -&gt; Next -&gt; aloittaa lataamisen
+     </li>
+     <li>
+      tämä tiedosto löytyy labin usbitikulta, eli ei tarvi ladata hitaalla netillä
+     </li>
+     <li>
+      tarkistetaan eheys:
+      <i>
+       md5sum Xilinx_ISE_DS_Lin_14.7_1015_1.tar
+      </i>
+      <ul>
+       <li>
+        e8065b2ffb411bb74ae32efa475f9817
+       </li>
+      </ul>
+     </li>
+     <li>
+      puretaan komennolla:
+      <i>
+       tar -xvf Xilinx_ISE_DS_Lin_14.7_1015_1.tar
+      </i>
+      <ul>
+       <li>
+        vaatii tilaa 14 GB ja kestä hetken riippuen konesta
+       </li>
+      </ul>
+     </li>
+     <li>
+      siirrytään purettuun kansioon:
+      <i>
+       cd Xilinx_ISE_DS_Lin_14.7_1015_1/
+      </i>
+     </li>
+     <li>
+      ajetaan asennus:
+      <i>
+       sudo ./xsetup
+      </i>
+     </li>
+     <li>
+      -&gt; Next -&gt; [X] [X] -&gt; Next -&gt; [X] -&gt; Next -&gt; ISE WebPACK -&gt; Next
+     </li>
+     <li>
+      oletukset kelpaa, eli ei kaapeliajuria tässä -&gt; [X] [X] [x] [ ]
+     </li>
+     <li>
+      oletuskansio "/opt/Xilinx" kelpaa -&gt; Next -&gt; Install
+      <ul>
+       <li>
+        tämä sitten kestääkin, kahvitauko
+       </li>
+      </ul>
+     </li>
+     <li>
+      käynnistys:
+      <ul>
+       <li>
+        <i>
+         source /opt/Xilinx/14.7/ISE_DS/settings64.sh &amp;&amp; ise
+        </i>
+       </li>
+      </ul>
+     </li>
+     <li>
+      kyselee lisenssiä -&gt; Ok -&gt; Locate Excisting License(s) -&gt; Next -&gt; Load License...
+     </li>
+     <li>
+      valitse aikaisemmin tallennettu
+      <i>
+       Xilinx.lic -tiedosto -&gt; Ok -&gt; Close
+      </i>
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+   <li>
+    <b>
+     <u>
+      Platform Cable USB model DLC9G ohjelmointilaitteen asennus
+     </u>
+    </b>
+    <ul>
+     <li>
+      kytke laatikko usb-johdolla kiinni koneeseen ja listaa usb-laitteet
+      <ul>
+       <li>
+        <i>
+         lsusb
+        </i>
+        <ul>
+         <li>
+          <i>
+           Bus 003 Device 006: ID 03fd:
+           <b>
+            000
+            <u>
+             7
+            </u>
+           </b>
+          </i>
+          <i>
+           Xilinx, Inc.
+          </i>
+         </li>
+         <li>
+          ja status-ledi loistaa todella himmeänä punaisena
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li>
+      irroita kaapeli ja tee seuraavat toimenpiteet
+      <ul>
+       <li>
+        <i>
+         sudo apt-get install libusb-dev fxload
+        </i>
+       </li>
+       <li>
+        <i>
+         sudo nano /etc/udev/rules.d/xusbdfwu.rules
+        </i>
+       </li>
+       <li>
+        lisää tiedostoon nämä kaksi riviä ja rivinvaihto, poistu ctrl-x ja y
+        <ul>
+         <li>
+          ATTRS{idVendor}=="03fd", ATTRS{idProduct}=="0008", MODE="666"
+         </li>
+         <li>
+          SUBSYSTEMS=="usb", ACTION=="add", ATTRS{idVendor}=="03fd", ATTRS{idProduct}=="0007", RUN+="/sbin/fxload -v -t fx2 -I /usr/share/xusbdfwu.hex -D $tempnode"
+         </li>
+        </ul>
+       </li>
+       <li>
+        <i>
+         sudo cp /opt/Xilinx/14.7/ISE_DS/ISE/bin/lin64/xusbdfwu.hex /usr/share/
+        </i>
+       </li>
+       <li>
+        <i>
+         sudo /etc/init.d/udev restart
+        </i>
+       </li>
+      </ul>
+     </li>
+     <li>
+      kytke johto takaisin ja listaa usb-laitteet uudelleen
+      <ul>
+       <li>
+        <i>
+         lsusb
+        </i>
+        <ul>
+         <li>
+          <i>
+           Bus 003 Device 010: ID 03fd:
+           <b>
+            000
+            <u>
+             8
+            </u>
+           </b>
+          </i>
+          <i>
+           Xilinx, Inc.
+          </i>
+         </li>
+         <li>
+          ja status-ledi palaa nyt kirkkaasti punaisena
+         </li>
+         <li>
+          ja muuttuu vihreäksi jos kytket ohjelmoitilaitteen esim. CPLD-lautaan jossa virrat kiinni
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   <u>
+    Xilinx ISE WebPACK -kehitysympäristön asennus, Windows
+   </u>
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Lataa Windows ISE tästä linkistä (huom: paketti on yli 6 GB joten lataus kestää hieman.
+    <a href="https://secure.xilinx.com/webreg/register.do?group=dlc&amp;htmlfile=&amp;emailFile=&amp;cancellink=&amp;eFrom=&amp;eSubject=&amp;version=14.7&amp;akdm=0&amp;filename=Xilinx_ISE_DS_Win_14.7_1015_1.tar">
+     https://secure.xilinx.com/webreg/register.do?group=dlc&amp;htmlfile=&amp;emailFile=&amp;cancellink=&amp;eFrom=&amp;eSubject=&amp;version=14.7&amp;akdm=0&amp;filename=Xilinx_ISE_DS_Win_14.7_1015_1.tar
+    </a>
+   </li>
+   <li>
+    Pura paketti johonkin sopivaan hakemistoon, vaikkapa Downloads tms. Tiedostoformaatti .tar on alunperin Unix-ympäristöstä peräisin, mutta ainakin ilmainen 7zip-ohjelma osaa purkaa sen. Tarvittaessa siis lataa ja asenna se.
+   </li>
+   <li>
+    Asennus käynnistyy paketista purkautuneella xsetup.exe -ohjelmalla. Itse asennus Windowsissa on triviaali - vastaa kaikkin kysymyksin OK tms eli hyväksy kaikki oletusarvot. Joudut hyväksymään joitakin käyttöehtoja pariin kolmeen kertaan mutta sinäpä se. (asennus on liki identtinen kuin Ubuntulle tässä vaheessa).
+    <ul>
+     <li>
+      Muistaakseni asennus kysyy alkuvaiheessa, mikä editio asennetaan (Emdedded edition, DSP edition jne.). Tästä pitää valita Webpack, joka ei ole oletusarvo.
+     </li>
+    </ul>
+   </li>
+   <li>
+    Varsinainen asennus kestää h y v ä n   a i k a a ... joten keksi ajankulua. Loppupuolella asennus kysyy josko haluat asentaa Jungo-ajurin ja tähän vastaa myöntävästi jotta ohjelmointikaapeli toimisi myöhemmin.
+   </li>
+   <li>
+    Kun asennus tulee valmiiksi, se huomauttaa että ennen varsinaisen ohjelman käyttöä pitää ajaa settings.bat -skripti. (Voi olla myös settings32 tai settings64 riippuen käyttisversiosta). Asennuksen päättymisen jälkeen siirry ohjelman asennushakemistoon  (oletusarvoisesti C:\Xilinx) esim File Explorerilla ja avaa komentoikkuna popup-valikosta jonka saat klikkaamalla hiiren oikeaa nappia Shift painettuna ("Open Command Wndow Here"). kirjoita kehoitteen perään skriptin nimi ja paina Enter. Valmis kun skripti lopettaa (melkein heti).
+   </li>
+   <li>
+    ISE haluaa lisenssitiedoston samalla tavalla kuin yllä Ubuntulle asennettaessa. Lisenssin haku ja asennus tapahtuvat aivan samalla tavalla, tässä ei ole eroa käyttisten välillä. Windowsissa lisenssit talletetaan hakemistoon C:\.Xilinx (huomaa piste nimen edessä. Lisenssitiedoston voi kopioida sinne myös käsin ja homman pitäisi toimia normaalisti.
+    <ul>
+     <li>
+      Huom Windows 8.1 kanssa on ongelma lisenssimanagerin kanssa. Lisenssi manageri ilmoittaa: "_xlcm.exe lakkasi toimimasta". (W8 ei ole tuettujen käyttisten listalla) Mutta work-aroundeja on olemassa osoitteissa:
+      <a href="https://www.youtube.com/watch?v=ttPbEcNjdo8">
+       https://www.youtube.com/watch?v=ttPbEcNjdo8
+      </a>
+      tai
+      <a href="http://binarykoala.blogspot.fi/2013/10/get-xilinx-ise-146-webpack-to-work-on.html">
+       http://binarykoala.blogspot.fi/2013/10/get-xilinx-ise-146-webpack-to-work-on.html
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Tämän jälkeen voi käynnistää Project Navigatorin normaalisti Start-valikosta.
+   </li>
+   <li>
+    Huomaa, että Windowsissa ei tarvita mitään erillistoimenpiteitä kaapeliajurin kanssa, se toimii suoraan pakasta vedettynä kuten yllä on kerrottu Ubuntun kohdalla. Ohjelmointilaitteen ledi siis palaa punaisena kun USB-yhteys toimii ja vihreänä kun ohjelmoitava piiri on havaittu toisessa päässä.
+    <br/>
+    <br/>
+   </li>
+  </ul>
+ </body>
+</html>
