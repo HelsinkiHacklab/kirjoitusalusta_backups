@@ -10,6 +10,18 @@
  <body>
   <b>
    <u>
+    Tämä sivu:
+   </u>
+  </b>
+  <a href="./hacklab-x-digi-perus.html">
+   <u>
+    http://kirjoitusalusta.fi/hacklab-x-digi-perus
+   </u>
+  </a>
+  <br/>
+  <br/>
+  <b>
+   <u>
     Keskusteluryhmä
    </u>
   </b>
@@ -20,6 +32,19 @@
   <br/>
   <br/>
   <b>
+   'Verilog emulaattori': tehkää tunnus:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    <a href="http://www.edaplayground.com/">
+     http://www.edaplayground.com/
+    </a>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
    <u>
     Tulevaa:
    </u>
@@ -27,92 +52,6 @@
   <br/>
   <br/>
   <ul>
-   <li>
-    2015-01-22 18:00 to — 21:00 to
-    <b>
-     Digitaalitekniikan peruskurssi, osa 3/6
-    </b>
-    <ul>
-     <li>
-      asennetaan ISE niille joilla jo ei ole, kannattaa tulla vaikka vähän aikaisemmin jos pääsee
-     </li>
-     <li>
-      opetellaan termejä, ei ole 'ulostuloa' vaikka näin kouluttajatkin välillä sortuvat sanomaan
-      <ul>
-       <li>
-        piiriä katsotaan sisältä päin ja siinä on vain tuloja (input) ja lähtöjä (output)
-       </li>
-      </ul>
-     </li>
-     <li>
-      opetellaan Verilogissa käytössä olevia operaatorimerkintöjä
-      <ul>
-       <li>
-        sijoitus '
-        <b>
-         =
-        </b>
-        '/'
-        <b>
-         assign
-        </b>
-        ', AND '
-        <b>
-         &amp;
-        </b>
-        ', OR '
-        <b>
-         |
-        </b>
-        ', NOT '
-        <b>
-         ~
-        </b>
-        ', XOR '
-        <b>
-         ^
-        </b>
-        '
-       </li>
-      </ul>
-     </li>
-     <li>
-      <b>
-       wire
-      </b>
-      vs.
-      <b>
-       reg
-      </b>
-      lyhyesti, tästä sitten tarkemmin seuraavalla kerralla kun mennään sekventiaalisiin kytkentöihin
-     </li>
-     <li>
-      tehdään muutama yksinkertainen kombinatoorinen kytkentä, ensin simuloiden
-      <a href="http://www.edaplayground.com/">
-       http://www.edaplayground.com/
-      </a>
-      ja sitten ISE:llä 95-sarjan CPLD:llä:
-      <ul>
-       <li>
-        suora kytkentä pinnistä toiseen jossa levyllä valmiina ledi
-       </li>
-       <li>
-        seuraavana lisätään inverteri koska ledi on kytketty alkiiviseksi alhaalla
-       </li>
-       <li>
-        sitten tehdään AND-piiri kahdella input-pinnillä lediin
-       </li>
-       <li>
-        tehdään muxi, eli kaksi inputtia ja valitsin yhteen lähtöön
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-       </li>
-      </ul>
-     </li>
-    </ul>
-   </li>
    <li>
     2015-01-29 18:00 to — 21:00 to
     <b>
@@ -123,7 +62,7 @@
       piirrellään yksinkertaisia kytkentöjä ISE:lle kytkentäkaavioina
       <ul>
        <li>
-        jotain porttitason kombinaatiologiikkaa
+        jotain porttitason kombinaatiologiikkaa 4 -&gt; 1 multiplekseri?
        </li>
        <li>
         sekvenssilogiikkaa: ledivilkutin
@@ -143,8 +82,23 @@
       <ul>
        <li>
         Verilog-koodin voi ajatella tekstimuodossa esitettynä kytkentäkaaviona
-        <br/>
-        <br/>
+       </li>
+       <li>
+        käytetään aikaa selventämään käsitteiden "wire" ja "reg" ero ja tarkoitus.
+        <ul>
+         <li>
+          jos haluaa perimmäisen ymmärryksen, niin tämä on suositeltava lähde:
+          <ul>
+           <li>
+            <a href="http://inst.eecs.berkeley.edu/~cs150/Documents/Nets.pdf">
+             http://inst.eecs.berkeley.edu/~cs150/Documents/Nets.pdf
+            </a>
+            <br/>
+            <br/>
+           </li>
+          </ul>
+         </li>
+        </ul>
        </li>
       </ul>
      </li>
@@ -155,8 +109,13 @@
     <b>
      Digitaalitekniikan peruskurssi, osa 5/6
     </b>
-    <br/>
-    <br/>
+    <ul>
+     <li>
+      Larson-skanneri (&lt;- olisko realistisempi täällä? Tehtäiskö piirikaaviona ja Verilogina?)
+      <br/>
+      <br/>
+     </li>
+    </ul>
    </li>
    <li>
     2015-02-12 18:00 to — 21:00 to
@@ -191,6 +150,212 @@
   <br/>
   <br/>
   <ul>
+   <li>
+    2015-01-22 18:00 to — 21:00 to
+    <b>
+     Digitaalitekniikan peruskurssi, osa 3/6
+    </b>
+    <ul>
+     <li>
+      asennetaan ISE niille joilla jo ei ole, kannattaa tulla vaikka vähän aikaisemmin jos pääsee
+     </li>
+     <li>
+      opetellaan termejä, ei ole 'ulostuloa' vaikka näin kouluttajatkin välillä sortuvat sanomaan
+      <ul>
+       <li>
+        piiriä katsotaan sisältä päin ja siinä on vain
+        <b>
+         tuloja
+        </b>
+        (input) ja
+        <b>
+         lähtöjä
+        </b>
+        (output)
+       </li>
+      </ul>
+     </li>
+     <li>
+      opetellaan Verilogissa käytössä olevia operaatorimerkintöjä
+      <ul>
+       <li>
+        sijoitus '
+        <b>
+         =
+        </b>
+        '/'
+        <b>
+         assign
+        </b>
+        ', AND '
+        <b>
+         &amp;
+        </b>
+        ', OR '
+        <b>
+         |
+        </b>
+        ', NOT '
+        <b>
+         ~
+        </b>
+        ', XOR '
+        <b>
+         ^
+        </b>
+        '
+       </li>
+       <li>
+        <a href="http://www.asicguru.com/verilog/tutorial/operators/57/">
+         http://www.asicguru.com/verilog/tutorial/operators/57/
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li>
+      <b>
+       wire
+      </b>
+      vs.
+      <b>
+       reg
+      </b>
+      lyhyesti, tästä sitten tarkemmin seuraavalla kerralla kun mennään sekventiaalisiin kytkentöihin
+      <ul>
+       <li>
+        <b>
+         wire
+        </b>
+        = network
+       </li>
+       <li>
+        <b>
+         reg
+        </b>
+        = variables
+       </li>
+       <li>
+        <b>
+         [7:0]
+        </b>
+        = bus
+       </li>
+      </ul>
+     </li>
+     <li>
+      tehdään muutama yksinkertainen kombinatoorinen kytkentä, ensin simuloiden
+      <a href="http://www.edaplayground.com/">
+       http://www.edaplayground.com/
+      </a>
+      ja sitten ISE:llä 95-sarjan CPLD:llä:
+      <ul>
+       <li>
+        (suora kytkentä pinnistä toiseen jossa levyllä valmiina ledi)
+       </li>
+       <li>
+        (seuraavana lisätään inverteri koska ledi on kytketty alkiiviseksi alhaalla)
+       </li>
+       <li>
+        sitten tehdään AND-piiri kahdesta tulopinnistä yhteen lähtölediin
+        <b>
+         &lt;== TÄMÄ TEHTIIN
+        </b>
+       </li>
+       <li>
+        (tehdään muxi, eli kaksi inputtia ja valitsin yhteen lähtöön)
+        <br/>
+        <br/>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  Tämä Verilog-koodi toteutettiin sekä Edaplaygroundin nettisimulaattorilla että fyysiselle protolaudalle:
+  <br/>
+  <br/>
+  Varsinainen Verilog-moduli (tämä siis ladataan laudalle ja tekee varsinaisen toiminnon)
+  <br/>
+  --
+  <br/>
+  // mux.v
+  <br/>
+  module mux(
+  <br/>
+  input        wire                     input2,
+  <br/>
+  input        wire                     input3,
+  <br/>
+  output         wire                     led5
+  <br/>
+  );
+  <br/>
+  <br/>
+  assign    led5 = input2 &amp; input3;
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  Verilog-testipenkki: (tätä ajetaan simulaattorissa jolla varmistetaan varsinaisen modulin toiminta ennen asennusta. Test-mux on testattava moduli johon kytketään simuloidut signaalit. Merkintä #10 tarkoittaa 10 ns viivettä, jolla simulaattorissa saadaan aikaan ajastuksia. Todellisuudessa tämmöiset pitää tehdä jollakin kellosignaalilla)
+  <br/>
+  --
+  <br/>
+  // test.v
+  <br/>
+  module test;
+  <br/>
+  <br/>
+  reg     input2 = 0;
+  <br/>
+  reg     input3 = 0;
+  <br/>
+  wire    led;
+  <br/>
+  <br/>
+  mux    test_mux(input2, input3, led);
+  <br/>
+  <br/>
+  initial begin
+  <br/>
+  $dumpfile("dump.vcd");
+  <br/>
+  $dumpvars(1, test);
+  <br/>
+  <br/>
+  #10;
+  <br/>
+  input2 = 1;
+  <br/>
+  #10;
+  <br/>
+  input3 = 1;
+  <br/>
+  #10;
+  <br/>
+  input2 = 0;
+  <br/>
+  #10;
+  <br/>
+  input3 = 0;
+  <br/>
+  #10;
+  <br/>
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  --
+  <br/>
+  <ul>
+   <li>
+    <br/>
+   </li>
+   <li>
+    <br/>
+   </li>
    <li>
     2015-01-08 18:00 to — 21:00 to
     <b>
@@ -272,6 +437,8 @@
        VHDL/
       </s>
       Verilog-päätös
+      <br/>
+      <br/>
       <br/>
       <br/>
      </li>
