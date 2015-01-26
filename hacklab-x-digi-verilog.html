@@ -83,15 +83,29 @@
   <br/>
   input     wire         clk,
   <br/>
-  output   wire [3:0] led
+  output   wire   [3:0] led_a,
+  <br/>
+  output
+  <b>
+   reg
+  </b>
+  [3:0] led_b
   <br/>
   );
   <br/>
   <br/>
-  reg [27:0] count = 0;
+  <b>
+   reg
+  </b>
+  [27:0] count = 0;
   <br/>
   <br/>
-  //assign led = ~count[27:24];
+  // Kombinaatiologiikka
+  <br/>
+  assign led_a = ~count[27:24];
+  <br/>
+  <br/>
+  // Tai vaihtoehtoisesti
   <br/>
   always @(
   <b>
@@ -99,7 +113,7 @@
   </b>
   ) begin
   <br/>
-  led
+  led_b
   <b>
    =
   </b>
@@ -107,6 +121,8 @@
   <br/>
   end
   <br/>
+  <br/>
+  // Sekvenssilogiikka
   <br/>
   always @ (
   <b>
