@@ -119,8 +119,90 @@
    </li>
    <li>
     (todo: lisää kunhan muistiin tulee)
-    <br/>
-    <br/>
+   </li>
+   <li>
+    Jatkotehtävä: 'pumppaa' lediä 13 pehmeästi
+    <ul>
+     <li>
+      // Ohjelmallinen PWM
+     </li>
+     <li>
+      const int ledin_pinni = 13;
+     </li>
+     <li>
+      <br/>
+     </li>
+     <li>
+      void setup() {
+     </li>
+     <li>
+      pinMode(ledin_pinni, OUTPUT);
+     </li>
+     <li>
+      }
+     </li>
+     <li>
+      <br/>
+     </li>
+     <li>
+      void loop() {
+     </li>
+     <li>
+      for (int kirkkaus = 0; kirkkaus &lt; 256; kirkkaus++) {
+     </li>
+     <li>
+      for (int toisto = 0; toisto &lt; 30; toisto++) {
+     </li>
+     <li>
+      digitalWrite(ledin_pinni, HIGH);
+     </li>
+     <li>
+      delayMicroseconds(kirkkaus + 1);
+     </li>
+     <li>
+      digitalWrite(ledin_pinni, LOW);
+     </li>
+     <li>
+      delayMicroseconds((255 - kirkkaus) + 1);
+     </li>
+     <li>
+      }
+     </li>
+     <li>
+      }
+     </li>
+     <li>
+      for (int kirkkaus = 255; kirkkaus &gt;= 0; kirkkaus--) {
+     </li>
+     <li>
+      for (int toisto = 0; toisto &lt; 30; toisto++) {
+     </li>
+     <li>
+      digitalWrite(ledin_pinni, HIGH);
+     </li>
+     <li>
+      delayMicroseconds(kirkkaus + 1);
+     </li>
+     <li>
+      digitalWrite(ledin_pinni, LOW);
+     </li>
+     <li>
+      delayMicroseconds((255 - kirkkaus) + 1);
+     </li>
+     <li>
+      }
+     </li>
+     <li>
+      }
+     </li>
+     <li>
+      }
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+     </li>
+    </ul>
    </li>
   </ul>
   <b>
