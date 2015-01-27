@@ -1,5 +1,6 @@
 #!/usr/bin/python
 from __future__ import with_statement
+from __future__ import print_function
 import re, urllib2
 from bs4 import BeautifulSoup
 
@@ -53,11 +54,11 @@ class fetcher:
         pad_name = m.group('padname')
         htmlfile = PAD_EXPORT_FILENAME % pad_name
         export_url = PAD_EXPORT_URL_FORMAT % pad_name
-        print "Fetching %s" % export_url
+        print("Fetching %s" % export_url)
         try:
             fp = urllib2.urlopen(export_url)
         except urllib2.URLError,e:
-            print "Failed to fetchs %s: %s" % (export_url, e)
+            print("Failed to fetchs %s: %s" % (export_url, e))
             return False
         soup = BeautifulSoup(fp)
         
