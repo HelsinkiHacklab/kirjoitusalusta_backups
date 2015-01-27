@@ -28,7 +28,7 @@
     oikealta alhaalta -&gt; Create Account
     <ul>
      <li>
-      näiden  tietojen täyttäminen omalla vastuulla, tässä haetaan selvästi työsähköpostia eikä harrastelijoita, mutta kaikki osoitteet on tainneet  kuitenkin kelvata
+      näiden tietojen täyttäminen omalla vastuulla, tässä haetaan selvästi työsähköpostia eikä harrastelijoita, mutta kaikki osoitteet on tainneet  kuitenkin kelvata
      </li>
      <li>
       sähköpostiin sitten kolahtaa varmistusmaili jonka linkkiä klikkaamalla tunnus alkaa toimia
@@ -152,7 +152,12 @@
       -&gt; Next -&gt; [X] [X] -&gt; Next -&gt; [X] -&gt; Next -&gt; ISE WebPACK -&gt; Next
      </li>
      <li>
-      oletukset kelpaa, eli ei kaapeliajuria tässä -&gt; [X] [X] [x] [ ]
+      oletukset kelpaa, eli ei kaapeliajuria tässä -&gt; [ ] [X] [x] [ ]
+      <ul>
+       <li>
+        ensimmäisen ruksin voi jättää myös pois jos on ladannut lisenssitiedoston jo koneelleen
+       </li>
+      </ul>
      </li>
      <li>
       oletuskansio "/opt/Xilinx" kelpaa -&gt; Next -&gt; Install
@@ -165,6 +170,25 @@
      <li>
       käynnistys:
       <ul>
+       <li>
+        kopioi lisenssi valmiiksi paikoilleen käyttäjän kotihakemiston
+        <i>
+         .Xilinx
+        </i>
+        -kansioon, esim:
+        <ul>
+         <li>
+          <i>
+           mkdir ~/.Xilinx
+          </i>
+         </li>
+         <li>
+          <i>
+           cp ~/Downloads/Xilinx.lic ~/.Xilinx/Xilinx.lic
+          </i>
+         </li>
+        </ul>
+       </li>
        <li>
         <i>
          source /opt/Xilinx/14.7/ISE_DS/settings64.sh &amp;&amp; ise
@@ -179,26 +203,18 @@
       </ul>
      </li>
      <li>
-      kyselee lisenssiä -&gt; Ok -&gt; Locate Excisting License(s) -&gt; Next -&gt; Load License...
-     </li>
-     <li>
-      valitse aikaisemmin tallennettu
-      <i>
-       Xilinx.lic -tiedosto -&gt; Ok -&gt; Close
-      </i>
+      jos et itse kopioinut lisenssiä paikalleen, pitäisi lisenssimanagerin nyt  kysellä lisenssiä:
       <ul>
        <li>
-        Tai kopioi lisenssi kansioon &lt;- toimiiko tämä muka?
-        <ul>
-         <li>
-          ./ISE_DS/EDK/data/core_licenses/Xilinx.lic
-         </li>
-         <li>
-          ./ISE_DS/ISE/coregen/core_licenses/Xilinx.lic
-          <br/>
-          <br/>
-         </li>
-        </ul>
+        -&gt; Ok -&gt; Locate Excisting License(s) -&gt; Next -&gt; Load License...
+       </li>
+       <li>
+        valitse aikaisemmin tallennettu
+        <i>
+         Xilinx.lic -tiedosto -&gt; Ok -&gt; Close
+        </i>
+        <br/>
+        <br/>
        </li>
       </ul>
      </li>
