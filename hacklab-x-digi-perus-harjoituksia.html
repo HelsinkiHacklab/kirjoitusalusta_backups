@@ -9,90 +9,30 @@
  </head>
  <body>
   <b>
-   ----8&lt;-------8&lt;-------8&lt;-------8&lt;-------8&lt;-------8&lt;-------8&lt;-------8&lt;---
+   <u>
+    Torstain 2015-01-29 Jarin harjoituksen .ucf-tiedosto:
+   </u>
   </b>
   <br/>
   <br/>
-  // larson.v
-  <br/>
-  // Larson scanner for XC9572XL with 50MHz oscillator
+  # I/O Pin Assignments XC9572XL-VQ44 LC-Tech breakout
   <br/>
   <br/>
-  `timescale 1ns / 1ps
+  #NET "CLK"      LOC = "P1" | BUFG = CLK;      # 50 MHz oscillator
+  <br/>
+  NET "LED5"     LOC = "P31";                    # LED D5
+  <br/>
+  NET "LED4"     LOC = "P32";                    # LED D4
+  <br/>
+  #NET "LED3"     LOC = "P33";                    # LED D3
+  <br/>
+  #NET "LED2"     LOC = "P34";                    # LED D2
   <br/>
   <br/>
-  module larson(
+  NET "BUT1"     LOC = "P22";
   <br/>
-  input        wire                     clk50,
+  NET "BUT2"     LOC = "P23";
   <br/>
-  output     wire [3:0]             led
-  <br/>
-  );
-  <br/>
-  <br/>
-  reg [22:0]    divclk = 1;
-  <br/>
-  reg [3:0]    larson = 4'b0001;
-  <br/>
-  reg             dir =        0;
-  <br/>
-  <br/>
-  assign    led = ~larson;
-  <br/>
-  <br/>
-  <br/>
-  always @(posedge clk50) begin
-  <br/>
-  divclk &lt;= divclk + 1;
-  <br/>
-  if (divclk == 0) begin
-  <br/>
-  if (larson == 4'b0001 &amp;&amp; dir == 0) larson &lt;= 4'b0010;
-  <br/>
-  if (larson == 4'b0010 &amp;&amp; dir == 0) larson &lt;= 4'b0100;
-  <br/>
-  if (larson == 4'b0100 &amp;&amp; dir == 0) larson &lt;= 4'b1000;
-  <br/>
-  if (larson == 4'b1000 &amp;&amp; dir == 0) dir &lt;= 1;
-  <br/>
-  if (larson == 4'b1000 &amp;&amp; dir == 1) larson &lt;= 4'b0100;
-  <br/>
-  if (larson == 4'b0100 &amp;&amp; dir == 1) larson &lt;= 4'b0010;
-  <br/>
-  if (larson == 4'b0010 &amp;&amp; dir == 1) larson &lt;= 4'b0001;
-  <br/>
-  if (larson == 4'b0001 &amp;&amp; dir == 1) dir &lt;= 0;
-  <br/>
-  end
-  <br/>
-  end
-  <br/>
-  <br/>
-  endmodule
-  <br/>
-  <br/>
-  <b>
-   ----8&lt;-------8&lt;-------8&lt;-------8&lt;-------8&lt;-------8&lt;-------8&lt;-------8&lt;---
-  </b>
-  <br/>
-  <br/>
-  # xc9572xl-10-vq44.ucf
-  <br/>
-  <br/>
-  NET "clk50"                    LOC = "P1"        | BUFG = CLK;      # 50 MHz oscillator
-  <br/>
-  NET "led&lt;0&gt;"                LOC = "P31";
-  <br/>
-  NET "led&lt;1&gt;"                LOC = "P32";
-  <br/>
-  NET "led&lt;2&gt;"                LOC = "P33";
-  <br/>
-  NET "led&lt;3&gt;"                LOC = "P34";
-  <br/>
-  <br/>
-  <b>
-   ----8&lt;-------8&lt;-------8&lt;-------8&lt;-------8&lt;-------8&lt;-------8&lt;-------8&lt;---
-  </b>
   <br/>
   <br/>
  </body>
