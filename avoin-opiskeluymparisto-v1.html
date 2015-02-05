@@ -25,7 +25,7 @@
   Labin tavoitteena on tehdä helppokäyttöinen ja helposti alustettava oppimisympäristö niin vetäjälle kuin osallistujallekin. Ympäristö dokumentoidaan mahdollisimman selkeästi, jotta satunnainenkin osallistuja pystyy hyödyntämään sen tarjoamia mahdollisuuksia. Koko ympäristön elinkaari on suunniteltava sitä toteuttaessa, myös sen mahdollinen kierrätyskäyttö, kun se tulee aktiivisen käyttöikänsä päähän.
   <br/>
   <br/>
-  Helsinki Hacklabin avoin opiskeluympäristö on rakennettu alusta loppuun asti avoimilla tekniikoilla ja sen dokumentaatio on avoimesti jaettu.
+  Helsinki Hacklabin avoin opiskeluympäristö rakennetaan alusta loppuun asti avoimilla tekniikoilla ja sen dokumentaatio jaetaan avoimesti.
   <br/>
   <br/>
   <br/>
@@ -35,15 +35,20 @@
    </u>
   </b>
   <br/>
-  Työaseman käyttöjärjestelmänä toimii linux ja siinä ajetaan avoimen lähdekoodin ohjelmistoja. Laitteistoksi valitsimme CubieBoard 3:n, sillä siinä on monipuolisia liitäntöjä mitä valmispaketoiduista tietokoneista ei löydy, sen ylläpito on helppoa, laitteet ovat helposti korvattavissa toisilla samanlaisilla, ja niitä voi lisätä ympäristöön ja poistaa ympäristöstä ilman erillisiä sovellusasennuksia tai aikaa vievää asetusten räätälöintiä. Kukin laite käynnistyy lähiverkosta identtisenä ympäristönä ja mahdolliset muutokset ja päivitykset ympäristöön hoituvat keskitetysti. Tällä tavoin vähennetään merkittävästi kokonaisuuden ylläpitokustannuksia ajassa, sähkössä ja materiaalissa laskettuna. Kaikki tiedot tallentuvat verkon yli palvelimelle, jonka varmuuskopiot toimivat keskitetysti ja automaattisesti. Koska työasemien virrantarve on pieni ja ne liitetään lähtökohtaisesti Ethernet-verkkoon, niiden virransaannin voi toteuttaa myös PoE (Power over Ethernet) -järjestelmällä, jolloin ulkoisten liitäntöjen määrä vähenee yhdellä, eikä verkkovirtaa tarvita kuin näyttöä varten.
+  Työaseman käyttöjärjestelmänä toimii linux ja siinä ajetaan avoimen lähdekoodin ohjelmistoja. Laitteistoksi valitsimme CubieBoard 3:n, jossa on monipuolisia liitäntöjä joita ei valmispaketoiduista tietokoneista löydy. CubieBoard 3:n ylläpito on helppoa, laitteet ovat helposti korvattavissa toisilla samanlaisilla ja niitä voi sekä lisätä ympäristöön että poistaa ympäristöstä ilman erillisiä sovellusasennuksia tai aikaa vievää asetusten räätälöintiä.
   <br/>
   <br/>
-  Työaseman fyysinen rakenne rakentuu näyttöjen ja televisioiden VESA-kiinnitysstandardin ympärille, eli koko työasemalaitteisto integroituu monitoriin taustapuolella olevien VESA-kiinnitysten läpipultitukseen (havaintokuva:
+  Kukin laite käynnistyy lähiverkosta identtisenä ympäristönä ja mahdolliset muutokset ja päivitykset ympäristöön hoituvat keskitetysti. Tällä tavoin vähennetään merkittävästi kokonaisuuden ylläpitokustannuksia ajassa, sähkössä ja materiaalissa laskettuna. Kaikki tiedot tallentuvat verkon yli palvelimelle, jonka varmuuskopiot toimivat keskitetysti ja automaattisesti. Koska työasemien virrantarve on pieni ja ne liitetään lähtökohtaisesti Ethernet-verkkoon, niiden virransaannin voi toteuttaa myös PoE (Power over Ethernet) -järjestelmällä, jolloin ulkoisten liitäntöjen määrä vähenee yhdellä, eikä verkkovirtaa tarvita kuin näyttöä varten.
+  <br/>
+  <br/>
+  Työaseman fyysinen rakenne noudattaa näyttöjen ja televisioiden VESA-kiinnitysstandardia, eli koko työasemalaitteisto kiinnitetään monitoriin taustapuolella olevien VESA-kiinnitysten läpipultitukseen (havaintokuva:
   <a href="http://i.imgur.com/0VPeQj5.jpg)">
    http://i.imgur.com/0VPeQj5.jpg)
   </a>
+  Työasemaan on mahdollista edelleen kiinnittää VESA-standardin mukainen kiinnitysvarsi, jalusta tai seinäteline. Kokonaisuuten voidaan yhdistää myös teline näppäimistön, hiiren ja mahdollisten muiden laitteiden säilytykseen. Laitteisto ei vie paljoa tilaa käytössä ja vielä vähemmän kun se ei ole käytössä.
   <br/>
-  Työasemaan voi edelleen kiinnittää sovellusympäristön mukaisen VESA-standardin mukaisen kiinnitysvarren, jalustan tai seinätelineen. Kokonaisuuten on kiinnitettävissä teline näppäimistön, hiiren ja mahdollisten muiden laitteiden säilytykseen. Laitteisto ei siis vie paljoa tilaa käytössä ja vielä vähemmän kun se ei ole käytössä. Työasemalaitteissa itsessään ei säilytetä mitään tietoa, joten niitä voi siirtää ja sijoitella pienellä vaivalla tarpeen mukaan, eikä niiden täystuhoutuminen tarkoita kuin korkeintaan tallentamattomien dokumenttien menettämistä ja muutaman minuutin työtä, kun varapiirilevy vaihdetaan rikkoontuneen tilalle koteloon.
+  <br/>
+  Työasemalaitteissa itsessään ei säilytetä mitään tietoa, joten niitä voi siirtää ja sijoitella pienellä vaivalla tarpeen mukaan, eikä niiden täystuhoutuminen tarkoita kuin korkeintaan tallentamattomien dokumenttien menettämistä ja muutaman minuutin työtä, kun varapiirilevy vaihdetaan rikkoontuneen tilalle koteloon.
   <br/>
   <br/>
   <b>
@@ -52,10 +57,10 @@
    </u>
   </b>
   <br/>
-  Palvelimeksi valitaan samanlainen laite kuin päätteisiinkin, jotta sen vaihto olisi mahdollisimman vaivatonta ja koko ympäristö standardoitu. Palvelimen aktiivinen käyttömassamuisti toimii kahdennetusti ja varmuuskopiot asetetaan kopioitumaan automaattisesti myös ulkopuoliseen ympäristöön katastrofaalisen tietokadon välttämiseksi.
+  Palvelimeksi on valittu samanlainen CubieBoard 3 -laite kuin päätteisiinkin, jotta sen vaihto on mahdollisimman vaivatonta ja koko ympäristö standardoitu. Palvelimen aktiivinen käyttömassamuisti toimii kahdennetusti ja varmuuskopiot asetetaan kopioitumaan automaattisesti myös ulkopuoliseen ympäristöön katastrofaalisen tietokadon välttämiseksi.
   <br/>
   <br/>
-  Palvelin on tärkeä suojata sähköverkon häiriöiltä UPS-laitteella. Sähköverkon häiriöt voivat kärventää laitteen tai yllättävä sähkön menetys voi tuhota tiedostojärjestelmän: kumpikin johtaa siihen että ympäristö ei ole käyttökunnossa ennen kuin palvelin on korjattu. Siksi palvelin on syytä suojata tasaisen virransyötön antavalla laitteella, jotta sen menettämisen riski voidaan minimoida ja ennen kaikkea pitää oppimisympäristö mahdollisimman vakaana ja riippumattomana ympäristötekijöistä.
+  Palvelin suojataan sähköverkon häiriöiltä UPS-laitteella. Sähköverkon häiriöt voivat rikkoa laitteen tai yllättävä sähkön menetys voi tuhota tiedostojärjestelmän: kumpikin johtaa siihen että ympäristö ei ole käyttökunnossa ennen kuin palvelin on korjattu. Tasaisen virransyötön antavalla UPS-laitteella voidaan oppimisympäristö pitää mahdollisimman vakaana ja riippumattomana ympäristötekijöistä.
   <br/>
   <br/>
   <b>
