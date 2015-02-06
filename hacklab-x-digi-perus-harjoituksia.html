@@ -10,6 +10,34 @@
  <body>
   <b>
    <u>
+    Suositus jokaisen Verilog-tiedoston alkuun:
+   </u>
+  </b>
+  <br/>
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  <b>
+   <u>
+    Poistetaan ERROR .ucf-tiedoston ylimääräisistä pinneistä, tulee jatkossa vain WARNING
+   </u>
+  </b>
+  <br/>
+  <ul>
+   <li>
+    vasemalta alhaalta Processes-ikkunasta -&gt; Implement Design -&gt; Translate &lt;- oikealla napilla -&gt; Process properties...
+   </li>
+   <li>
+    Allow Unmatched LOC Constraints -&gt; [X] -&gt; OK
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   <u>
     Torstain 2015-01-29 Jarin harjoituksen .ucf-tiedosto:
    </u>
   </b>
@@ -32,6 +60,136 @@
   NET "BUT1"     LOC = "P22";
   <br/>
   NET "BUT2"     LOC = "P23";
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   <u>
+    Torstai 5.2. harjoituksen tiedostoja:
+   </u>
+  </b>
+  <br/>
+  <br/>
+  // Binäärilaskuri 4 ledillä, versio 1
+  <br/>
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  module blinky2(
+  <br/>
+  input wire clk,
+  <br/>
+  output wire [3:0] led
+  <br/>
+  );
+  <br/>
+  <br/>
+  reg [27:0] count = 0;
+  <br/>
+  <br/>
+  assign led = ~count[27:24];
+  <br/>
+  <br/>
+  always @ (posedge clk) begin
+  <br/>
+  count &lt;= count + 1;
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  UCF --------------------------------------
+  <br/>
+  <br/>
+  <br/>
+  # I/O Pin Assignments XC9572XL-VQ44 LC-Tech breakout
+  <br/>
+  <br/>
+  NET "CLK"      LOC = "P1" | BUFG = CLK;      # 50 MHz oscillator
+  <br/>
+  <br/>
+  NET "LED&lt;0&gt;"     LOC = "P31";                    # LED D5
+  <br/>
+  NET "LED&lt;1&gt;"     LOC = "P32";                    # LED D4
+  <br/>
+  NET "LED&lt;2&gt;"     LOC = "P33";                    # LED D3
+  <br/>
+  NET "LED&lt;3&gt;"     LOC = "P34";                    # LED D2
+  <br/>
+  <br/>
+  <br/>
+  ----------------------
+  <br/>
+  <br/>
+  // Binäärilaskuri ledeillä, versio 2
+  <br/>
+  // vapaasti säädettävä taajuus
+  <br/>
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  module blinky2(
+  <br/>
+  input wire clk,
+  <br/>
+  output wire [3:0] led
+  <br/>
+  );
+  <br/>
+  <br/>
+  reg [25:0] prescaler = 0;
+  <br/>
+  wire tick;
+  <br/>
+  <br/>
+  assign tick = (prescaler == 26'd50000000);
+  <br/>
+  <br/>
+  always @ (posedge clk) begin
+  <br/>
+  if (tick) begin
+  <br/>
+  prescaler &lt;= 0;
+  <br/>
+  end
+  <br/>
+  else begin
+  <br/>
+  prescaler &lt;= prescaler + 1;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  reg [3:0] count = 0;
+  <br/>
+  <br/>
+  assign led = ~count;
+  <br/>
+  <br/>
+  always @ (posedge clk) begin
+  <br/>
+  if (tick) begin
+  <br/>
+  count &lt;= count + 1;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
   <br/>
   <br/>
   <br/>
