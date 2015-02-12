@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-x-digi-verilog
+  </title>
+ </head>
+ <body>
+  Digitaalitekniikan perus ja jatkokurssilla käytämme Verilog HDL-kieltä. Tähän on kerätty kurssien kannalta tärkeimpiä otteita CPLD ja FPGA piirien syntetisointiin tarvittavia kielen rakenteita. Myös Xilinxin piirit ja ISE-kehitysympäristö ovat oletuksina toistaiseksi.
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   <u>
+    Tietotyypit
+   </u>
+  </b>
+  <br/>
+  <ul>
+   <li>
+    <a href="./hacklab-x-digi-verilog-tietotyypit.html">
+     http://kirjoitusalusta.fi/hacklab-x-digi-verilog-tietotyypit
+    </a>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   <u>
+    Lukuarvot
+   </u>
+  </b>
+  <br/>
+  <ul>
+   <li>
+    <a href="./hacklab-x-digi-verilog-lukuarvot.html">
+     http://kirjoitusalusta.fi/hacklab-x-digi-verilog-lukuarvot
+    </a>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   <u>
+    Operaattorit
+   </u>
+  </b>
+  <br/>
+  <ul>
+   <li>
+    <a href="./hacklab-x-digi-verilog-operaattorit.html">
+     http://kirjoitusalusta.fi/hacklab-x-digi-verilog-operaattorit
+    </a>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   <u>
+    Syntaksi
+   </u>
+  </b>
+  <br/>
+  <ul>
+   <li>
+    <a href="./hacklab-x-digi-verilog-syntaksi.html">
+     http://kirjoitusalusta.fi/hacklab-x-digi-verilog-syntaksi
+    </a>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Modulit
+  </b>
+  <br/>
+  <br/>
+  module Blinky(
+  <br/>
+  input     wire         clk,
+  <br/>
+  output   wire [3:0] led
+  <br/>
+  );
+  <br/>
+  <br/>
+  reg [27:0] count = 0;
+  <br/>
+  <br/>
+  //assign led = ~count[27:24];
+  <br/>
+  always @(
+  <b>
+   *
+  </b>
+  ) begin
+  <br/>
+  led
+  <b>
+   =
+  </b>
+  ~count[27:24];
+  <br/>
+  end
+  <br/>
+  <br/>
+  always @ (
+  <b>
+   posedge
+  </b>
+  clk) begin
+  <br/>
+  count
+  <b>
+   &lt;=
+  </b>
+  count + 1;
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+ </body>
+</html>

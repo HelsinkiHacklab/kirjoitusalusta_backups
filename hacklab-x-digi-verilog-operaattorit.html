@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-x-digi-verilog-operaattorit
+  </title>
+ </head>
+ <body>
+  <b>
+   <u>
+    Verilogin operaattorit
+   </u>
+  </b>
+  <br/>
+  <br/>
+  <b>
+   Aritmeettiset
+  </b>
+  <br/>
+  A + B
+  <br/>
+  A - B
+  <br/>
+  A * B    syntetisoituu fpga:lla, mahtuuko cpld:hen?
+  <br/>
+  A / B    tuskin syntetisoituu
+  <br/>
+  A % B    modulo, tuskin syntetisoituu
+  <br/>
+  A ** B    potenssi, tuskin syntetisoituu
+  <br/>
+  <br/>
+  A &gt;&gt; x     looginen shift
+  <br/>
+  A &lt;&lt; x     looginen shift
+  <br/>
+  A &gt;&gt;&gt; x aritmeettinen, ylin bitti monistuu
+  <br/>
+  A &lt;&lt;&lt; x    aritmeettinen, täytetään nollalla, eli sama kuin &lt;&lt;
+  <br/>
+  <br/>
+  <b>
+   Binääriset
+  </b>
+  <br/>
+  ~A        NOT
+  <br/>
+  A &amp; B    AND
+  <br/>
+  A | B    OR
+  <br/>
+  A ^ B    XOR
+  <br/>
+  <br/>
+  <b>
+   Loogiset, tulos 1'b0 tai 1'b1
+  </b>
+  <br/>
+  !A
+  <br/>
+  A &amp;&amp; B
+  <br/>
+  A || B
+  <br/>
+  <br/>
+  <b>
+   Vertailut, tulos 1'b0 tai 1'b1
+  </b>
+  <br/>
+  A &gt; B
+  <br/>
+  A &lt; B
+  <br/>
+  A &gt;= B
+  <br/>
+  A &lt;= B
+  <br/>
+  <br/>
+  A == B    yhtäsuuri
+  <br/>
+  A != B    erisuuri
+  <br/>
+  <s>
+   A === B    yhtäsuuri, z ja x mukana?
+  </s>
+  <br/>
+  <s>
+   A !== B    erisuuri, z ja x mukana?
+  </s>
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   Reduktiot, tulos 1'b0 tai 1'b1
+  </b>
+  <br/>
+  &amp;A         = A[0] &amp; A[1] &amp; ... &amp; A[N-1]
+  <br/>
+  |A         = A[0] | A[1] | ... | A[N-1]
+  <br/>
+  ^A         = A[0] ^ A[1] ^ ... ^ A[N-1]
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   Konditionaali
+  </b>
+  <br/>
+  [arvo] = [boolean] ? [true] : [false];
+  <br/>
+  <br/>
+  kala = (arvo1 &gt; arvo2) ? hauki : ahven;
+  <br/>
+  <br/>
+  vastaa rakennetta
+  <br/>
+  <br/>
+  if (arvo1 &gt; arvo2)
+  <br/>
+  kala = hauki;
+  <br/>
+  else
+  <br/>
+  kala = ahven;
+  <br/>
+  <br/>
+  Käytetään erityisesti assign-lauseissa.
+  <br/>
+  <br/>
+  <br/>
+ </body>
+</html>

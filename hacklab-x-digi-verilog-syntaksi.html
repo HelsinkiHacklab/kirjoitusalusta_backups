@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-x-digi-verilog-syntaksi
+  </title>
+ </head>
+ <body>
+  <b>
+   if ja case rakenteet
+  </b>
+  <br/>
+  <br/>
+  wire     [3:0]    bcd;
+  <br/>
+  reg       [6:0]    segments;
+  <br/>
+  <br/>
+  Voi ketjuttaa, syntetisoi yleensä prioriteettienkooderin:
+  <br/>
+  <br/>
+  if (bcd == 4'd0)
+  <br/>
+  segments = 7'b1111110;
+  <br/>
+  else if (bcd == 4'd1)
+  <br/>
+  segments = 7'b1100000;
+  <br/>
+  else
+  <br/>
+  segments = 7'b0000000
+  <br/>
+  <br/>
+  // Sisältää virheitä, harjoitustehtävä
+  <br/>
+  // Jos kaikki vaihtoehdot määritelty, defaultin käyttäminen helpottaa, syntetisoituu yleensä hakutauluksi (LUT) tai valitsimeksi (MUX)
+  <br/>
+  <br/>
+  case (bcd)
+  <br/>
+  4'd0:         segments = 7'b1111110;
+  <br/>
+  4'd1:         segments = 7'b0110000;
+  <br/>
+  4'd2:         segments = 7'b1101101;
+  <br/>
+  4'd3:         segments = 7'b1111001;
+  <br/>
+  4'd4:         segments = 7'b0110011;
+  <br/>
+  4'd5:         segments = 7'b1011011;
+  <br/>
+  4'd6:         segments = 7'b1011111;
+  <br/>
+  4'd7:         segments = 7'b0000000;
+  <br/>
+  4'd8:         segments = 7'b0000000;
+  <br/>
+  4'd9:         segments = 7'b0000100;
+  <br/>
+  default :     segments = 7'b0111000;  // 4'hf
+  <br/>
+  endcase
+  <br/>
+  <br/>
+  <br/>
+ </body>
+</html>

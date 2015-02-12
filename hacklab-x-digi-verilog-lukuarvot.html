@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-x-digi-verilog-lukuarvot
+  </title>
+ </head>
+ <body>
+  <b>
+   <u>
+    Verilogin lukuarvot
+   </u>
+  </b>
+  <br/>
+  <br/>
+  Useimmat tietotyypit koostuvat nelitilaisista 'biteistä'.
+  <br/>
+  <ul>
+   <li>
+    0: "logic 0", false
+   </li>
+   <li>
+    1: "logic 1", true
+   </li>
+   <li>
+    z: high-impedance
+   </li>
+   <li>
+    x: unknown, don't care
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Kurssilla  käytettävät piirit eivät tue sisäisesti kuin 0 ja 1 -signaaleja joten  voimme puhua vain biteitstä. I/O-pinnit osaavat komitilan, mutta sitä on parempi ohjata suoraan instantioimalla kyseisen piirityypin omia  primitiivejä, esim. IOBUFE.
+  <br/>
+  <br/>
+  <b>
+   Numeroiden esitystapa
+  </b>
+  <br/>
+  <ul>
+   <li>
+    [etumerkki][koko]'[kantaluku][arvo]
+   </li>
+   <li>
+    koko ilmoitetaan bitteinä
+   </li>
+   <li>
+    kantaluku
+    <ul>
+     <li>
+      b tai B binääriluvuille
+     </li>
+     <li>
+      <s>
+       o tai O oktaaliluvuille
+      </s>
+     </li>
+     <li>
+      h tai H heksadesimaaleille
+     </li>
+     <li>
+      d tai D desimaaliluvuille, tämä on oletus jos ei mainittu
+     </li>
+    </ul>
+   </li>
+   <li>
+    arvo on kyseiden lukujärjestelmän digitaaleja, väliin voi laittaa _-merkkejä jäsentämään
+   </li>
+   <li>
+    esimerkkejä
+    <ul>
+     <li>
+      1'b0 = 0 = 'false'
+      <ul>
+       <li>
+        'define' N = 8;
+       </li>
+       <li>
+        reg [N-1:0] kala = N'b111100111;
+       </li>
+       <li>
+        if (a == b &amp; c == d)
+       </li>
+      </ul>
+     </li>
+     <li>
+      1'b1 = 1 = 'true'
+     </li>
+     <li>
+      32'b10101010_10101010_10101010_10101010 = 'haa_aa_aa_aa
+     </li>
+     <li>
+      signed reg[7:0] = -128;
+     </li>
+     <li>
+      64'b0000000000000000..00111111111111..11
+     </li>
+    </ul>
+   </li>
+   <li>
+    wire [7:0] hauki;
+   </li>
+   <li>
+    wire [7:0] kala;
+    <ul>
+     <li>
+      assign hauki[7] = kala[0];
+     </li>
+     <li>
+      assign hauki[6] = kala[1];
+     </li>
+     <li>
+      ..
+     </li>
+     <li>
+      assign hauki[0] = kala[7];
+     </li>
+     <li>
+      hauki = {4'b1010,kala[3:0]}
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   <u>
+    ☠☠☠ Verilog varoituksia ☠☠☠
+   </u>
+  </b>
+  <br/>
+  <br/>
+  Lukuja joille ei ole annettu kokoa, ovat vähintään 32-bittisiä. Tämä aiheuttaa ongelmia jos kirjoitettu luku on:
+  <br/>
+  <ul>
+   <li>
+    suurempi kuin 32-bittiä
+   </li>
+   <li>
+    etumerkillinen,
+    <i>
+     signed
+    </i>
+   </li>
+   <li>
+    ylin bitti on z tai x
+    <br/>
+    <br/>
+   </li>
+  </ul>
+ </body>
+</html>
