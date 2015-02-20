@@ -38,7 +38,7 @@
   </ul>
   <b>
    <u>
-    Torstain 2015-01-29 Jarin harjoituksen .ucf-tiedosto:
+    Torstain 2015-02-19 Jarin harjoituksen .ucf-tiedosto:
    </u>
   </b>
   <br/>
@@ -46,20 +46,38 @@
   # I/O Pin Assignments XC9572XL-VQ44 LC-Tech breakout
   <br/>
   <br/>
-  #NET "CLK"      LOC = "P1" | BUFG = CLK;      # 50 MHz oscillator
+  NET "CLK"      LOC = "P1" | BUFG = CLK;      # 50 MHz oscillator
   <br/>
-  NET "LED5"     LOC = "P31";                    # LED D5
+  #NET "LED5"     LOC = "P31";                    # LED D5
   <br/>
-  NET "LED4"     LOC = "P32";                    # LED D4
+  #NET "LED4"     LOC = "P32";                    # LED D4
   <br/>
   #NET "LED3"     LOC = "P33";                    # LED D3
   <br/>
   #NET "LED2"     LOC = "P34";                    # LED D2
   <br/>
   <br/>
-  NET "BUT1"     LOC = "P22";
+  # display board from P2 to P14
   <br/>
-  NET "BUT2"     LOC = "P23";
+  NET "seg&lt;6&gt;"   LOC = "P2";            # a
+  <br/>
+  NET "seg&lt;5&gt;"   LOC = "P3";            # b
+  <br/>
+  NET "seg&lt;4&gt;"   LOC = "P5";            # c
+  <br/>
+  NET "seg&lt;3&gt;"   LOC = "P6";            # d
+  <br/>
+  NET "seg&lt;2&gt;"   LOC = "P7";            # e
+  <br/>
+  NET "seg&lt;1&gt;"   LOC = "P8";            # f
+  <br/>
+  NET "seg&lt;0&gt;"   LOC = "P12";        # g
+  <br/>
+  <br/>
+  NET "CL"         LOC = "P13";        # left cathode
+  <br/>
+  NET "CR"         LOC = "P14";        # right cathode
+  <br/>
   <br/>
   <br/>
   <br/>
@@ -190,6 +208,145 @@
   <br/>
   <br/>
   endmodule
+  <br/>
+  <br/>
+  ------------------------------------------------------------------
+  <br/>
+  <br/>
+  module sevseg(
+  <br/>
+  input wire clk,
+  <br/>
+  output wire [6:0] seg,
+  <br/>
+  output wire cl,
+  <br/>
+  output wire cr
+  <br/>
+  );
+  <br/>
+  <br/>
+  //              abcdefg
+  <br/>
+  assign seg = 7'b0110000;
+  <br/>
+  <br/>
+  assign cl = 1;
+  <br/>
+  assign cr = 0;
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  -------------------------------------------------------------------------
+  <br/>
+  <br/>
+  module sevseg(
+  <br/>
+  input wire clk,
+  <br/>
+  output reg [6:0] seg,
+  <br/>
+  output wire cl,
+  <br/>
+  output wire cr
+  <br/>
+  );
+  <br/>
+  <br/>
+  wire [3:0] bin;
+  <br/>
+  <br/>
+  reg [25:0] prescaler = 0;
+  <br/>
+  wire tick;
+  <br/>
+  <br/>
+  assign tick = (prescaler==50000000);
+  <br/>
+  <br/>
+  always @(posedge clk) begin
+  <br/>
+  if(tick)
+  <br/>
+  prescaler &lt;= 0;
+  <br/>
+  else
+  <br/>
+  prescaler &lt;= prescaler + 1;
+  <br/>
+  end
+  <br/>
+  <br/>
+  reg [3:0] cnt;
+  <br/>
+  <br/>
+  always @(posedge clk) begin
+  <br/>
+  if (tick)
+  <br/>
+  cnt &lt;= cnt + 1;
+  <br/>
+  end
+  <br/>
+  <br/>
+  assign bin = cnt;
+  <br/>
+  <br/>
+  always @(*) begin
+  <br/>
+  case (bin)
+  <br/>
+  //             abcdefg
+  <br/>
+  4'h0: seg = 7'b1111110;
+  <br/>
+  4'h1: seg = 7'b0110000;
+  <br/>
+  4'h2: seg = 7'b1101101;
+  <br/>
+  4'h3: seg = 7'b1111001;
+  <br/>
+  4'h4: seg = 7'b0110011;
+  <br/>
+  4'h5: seg = 7'b1011011;
+  <br/>
+  4'h6: seg = 7'b1011111;
+  <br/>
+  4'h7: seg = 7'b1110000;
+  <br/>
+  4'h8: seg = 7'b1111111;
+  <br/>
+  4'h9: seg = 7'b1111011;
+  <br/>
+  4'hA: seg = 7'b1110111;
+  <br/>
+  4'hB: seg = 7'b0011111;
+  <br/>
+  4'hC: seg = 7'b1001110;
+  <br/>
+  4'hD: seg = 7'b0111101;
+  <br/>
+  4'hE: seg = 7'b1001111;
+  <br/>
+  4'hF: seg = 7'b1000111;
+  <br/>
+  default: seg = 7'b0000000;
+  <br/>
+  endcase
+  <br/>
+  end
+  <br/>
+  <br/>
+  assign cl = 1;
+  <br/>
+  assign cr = 0;
+  <br/>
+  <br/>
+  endmodule
+  <br/>
   <br/>
   <br/>
   <br/>
