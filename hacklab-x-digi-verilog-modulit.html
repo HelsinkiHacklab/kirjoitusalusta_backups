@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-x-digi-verilog-modulit
+  </title>
+ </head>
+ <body>
+  // Verilogissa kaikki muodostuu moduleista (vrt. luokka) joita
+  <br/>
+  // instantioidaan (vrt. olio). Ainoa poikkeus tähän on Top Module
+  <br/>
+  // jonka kehitysympäristö instantioi ja kytkee .ucf-tiedostossa märitellyt pinnit
+  <br/>
+  <br/>
+  <i>
+   module
+  </i>
+  Esimerkki(
+  <br/>
+  input     wire               kello,
+  <br/>
+  output   wire   [3:0]     ledit_a,
+  <br/>
+  output
+  <b>
+   reg
+  </b>
+  [3:0]     ledit_b
+  <br/>
+  );
+  <br/>
+  <br/>
+  <b>
+   reg
+  </b>
+  [27:0] laskuri = 0;
+  <br/>
+  <br/>
+  // Kombinaatiologiikka, kohde pitää olla wire
+  <br/>
+  // Käytä kun &amp;, |, ^ ja ? jne. operaattorit riittävät
+  <br/>
+  <br/>
+  <i>
+   assign
+  </i>
+  ledit_a = ~laskuri[27:24] &amp; laskuri[3:0];
+  <br/>
+  <br/>
+  <br/>
+  // Tai vaihtoehtoisesti, nyt kohteen pitää olla reg, mutta syntetisoituu edelleen
+  <br/>
+  // kombinaatiologiikaksi.
+  <b>
+   Tämä on se kohta joka aiheuttaa Verilogin
+  </b>
+  <br/>
+  //
+  <b>
+   wire vs. reg epäselvyydet.
+  </b>
+  <br/>
+  // Käytä kun assign ei riitä, eli tarvitset if/case-rakenteita, mutta muista että kaikissa
+  <br/>
+  // koodipoluissa pitää tehdä sijoitukset kaikkiin samoihin muuttujiin
+  <br/>
+  <br/>
+  <i>
+   always
+  </i>
+  @
+  <b>
+   *
+  </b>
+  <i>
+   begin
+  </i>
+  <br/>
+  ledit_b
+  <b>
+   =
+  </b>
+  ~laskuri[27:24] &amp; laskuri[3:0];
+  <br/>
+  <i>
+   end
+  </i>
+  <br/>
+  <br/>
+  <br/>
+  // Sekvenssilogiikka, kohteen pitää olla reg ja sijoitusten non-blocking '
+  <b>
+   &lt;=
+  </b>
+  ' ja
+  <br/>
+  // reunaherkkä kellosignaalille (
+  <b>
+   posegde
+  </b>
+  tai
+  <b>
+   negedge
+  </b>
+  ) ja näistä syntetisoituu
+  <br/>
+  // flipareita, rekistereitä ja muistia
+  <br/>
+  // Rekisterien arvoja ei tarvitse aina sijoittaa vaan ne pitävät muistinsa
+  <br/>
+  <br/>
+  <i>
+   always
+  </i>
+  @(
+  <b>
+   posedge
+  </b>
+  kello)
+  <i>
+   begin
+  </i>
+  <br/>
+  if (laskuri &lt; 99) begin
+  <br/>
+  laskuri
+  <b>
+   &lt;=
+  </b>
+  laskuri + 1;
+  <br/>
+  end
+  <br/>
+  <i>
+   end
+  </i>
+  <br/>
+  <br/>
+  <br/>
+  // Moduuleja ja primitiivejä instantiodessa annetaan sille uniikki nimi
+  <br/>
+  // (johon ei tarvitse viitata muualta, eli voi olla x1, x2, mutta kannattaa
+  <br/>
+  // tietysti käyttää kuvaavia nimiä. On myös suositeltavaa käyttää parametreja
+  <br/>
+  // nimillä
+  <i>
+   .jotain(..)
+  </i>
+  kuin luottaa järjestykseen. Pitää myös tarvittavat wire:t tehdä jotta
+  <br/>
+  // kytkeminen onnistuu, muuten Verilog 2001 tekee automaattisesti, mutta vain yhden
+  <br/>
+  // bitin kokoisia, eli pieleen menee. Tähän onneksi voi vaikuttaa laittamalla alkuun
+  <br/>
+  // pragman:
+  <b>
+   `default_nettype none
+  </b>
+  <br/>
+  <br/>
+  <i>
+   wire
+  </i>
+  [3:0] ledit_c;
+  <br/>
+  <br/>
+  OmaModuuli oma1(
+  <br/>
+  .ledit_tulo(ledit_a),
+  <br/>
+  .ledit_lahto(ledit_c)
+  <br/>
+  )
+  <br/>
+  <br/>
+  <i>
+   endmodule
+  </i>
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   <u>
+    ☠☠☠ Verilog syventävää tietoa ☠☠☠
+   </u>
+  </b>
+  <br/>
+  <br/>
+  Oikea tapa ajatella blocking
+  <b>
+   '='
+  </b>
+  ja non-blocking
+  <b>
+   '&lt;='
+  </b>
+  sijoitukset on, että rivit evaluoidaan ja sijoitetaan always-lohkon sisällä aina kirjoitusjärjestyksessä. Mutta non-blocking arvot sijoitetaan vasta always-lohkon lopuksi, tällöinkin järjestyksessä.
+  <br/>
+  <br/>
+  Pitää kuitenkin huomata, että synteesin kannalta non-blocking sijoituksia voidaan pitää yhtäaikaisina. Always-lohkojen keskinäistä suoritusjärjestystä ei ole määritelty, se voi olla myös aidosti yhtäaikainen, eli samaan reg-muuttujaan ei saa sijoittaa useammassa always-lohkossa, tästä ISE onneksi antaakin virheen.
+  <br/>
+  <br/>
+  Lisätietoa edityneille
+  <br/>
+  <ul>
+   <li>
+    <a href="http://inst.eecs.berkeley.edu/~cs150/Documents/Nets.pdf">
+     http://inst.eecs.berkeley.edu/~cs150/Documents/Nets.pdf
+    </a>
+   </li>
+   <li>
+    <a href="http://www.eet.bme.hu/~nagyg/mikroelektronika/Always.pdf">
+     http://www.eet.bme.hu/~nagyg/mikroelektronika/Always.pdf
+    </a>
+   </li>
+   <li>
+    <a href="http://courses.cs.washington.edu/courses/cse370/09wi/LectureSlides/16-SequentialVerilog.pdf">
+     http://courses.cs.washington.edu/courses/cse370/09wi/LectureSlides/16-SequentialVerilog.pdf
+    </a>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+ </body>
+</html>

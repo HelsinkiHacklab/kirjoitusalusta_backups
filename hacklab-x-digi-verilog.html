@@ -70,76 +70,22 @@
     </a>
     <br/>
     <br/>
-    <br/>
-    <br/>
    </li>
   </ul>
   <b>
-   Modulit
+   <u>
+    Modulit
+   </u>
   </b>
   <br/>
+  <ul>
+   <li>
+    <a href="./hacklab-x-digi-verilog-modulit.html">
+     http://kirjoitusalusta.fi/hacklab-x-digi-verilog-modulit
+    </a>
+   </li>
+  </ul>
   <br/>
-  module Blinky(
-  <br/>
-  input     wire         clk,
-  <br/>
-  output   wire   [3:0] led_a,
-  <br/>
-  output
-  <b>
-   reg
-  </b>
-  [3:0] led_b
-  <br/>
-  );
-  <br/>
-  <br/>
-  <b>
-   reg
-  </b>
-  [27:0] count = 0;
-  <br/>
-  <br/>
-  // Kombinaatiologiikka
-  <br/>
-  assign led_a = ~count[27:24];
-  <br/>
-  <br/>
-  // Tai vaihtoehtoisesti
-  <br/>
-  always @(
-  <b>
-   *
-  </b>
-  ) begin
-  <br/>
-  led_b
-  <b>
-   =
-  </b>
-  ~count[27:24];
-  <br/>
-  end
-  <br/>
-  <br/>
-  // Sekvenssilogiikka
-  <br/>
-  always @ (
-  <b>
-   posedge
-  </b>
-  clk) begin
-  <br/>
-  count
-  <b>
-   &lt;=
-  </b>
-  count + 1;
-  <br/>
-  end
-  <br/>
-  <br/>
-  endmodule
   <br/>
   <br/>
   <br/>
