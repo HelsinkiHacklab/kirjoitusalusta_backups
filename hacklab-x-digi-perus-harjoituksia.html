@@ -8,6 +8,36 @@
   </title>
  </head>
  <body>
+  Sevensegment koodit:
+  <br/>
+  <ul>
+   <li>
+    <a href="https://www.dropbox.com/sh/awoiaebcc5u7q7l/AAAoCU9LYh9oi16LntYE3tHNa?dl=0">
+     https://www.dropbox.com/sh/awoiaebcc5u7q7l/AAAoCU9LYh9oi16LntYE3tHNa?dl=0
+    </a>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  -- Liittyen Jarin 1-bit DACiin
+  <br/>
+  <ul>
+   <li>
+    <a href="http://en.wikipedia.org/wiki/Delta-sigma_modulation#Relationship_to_.CE.94-modulation">
+     http://en.wikipedia.org/wiki/Delta-sigma_modulation#Relationship_to_.CE.94-modulation
+    </a>
+   </li>
+   <li>
+    <a href="http://en.wikipedia.org/wiki/Direct_Stream_Digital">
+     http://en.wikipedia.org/wiki/Direct_Stream_Digital
+    </a>
+   </li>
+  </ul>
+  ---
+  <br/>
+  <br/>
   <b>
    <u>
     Suositus jokaisen Verilog-tiedoston alkuun:
@@ -347,6 +377,215 @@
   <br/>
   endmodule
   <br/>
+  <br/>
+  <br/>
+  _______________26.2.2015_______________________
+  <br/>
+  <br/>
+  /*
+  <br/>
+  Helsinki Hacklab - Digitaalitekniikan peruskurssi
+  <br/>
+  <br/>
+  Verilog-harjoituksia, kevÃ¤t 2015
+  <br/>
+  <br/>
+  Hardware: XC9572XL breakout board eli "sininen lauta" + kahden digitin 7-segmenttinÃ¤yttÃ¶
+  <br/>
+  <br/>
+  Kaksidigittinen heksalaskuri
+  <br/>
+  - nÃ¤ytÃ¶llÃ¤ askeltaa heksanumero 00...FF sekunnin vÃ¤lein
+  <br/>
+  - UCF-tiedosto ja nÃ¤ytÃ¶n sijainti kortin piikkirimalla tÃ¤ytyy pitÃ¤Ã¤ yhtÃ¤
+  <br/>
+  <br/>
+  TÃ¤ssÃ¤ laajennetaan sevenseg3:ssa tehty laskuri 8-bittiseksi ja otetaan kÃ¤yttÃ¶Ã¶n nÃ¤ytÃ¶n multipleksaus,
+  <br/>
+  jossa kumpaakin digittiÃ¤ nÃ¤ytetÃ¤Ã¤n vuorotellen nopeassa tahdissa.
+  <br/>
+  */
+  <br/>
+  <br/>
+  module sevenseg4(
+  <br/>
+  input wire clk,         // kortin oma 50 MHz kello-oskillaattori
+  <br/>
+  input wire but,                                // input-nappi aktiivinen alas
+  <br/>
+  output reg [6:0] seg,   // segmenttiohjaukset: seg[6] = a, ... seg[0] = g, ylhÃ¤Ã¤llÃ¤ aktiivisia
+  <br/>
+  output wire cl,         // vasemman digitin katodiohjaus, alhaalla aktiivinen
+  <br/>
+  output wire cr          // oikean digitin katodiohjaus, alhaalla aktiivinen
+  <br/>
+  );
+  <br/>
+  <br/>
+  // --- Esijakaja ----------------------------------------------
+  <br/>
+  // Tuottaa tick-signaaliin yhden kellojakson (20 ns) levyisen pulssin 1 s vÃ¤lein
+  <br/>
+  <br/>
+  // MÃ¤Ã¤ritellÃ¤Ã¤n 26 bittiÃ¤ leveÃ¤ esijakaja, 2^26 &gt; 50000000, joten leveys riittÃ¤Ã¤
+  <br/>
+  reg [25:0] prescaler = 0;
+  <br/>
+  reg but_prev = 0;
+  <br/>
+  wire but_inv = ~but;
+  <br/>
+  <br/>
+  // tick asettuu yhden kellojakson ajaksi silloin, kun prescaler-rekisterissÃ¤ on binÃ¤Ã¤riluku 50000000
+  <br/>
+  // Muuttamalla tÃ¤tÃ¤ vertailuarvoa saataisiin tick asettumaan minkÃ¤ tahansa kellojaksomÃ¤Ã¤rÃ¤n vÃ¤lein,
+  <br/>
+  // eli enÃ¤Ã¤ ei olla sidottuja niihin arvoihin, joita satutaan saamaan 2:n potensseilla jakamalla
+  <br/>
+  wire tick;
+  <br/>
+  assign tick = (prescaler==50000000);
+  <br/>
+  <br/>
+  // Jokaisella kellon nousevalla reunalla tehdÃ¤Ã¤n jompikumpi:
+  <br/>
+  //  - prescaler nollataan, kun tick on asettuneena eli kun prescalerin arvo on 50000000
+  <br/>
+  //  - prescaleria kasvatetaan yhdellÃ¤ muulloin
+  <br/>
+  always @(posedge clk) begin
+  <br/>
+  if(tick)
+  <br/>
+  prescaler &lt;= 0;
+  <br/>
+  else
+  <br/>
+  prescaler &lt;= prescaler + 1;
+  <br/>
+  end
+  <br/>
+  <br/>
+  // --- Laskuri ----------------------------------------------------
+  <br/>
+  // 8-bittinen laskuri, joka askeltaa tick:n vÃ¤lein
+  <br/>
+  <br/>
+  // MÃ¤Ã¤ritellÃ¤Ã¤n laskurin arvon tallettava rekisteri, 8 bittiÃ¤ leveÃ¤
+  <br/>
+  reg [7:0] count;
+  <br/>
+  <br/>
+  // Jokaisella kellon (50 MHz) reunalla kÃ¤ydÃ¤Ã¤n tarkistamassa, onko tick asettuneena
+  <br/>
+  // TÃ¤mÃ¤ on totta vain yhden kellojakson ajan tasan sekunnin vÃ¤lein
+  <br/>
+  // TÃ¤mÃ¤ yksi kellojakso askeltaa count:ia yhdellÃ¤, joten count kasvaa sekunnin vÃ¤lein
+  <br/>
+  always @(posedge clk) begin
+  <br/>
+  if ( but_inv &amp; ~but_prev ) begin
+  <br/>
+  count &lt;= count + 1;
+  <br/>
+  end
+  <br/>
+  but_prev &lt;= but_inv;
+  <br/>
+  end
+  <br/>
+  <br/>
+  // --- Multipleksaussignaali -----------------------------------------------
+  <br/>
+  <br/>
+  // TÃ¤hÃ¤n tarvitaan n. 100...500 Hz kanttiaalto, jonka tahdissa nÃ¤ytetÃ¤Ã¤n kumpaakin
+  <br/>
+  // digittiÃ¤ nÃ¤ytÃ¶llÃ¤ vuorotellen, jolloin ihminen nÃ¤kee niiden palavan yhtÃ¤ aikaa.
+  <br/>
+  // KÃ¤ytetÃ¤Ã¤n tÃ¤hÃ¤n vaikka prescaler-laskurin bittiÃ¤ 16, joka on 381 Hz kanttiaalto.
+  <br/>
+  // 50 MHz / 2^17 = 381 Hz
+  <br/>
+  <br/>
+  assign mux = prescaler[16];
+  <br/>
+  <br/>
+  // --- Laskurin lÃ¤htÃ¶jen kytkentÃ¤ 7-segmenttidekooderin tuloon ------------------
+  <br/>
+  <br/>
+  // MÃ¤Ã¤ritellÃ¤Ã¤n 4-bittinen binÃ¤Ã¤riluku 7-segmenttidekooderin tuloksi
+  <br/>
+  wire [3:0] bin;
+  <br/>
+  <br/>
+  // Multipleksaus: kytketÃ¤Ã¤n 7-segmenttidekooderin tuloon laskurin ylempi tai alempi puolitavu
+  <br/>
+  // riippuen mux-signaalin tilasta: mux=1 -&gt; ylempi, mux=0 -&gt; alempi
+  <br/>
+  assign bin = mux ? count[7:4] : count[3:0];
+  <br/>
+  <br/>
+  // --- 7-segmenttidekooderi -----------------------------------------
+  <br/>
+  <br/>
+  // Dekoodaa bin:ssÃ¤ olevan 4-bittisen binÃ¤Ã¤riluvun vastaavaksi 7-segmenttikuvioksi
+  <br/>
+  always @(*) begin
+  <br/>
+  case(bin)
+  <br/>
+  //              abcdefg
+  <br/>
+  4'h0: seg = 7'b1111110;
+  <br/>
+  4'h1: seg = 7'b0110000;
+  <br/>
+  4'h2: seg = 7'b1101101;
+  <br/>
+  4'h3: seg = 7'b1111001;
+  <br/>
+  4'h4: seg = 7'b0110011;
+  <br/>
+  4'h5: seg = 7'b1011011;
+  <br/>
+  4'h6: seg = 7'b1011111;
+  <br/>
+  4'h7: seg = 7'b1110000;
+  <br/>
+  4'h8: seg = 7'b1111111;
+  <br/>
+  4'h9: seg = 7'b1111011;
+  <br/>
+  4'hA: seg = 7'b1110111;
+  <br/>
+  4'hB: seg = 7'b0011111;
+  <br/>
+  4'hC: seg = 7'b1001110;
+  <br/>
+  4'hD: seg = 7'b0111101;
+  <br/>
+  4'hE: seg = 7'b1001111;
+  <br/>
+  4'hF: seg = 7'b1000111;
+  <br/>
+  default: seg = 7'b0000000;
+  <br/>
+  endcase
+  <br/>
+  end
+  <br/>
+  <br/>
+  // --- Katodiohjaukset --------------------------------------------
+  <br/>
+  <br/>
+  // MyÃ¶s katodeja pitÃ¤Ã¤ aktivoida samassa tahdissa multipleksauksen kanssa
+  <br/>
+  assign cl = ~mux;   // vasen aktivoituu, kun mux on ylhÃ¤Ã¤llÃ¤, eli segmenteissÃ¤ on ylempi puolitavu
+  <br/>
+  assign cr = mux;    // oikea aktivoituu, kun mux on alhaalla, eli segmenteissÃ¤ on alempi puolitavu
+  <br/>
+  <br/>
+  endmodule
   <br/>
   <br/>
   <br/>
