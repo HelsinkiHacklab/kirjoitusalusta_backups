@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-x-digi-impact-projekti
+  </title>
+ </head>
+ <body>
+  <b>
+   <u>
+    Impact-projektin luominen
+   </u>
+  </b>
+  <br/>
+  <br/>
+  Ohje Impact-projektin määrittelystä, jotta Impactin käynnistyminen saadaan helpommaksi, ja haluttaessa piirin ohjelmointi voidaan tehdä ISE:stä käynnistämättä Impactia ollenkaan.
+  <br/>
+  <br/>
+  <b>
+   Impact-ohjelmassa:
+  </b>
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Ensin estetään automaattinen Impactin projektitiedoston luominen:
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Edit -&gt; Preferences...
+  <br/>
+  - Valitse vasemman puolen puusta Category "Project Settings Control"
+  <br/>
+  - Ota rasti pois kohdasta "Automatically create and save project file"
+  <br/>
+  <br/>
+  (Tämä preferences-muutos siis tarvitsee tehdä vain kerran, Impact muistaa tämän
+  <br/>
+  asetuksen, ja uuden projektin perustaminen muuttuu pysyvästi alla kuvatun
+  <br/>
+  näköiseksi.)
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Nyt kun projektitiedosto ei enää synny automaattisesti, päästään valitsemaan, minkä niminen siitä tulee ja mihin hakemistoon:
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  File -&gt; New project
+  <br/>
+  - täppä kohtaan "create a new project (.ipf)"
+  <br/>
+  - paina em. rivin perässä olevaa "Browse..."-painiketta
+  <br/>
+  - navigoi ISE-projektisi hakemistoon
+  <br/>
+  - anna Impact-projektitiedostolle nimi, esim. sama kuin ISE-projektin nimi
+  <br/>
+  (tyypiksi tulee .ipf)
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Tästä eteenpäin wizard jatkaa kuten tähänkin saakka:
+   </li>
+  </ul>
+  - Aukeaa uusi ikkuna ("Configure devices using JTAG") =&gt; OK
+  <br/>
+  - Impact kytkeytyy targettiin (kaapeli pitää olla kiinni ja targetissa sähköt)
+  <br/>
+  - Kysyy "Assign new configuration file", valitaan haluttu .jed-tiedosto =&gt; Open
+  <br/>
+  - Aukeaa uusi ikkuna "Device Programming Properties" =&gt; OK
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Vielä pitää kertoa Impactille, mikä JTAG-ketjun piireistä on target (pakko, vaikka ketjussa olisi vain yksi piiri!):
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Right-klikkaa mikropiirin kuvaa ja valitse valikosta "Set target device" (alin valinta)
+  <br/>
+  - Mikropiirin ympärille tulee siniset raamit ja teksti "Target"
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Talletetaan näin määritelty Impactin projekti:
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  File -&gt; Save Project
+  <br/>
+  - Nyt Console-ikkunassa alimpana pitäisi näkyä "saveProjectFile" ja tiedoston polku
+  <br/>
+  ja nimi ovat edellä syöttämäsi
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Impactin voi nyt sulkea.
+   </li>
+  </ul>
+  <br/>
+  <b>
+   ISE:n puolella:
+  </b>
+  <br/>
+  <br/>
+  - tuplaklikkaa vasemman puolen puuvalikossa "Configure Target Device"
+  <br/>
+  - piiri ohjelmoituu
+  <br/>
+  <br/>
+  Ärsyttävästi ohjelmoinnin aikana ei ISE:n puolella näy minkäänlaista merkkiä ohjelmoinnin etenemisestä (ei edes siitä, että se epäonnistui!), ja koska Impact ei ole käynnissä, ei sitä näy missään muuallakaan. Käytännössä ohjelmointi siis kannattaa edelleen tehdä käynnistämällä Impact erikseen, mutta ainakin Impactin käynnistysseremoniat ovat lyhyemmät, kun projektitiedosto on olemassa.
+  <br/>
+  <br/>
+ </body>
+</html>
