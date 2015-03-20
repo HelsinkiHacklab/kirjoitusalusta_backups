@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-x-digi-jatko-harjoituksia
+  </title>
+ </head>
+ <body>
+  // main.v
+  <br/>
+  // Turpo CPU
+  <br/>
+  // - Spartan3/XC3S200/FT256/-4
+  <br/>
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  module main(
+  <br/>
+  input   wire                clk50,
+  <br/>
+  input   wire    [7:0]       switch,
+  <br/>
+  output  wire    [7:0]       led
+  <br/>
+  );
+  <br/>
+  <br/>
+  // Instruction opcodes
+  <br/>
+  parameter OPCODE_NOP =            5'd0;
+  <br/>
+  parameter OPCODE_MOV =            5'd1;
+  <br/>
+  parameter OPCODE_MOVR0 =        5'd2;
+  <br/>
+  parameter OPCODE_MOVR0H =        5'd3;
+  <br/>
+  parameter OPCODE_ADD =            5'd4;
+  <br/>
+  parameter OPCODE_SUB =            5'd5;
+  <br/>
+  parameter OPCODE_OR =            5'd6;
+  <br/>
+  parameter OPCODE_AND =            5'd7;
+  <br/>
+  parameter OPCODE_XOR =            5'd8;
+  <br/>
+  parameter OPCODE_UMUL =            5'd9;
+  <br/>
+  parameter OPCODE_LD =            5'd10;
+  <br/>
+  parameter OPCODE_ST =            5'd11;
+  <br/>
+  parameter OPCODE_JMP =            5'd12;
+  <br/>
+  parameter OPCODE_SKPLT =        5'd13;
+  <br/>
+  parameter OPCODE_HCF =            5'd31;
+  <br/>
+  <br/>
+  parameter R0 =                    3'h0;
+  <br/>
+  parameter R1 =                    3'h1;
+  <br/>
+  parameter R2 =                    3'h2;
+  <br/>
+  parameter R3 =                    3'h3;
+  <br/>
+  parameter R4 =                    3'h4;
+  <br/>
+  parameter R5 =                    3'h5;
+  <br/>
+  parameter R6 =                    3'h6;
+  <br/>
+  parameter R7 =                    3'h7;
+  <br/>
+  parameter NONE =                3'h0;
+  <br/>
+  <br/>
+  // Register file
+  <br/>
+  reg     [17:0]                     registers[7:0];
+  <br/>
+  <br/>
+  // Program counter
+  <br/>
+  reg     [3:0]                     program_counter = 0;
+  <br/>
+  <br/>
+  // Program memory
+  <br/>
+  reg        [13:0]                    program_memory[15:0];
+  <br/>
+  <br/>
+  // Data memory
+  <br/>
+  reg        [17:0]                    data_memory[255:0];
+  <br/>
+  <br/>
+  // Current instruction
+  <br/>
+  wire    [13:0]        instruction = program_memory[program_counter];
+  <br/>
+  wire    [4:0]        opcode = instruction[13:9];
+  <br/>
+  wire    [2:0]        rd_num = instruction[8:6];
+  <br/>
+  wire    [2:0]        rs_num = instruction[5:3];
+  <br/>
+  wire    [2:0]        rt_num = instruction[2:0];
+  <br/>
+  wire    [2:0]        imm3_data = instruction[2:0];
+  <br/>
+  wire    [5:0]        imm6_data = instruction[5:0];
+  <br/>
+  wire    [8:0]        imm9_data = instruction[8:0];
+  <br/>
+  <br/>
+  initial begin
+  <br/>
+  // R1: i = 0
+  <br/>
+  program_memory[0] =     { OPCODE_MOVR0,        9'd0    };
+  <br/>
+  program_memory[1] =     { OPCODE_MOV,        R1,        R0,        NONE    };
+  <br/>
+  // R2: N = 100
+  <br/>
+  program_memory[2] =     { OPCODE_MOVR0,        9'd100    };
+  <br/>
+  program_memory[3] =     { OPCODE_MOV,        R2,        R0,        NONE    };
+  <br/>
+  // R3: d = 1
+  <br/>
+  program_memory[4] =     { OPCODE_MOVR0,        9'd1    };
+  <br/>
+  program_memory[5] =     { OPCODE_MOV,        R3,        R0,        NONE    };
+  <br/>
+  // i = i + 1
+  <br/>
+  program_memory[6] =     { OPCODE_ADD,        R1,     R1,     R3      };
+  <br/>
+  // i &lt; 100
+  <br/>
+  program_memory[7] =     { OPCODE_SKPLT,        R1,        R2,        NONE    };
+  <br/>
+  program_memory[8] =     { OPCODE_JMP,         9'd14    };
+  <br/>
+  // {
+  <br/>
+  program_memory[9] =     { OPCODE_NOP,        NONE,    NONE,    NONE    };
+  <br/>
+  program_memory[10] =     { OPCODE_ADD,         R4,     R4,        R1        };
+  <br/>
+  program_memory[11] =     { OPCODE_UMUL,         R4,     R4,        R4        };
+  <br/>
+  program_memory[12] =     { OPCODE_ST,         R1,     R4,        NONE    };
+  <br/>
+  program_memory[13] =     { OPCODE_JMP,         9'd6    };
+  <br/>
+  // }
+  <br/>
+  program_memory[14] =     { OPCODE_LD,         R5,        R1,        NONE    };
+  <br/>
+  program_memory[15] =     { OPCODE_HCF,         NONE,    NONE,    NONE    };
+  <br/>
+  end
+  <br/>
+  <br/>
+  // Rekisterien alimmat bitit ledeihin
+  <br/>
+  assign led[0] = registers[0][0];
+  <br/>
+  assign led[1] = registers[1][0];
+  <br/>
+  assign led[2] = registers[2][0];
+  <br/>
+  assign led[3] = registers[3][0];
+  <br/>
+  assign led[4] = registers[4][0];
+  <br/>
+  assign led[5] = registers[5][0];
+  <br/>
+  assign led[6] = registers[6][0];
+  <br/>
+  assign led[7] = registers[7][0];
+  <br/>
+  <br/>
+  // Synchronous part of processor
+  <br/>
+  always @(posedge clk50) begin
+  <br/>
+  case(opcode)
+  <br/>
+  OPCODE_NOP:    begin
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  OPCODE_ADD:    begin
+  <br/>
+  registers[rd_num] &lt;= registers[rs_num] + registers[rt_num];
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  OPCODE_MOV: begin
+  <br/>
+  registers[rd_num] &lt;= registers[rs_num];
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  OPCODE_MOVR0: begin
+  <br/>
+  registers[R0] &lt;= imm9_data;
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  OPCODE_MOVR0H: begin
+  <br/>
+  registers[R0] &lt;= (imm9_data &lt;&lt; 9) | registers[R0];
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  OPCODE_UMUL: begin
+  <br/>
+  registers[rd_num] &lt;= registers[rs_num] * registers[rt_num];
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  OPCODE_LD: begin
+  <br/>
+  registers[rd_num] &lt;= data_memory[registers[rs_num]];
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  OPCODE_ST: begin
+  <br/>
+  data_memory[registers[rs_num]] &lt;= registers[rd_num];
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  OPCODE_JMP: begin
+  <br/>
+  program_counter &lt;= imm9_data;
+  <br/>
+  end
+  <br/>
+  OPCODE_SKPLT: begin
+  <br/>
+  if (registers[rd_num] &lt; registers[rs_num]) begin
+  <br/>
+  program_counter &lt;= program_counter + 2;
+  <br/>
+  end else begin
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  OPCODE_HCF: begin
+  <br/>
+  program_counter &lt;= switch;
+  <br/>
+  end
+  <br/>
+  endcase
+  <br/>
+  end
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+ </body>
+</html>
