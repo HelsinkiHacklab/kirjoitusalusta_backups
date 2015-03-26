@@ -12,13 +12,14 @@
   <br/>
   // Turpo CPU
   <br/>
-  // - Spartan3/XC3S200/FT256/-4
+  // - Spartan3-XC3S200-FT256-4
+  <br/>
+  // - Spartan6-XC6SLX45-CSG324-3
   <br/>
   <br/>
   `timescale 1ns / 1ps
   <br/>
   `default_nettype none
-  <br/>
   <br/>
   module main(
   <br/>
@@ -26,43 +27,77 @@
   <br/>
   input   wire    [7:0]       switch,
   <br/>
-  output  wire    [7:0]       led
+  output  reg     [7:0]       led
   <br/>
   );
   <br/>
   <br/>
   // Instruction opcodes
   <br/>
-  parameter OPCODE_NOP =            5'd0;
+  parameter JMP_imm9            =     4'b0001;
   <br/>
-  parameter OPCODE_MOV =            5'd1;
+  parameter MOVI_rd_imm6      =     4'b0010;
   <br/>
-  parameter OPCODE_MOVR0 =        5'd2;
+  parameter MOVX_rd_imm6      =     4'b0011;
   <br/>
-  parameter OPCODE_MOVR0H =        5'd3;
+  parameter ADDI_rd_imm6      =     4'b0100;
   <br/>
-  parameter OPCODE_ADD =            5'd4;
+  parameter SAI_rd_imm6       =     4'b0101;
   <br/>
-  parameter OPCODE_SUB =            5'd5;
+  parameter SLI_rd_imm6       =     4'b0110;
   <br/>
-  parameter OPCODE_OR =            5'd6;
+  parameter IN_rd_imm6        =     4'b0111;
   <br/>
-  parameter OPCODE_AND =            5'd7;
+  parameter OUT_rd_imm6       =     4'b1000;
   <br/>
-  parameter OPCODE_XOR =            5'd8;
+  parameter ADD_rd_rs_rt      =     4'b1001;
   <br/>
-  parameter OPCODE_UMUL =            5'd9;
+  parameter SUB_rd_rs_rt      =     4'b1010;
   <br/>
-  parameter OPCODE_LD =            5'd10;
+  parameter AND_rd_rs_rt      =     4'b1011;
   <br/>
-  parameter OPCODE_ST =            5'd11;
+  parameter OR_rd_rs_rt       =     4'b1100;
   <br/>
-  parameter OPCODE_JMP =            5'd12;
+  parameter XOR_rd_rs_rt      =     4'b1101;
   <br/>
-  parameter OPCODE_SKPLT =        5'd13;
+  parameter MUL_rd_rs_rt      =     4'b1110;
   <br/>
-  parameter OPCODE_HCF =            5'd31;
+  parameter UMUL_rd_rs_rt     =     4'b1111;
   <br/>
+  parameter LD_rd_rs          =     7'b0000_001;
+  <br/>
+  parameter ST_rd_rs          =     7'b0000_010;
+  <br/>
+  parameter SAR_rd_rs         =     7'b0000_011;
+  <br/>
+  parameter SLR_rd_rs         =     7'b0000_100;
+  <br/>
+  parameter SLL_rd_rs         =     7'b0000_101;
+  <br/>
+  parameter SKPLT_rd_rs       =     7'b0000_110;
+  <br/>
+  parameter SKPLE_rd_rs       =     7'b0000_111;
+  <br/>
+  parameter INC_rd            =    10'b0000_000_001;
+  <br/>
+  parameter DEC_rd            =    10'b0000_000_010;
+  <br/>
+  parameter NOT_rd            =    10'b0000_000_011;
+  <br/>
+  parameter NEG_rd            =    10'b0000_000_100;
+  <br/>
+  parameter ABS_rd            =    10'b0000_000_101;
+  <br/>
+  parameter SKPZ_rd           =    10'b0000_000_110;
+  <br/>
+  parameter SKPNZ_rd          =    10'b0000_000_111;
+  <br/>
+  parameter NOP               =    13'b0000_000_000_000;
+  <br/>
+  parameter HCF                =    13'b0000_000_000_001;
+  <br/>
+  <br/>
+  // General purpose regisgters
   <br/>
   parameter R0 =                    3'h0;
   <br/>
@@ -80,8 +115,6 @@
   <br/>
   parameter R7 =                    3'h7;
   <br/>
-  parameter NONE =                3'h0;
-  <br/>
   <br/>
   // Register file
   <br/>
@@ -90,12 +123,12 @@
   <br/>
   // Program counter
   <br/>
-  reg     [3:0]                     program_counter = 0;
+  reg     [8:0]                     program_counter = 0;
   <br/>
   <br/>
   // Program memory
   <br/>
-  reg        [13:0]                    program_memory[15:0];
+  reg        [12:0]                    program_memory[511:0];
   <br/>
   <br/>
   // Data memory
@@ -105,190 +138,286 @@
   <br/>
   // Current instruction
   <br/>
-  wire    [13:0]        instruction = program_memory[program_counter];
+  wire    [12:0]        instruction = program_memory[program_counter];
   <br/>
-  wire    [4:0]        opcode = instruction[13:9];
+  wire    [3:0]       opcode4 = instruction[12:9];
   <br/>
-  wire    [2:0]        rd_num = instruction[8:6];
+  wire    [2:0]       opcode4_rd = instruction[8:6];
   <br/>
-  wire    [2:0]        rs_num = instruction[5:3];
+  wire    [2:0]       opcode4_rs = instruction[5:3];
   <br/>
-  wire    [2:0]        rt_num = instruction[2:0];
+  wire    [2:0]       opcode4_rt = instruction[2:0];
   <br/>
-  wire    [2:0]        imm3_data = instruction[2:0];
+  wire    [8:0]       opcode4_imm9 = instruction[8:0];
   <br/>
-  wire    [5:0]        imm6_data = instruction[5:0];
+  wire    [5:0]       opcode4_imm6 = instruction[5:0];
   <br/>
-  wire    [8:0]        imm9_data = instruction[8:0];
+  wire    [6:0]       opcode7 = instruction[12:6];
   <br/>
+  wire    [2:0]       opcode7_rd = instruction[5:3];
+  <br/>
+  wire    [2:0]       opcode7_rs = instruction[2:0];
+  <br/>
+  wire    [9:0]       opcode10 = instruction[12:3];
+  <br/>
+  wire    [2:0]       opcode10_rd = instruction[2:0];
+  <br/>
+  wire    [12:0]      opcode13 = instruction[12:0];
+  <br/>
+  <br/>
+  // Initialize data memory
+  <br/>
+  //reg     [63:0]    i;
+  <br/>
+  integer i;
   <br/>
   initial begin
   <br/>
-  // R1: i = 0
+  for (i = 0; i &lt; 256; i = i + 1) begin
   <br/>
-  program_memory[0] =     { OPCODE_MOVR0,        9'd0    };
+  data_memory[i] = i;
   <br/>
-  program_memory[1] =     { OPCODE_MOV,        R1,        R0,        NONE    };
+  end
   <br/>
-  // R2: N = 100
+  data_memory[1] =     0;
   <br/>
-  program_memory[2] =     { OPCODE_MOVR0,        9'd100    };
+  data_memory[2] =     100;
   <br/>
-  program_memory[3] =     { OPCODE_MOV,        R2,        R0,        NONE    };
-  <br/>
-  // R3: d = 1
-  <br/>
-  program_memory[4] =     { OPCODE_MOVR0,        9'd1    };
-  <br/>
-  program_memory[5] =     { OPCODE_MOV,        R3,        R0,        NONE    };
-  <br/>
-  // i = i + 1
-  <br/>
-  program_memory[6] =     { OPCODE_ADD,        R1,     R1,     R3      };
-  <br/>
-  // i &lt; 100
-  <br/>
-  program_memory[7] =     { OPCODE_SKPLT,        R1,        R2,        NONE    };
-  <br/>
-  program_memory[8] =     { OPCODE_JMP,         9'd14    };
-  <br/>
-  // {
-  <br/>
-  program_memory[9] =     { OPCODE_NOP,        NONE,    NONE,    NONE    };
-  <br/>
-  program_memory[10] =     { OPCODE_ADD,         R4,     R4,        R1        };
-  <br/>
-  program_memory[11] =     { OPCODE_UMUL,         R4,     R4,        R4        };
-  <br/>
-  program_memory[12] =     { OPCODE_ST,         R1,     R4,        NONE    };
-  <br/>
-  program_memory[13] =     { OPCODE_JMP,         9'd6    };
-  <br/>
-  // }
-  <br/>
-  program_memory[14] =     { OPCODE_LD,         R5,        R1,        NONE    };
-  <br/>
-  program_memory[15] =     { OPCODE_HCF,         NONE,    NONE,    NONE    };
+  data_memory[3] =     1;
   <br/>
   end
   <br/>
   <br/>
-  // Rekisterien alimmat bitit ledeihin
+  initial begin
   <br/>
-  assign led[0] = registers[0][0];
+  led[7:0] = 8'b01010101;
   <br/>
-  assign led[1] = registers[1][0];
+  end
   <br/>
-  assign led[2] = registers[2][0];
   <br/>
-  assign led[3] = registers[3][0];
+  // Initialize program memory
   <br/>
-  assign led[4] = registers[4][0];
+  initial begin
   <br/>
-  assign led[5] = registers[5][0];
+  for (i = 0; i &lt; 512; i = i + 1) begin
   <br/>
-  assign led[6] = registers[6][0];
+  program_memory[i] =     { NOP   };
   <br/>
-  assign led[7] = registers[7][0];
+  end
+  <br/>
+  program_memory[0] =     { MOVI_rd_imm6,     R2,     6'd0        };
+  <br/>
+  program_memory[1] =     { MOVI_rd_imm6,     R1,     6'd0        };
+  <br/>
+  program_memory[2] =     { DEC_rd,           R1      };
+  <br/>
+  program_memory[3] =     { SKPLT_rd_rs,        R1, R2  };
+  <br/>
+  program_memory[4] =     { JMP_imm9,         9'd100    };
+  <br/>
+  // {
+  <br/>
+  //program_memory[5] =     { NOP               };
+  <br/>
+  //program_memory[6] =     { NOP               };
+  <br/>
+  //program_memory[7] =     { NOP               };
+  <br/>
+  //program_memory[8] =     { NOP               };
+  <br/>
+  program_memory[5] =     { JMP_imm9,         9'd2    };
+  <br/>
+  // }
+  <br/>
+  program_memory[100] =     { INC_rd,             R2      };
+  <br/>
+  program_memory[101] =     { OUT_rd_imm6,         R2,        6'd0    };
+  <br/>
+  program_memory[102] =     { JMP_imm9,         9'd1    };
+  <br/>
+  <br/>
+  /*
+  <br/>
+  program_memory[100] =     { IN_rd_imm6,         R7,        6'd0    };
+  <br/>
+  program_memory[101] =     { NOT_rd,           R7      };
+  <br/>
+  program_memory[102] =     { OUT_rd_imm6,         R7,        6'd0    };
+  <br/>
+  program_memory[103] =     { JMP_imm9,         9'd0    };
+  <br/>
+  */
+  <br/>
+  // Read switch and set leds, io[0] &lt;= io[0]
+  <br/>
+  /*
+  <br/>
+  <br/>
+  program_memory[100] =     { IN_rd_imm6,         R7,        6'd0    };
+  <br/>
+  program_memory[101] =     { ADD_rd_rs_rt,     R7, R7, R7      };
+  <br/>
+  program_memory[102] =     { OUT_rd_imm6,         R7,        6'd0    };
+  <br/>
+  program_memory[103] =     { JMP_imm9,         9'd100    };
+  <br/>
+  */
+  <br/>
+  program_memory[511] =     { HCF               };
+  <br/>
+  end
   <br/>
   <br/>
   // Synchronous part of processor
   <br/>
   always @(posedge clk50) begin
   <br/>
-  case(opcode)
+  case(opcode4)
   <br/>
-  OPCODE_NOP:    begin
+  JMP_imm9: begin
+  <br/>
+  program_counter &lt;= opcode4_imm9;
+  <br/>
+  end
+  <br/>
+  MOVI_rd_imm6: begin
+  <br/>
+  registers[opcode4_rd] &lt;= opcode4_imm6;
   <br/>
   program_counter &lt;= program_counter + 1;
   <br/>
   end
   <br/>
-  OPCODE_ADD:    begin
+  MOVX_rd_imm6: begin
   <br/>
-  registers[rd_num] &lt;= registers[rs_num] + registers[rt_num];
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  OPCODE_MOV: begin
-  <br/>
-  registers[rd_num] &lt;= registers[rs_num];
+  registers[opcode4_rd] &lt;= (registers[opcode4_rd] &lt;&lt; 6) | opcode4_imm6;
   <br/>
   program_counter &lt;= program_counter + 1;
   <br/>
   end
   <br/>
-  OPCODE_MOVR0: begin
   <br/>
-  registers[R0] &lt;= imm9_data;
+  ADD_rd_rs_rt: begin
   <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  OPCODE_MOVR0H: begin
-  <br/>
-  registers[R0] &lt;= (imm9_data &lt;&lt; 9) | registers[R0];
+  registers[opcode4_rd] &lt;= registers[opcode4_rs] + registers[opcode4_rt];
   <br/>
   program_counter &lt;= program_counter + 1;
   <br/>
   end
   <br/>
-  OPCODE_UMUL: begin
+  SUB_rd_rs_rt: begin
   <br/>
-  registers[rd_num] &lt;= registers[rs_num] * registers[rt_num];
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  OPCODE_LD: begin
-  <br/>
-  registers[rd_num] &lt;= data_memory[registers[rs_num]];
+  registers[opcode4_rd] &lt;= registers[opcode4_rs] - registers[opcode4_rt];
   <br/>
   program_counter &lt;= program_counter + 1;
   <br/>
   end
   <br/>
-  OPCODE_ST: begin
+  AND_rd_rs_rt: begin
   <br/>
-  data_memory[registers[rs_num]] &lt;= registers[rd_num];
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  OPCODE_JMP: begin
-  <br/>
-  program_counter &lt;= imm9_data;
-  <br/>
-  end
-  <br/>
-  OPCODE_SKPLT: begin
-  <br/>
-  if (registers[rd_num] &lt; registers[rs_num]) begin
-  <br/>
-  program_counter &lt;= program_counter + 2;
-  <br/>
-  end else begin
+  registers[opcode4_rd] &lt;= registers[opcode4_rs] &amp; registers[opcode4_rt];
   <br/>
   program_counter &lt;= program_counter + 1;
   <br/>
   end
   <br/>
+  OR_rd_rs_rt: begin
+  <br/>
+  registers[opcode4_rd] &lt;= registers[opcode4_rs] | registers[opcode4_rt];
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
   end
   <br/>
-  OPCODE_HCF: begin
+  XOR_rd_rs_rt: begin
   <br/>
-  program_counter &lt;= switch;
+  registers[opcode4_rd] &lt;= registers[opcode4_rs] ^ registers[opcode4_rt];
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  UMUL_rd_rs_rt: begin
+  <br/>
+  registers[opcode4_rd] &lt;= registers[opcode4_rs] * registers[opcode4_rt];
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  <br/>
+  IN_rd_imm6: begin
+  <br/>
+  registers[opcode4_rd] &lt;= switch[7:0];            // &lt;= io[opcode_imm6]
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  OUT_rd_imm6: begin
+  <br/>
+  led[7:0] &lt;= registers[opcode4_rd][17:10];            // io[opcode_imm6] &lt;=
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  4'b0000: begin
+  <br/>
+  case(opcode7)
+  <br/>
+  SKPLT_rd_rs: begin
+  <br/>
+  program_counter &lt;= program_counter + 1 + (registers[opcode7_rd] &lt; registers[opcode7_rd]);
+  <br/>
+  end
+  <br/>
+  SKPLE_rd_rs: begin
+  <br/>
+  program_counter &lt;= program_counter + 1 + (registers[opcode7_rd] &lt;= registers[opcode7_rd]);
+  <br/>
+  end
+  <br/>
+  7'b0000_000: begin
+  <br/>
+  case(opcode10)
+  <br/>
+  INC_rd: begin
+  <br/>
+  registers[opcode10_rd] &lt;= registers[opcode10_rd] + 1;
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  INC_rd: begin
+  <br/>
+  registers[opcode10_rd] &lt;= registers[opcode10_rd] - 1;
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  NOT_rd: begin
+  <br/>
+  registers[opcode10_rd] &lt;= ~registers[opcode10_rd];
+  <br/>
+  program_counter &lt;= program_counter + 1;
   <br/>
   end
   <br/>
   endcase
   <br/>
   end
+  <br/>
+  endcase
+  <br/>
+  end
+  <br/>
+  endcase
+  <br/>
+  end
+  <br/>
   <br/>
   endmodule
   <br/>
