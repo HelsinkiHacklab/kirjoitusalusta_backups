@@ -21,9 +21,13 @@
   <br/>
   `default_nettype none
   <br/>
+  <br/>
+  //`define ADDI(rd, imm6) { 4'b0100, rd, imm6 }
+  <br/>
+  <br/>
   module main(
   <br/>
-  input   wire                clk50,
+  input   wire                clk100MHz,
   <br/>
   input   wire    [7:0]       switch,
   <br/>
@@ -68,15 +72,15 @@
   <br/>
   parameter ST_rd_rs          =     7'b0000_010;
   <br/>
-  parameter SAR_rd_rs         =     7'b0000_011;
+  parameter INCZ_rd_rs        =     7'b0000_011;
   <br/>
-  parameter SLR_rd_rs         =     7'b0000_100;
+  parameter DECZ_rd_rs        =     7'b0000_100;
   <br/>
-  parameter SLL_rd_rs         =     7'b0000_101;
+  parameter SKPLT_rd_rs       =     7'b0000_101;
   <br/>
-  parameter SKPLT_rd_rs       =     7'b0000_110;
+  parameter SKPLE_rd_rs       =     7'b0000_110;
   <br/>
-  parameter SKPLE_rd_rs       =     7'b0000_111;
+  parameter SKPEQ_rd_rs       =     7'b0000_111;
   <br/>
   parameter INC_rd            =    10'b0000_000_001;
   <br/>
@@ -94,7 +98,19 @@
   <br/>
   parameter NOP               =    13'b0000_000_000_000;
   <br/>
-  parameter HCF                =    13'b0000_000_000_001;
+  parameter _X4               =    13'b0000_000_000_001;
+  <br/>
+  parameter _X5               =    13'b0000_000_000_010;
+  <br/>
+  parameter _X6               =    13'b0000_000_000_011;
+  <br/>
+  parameter _X7               =    13'b0000_000_000_100;
+  <br/>
+  parameter _X8               =    13'b0000_000_000_101;
+  <br/>
+  parameter _X9               =    13'b0000_000_000_110;
+  <br/>
+  parameter HCF                =    13'b0000_000_000_111;
   <br/>
   <br/>
   // General purpose regisgters
@@ -139,6 +155,10 @@
   // Current instruction
   <br/>
   wire    [12:0]        instruction = program_memory[program_counter];
+  <br/>
+  //wire    [3:0]       opcode4 = instruction[12:9];
+  <br/>
+  //wire    [3:0]       opcode4 = instruction[12-:4];
   <br/>
   wire    [3:0]       opcode4 = instruction[12:9];
   <br/>
@@ -205,15 +225,41 @@
   <br/>
   end
   <br/>
-  program_memory[0] =     { MOVI_rd_imm6,     R2,     6'd0        };
+  <br/>
+  program_memory[0] =     { MOVI_rd_imm6,     R0,     6'd0        };
+  <br/>
+  program_memory[1] =     { INC_rd,           R0      };
+  <br/>
+  program_memory[2] =     { OUT_rd_imm6,         R0,        6'd0    };
+  <br/>
+  program_memory[3] =     { JMP_imm9,         9'd1    };
+  <br/>
+  <br/>
+  /*
+  <br/>
+  program_memory[0] =     { MOVI_rd_imm6,     R0,     6'd0        };
   <br/>
   program_memory[1] =     { MOVI_rd_imm6,     R1,     6'd0        };
   <br/>
-  program_memory[2] =     { DEC_rd,           R1      };
+  program_memory[2] =     { INC_rd,           R0      };
   <br/>
-  program_memory[3] =     { SKPLT_rd_rs,        R1, R2  };
+  program_memory[3] =     { INCZ_rd_rs,       R1, R0  };
   <br/>
-  program_memory[4] =     { JMP_imm9,         9'd100    };
+  program_memory[4] =     { OUT_rd_imm6,         R1,        6'd0    };
+  <br/>
+  program_memory[5] =     { JMP_imm9,         9'd2    };
+  <br/>
+  */
+  <br/>
+  <br/>
+  //program_memory[5] =     `ADDI(R6, 6'd0);
+  <br/>
+  <br/>
+  //program_memory[3] =     { MOVI_rd_imm6,     R1,     6'd0        };
+  <br/>
+  //program_memory[4] =     { SKPLT_rd_rs,        R1, R2  };
+  <br/>
+  //program_memory[5] =     { JMP_imm9,         9'd100    };
   <br/>
   // {
   <br/>
@@ -225,15 +271,17 @@
   <br/>
   //program_memory[8] =     { NOP               };
   <br/>
-  program_memory[5] =     { JMP_imm9,         9'd2    };
+  //program_memory[6] =     { INC_rd,           R1      };
+  <br/>
+  //program_memory[7] =     { JMP_imm9,         9'd4    };
   <br/>
   // }
   <br/>
-  program_memory[100] =     { INC_rd,             R2      };
+  //program_memory[100] =     { INC_rd,             R7      };
   <br/>
-  program_memory[101] =     { OUT_rd_imm6,         R2,        6'd0    };
+  //program_memory[101] =     { OUT_rd_imm6,         R7,        6'd0    };
   <br/>
-  program_memory[102] =     { JMP_imm9,         9'd1    };
+  //program_memory[102] =     { JMP_imm9,         9'd3    };
   <br/>
   <br/>
   /*
@@ -268,9 +316,73 @@
   end
   <br/>
   <br/>
+  // PLL wires needed
+  <br/>
+  wire                                clk100MHz_bufg;
+  <br/>
+  reg     [28:0]                      clk_scaler = 0;
+  <br/>
+  reg                                 clkXHz_sel;
+  <br/>
+  wire                                 clkXHz_unbuf;
+  <br/>
+  wire                                clkXHz_bufg;
+  <br/>
+  <br/>
+  // External clock distributed to global clock network
+  <br/>
+  IBUFG ibufg_xx1(
+  <br/>
+  .I(clk100MHz),
+  <br/>
+  .O(clk100MHz_bufg)
+  <br/>
+  );
+  <br/>
+  <br/>
+  BUFGMUX bufgmux_xx1(
+  <br/>
+  .I0(1'b0),
+  <br/>
+  .I1(1'b1),
+  <br/>
+  .S(clkXHz_sel),
+  <br/>
+  .O(clkXHz_unbuf)
+  <br/>
+  );
+  <br/>
+  <br/>
+  BUFG bufg_xx2(
+  <br/>
+  .I(clkXHz_unbuf),
+  <br/>
+  .O(clkXHz_bufg)
+  <br/>
+  );
+  <br/>
+  <br/>
+  always @(posedge clk100MHz_bufg) begin
+  <br/>
+  if (clk_scaler == 28'd50_000_000) begin
+  <br/>
+  clk_scaler &lt;= 0;
+  <br/>
+  clkXHz_sel &lt;= ~clkXHz_sel;
+  <br/>
+  end else begin
+  <br/>
+  clk_scaler &lt;= clk_scaler + 1;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  <br/>
   // Synchronous part of processor
   <br/>
-  always @(posedge clk50) begin
+  always @(posedge clkXHz_bufg) begin
   <br/>
   case(opcode4)
   <br/>
@@ -296,6 +408,79 @@
   <br/>
   end
   <br/>
+  ADDI_rd_imm6: begin
+  <br/>
+  if (opcode4_imm6[5]) begin
+  <br/>
+  registers[opcode4_rd] &lt;= registers[opcode4_rd] - opcode4_imm6[4:0];
+  <br/>
+  end else begin
+  <br/>
+  registers[opcode4_rd] &lt;= registers[opcode4_rd] + opcode4_imm6[4:0] + 1;
+  <br/>
+  end
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  /*
+  <br/>
+  SAI_rd_imm6: begin
+  <br/>
+  if (opcode4_imm6[5]) begin
+  <br/>
+  18'b100000000_000000000
+  <br/>
+  wire signed [17:0] rd = registers[opcode4_rd];
+  <br/>
+  registers[opcode4_rd] &lt;=  rd &gt;&gt; opcode4_imm6[4:0];
+  <br/>
+  end else begin
+  <br/>
+  registers[opcode4_rd] &lt;= registers[opcode4_rd] &lt;&lt; (opcode4_imm6[4:0] + 1);
+  <br/>
+  end
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  */
+  <br/>
+  SLI_rd_imm6: begin
+  <br/>
+  if (opcode4_imm6[5]) begin
+  <br/>
+  registers[opcode4_rd] &lt;=  registers[opcode4_rd] &gt;&gt; opcode4_imm6[4:0];
+  <br/>
+  end else begin
+  <br/>
+  registers[opcode4_rd] &lt;= registers[opcode4_rd] &lt;&lt; (opcode4_imm6[4:0] + 1);
+  <br/>
+  end
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  IN_rd_imm6: begin
+  <br/>
+  registers[opcode4_rd] &lt;= switch[7:0];            // &lt;= io[opcode_imm6]
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  OUT_rd_imm6: begin
+  <br/>
+  led[7:0] &lt;= registers[opcode4_rd];  //[17:10];            // io[opcode_imm6] &lt;=
+  <br/>
+  //led[7:0] &lt;= registers[opcode4_rd][17:10];
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
   <br/>
   ADD_rd_rs_rt: begin
   <br/>
@@ -337,6 +522,18 @@
   <br/>
   end
   <br/>
+  /*
+  <br/>
+  MUL_rd_rs_rt: begin
+  <br/>
+  registers[opcode4_rd] &lt;= registers[opcode4_rs] * registers[opcode4_rt];
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  */
+  <br/>
   UMUL_rd_rs_rt: begin
   <br/>
   registers[opcode4_rd] &lt;= registers[opcode4_rs] * registers[opcode4_rt];
@@ -345,40 +542,61 @@
   <br/>
   end
   <br/>
-  <br/>
-  IN_rd_imm6: begin
-  <br/>
-  registers[opcode4_rd] &lt;= switch[7:0];            // &lt;= io[opcode_imm6]
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  OUT_rd_imm6: begin
-  <br/>
-  led[7:0] &lt;= registers[opcode4_rd][17:10];            // io[opcode_imm6] &lt;=
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  4'b0000: begin
+  default: begin
   <br/>
   case(opcode7)
   <br/>
+  LD_rd_rs: begin
+  <br/>
+  registers[opcode7_rd] &lt;= data_memory[registers[opcode7_rs]];
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  ST_rd_rs: begin
+  <br/>
+  data_memory[registers[opcode7_rs]] &lt;= registers[opcode7_rd];
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  INCZ_rd_rs: begin
+  <br/>
+  registers[opcode7_rd] &lt;= registers[opcode7_rd] + ((registers[opcode7_rs] == 0) ? 1 : 0);
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  DECZ_rd_rs: begin
+  <br/>
+  registers[opcode7_rd] &lt;= registers[opcode7_rd] - ((registers[opcode7_rs] == 0) ? 1 : 0);
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
   SKPLT_rd_rs: begin
   <br/>
-  program_counter &lt;= program_counter + 1 + (registers[opcode7_rd] &lt; registers[opcode7_rd]);
+  program_counter &lt;= program_counter + (registers[opcode7_rd] &lt; registers[opcode7_rd]) ? 2 : 1;
   <br/>
   end
   <br/>
   SKPLE_rd_rs: begin
   <br/>
-  program_counter &lt;= program_counter + 1 + (registers[opcode7_rd] &lt;= registers[opcode7_rd]);
+  program_counter &lt;= program_counter + (registers[opcode7_rd] &lt;= registers[opcode7_rd]) ? 2 : 1;
   <br/>
   end
   <br/>
-  7'b0000_000: begin
+  SKPEQ_rd_rs: begin
+  <br/>
+  program_counter &lt;= program_counter + (registers[opcode7_rd] == registers[opcode7_rd]) ? 2 : 1;
+  <br/>
+  end
+  <br/>
+  default: begin
   <br/>
   case(opcode10)
   <br/>
@@ -390,7 +608,7 @@
   <br/>
   end
   <br/>
-  INC_rd: begin
+  DEC_rd: begin
   <br/>
   registers[opcode10_rd] &lt;= registers[opcode10_rd] - 1;
   <br/>
@@ -403,6 +621,54 @@
   registers[opcode10_rd] &lt;= ~registers[opcode10_rd];
   <br/>
   program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  NEG_rd: begin
+  <br/>
+  registers[opcode10_rd] &lt;= -registers[opcode10_rd];
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  ABS_rd: begin
+  <br/>
+  registers[opcode10_rd] &lt;= (registers[opcode10_rd] &lt; 0) ? -registers[opcode10_rd] : registers[opcode10_rd];
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  SKPZ_rd: begin
+  <br/>
+  program_counter &lt;= program_counter + (registers[opcode7_rd] == 0) ? 2 : 1;
+  <br/>
+  end
+  <br/>
+  SKPNZ_rd: begin
+  <br/>
+  program_counter &lt;= program_counter + (registers[opcode7_rd] != 0) ? 2 : 1;
+  <br/>
+  end
+  <br/>
+  default: begin
+  <br/>
+  case(opcode13)
+  <br/>
+  NOP: begin
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  end
+  <br/>
+  HCF: begin
+  <br/>
+  program_counter &lt;= program_counter;
+  <br/>
+  end
+  <br/>
+  endcase
   <br/>
   end
   <br/>
