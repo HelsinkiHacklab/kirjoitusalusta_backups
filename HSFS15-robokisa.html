@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /HSFS15-robokisa
+  </title>
+ </head>
+ <body>
+  <b>
+   <u>
+    HSFS15:sta yhteydessä pidettävänä robotticompo
+   </u>
+  </b>
+  <br/>
+  <br/>
+  Kisassa  on tarkoituksena on kiertää 5 kierrosta lyhyehköllä radalla  mahdollisimman nopeasti. Tällä kertaa ei ole viivaa mitä seurata, vaan  robotilla ajetaan seinien reunustamassa käytävässä. Joukkueeseen voi  kuulua 1:stä N:ään henkilöä.
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   Kilpailun kulku:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Jokainen joukkue ajaa vuorollaan 2 kierrosta yhtämittaisesti.
+    <ul>
+     <li>
+      Mikäli aikaa on niin paras aika X suorituksesta.
+     </li>
+    </ul>
+   </li>
+   <li>
+    Kierroksien yhteenlaskettu aika ratkaisee voittajan.
+   </li>
+   <li>
+    Robottiin koskemisesta 30s aikasakko
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Kilpailussa on kaksi luokkaa:
+  <br/>
+  <ul>
+   <li>
+    Nopein robotti
+   </li>
+   <li>
+    Hienoin robotti (voittaja ratkeaa yleisöäänestyksellä)
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Rata:
+  </b>
+  <br/>
+  <br/>
+  HSF15 rata
+  <a href="./5w-roborally.html">
+   http://kirjoitusalusta.fi/5w-roborally
+  </a>
+  seuraavin muutoksin:
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Maastorata
+   </li>
+   <li>
+    Rata on ulkona, sää on mikä on.
+   </li>
+   <li>
+    Rataa kallistettu X astetta (helsingin läbin rampin kulma)
+   </li>
+   <li>
+    Radassa on hiekkaa/soraa jota ratamestari muotoilee parhaaksi näkemällään tavalla
+    <ul>
+     <li>
+      Taetta seinän minimikorkeudesta soran lisäämisen jälkeen ei ole.
+      <ul>
+       <li>
+        Tästä huolimatta seinien yli "oikaisu" johtaa suorituksen hylkäämiseen.
+       </li>
+      </ul>
+     </li>
+     <li>
+      Vierestä RC-ohjatulla testirobotilla (tämä on lähes varmasti tela-ajoneuvo) varmistetaan että rata on ylipäänsä mahdollinen suorittaa.
+     </li>
+    </ul>
+   </li>
+   <li>
+    Radalle saa lisätä omia merkkejä ja majakoita mutta ne pitää poistaa oman suorituksen jälkeen.
+   </li>
+   <li>
+    EHKÄ: Radalla on x kHz taajuutta antava keskilinjaa seuraava lanka jota voi seurata vastaanottimella jonka schemat löytyvät osoitteesta LINKKI (Jarin lankalähetin ja vastaanotin, ref pölynimurirobotit). Lanka on radalla koko ajan mutta lähettimen voi pyytää pois päältä mikäli epäilee sen häiritsevän omaa robottia.
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Robotti:
+  </b>
+  <br/>
+  <br/>
+  Ohjaus:
+  <br/>
+  <ul>
+   <li>
+    Robotista suositellaan rakennettavaksi täysin autonominen
+    <ul>
+     <li>
+      Täysin autonominen botti jolla kaikki laskenta on kyydissä saa 15% aikabonuksen.
+      <ul>
+       <li>
+        Pitäisikö olla enemmän ?
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Näköyhteydellä radio-ohjatusta robotista tulee 100% sakko kierrosaikaan
+    <ul>
+     <li>
+      Tarkoittaako tämä siis perinteistä RC-ohjausta vierestä? Tarkennusta ..
+      <ul>
+       <li>
+        Tarkoittaa.
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Teleoperoidusta  robotista ei tule aikasakkoa, mikäli toteutuksessa on merkittävästi  hakkerihenkeä (valmiit fpv-setit ovat turhan hyviä suorituskyvyltään)
+    <ul>
+     <li>
+      Radio-ohjattu mutta FPV eikä suora näköyhteys
+     </li>
+     <li>
+      Valmiista FPV-ratkaisusta 50% aikasakko.
+     </li>
+    </ul>
+   </li>
+   <li>
+    Kaikki lakien mukaiset radiot ovat sallittuja
+   </li>
+   <li>
+    Laskennan ei tarvitse olla robon kyydissä
+   </li>
+   <li>
+    Runko, akut jne täysin vapaat. Jos robotti ei mahdu kääntymään radalla niin se ei varmaan kykene rataa kiertämään mutta muita kokorajoitteita ei ole.
+   </li>
+   <li>
+    <b>
+     Viikkoa ennen kisaa
+    </b>
+    on toimitettava julkista
+    <b>
+     videomuotoista todistusaineistoa
+    </b>
+    siitä että robotti kykenee jo liikkumaan maastossa (jolloin on vielä viikko aikaa hieroa ohjausta).
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Ilmoittautuminen
+  </b>
+  <br/>
+  <br/>
+  Joukkueen nimi, paikkakunta.
+  <br/>
+  <br/>
+  Turku, Turku
+  <br/>
+  <br/>
+  <br/>
+ </body>
+</html>
