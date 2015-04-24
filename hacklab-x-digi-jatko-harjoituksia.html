@@ -9,634 +9,51 @@
  </head>
  <body>
   <b>
-   ----------------------- spartan-3.ucf -----------------------
+   ----------------------- xc9572xl-10-vq44.ucf -----------------------
   </b>
   <br/>
+  # LCTech CPLD XC9572XL-10VQ44 with 50MHz external oscillator
   <br/>
-  # spartan-3.ucf
+  # Delta-sigma version
   <br/>
-  # Digilent Spartan-3 board - Spartan3/XC3S200/FT256/-4
+  NET "clk50MHz"                LOC = "P1"        | BUFG = CLK;      # 50 MHz oscillator
   <br/>
-  <br/>
-  NET "clk_ext_unbuf"                LOC = "T9" |    PERIOD = 20 ns;
-  <br/>
-  <br/>
-  NET "led&lt;0&gt;"                     LOC = "K12";
-  <br/>
-  NET "led&lt;1&gt;"                     LOC = "P14";
-  <br/>
-  NET "led&lt;2&gt;"                     LOC = "L12";
-  <br/>
-  NET "led&lt;3&gt;"                     LOC = "N14";
-  <br/>
-  NET "led&lt;4&gt;"                     LOC = "P13";
-  <br/>
-  NET "led&lt;5&gt;"                     LOC = "N12";
-  <br/>
-  NET "led&lt;6&gt;"                     LOC = "P12";
-  <br/>
-  NET "led&lt;7&gt;"                     LOC = "P11";
-  <br/>
-  <br/>
-  NET "switch&lt;0&gt;"                 LOC = "F12";
-  <br/>
-  NET "switch&lt;1&gt;"                 LOC = "G12";
-  <br/>
-  NET "switch&lt;2&gt;"                 LOC = "H14";
-  <br/>
-  NET "switch&lt;3&gt;"                 LOC = "H13";
-  <br/>
-  NET "switch&lt;4&gt;"                 LOC = "J14";
-  <br/>
-  NET "switch&lt;5&gt;"                 LOC = "J13";
-  <br/>
-  NET "switch&lt;6&gt;"                 LOC = "K14";
-  <br/>
-  NET "switch&lt;7&gt;"                 LOC = "K13";
+  NET "audio"                        LOC = "P2";
   <br/>
   <br/>
   <b>
    ----------------------- main.v -----------------------
   </b>
   <br/>
+  // LCTech CPLD XC9572XL-10VQ44 with 50MHz external oscillator
   <br/>
-  // main.v
-  <br/>
-  // Turpo CPU tested with Digilent Spartan-3 board - Spartan3/XC3S200/FT256/-4
-  <br/>
+  // Delta-sigma version
   <br/>
   `timescale 1ns / 1ps
   <br/>
   `default_nettype none
   <br/>
   <br/>
-  module main(
+  module DeltaSigma(
   <br/>
-  input   wire                clk_ext_unbuf,
+  input   wire                clk,
   <br/>
-  input   wire    [7:0]       switch,
+  input   wire    [7:0]       value,
   <br/>
-  output  reg     [7:0]       led
+  output  wire                out
   <br/>
   );
   <br/>
   <br/>
-  // Instruction opcodes
+  reg [8:0]   accumulator = 0;
   <br/>
-  parameter JMP_imm9            =     4'b0001;
   <br/>
-  parameter MOVI_rd_imm6      =     4'b0010;
+  assign out = accumulator[8];
   <br/>
-  parameter MOVX_rd_imm6      =     4'b0011;
   <br/>
-  parameter ADDI_rd_imm6      =     4'b0100;
+  always @(posedge clk) begin
   <br/>
-  parameter SAI_rd_imm6       =     4'b0101;
-  <br/>
-  parameter SLI_rd_imm6       =     4'b0110;
-  <br/>
-  parameter IN_rd_imm6        =     4'b0111;
-  <br/>
-  parameter OUT_rd_imm6       =     4'b1000;
-  <br/>
-  parameter ADD_rd_rs_rt      =     4'b1001;
-  <br/>
-  parameter SUB_rd_rs_rt      =     4'b1010;
-  <br/>
-  parameter AND_rd_rs_rt      =     4'b1011;
-  <br/>
-  parameter OR_rd_rs_rt       =     4'b1100;
-  <br/>
-  parameter XOR_rd_rs_rt      =     4'b1101;
-  <br/>
-  // parameter MUL_rd_rs_rt      =     4'b1110; // Tämän toteutus ei mahdu XC3S200:lle
-  <br/>
-  parameter UMUL_rd_rs_rt     =     4'b1111;
-  <br/>
-  parameter LD_rd_rs          =     7'b0000_001;
-  <br/>
-  parameter ST_rd_rs          =     7'b0000_010;
-  <br/>
-  parameter INCZ_rd_rs        =     7'b0000_011;
-  <br/>
-  parameter DECZ_rd_rs        =     7'b0000_100;
-  <br/>
-  parameter SKPLT_rd_rs       =     7'b0000_101;
-  <br/>
-  parameter SKPLE_rd_rs       =     7'b0000_110;
-  <br/>
-  parameter SKPEQ_rd_rs       =     7'b0000_111;
-  <br/>
-  parameter INC_rd            =    10'b0000_000_001;
-  <br/>
-  parameter DEC_rd            =    10'b0000_000_010;
-  <br/>
-  parameter NOT_rd            =    10'b0000_000_011;
-  <br/>
-  parameter NEG_rd            =    10'b0000_000_100;
-  <br/>
-  parameter ABS_rd            =    10'b0000_000_101;
-  <br/>
-  parameter SKPZ_rd           =    10'b0000_000_110;
-  <br/>
-  parameter SKPNZ_rd          =    10'b0000_000_111;
-  <br/>
-  parameter HCF               =    13'b0000_000_000_000;
-  <br/>
-  parameter NOP               =    13'b0000_000_000_001;
-  <br/>
-  <br/>
-  // General purpose regisgters
-  <br/>
-  parameter R0 =                    3'h0;
-  <br/>
-  parameter R1 =                    3'h1;
-  <br/>
-  parameter R2 =                    3'h2;
-  <br/>
-  parameter R3 =                    3'h3;
-  <br/>
-  parameter R4 =                    3'h4;
-  <br/>
-  parameter R5 =                    3'h5;
-  <br/>
-  parameter R6 =                    3'h6;
-  <br/>
-  parameter R7 =                    3'h7;
-  <br/>
-  <br/>
-  // Register file
-  <br/>
-  reg     [17:0]                     registers[7:0];
-  <br/>
-  <br/>
-  // Program counter
-  <br/>
-  reg     [8:0]                     program_counter = 0;
-  <br/>
-  <br/>
-  // Program memory
-  <br/>
-  reg        [12:0]                    program_memory[511:0];
-  <br/>
-  <br/>
-  // Data memory
-  <br/>
-  reg        [17:0]                    data_memory[255:0];
-  <br/>
-  <br/>
-  // Current instruction
-  <br/>
-  wire    [12:0]        instruction = program_memory[program_counter];
-  <br/>
-  wire    [3:0]       opcode4 = instruction[12:9];
-  <br/>
-  wire    [2:0]       opcode4_rd = instruction[8:6];
-  <br/>
-  wire    [2:0]       opcode4_rs = instruction[5:3];
-  <br/>
-  wire    [2:0]       opcode4_rt = instruction[2:0];
-  <br/>
-  wire    [8:0]       opcode4_imm9 = instruction[8:0];
-  <br/>
-  wire    [5:0]       opcode4_imm6 = instruction[5:0];
-  <br/>
-  wire    [6:0]       opcode7 = instruction[12:6];
-  <br/>
-  wire    [2:0]       opcode7_rd = instruction[5:3];
-  <br/>
-  wire    [2:0]       opcode7_rs = instruction[2:0];
-  <br/>
-  wire    [9:0]       opcode10 = instruction[12:3];
-  <br/>
-  wire    [2:0]       opcode10_rd = instruction[2:0];
-  <br/>
-  wire    [12:0]      opcode13 = instruction[12:0];
-  <br/>
-  <br/>
-  // Initialize data memory, with test pattern
-  <br/>
-  integer i;
-  <br/>
-  integer d;
-  <br/>
-  initial begin
-  <br/>
-  d = 1;
-  <br/>
-  for (i = 0; i &lt; 256; i = i + 1) begin
-  <br/>
-  data_memory[i] = d | i;
-  <br/>
-  d = (d &lt;&lt; 1) + !(d &amp; 8'b10000000);
-  <br/>
-  if (d == 0) d = 8'b00000001;
-  <br/>
-  end
-  <br/>
-  end
-  <br/>
-  <br/>
-  initial begin
-  <br/>
-  led[7:0] = 8'b10101010;
-  <br/>
-  end
-  <br/>
-  <br/>
-  // Initialize program memory
-  <br/>
-  initial begin
-  <br/>
-  for (i = 0; i &lt; 512; i = i + 1) begin
-  <br/>
-  program_memory[i] =     { NOP   };
-  <br/>
-  end
-  <br/>
-  <br/>
-  // 36-bittinen laskuri, bittien [25:18] osoittamasta muistipaikasta
-  <br/>
-  // alimmat kahdeksan ledeihin
-  <br/>
-  program_memory[0] =     { MOVI_rd_imm6,     R0,     6'd0        };
-  <br/>
-  program_memory[1] =     { MOVI_rd_imm6,     R1,     6'd0        };
-  <br/>
-  program_memory[2] =     { INC_rd,           R0      };
-  <br/>
-  program_memory[3] =     { INCZ_rd_rs,       R1, R0  };
-  <br/>
-  program_memory[4] =     { LD_rd_rs,         R7, R1  };
-  <br/>
-  program_memory[5] =     { OUT_rd_imm6,         R7,        6'd0    };
-  <br/>
-  program_memory[6] =     { JMP_imm9,         9'd2    };
-  <br/>
-  <br/>
-  program_memory[511] =     { HCF               };
-  <br/>
-  end
-  <br/>
-  <br/>
-  // Jaetaan ulkoista kelloa hitaammaksi koska 50 MHz on
-  <br/>
-  // liikaa tälle single-cycle -toteutukselle
-  <br/>
-  wire                                clk_ext;
-  <br/>
-  wire                                dcm_fb_unbuf;
-  <br/>
-  wire                                dcm_fb;
-  <br/>
-  wire                                clk_cpu_unbuf;
-  <br/>
-  wire                                clk_cpu;
-  <br/>
-  <br/>
-  IBUFG ibufg_1(
-  <br/>
-  .I(clk_ext_unbuf),
-  <br/>
-  .O(clk_ext)
-  <br/>
-  );
-  <br/>
-  <br/>
-  DCM #(
-  <br/>
-  .CLKDV_DIVIDE(16.0),
-  <br/>
-  .CLK_FEEDBACK("1X"),
-  <br/>
-  .CLKIN_PERIOD(20.0)             // 1/50 MHz = 20 ns
-  <br/>
-  ) dcm_1 (
-  <br/>
-  .CLK0(dcm_fb_unbuf),
-  <br/>
-  .CLKFB(dcm_fb),
-  <br/>
-  .CLKIN(clk_ext),
-  <br/>
-  .CLKDV(clk_cpu_unbuf)           // 3.125 MHz
-  <br/>
-  );
-  <br/>
-  <br/>
-  BUFG bufg_2(
-  <br/>
-  .I(dcm_fb_unbuf),
-  <br/>
-  .O(dcm_fb)
-  <br/>
-  );
-  <br/>
-  <br/>
-  BUFG bufg_3(
-  <br/>
-  .I(clk_cpu_unbuf),
-  <br/>
-  .O(clk_cpu)
-  <br/>
-  );
-  <br/>
-  <br/>
-  // Synchronous part of processor
-  <br/>
-  always @(posedge clk_cpu) begin
-  <br/>
-  case(opcode4)
-  <br/>
-  JMP_imm9: begin
-  <br/>
-  program_counter &lt;= opcode4_imm9;
-  <br/>
-  end
-  <br/>
-  MOVI_rd_imm6: begin
-  <br/>
-  registers[opcode4_rd] &lt;= $signed(opcode4_imm6);
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  MOVX_rd_imm6: begin
-  <br/>
-  registers[opcode4_rd] &lt;= (registers[opcode4_rd] &lt;&lt; 6) | opcode4_imm6;
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  ADDI_rd_imm6: begin
-  <br/>
-  if (opcode4_imm6[5]) begin
-  <br/>
-  registers[opcode4_rd] &lt;= registers[opcode4_rd] - opcode4_imm6[4:0];
-  <br/>
-  end else begin
-  <br/>
-  registers[opcode4_rd] &lt;= registers[opcode4_rd] + opcode4_imm6[4:0] + 1;
-  <br/>
-  end
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  SAI_rd_imm6: begin
-  <br/>
-  if (opcode4_imm6[5]) begin
-  <br/>
-  registers[opcode4_rd] &lt;= registers[opcode4_rd] &gt;&gt;&gt; opcode4_imm6[4:0];
-  <br/>
-  end else begin
-  <br/>
-  registers[opcode4_rd] &lt;= registers[opcode4_rd] &lt;&lt;&lt; (opcode4_imm6[4:0] + 1);
-  <br/>
-  end
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  SLI_rd_imm6: begin
-  <br/>
-  if (opcode4_imm6[5]) begin
-  <br/>
-  registers[opcode4_rd] &lt;= registers[opcode4_rd] &gt;&gt; opcode4_imm6[4:0];
-  <br/>
-  end else begin
-  <br/>
-  registers[opcode4_rd] &lt;= registers[opcode4_rd] &lt;&lt; (opcode4_imm6[4:0] + 1);
-  <br/>
-  end
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  IN_rd_imm6: begin
-  <br/>
-  registers[opcode4_rd] &lt;= switch[7:0];
-  <br/>
-  // &lt;= io[opcode_imm6]
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  OUT_rd_imm6: begin
-  <br/>
-  led[7:0] &lt;= registers[opcode4_rd];
-  <br/>
-  // io[opcode_imm6] &lt;=
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  ADD_rd_rs_rt: begin
-  <br/>
-  registers[opcode4_rd] &lt;= registers[opcode4_rs] + registers[opcode4_rt];
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  SUB_rd_rs_rt: begin
-  <br/>
-  registers[opcode4_rd] &lt;= registers[opcode4_rs] - registers[opcode4_rt];
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  AND_rd_rs_rt: begin
-  <br/>
-  registers[opcode4_rd] &lt;= registers[opcode4_rs] &amp; registers[opcode4_rt];
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  OR_rd_rs_rt: begin
-  <br/>
-  registers[opcode4_rd] &lt;= registers[opcode4_rs] | registers[opcode4_rt];
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  XOR_rd_rs_rt: begin
-  <br/>
-  registers[opcode4_rd] &lt;= registers[opcode4_rs] ^ registers[opcode4_rt];
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  /* Ei mahdu Spartan-3 levyn piirille
-  <br/>
-  MUL_rd_rs_rt: begin
-  <br/>
-  registers[opcode4_rd] &lt;= $signed(registers[opcode4_rs]) * $signed(registers[opcode4_rt]);
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  */
-  <br/>
-  UMUL_rd_rs_rt: begin
-  <br/>
-  registers[opcode4_rd] &lt;= registers[opcode4_rs] * registers[opcode4_rt];
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  default: begin
-  <br/>
-  case(opcode7)
-  <br/>
-  LD_rd_rs: begin
-  <br/>
-  registers[opcode7_rd] &lt;= data_memory[registers[opcode7_rs]];
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  ST_rd_rs: begin
-  <br/>
-  data_memory[registers[opcode7_rs]] &lt;= registers[opcode7_rd];
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  INCZ_rd_rs: begin
-  <br/>
-  registers[opcode7_rd] &lt;= registers[opcode7_rd] + ((registers[opcode7_rs] == 0) ? 1 : 0);
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  DECZ_rd_rs: begin
-  <br/>
-  registers[opcode7_rd] &lt;= registers[opcode7_rd] - ((registers[opcode7_rs] == 0) ? 1 : 0);
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  SKPLT_rd_rs: begin
-  <br/>
-  program_counter &lt;= program_counter + ((registers[opcode7_rd] &lt; registers[opcode7_rs]) ? 2 : 1);
-  <br/>
-  end
-  <br/>
-  SKPLE_rd_rs: begin
-  <br/>
-  program_counter &lt;= program_counter + ((registers[opcode7_rd] &lt;= registers[opcode7_rs]) ? 2 : 1);
-  <br/>
-  end
-  <br/>
-  SKPEQ_rd_rs: begin
-  <br/>
-  program_counter &lt;= program_counter + ((registers[opcode7_rd] == registers[opcode7_rs]) ? 2 : 1);
-  <br/>
-  end
-  <br/>
-  default: begin
-  <br/>
-  case(opcode10)
-  <br/>
-  INC_rd: begin
-  <br/>
-  registers[opcode10_rd] &lt;= registers[opcode10_rd] + 1;
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  DEC_rd: begin
-  <br/>
-  registers[opcode10_rd] &lt;= registers[opcode10_rd] - 1;
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  NOT_rd: begin
-  <br/>
-  registers[opcode10_rd] &lt;= ~registers[opcode10_rd];
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  NEG_rd: begin
-  <br/>
-  registers[opcode10_rd] &lt;= -registers[opcode10_rd];
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  ABS_rd: begin
-  <br/>
-  registers[opcode10_rd] &lt;= (registers[opcode10_rd] &lt; 0) ? -registers[opcode10_rd] : registers[opcode10_rd];
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  SKPZ_rd: begin
-  <br/>
-  program_counter &lt;= program_counter + ((registers[opcode10_rd] == 0) ? 2 : 1);
-  <br/>
-  end
-  <br/>
-  SKPNZ_rd: begin
-  <br/>
-  program_counter &lt;= program_counter + ((registers[opcode10_rd] != 0) ? 2 : 1);
-  <br/>
-  end
-  <br/>
-  default: begin
-  <br/>
-  case(opcode13)
-  <br/>
-  NOP: begin
-  <br/>
-  program_counter &lt;= program_counter + 1;
-  <br/>
-  end
-  <br/>
-  default: begin
-  <br/>
-  // 'Halt and Catch Fire'
-  <br/>
-  end
-  <br/>
-  endcase
-  <br/>
-  end
-  <br/>
-  endcase
-  <br/>
-  end
-  <br/>
-  endcase
-  <br/>
-  end
-  <br/>
-  endcase
+  accumulator &lt;= accumulator + value;
   <br/>
   end
   <br/>
@@ -644,8 +61,55 @@
   endmodule
   <br/>
   <br/>
-  `default_nettype wire
+  module main(
   <br/>
+  input    wire                 clk50MHz,
+  <br/>
+  output     wire                  audio
+  <br/>
+  );
+  <br/>
+  reg     [12:0]  count8kHz = 0;
+  <br/>
+  reg     [31:0]    t = 0;
+  <br/>
+  reg     [7:0]   sample;
+  <br/>
+  <br/>
+  DeltaSigma delta_sigma_0(
+  <br/>
+  .clk(clk50MHz),
+  <br/>
+  .value(sample),
+  <br/>
+  .out(audio)
+  <br/>
+  );
+  <br/>
+  <br/>
+  always @(posedge clk50MHz) begin
+  <br/>
+  if (count8kHz == 6250 - 1) begin
+  <br/>
+  count8kHz &lt;= 0;
+  <br/>
+  // sample &lt;= t &gt;&gt; 3;
+  <br/>
+  sample &lt;= 10*((t&gt;&gt;7)|t|(t&gt;&gt;6))+((t&amp;(t&gt;&gt;13)|(t&gt;&gt;6))&lt;&lt; 2);
+  <br/>
+  //sample &lt;= t*(((t&gt;&gt;12)|(t&gt;&gt;8))&amp;(63&amp;(t&gt;&gt;4)));
+  <br/>
+  t &lt;= t + 1;
+  <br/>
+  end else begin
+  <br/>
+  count8kHz &lt;= count8kHz + 1;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  endmodule
   <br/>
   <b>
    -----------------------
