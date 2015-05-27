@@ -8,112 +8,31 @@
   </title>
  </head>
  <body>
-  <b>
-   ----------------------- xc9572xl-10-vq44.ucf -----------------------
-  </b>
+  // Grid
   <br/>
-  # LCTech CPLD XC9572XL-10VQ44 with 50MHz external oscillator
-  <br/>
-  # Delta-sigma version
-  <br/>
-  NET "clk50MHz"                LOC = "P1"        | BUFG = CLK;      # 50 MHz oscillator
-  <br/>
-  NET "audio"                        LOC = "P2";
+  accu = 0;
   <br/>
   <br/>
-  <b>
-   ----------------------- main.v -----------------------
-  </b>
+  if ((x &amp; 6'b111111) == 0) accu = accu + 30;
   <br/>
-  // LCTech CPLD XC9572XL-10VQ44 with 50MHz external oscillator
-  <br/>
-  // Delta-sigma version
-  <br/>
-  `timescale 1ns / 1ps
-  <br/>
-  `default_nettype none
+  if ((y &amp; 6'b111111) == 0) accu = accu + 30;
   <br/>
   <br/>
-  module DeltaSigma(
+  if ((x &amp; 3'b111) == 0) accu = accu + 20;
   <br/>
-  input   wire                clk,
-  <br/>
-  input   wire    [7:0]       value,
-  <br/>
-  output  wire                out
-  <br/>
-  );
+  if ((y &amp; 3'b111) == 0) accu = accu + 20;
   <br/>
   <br/>
-  reg [8:0]   accumulator = 0;
+  if ((x &amp; 1'b1) == 0) accu = accu + 40;
+  <br/>
+  if ((y &amp; 1'b1) == 0) accu = accu + 40;
   <br/>
   <br/>
-  assign out = accumulator[8];
+  red &lt;=         (accu &gt; 255) ? 255 : accu;
   <br/>
+  green &lt;=     (accu &gt; 255) ? 255 : accu;
   <br/>
-  always @(posedge clk) begin
-  <br/>
-  accumulator &lt;= accumulator + value;
-  <br/>
-  end
-  <br/>
-  <br/>
-  endmodule
-  <br/>
-  <br/>
-  module main(
-  <br/>
-  input    wire                 clk50MHz,
-  <br/>
-  output     wire                  audio
-  <br/>
-  );
-  <br/>
-  reg     [12:0]  count8kHz = 0;
-  <br/>
-  reg     [31:0]    t = 0;
-  <br/>
-  reg     [7:0]   sample;
-  <br/>
-  <br/>
-  DeltaSigma delta_sigma_0(
-  <br/>
-  .clk(clk50MHz),
-  <br/>
-  .value(sample),
-  <br/>
-  .out(audio)
-  <br/>
-  );
-  <br/>
-  <br/>
-  always @(posedge clk50MHz) begin
-  <br/>
-  if (count8kHz == 6250 - 1) begin
-  <br/>
-  count8kHz &lt;= 0;
-  <br/>
-  // sample &lt;= t &gt;&gt; 3;
-  <br/>
-  sample &lt;= 10*((t&gt;&gt;7)|t|(t&gt;&gt;6))+((t&amp;(t&gt;&gt;13)|(t&gt;&gt;6))&lt;&lt; 2);
-  <br/>
-  //sample &lt;= t*(((t&gt;&gt;12)|(t&gt;&gt;8))&amp;(63&amp;(t&gt;&gt;4)));
-  <br/>
-  t &lt;= t + 1;
-  <br/>
-  end else begin
-  <br/>
-  count8kHz &lt;= count8kHz + 1;
-  <br/>
-  end
-  <br/>
-  end
-  <br/>
-  endmodule
-  <br/>
-  <b>
-   -----------------------
-  </b>
+  blue &lt;=         (accu &gt; 255) ? 255 : accu;
   <br/>
   <br/>
   <br/>
