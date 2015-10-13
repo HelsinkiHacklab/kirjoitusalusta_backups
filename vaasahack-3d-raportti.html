@@ -9,6 +9,76 @@
  </head>
  <body>
   <b>
+   FINAL * * DO NOT EDIT *  *
+  </b>
+  <br/>
+  <b>
+   (
+  </b>
+  or feel free to edit but
+  <b>
+   alterations go nowhere as report is sent out)
+  </b>
+  <br/>
+  <br/>
+  <br/>
+  Kuva:
+  <a href="https://www.dropbox.com/sh/xr836xb2vpflen1/AACvcoQP9X048KCrDHkkJe-va?dl=0&amp;preview=20151001_184058.jpg">
+   https://www.dropbox.com/sh/xr836xb2vpflen1/AACvcoQP9X048KCrDHkkJe-va?dl=0&amp;preview=20151001_184058.jpg
+  </a>
+  <br/>
+  Kuvateksti: Vielä ei olla ihmiskokoluokassa, mutta vedenkeitinkokoluokan proto.
+  <br/>
+  <br/>
+  Vaasa Hacklab sai FUUG:lta tukea 3D-skanneriprojektiin. Tavoitteena oli rakentaa ihmiskokoluokan 3D-skanneri.
+  <br/>
+  <br/>
+  3D-skannerin  sydämenä toimii 30 kappaletta Raspberry Pi -tietokoneita  kameramoduuleilla, joita ohjataan ottamaan yhtä aikaa kuva lähiverkon  kautta. Skannerirakennelman johtojen määrää pyrittiin vähentää viemällä sekä tietoverkko että virta Raspberyille PoE (Power over Ethernet) -tekniikalla verkkojohtoa pitkin. Tämä vaatii PoE-virtasyöttöön kykenevän kytkimen, jollainen sitten löytyikin edullisesti käytettynä. Lisäksi Raspberryihin vaadittiin lisälaitteistoa, jolla virta saatiin pilkottua ulos kaapelista ja syötettyä Raspberryille.
+  <br/>
+  <br/>
+  PoE-piirilevyistä muodoistui oma alaprojekti. ELL-i:llä oli juuri suunnitteluvaiheessa GPL-lisenssillä PoE-piirilevy  Raspberryjä varten, joten päätimme ryhtyä yhteistyöhön. ELL-i  suunnitteli, me kommentoimme suunnitelmia; etsimme mahdollisia virheitä,  esitimme toiveita ja muutenkin osallistuimme projektiin. ELL-i toimitti meille protolevyjä, ensin itse kolvattavia, loppuvaiheessa valmiiksi kokoonpantuja. Muutaman protokierroksen ja yhden vakavamman bugin korjauksen jälkeen tuotteen designiin oltiin tyytyväisiä. Lisätietoja PoE-levystä:
+  <a href="http://ell-i.org/products/poe-for-raspi/datasheet/">
+   http://ell-i.org/products/poe-for-raspi/datasheet/
+  </a>
+  <br/>
+  <br/>
+  Laitteiston hankkimisen ja muutaman ohjelmisto-ongelman selvittämisen jälkeen rakennettiin ensimmäinen skanneri. Skannerin runko on tehty Ikea:n Lack -pöydästä, jossa on kiinni useampia Raspberryjä kameroineen 3D-tulostetuilla pidikkeillä.  Raspberryt on kiinnitetty puutankoihin, muutama kappale päällekkäin,  muodostaen ympyrän jonka keskelle kuvattava kohde asetetaan. Ikea-pöydän alle saatiin kiinitettyä kytkin nätisti suoraan jalkoihin kiinni. Viimeisin versio lähiverkkokaapeleiden avulla sähköä siirtävistä PoE-lisälaitteista saapuu ELL-i:ltä loppuvuodesta, Lack-protossa käytetään suurimmaksi osaksi ATX-virtalähdettä Raspberryjen sähköistämiseen.
+  <br/>
+  <br/>
+  Raspberryissä pyörii Raspbian Wheezy Linux, jotka käynnistyvät ensin omilta SD-korteilta, mutta käyttöjärjestelmä ladataan NFS-verkkojaon yli. Tämän ansiosta järjestelmän muutoksiin riittää yhden paikan muokkaaminen ja kaikki Raspberryt seuraavat perässä seuraavan käynistyksen yhteydessä.
+  <br/>
+  <br/>
+  Raspberryissä käytämme suurimaksi osaksi Raspbianissa valmiina olevia  python-kirjastoja. Ainoa ulkopuolinen sovellus on python-picamera, joka mahdollistaa Raspberryn kameran hallinnan python skriptistä.
+  <br/>
+  <br/>
+  Jokaisessa  Raspberryssä pyörii skripti, joka kuuntelee verkossa liikuvia  multicast-paketteja ja ottaa kameramoduulilla kuvan sopivasti muotoillun  paketin saapuessa laskentakoneelta.
+  <br/>
+  <br/>
+  Otetut kuvat tallennetaan multicast-paketissa olevien tietojen mukaiseen tiedostoon, josta ne haetaan verkon yli laskentakoneelle joka sitten muodostaa yksittäiskuvista 3D-mallin.  Tämän toteuttamisen käytettiin Python-kirjastoa nimeltä Fabric, joka on  suunniteltu usean palvelintietokoneen yhtäaikaiseen käskyttämiseen  SSH-yhteyden yli.
+  <br/>
+  <br/>
+  Kuvien saavuttua laskentakoneelle voidaan niitä käsitellä halutulla ohjelmalla. Tässä projektissa on käytetty VisualFSM-ohjelmaa joka yhdistää käsittelyn kolme eri vaihetta.
+  <br/>
+  Ensin löydetään kaikki kuvaparit SIFT algoritmillä
+  <br/>
+  Sen jälkeen löydetään kuvien paikka toisiinsa verrattuna "Newton type Bundle Adjustment" algoritmin avulla.
+  <br/>
+  Viimeiseksi vaiheeksi jää pistepilven teko joka tehdään kahdessa ajossa, ensin sparse point cloud joka on nopea ja muodostaa karkean mallin, sen jälkeen muodostetaan tiheä pistepilvi joka kestää kauemin, mutta josta saadaan tarkka lopullinen malli.
+  <br/>
+  <br/>
+  Käytettyjen skriptien koodit on tarjolla GitHubissa:
+  <br/>
+  <a href="https://github.com/vaasahacklab/3d-scanner-scripts">
+   https://github.com/vaasahacklab/3d-scanner-scripts
+  </a>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  ***
+  <br/>
+  <br/>
+  <b>
    referenssejä
   </b>
   <br/>
@@ -25,57 +95,49 @@
   </b>
   <br/>
   <br/>
-  Vaasa Hacklab (
-  <a href="http://vaasa.hacklab.fi/)">
-   http://vaasa.hacklab.fi/)
-  </a>
-  sai
-  <s>
-   vuonna 2014
-  </s>
-  tukea 3D-skanneriprojektin toteuttamiseen
-  <s>
-   3000€
-  </s>
-  . 3D-skannerin sydämenä toimii 30 kappaletta Raspberry Pi -tietokoneita kameramoduuleilla, joita ohjataan ottamaan yhtä aikaa kuva lähiverkon kautta.
+  Vaasa Hacklab sai tukea 3D-skanneriprojektiin. 3D-skannerin sydämenä toimii 30 kappaletta Raspberry Pi -tietokoneita kameramoduuleilla, joita ohjataan ottamaan yhtä aikaa kuva lähiverkon kautta.
   <br/>
   <br/>
-  Skannerirakennelman johtojen määrää pyritään vähentää viemällä sekä tietoverkko että virta Raspberyille PoE (Power over Ethernet) -tekniikalla verkkojohtoa pitkin. Tämä vaati PoE-virtasyöttöön kykenevän kytkimen hankkimisen, jollainen sitten löytyikin edullisesti käytettynä. Lisäksi Raspberryihin vaaditaan lisälaitteistoa, jolla virta saadaan pilkottua ulos kaapelista ja syötettyä Raspberryille.
+  Skannerirakennelman johtojen määrää pyrittiin vähentää viemällä sekä tietoverkko että virta Raspberyille PoE (Power over Ethernet) -tekniikalla verkkojohtoa pitkin. Tämä vaatii PoE-virtasyöttöön kykenevän kytkimen, jollainen sitten löytyikin edullisesti käytettynä. Lisäksi Raspberryihin vaadittiin lisälaitteistoa, jolla virta saatiin pilkottua ulos kaapelista ja syötettyä Raspberryille.
   <br/>
   <br/>
-  PoE-piirilevyistä saatiin aikaiseksi oma alaprojekti. ELL-i:llä
+  PoE-piirilevyistä muodoistui oma alaprojekti. ELL-i:llä
   <a href="http://ell-i.org/">
    http://ell-i.org/
   </a>
-  oli juuri suunnitteluvaiheessa GPL-lisenssillä PoE-piirilevy Raspberryjä varten, joten päätimme ryhtyä yhteistyöhön. ELL-i suunnitteli, me kommentoimme suunnitelmia; etsimme mahdollisia virheitä, esitimme toiveita ja muutenkin osallistuimme projektiin. ELL-i toimitti meille protolevyjä, ensin itse kolvattavia, loppuvaiheessa valmiiksi tehtaassa tehtyjä. Muutaman protokierroksen ja yhden vakavamman bugin korjauksen jälkeen tuotteen designiin oltiin tyytyväisiä ja valmiita levyjä odotellaan valmistuvaksi. Lisätietoja PoE-levystä:
+  oli juuri suunnitteluvaiheessa GPL-lisenssillä PoE-piirilevy Raspberryjä varten, joten päätimme ryhtyä yhteistyöhön. ELL-i suunnitteli, me kommentoimme suunnitelmia; etsimme mahdollisia virheitä, esitimme toiveita ja muutenkin osallistuimme projektiin. ELL-i toimitti meille protolevyjä, ensin itse kolvattavia, loppuvaiheessa valmiiksi kokoonpantuja. Muutaman protokierroksen ja yhden vakavamman bugin korjauksen jälkeen tuotteen designiin oltiin tyytyväisiä. Lisätietoja PoE-levystä:
   <a href="http://ell-i.org/products/poe-for-raspi/datasheet/">
    http://ell-i.org/products/poe-for-raspi/datasheet/
   </a>
   <br/>
   <br/>
-  Laitteiston hankkimisen ja muutaman ohjelmisto-ongelman selvittämisen jälkeen rakennettiin ensimmäinen skanneri. Skannerin runko on tehty Ikea:n Lack -pöydästä, jossa on kiinni useampia Raspberryjä kameroineen 3D-tulostetuilla pidikkeillä. Raspberryt on kiinnitetty puutankoihin, muutama kappale päällekkäin, muodostaen ympyrän jonka keskelle kuvattava kohde asetetaan. Ikea-pöydän alle saatiin kiinitettyä reititin nätisti suoraan jalkoihin kiinni. Koska lähiverkon yli sähköä ottavat PoE-lisälaitteet saapuvat ELL-i:ltä lokakuussa, käytetään tällähetkellä ATX-virtalähdettä Raspberryjen sähköistämiseen.
+  Laitteiston hankkimisen ja muutaman ohjelmisto-ongelman selvittämisen jälkeen rakennettiin ensimmäinen skanneri. Skannerin runko on tehty Ikea:n Lack -pöydästä, jossa on kiinni useampia Raspberryjä kameroineen 3D-tulostetuilla pidikkeillä. Raspberryt on kiinnitetty puutankoihin, muutama kappale päällekkäin, muodostaen ympyrän jonka keskelle kuvattava kohde asetetaan. Ikea-pöydän alle saatiin kiinitettyä kytkin nätisti suoraan jalkoihin kiinni. Viimeisin versio lähiverkkokaapeleiden avulla sähköä siirtävistä PoE-lisälaitteista saapuu ELL-i:ltä loppuvuodesta, Lack-protossa käytetään suurimmaksi osaksi ATX-virtalähdettä Raspberryjen sähköistämiseen.
   <br/>
   <br/>
-  Raspberryissä pyörii Raspbian Wheezy Linux, jotka boottaavat ensin omilta SD-korteilta, mutta käyttöjärjestelmä ladataan NFS -verkkojaon yli. Tämän ansiosta järjestelmän muutoksiin riittää yhden paikan muokkaaminen ja kaikki Raspberryt seuraavat perässä seuraavan boottauksen yhteydessä.
+  Raspberryissä pyörii Raspbian Wheezy Linux, jotka käynnistyvät ensin omilta SD-korteilta, mutta käyttöjärjestelmä ladataan NFS-verkkojaon yli. Tämän ansiosta järjestelmän muutoksiin riittää yhden paikan muokkaaminen ja kaikki Raspberryt seuraavat perässä seuraavan käynistyksen yhteydessä.
   <br/>
   <br/>
-  Raspberryissä käytämme suurimaksi osaksi Raspbianissa valmiina olevia  python-palikoita. Ainoa ulkopuolinen sovellus on python-picamera, joka mahdollistaa Raspberryn kameran hallinnan python skriptistä.
+  Raspberryissä käytämme suurimaksi osaksi Raspbianissa valmiina olevia  python-kirjastoja. Ainoa ulkopuolinen sovellus on python-picamera, joka mahdollistaa Raspberryn kameran hallinnan python skriptistä.
   <br/>
   <br/>
   Jokaisessa Raspberryssä pyörii skripti, joka kuuntelee verkossa liikuvia multicast-paketteja ja ottaa kameramoduulilla kuvan sopivasti muotoillun paketin saapuessa laskentakoneelta.
-  <s>
-   Kuvan ottaja voi lähettää multicast-paketin skriptillä
-  </s>
   <br/>
   <br/>
   Otetut kuvat tallennetaan multicast-paketissa olevien tietojen mukaiseen tiedostoon, josta ne haetaan verkon yli laskentakoneelle joka sitten muodostaa yksittäiskuvista 3D-mallin. Tämän toteuttamisen käytettiin Python-kirjastoa nimeltä Fabric, joka on suunniteltu usean palvelintietokoneen yhtäaikaiseen käskyttämiseen SSH-yhteyden yli.
   <br/>
   <br/>
-  Kuvien saavuttua laskentakoneelle voidaan niitä käsitellä halutulla ohjelmalla, tähän projektiin ollaan käytetty VisualFSM ohjelmaa
+  Kuvien saavuttua laskentakoneelle voidaan niitä käsitellä halutulla ohjelmalla. Tässä projektissa on käytetty VisualFSM ohjelmaa
   <a href="http://ccwu.me/vsfm/">
    http://ccwu.me/vsfm/
   </a>
-  joka yhdistää kolme eri vaihetta. Ensin löydetään kaikki kuvaparit SIFT algoritmillä sen jälkeen sen jälkeen löydetään kuvien paikka toisiensa verrattuna "Newton type Bundle Adjustment" algoritmin avulla. Viimeiksi vaiheeksi jää pistepilven teko joka tehdään kahdessa ajossa, ensin sparse point cloud joka on nopea ja muodostaa karkean mallin, sen jälkeen muodostetaan tiheä pistepilvi joka kestää kauemin, mutta josta saadaan tarkka lopullinen malli.
+  joka yhdistää käsittelyn kolme eri vaihetta.
+  <br/>
+  <br/>
+  Ensin löydetään kaikki kuvaparit SIFT algoritmillä
+  <br/>
+  sen jälkeen löydetään kuvien paikka toisiinsa verrattuna "Newton type Bundle Adjustment" algoritmin avulla.
+  <br/>
+  Viimeiseksi vaiheeksi jää pistepilven teko joka tehdään kahdessa ajossa, ensin sparse point cloud joka on nopea ja muodostaa karkean mallin, sen jälkeen muodostetaan tiheä pistepilvi joka kestää kauemin, mutta josta saadaan tarkka lopullinen malli.
   <br/>
   <br/>
   Käytettyjen skriptien koodit on tarjolla GitHubissa:
@@ -83,6 +145,8 @@
   <a href="https://github.com/vaasahacklab/3d-scanner-scripts">
    https://github.com/vaasahacklab/3d-scanner-scripts
   </a>
+  <br/>
+  <br/>
   <br/>
   <br/>
   TODO
