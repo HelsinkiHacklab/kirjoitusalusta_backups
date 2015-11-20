@@ -1,0 +1,362 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /5w-plotter
+  </title>
+ </head>
+ <body>
+  Roland DPX-3300 Drafting plotter
+  <br/>
+  Tampere Hacklabin käyttöohjeet piirturille:
+  <br/>
+  <br/>
+  Labillä on tiloissa käytössä iso A1 kokoinen X-Y piirturi.
+  <br/>
+  Työtila  86,4*59,4cm. Piirtää paperille vektoreita erillailsilla kynillä, ja  piirturia voi myös käyttää vinyylin ja vastaavien materiaalien  leikkaamiseen sopivalla alustalla ja terällä varustettuna.
+  <br/>
+  <br/>
+  Laite käyttökunnossa (vaatii pientä softasäätöä)
+  <br/>
+  <br/>
+  Alkuperäiset käyttöohjeet:
+  <a href="https://www.dropbox.com/s/hr84k8msl6cuv5t/DPX-3300%20Manual%20OCR.pdf?dl=0">
+   https://www.dropbox.com/s/hr84k8msl6cuv5t/DPX-3300%20Manual%20OCR.pdf?dl=0
+  </a>
+  (20MB)
+  <br/>
+  Piirturin vieressä on paperinen kopio kansiossa. Suositeltavaa on selata ohjeet läpi.
+  <br/>
+  <i>
+   Ketturilla
+  </i>
+  on eniten tietoa laitteesta.
+  <br/>
+  <br/>
+  Tarkemmat tiedot:
+  <br/>
+  <ul>
+   <li>
+    Työtila:846mm x 594mm (ISO A1)
+   </li>
+   <li>
+    Nopeus: 450mm/s
+   </li>
+   <li>
+    Tarkkuus: 0.025mm/askel (mekaaninen tarkkuus 12.5µm)
+   </li>
+   <li>
+    Kynät: 8 pidikettä erikoiskynille, normaalit kynät vaativat adapterin
+   </li>
+   <li>
+    Paperin kiinnitys: sähköstaattinen ja magneettinen alusta
+    <ul>
+     <li>
+      <b>
+       <u>
+        Huom! Alustaa ei saa naarmuttaa!
+       </u>
+      </b>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Sarja- ja rinnakkaisportit, ohjataan HPGL/2 koodilla esim inkscapen kautta.
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Huomioitavaa:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Laite  on isompien CNC koneiden pikkuveli, käytä siis samallaista järkeä  käytössä kuin muidenkin koneiden kanssa. Laite on myös hienomekaaninen  tarkkuuslaite (12.5µm toleranssit) joten pientä varovaisuutta laitteen  kohtelussa, kiitos.
+   </li>
+   <li>
+    Piirtoalustassa on korkeajännite paperin kiinipitämiseen, sitä ei saa naarmuttaa tai saa sähköiskun ja tuhoaa alustan
+   </li>
+   <li>
+    Laite saattaa siirtää itsekseen piirtovartta, kädet pois piirtoalustan alueelta laitteen päälläollessa tai voi tulla haaveri
+    <ul>
+     <li>
+      Ainut turvallinen tapa koskea alustaan paperin asettelemiseksi on varmistaa että:
+      <ul>
+       <li>
+        Pause valo palaa
+       </li>
+       <li>
+        Auto valo
+        <b>
+         ei
+        </b>
+        pala
+       </li>
+       <li>
+        Piirtovarressa ei ole kynää kiinni, ja piirtovarsi on laitteen oikeassa yläreunassa
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Väärin  tehty HPGL ohjelma ajaa piirtovarren ulos alueelta, laite ei tajua olla  hakkaamatta mekaanisiin stoppereihin joten tarkkuutta kuvan luonnissa
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Käyttöohjeet:
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Laitteen ohjauspaneeli:
+    <ul>
+     <li>
+      X-Y coordinate display: näyttää kynän sijainnin
+     </li>
+     <li>
+      <b>
+       Reset
+      </b>
+      : resetoi X-Y näytön 0,0, ei mitään muuta
+     </li>
+     <li>
+      <b>
+       Pen select key
+      </b>
+      s: Painamalla valitsee kynän 1-8 ja hakee sen pidikkeestä
+      <ul>
+       <li>
+        Pausen ollessa päällä
+        <b>
+         ENTER
+        </b>
+        nappi + kynä nappi säätää kynän nopeutta
+       </li>
+       <li>
+        Pausen ollessa päällä
+        <b>
+         FAST
+        </b>
+        nappi + kynä nappi säätää kynän voimaa
+       </li>
+      </ul>
+     </li>
+     <li>
+      <b>
+       Pen down
+      </b>
+      : laskee kynän alas, valon ollessa päällä kynä alhaalla
+      <ul>
+       <li>
+        Auto:n ollessa päällä ei laske kynää
+       </li>
+      </ul>
+     </li>
+     <li>
+      <b>
+       Auto
+      </b>
+      :  Kynän automaatinen valinta, kumoaa kaikki käyttäjän kyniin liittyvät  asetukset joten suositeltavaa olla pois päältä (Auto valo pimeänä)
+     </li>
+     <li>
+      <b>
+       Error
+      </b>
+      : syttyy vikatilanteissa, vilkkuu paperikoon valinnan aikana
+     </li>
+     <li>
+      <b>
+       LL ↙↙
+      </b>
+      : Siirtää kynän vasempaan alanurkkaan kynäsensorin luo
+     </li>
+     <li>
+      <b>
+       UR ↗↗
+      </b>
+      : Siirtää kynän oikeaan ylänurkkaan
+      <ul>
+       <li>
+        Pausen ollessa päällä
+        <b>
+         ENTER
+        </b>
+        +
+        <b>
+         UR
+        </b>
+        tyhjentää laitteen puskurimuistin, käytetään jos halutaan keskeyttää tulostus
+       </li>
+      </ul>
+     </li>
+     <li>
+      <b>
+       ENTER:
+      </b>
+      Käytetään muiden nappien kanssa
+     </li>
+     <li>
+      <b>
+       P1
+      </b>
+      ja
+      <b>
+       P2:
+      </b>
+      Käytetään paperin koon säätämiseen
+     </li>
+     <li>
+      ◄ ▲ ▶ ▼: Siirtävät kynää manuaalisesti ympäriinsä
+      <ul>
+       <li>
+        <b>
+         FAST
+        </b>
+        napin kanssa kynä liikkuu nopeammin
+       </li>
+      </ul>
+     </li>
+     <li>
+      <b>
+       PAUSE:
+      </b>
+      Keskeyttää piirtämisen, asetusten muutto tapahtuu kun pause on päällä
+     </li>
+     <li>
+      <b>
+       PAPER HOLD:
+      </b>
+      Kytkee  paperin sähköstaattisen kiinnityksen päälle ja pois, paperia asettaessa  poissa päältä, sen jälkeen kytketään päälle jolloin paperi liimautuu  alustaan. Muista silittää paperista ilmakuplat pois
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Laitteen käytön aloitus
+    <ul>
+     <li>
+      Aseta kynät laitteen vasemman alanurkan pidikkeisiin 1-8
+      <ul>
+       <li>
+        Paina Pen cap relase nappia kyniä asettaessa
+       </li>
+       <li>
+        Kynissä olevan laipan tulee olla pidikkeiden urissa, ja kärjen kupissa
+       </li>
+      </ul>
+     </li>
+     <li>
+      Kytke laitteeseen virta ja odota että laite on alustanut itsensä
+     </li>
+     <li>
+      Varmista, että kynät ovat alavasemmalla pidikkeissään, eikä piirtovarressa, ja että piirtovarsi on oikeassa ylänurkassa.
+     </li>
+     <li>
+      Paina
+      <b>
+       PAUSE
+      </b>
+      nappia niin että valo syttyy
+     </li>
+     <li>
+      Paina
+      <b>
+       AUTO
+      </b>
+      nappia että valo sammuu
+     </li>
+     <li>
+      Paina
+      <b>
+       PAPER HOLD
+      </b>
+      nappia niin että valo sammuu
+     </li>
+     <li>
+      Asettele paperi piirtoalustalle, niin että vasen alanurkka tulee punaisen kohdistusmerkin sisään (8mm alhaalta, 11mm vasemalta)
+      <ul>
+       <li>
+        A4 tulee pystyyn, isommat koot tulevat vaakaan
+       </li>
+      </ul>
+     </li>
+     <li>
+      Paina
+      <b>
+       PAPER HOLD
+      </b>
+      nappia niin että valo syttyy ja silitä paperista pois ilmakuplat
+     </li>
+     <li>
+      Paperin koon säätäminen
+      <ul>
+       <li>
+        Varmista että
+        <b>
+         PAUSE
+        </b>
+        on päällä
+       </li>
+       <li>
+        Paina
+        <b>
+         FAST
+        </b>
+        +
+        <b>
+         P2
+        </b>
+        jolloin Error ledi alkaa vilkkua nopeasti
+       </li>
+       <li>
+        Pidä
+        <b>
+         P1
+        </b>
+        pohjassa ja valitse paperikoko kynänvalintapainikkeilla, numero vastaa Ax kokoa
+       </li>
+       <li>
+        Laite siirtää kynänpitimen paperin ylänurkkaan
+       </li>
+       <li>
+        Paina
+        <b>
+         ENTER
+        </b>
+        jolloin kynänpitimen paperin keskelle 0,0 pisteeseen
+       </li>
+      </ul>
+     </li>
+     <li>
+      Paina
+      <b>
+       PAUSE
+      </b>
+      pois päältä
+     </li>
+    </ul>
+   </li>
+   <li>
+    Laite on nyt valmis ottamaan käskyjä vastaan tietokoneelta
+    <ul>
+     <li>
+      Kommunikoi sarjaportin kautta syöden HPGL koodia sellaisenaan
+      <ul>
+       <li>
+        9600 Baud 8b data 1bit stop, no parity, DTR+RTS handshake
+        <br/>
+        <br/>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </body>
+</html>
