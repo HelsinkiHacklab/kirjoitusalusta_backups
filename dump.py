@@ -60,7 +60,7 @@ class fetcher:
         except urllib2.URLError,e:
             print("Failed to fetchs %s: %s" % (export_url, e))
             return False
-        soup = BeautifulSoup(fp)
+        soup = BeautifulSoup(fp, "html5lib")
         
         recurse_links = soup.find_all('a', href=PAD_RECURSE_HREF_RE)
         for tag in recurse_links:
