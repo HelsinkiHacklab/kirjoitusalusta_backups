@@ -45,15 +45,11 @@
     kirjaudutaan tunnuksilla sisään -&gt; Sign in
    </li>
    <li>
-    -&gt; Support -&gt; Downloads and Licensing -&gt; Get License File
-   </li>
-   <li>
-    tänne sitten joutuukin jo kertomaan enemmän itsestään ja yrityksestään, omin avuin pitää tästäkin selvitä
-    <ul>
-     <li>
-      huomaa että ääkkösten kanssa voi tulla ongelmia, eli ä-&gt;a, ö-&gt;o jne.
-     </li>
-    </ul>
+    menään osoitteeseen
+    <a href="http://www.xilinx.com/getlicense">
+     http://www.xilinx.com/getlicense
+    </a>
+    -&gt; tarkista tiedot -&gt; Next
    </li>
    <li>
     -&gt; Product Licensing -&gt; Create New License -&gt; Certificate Based Licenses
@@ -79,13 +75,13 @@
   </ul>
   <b>
    <u>
-    Xilinx ISE WebPACK -kehitysympäristön asennus, Ubuntu 14.10 64-bit
+    Xilinx ISE WebPACK -kehitysympäristön asennus
    </u>
   </b>
   <br/>
   <ul>
    <li>
-    Ubuntu ei ole virallisesti tuettujen listalla, mutta toimii kyllä näillä ohjeilla
+    Vaikka ei ole virallisesti tuettujen listalla tämä on testattu toimivaksi ainakin Ubuntu 64-bit versioilla 14.10  ja 15.10
    </li>
    <li>
     oletetaan että on tehty tunnus
@@ -114,6 +110,11 @@
     </i>
     <ul>
      <li>
+      <b>
+       (tiedostot löytyy myös labin usbitikulta, eli ei tarvi ladata hitaalla netillä)
+      </b>
+     </li>
+     <li>
       tiedot -&gt; Next -&gt; aloittaa lataamisen
      </li>
      <li>
@@ -126,9 +127,6 @@
         e8065b2ffb411bb74ae32efa475f9817
        </li>
       </ul>
-     </li>
-     <li>
-      tämä tiedosto löytyy labin usbitikulta, eli ei tarvi ladata hitaalla netillä
      </li>
      <li>
       puretaan komennolla:
@@ -195,15 +193,60 @@
         </ul>
        </li>
        <li>
-        <i>
-         source /opt/Xilinx/14.7/ISE_DS/settings64.sh &amp;&amp; ise
-        </i>
+        käynnistetään ISE
+        <ul>
+         <li>
+          <i>
+           source /opt/Xilinx/14.7/ISE_DS/settings64.sh &amp;&amp; ise
+          </i>
+         </li>
+         <li>
+          ensitöinään kannattaa asettaa Edit-&gt;Preferences...-&gt;ISE Text Editor-&gt;Tab width:
+          <b>
+           4
+          </b>
+         </li>
+        </ul>
        </li>
        <li>
-        Gnome pohjaisille (Ubuntu jne) työpöydille voi tehdä .desktop tiedoston, esimerkki:
-        <a href="https://friendpaste.com/2Kej5DhXbApnAg8CKNCiIy">
-         https://friendpaste.com/2Kej5DhXbApnAg8CKNCiIy
-        </a>
+        Gnome pohjaisille (Ubuntu jne) työpöydille voi tehdä .desktop tiedoston
+        <ul>
+         <li>
+          nano xilinx-ise.desktop
+          <ul>
+           <li>
+            [Desktop Entry]
+           </li>
+           <li>
+            Version=1.0
+           </li>
+           <li>
+            Name=Xilinx ISE
+           </li>
+           <li>
+            Type=Application
+           </li>
+           <li>
+            Terminal=false
+           </li>
+           <li>
+            Icon=/opt/Xilinx/14.7/ISE_DS/ISE/data/images/pn-ise.png
+           </li>
+           <li>
+            Exec=bash -c "source /opt/Xilinx/14.7/ISE_DS/settings64.sh &amp;&amp; ise"
+           </li>
+           <li>
+            Categories=Utility;Application;Development;
+           </li>
+          </ul>
+         </li>
+         <li>
+          sudo desktop-file-install --delete-original xilinx-ise.desktop
+         </li>
+         <li>
+          nyt se löytyy kuten muutkin ohjelmat kirjoittamalla esim. 'ISE' ubuntun 'käynnistimeen' ja tämän jälkeen sen voi liimata sivupalkkiin 'Lock to Launcher'
+         </li>
+        </ul>
        </li>
       </ul>
      </li>
@@ -344,6 +387,11 @@
   <br/>
   <ul>
    <li>
+    <b>
+     (tiedostot löytyy myös labin usbitikulta, eli ei tarvi ladata hitaalla netillä)
+    </b>
+   </li>
+   <li>
     Lataa Windows ISE tästä linkistä (huom: paketti on yli 6 GB joten lataus kestää hieman.
     <a href="https://secure.xilinx.com/webreg/register.do?group=dlc&amp;htmlfile=&amp;emailFile=&amp;cancellink=&amp;eFrom=&amp;eSubject=&amp;version=14.7&amp;akdm=0&amp;filename=Xilinx_ISE_DS_Win_14.7_1015_1.tar">
      https://secure.xilinx.com/webreg/register.do?group=dlc&amp;htmlfile=&amp;emailFile=&amp;cancellink=&amp;eFrom=&amp;eSubject=&amp;version=14.7&amp;akdm=0&amp;filename=Xilinx_ISE_DS_Win_14.7_1015_1.tar
@@ -361,10 +409,13 @@
     </ul>
    </li>
    <li>
-    Varsinainen asennus kestää h y v ä n   a i k a a ... joten keksi ajankulua. Loppupuolella asennus kysyy josko haluat asentaa Jungo-ajurin ja tähän vastaa myöntävästi jotta ohjelmointikaapeli toimisi myöhemmin.
+    Varsinainen asennus kestää h y v ä n   a i k a a ... joten keksi ajankulua. Loppupuolella asennus kysyy josko haluat asentaa
+    <b>
+     Jungo-ajurin ja tähän vastaa myöntävästi jotta ohjelmointikaapeli toimisi myöhemmin.
+    </b>
    </li>
    <li>
-    Kun asennus tulee valmiiksi, se huomauttaa että ennen varsinaisen ohjelman käyttöä pitää ajaa settings.bat -skripti. (Voi olla myös settings32 tai settings64 riippuen käyttisversiosta). Asennuksen päättymisen jälkeen siirry ohjelman asennushakemistoon  (oletusarvoisesti C:\Xilinx) esim File Explorerilla ja avaa komentoikkuna popup-valikosta jonka saat klikkaamalla hiiren oikeaa nappia Shift painettuna ("Open Command Wndow Here"). kirjoita kehoitteen perään skriptin nimi ja paina Enter. Valmis kun skripti lopettaa (melkein heti).
+    Kun asennus tulee valmiiksi, se huomauttaa että ennen varsinaisen ohjelman käyttöä pitää ajaa settings.bat -skripti. (Voi olla myös settings32 tai settings64 riippuen käyttisversiosta). Asennuksen päättymisen jälkeen siirry ohjelman asennushakemistoon  (oletusarvoisesti C:\Xilinx) esim File Explorerilla ja avaa komentoikkuna popup-valikosta jonka saat klikkaamalla hiiren oikeaa nappia Shift painettuna ("Open Command Window Here"). kirjoita kehoitteen perään skriptin nimi ja paina Enter. Valmis kun skripti lopettaa (melkein heti).
    </li>
    <li>
     ISE haluaa lisenssitiedoston samalla tavalla kuin yllä Ubuntulle asennettaessa. Lisenssin haku ja asennus tapahtuvat aivan samalla tavalla, tässä ei ole eroa käyttisten välillä. Windowsissa lisenssit talletetaan hakemistoon C:\.Xilinx (huomaa piste nimen edessä. Lisenssitiedoston voi kopioida sinne myös käsin ja homman pitäisi toimia normaalisti.
@@ -383,6 +434,14 @@
    </li>
    <li>
     Tämän jälkeen voi käynnistää Project Navigatorin normaalisti Start-valikosta.
+    <ul>
+     <li>
+      ensitöinään kannattaa asettaa Edit-&gt;Preferences...-&gt;ISE Text Editor-&gt;Tab width:
+      <b>
+       4
+      </b>
+     </li>
+    </ul>
    </li>
    <li>
     Huomaa, että Windowsissa ei tarvita mitään erillistoimenpiteitä kaapeliajurin kanssa, se toimii suoraan pakasta vedettynä kuten yllä on kerrottu Ubuntun kohdalla. Ohjelmointilaitteen ledi siis palaa punaisena kun USB-yhteys toimii ja vihreänä kun ohjelmoitava piiri on havaittu toisessa päässä.
