@@ -66,7 +66,7 @@
     </ul>
    </li>
    <li>
-    Manage Licenses sivun vasemmasta alalaidasta löytyy pieni nuoli alaspäin ikoni, sillä voi ladata lisenssitiedoston koneelle valmiiksi
+    Manage Licenses sivun vasemmasta alalaidasta löytyy pieni nuoli alaspäin ikoni, sillä voi ladata lisenssitiedoston (Xilinx.lic) koneelle valmiiksi
     <br/>
     <br/>
     <br/>
@@ -271,7 +271,7 @@
    <li>
     <b>
      <u>
-      Platform Cable USB model DLC9G ohjelmointilaitteen asennus
+      Platform Cable USB model DLC9G tai DLC9LP ohjelmointilaitteen asennus Ubuntuun
      </u>
     </b>
     <ul>
@@ -294,7 +294,13 @@
            </b>
           </i>
           <i>
-           Xilinx, Inc.
+           Xilinx, Inc. (tai :
+           <b>
+            000F
+           </b>
+          </i>
+          <i>
+           DLC9LP:llä)
           </i>
          </li>
          <li>
@@ -326,17 +332,25 @@
          <li>
           SUBSYSTEMS=="usb", ACTION=="add", ATTRS{idVendor}=="03fd", ATTRS{idProduct}=="0007", RUN+="/sbin/fxload -v -t fx2 -I /usr/share/xusbdfwu.hex -D $tempnode"
          </li>
+         <li>
+          SUBSYSTEMS=="usb", ACTION=="add", ATTRS{idVendor}=="03fd", ATTRS{idProduct}=="000f", RUN+="/sbin/fxload -v -t fx2 -I /usr/share/xusb_xlp.hex -D $tempnode"
+         </li>
         </ul>
        </li>
        <li>
         <i>
-         sudo cp /opt/Xilinx/14.7/ISE_DS/ISE/bin/lin64/xusbdfwu.hex /usr/share/
+         sudo cp /opt/Xilinx/14.7/ISE_DS/ISE/bin/lin64/*.hex /usr/share/
         </i>
        </li>
        <li>
         <i>
          sudo /etc/init.d/udev restart
         </i>
+        <ul>
+         <li>
+          vai olisiko "sudo udevadm control --reload-rules" parempi?
+         </li>
+        </ul>
        </li>
       </ul>
      </li>
@@ -359,7 +373,13 @@
            </b>
           </i>
           <i>
-           Xilinx, Inc.
+           Xilinx, Inc. (tai :
+           <b>
+            000
+           </b>
+          </i>
+          <i>
+           ? DLC9LP:llä)
           </i>
          </li>
          <li>
@@ -367,8 +387,6 @@
          </li>
          <li>
           ja muuttuu vihreäksi jos kytket ohjelmoitilaitteen esim. CPLD-lautaan jossa virrat kiinni
-          <br/>
-          <br/>
           <br/>
           <br/>
          </li>
@@ -381,7 +399,7 @@
   </ul>
   <b>
    <u>
-    Xilinx ISE WebPACK -kehitysympäristön asennus, Windows
+    Xilinx ISE WebPACK -kehitysympäristön asennus, Windows 7 (8.1 omalla vastuulla)
    </u>
   </b>
   <br/>
