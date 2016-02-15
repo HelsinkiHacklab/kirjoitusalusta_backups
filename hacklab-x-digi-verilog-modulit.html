@@ -10,33 +10,43 @@
  <body>
   // Verilogissa kaikki muodostuu moduleista (vrt. luokka) joita
   <br/>
-  // instantioidaan (vrt. olio). Ainoa poikkeus tähän on Top Module
+  // instantioidaan (vrt. olio). Ainoa poikkeus Top Module jonka kehitysympäristö
   <br/>
-  // jonka kehitysympäristö instantioi ja kytkee .ucf-tiedostossa märitellyt pinnit
+  // instantioi ja kytkee .ucf-tiedostossa märiteltyihin pinneihin
   <br/>
   <br/>
   <i>
    module
   </i>
-  Esimerkki(
+  ExampleMain(
   <br/>
-  input     wire               kello,
+  <i>
+   input     wire
+  </i>
+  clock,
   <br/>
-  output   wire   [3:0]     ledit_a,
+  <i>
+   output   wire
+  </i>
+  [3:0]     leds_a,
   <br/>
-  output
-  <b>
-   reg
-  </b>
-  [3:0]     ledit_b
+  <i>
+   output
+   <b>
+    reg
+   </b>
+  </i>
+  [3:0]     leds_b
   <br/>
   );
   <br/>
   <br/>
   <b>
-   reg
+   <i>
+    reg
+   </i>
   </b>
-  [27:0] laskuri = 0;
+  [27:0] counter = 28'd0;
   <br/>
   <br/>
   // Kombinaatiologiikka, kohde pitää olla wire
@@ -47,7 +57,7 @@
   <i>
    assign
   </i>
-  ledit_a = ~laskuri[27:24] &amp; laskuri[3:0];
+  leds_a = ~counter[27:24] &amp; counter[3:0];
   <br/>
   <br/>
   <br/>
@@ -79,11 +89,11 @@
    begin
   </i>
   <br/>
-  ledit_b
+  leds_b
   <b>
    =
   </b>
-  ~laskuri[27:24] &amp; laskuri[3:0];
+  ~counter[27:24] &amp; counter[3:0];
   <br/>
   <i>
    end
@@ -119,18 +129,18 @@
   <b>
    posedge
   </b>
-  kello)
+  clock)
   <i>
    begin
   </i>
   <br/>
-  if (laskuri &lt; 99) begin
+  if (counter &lt; 99) begin
   <br/>
-  laskuri
+  counter
   <b>
    &lt;=
   </b>
-  laskuri + 1;
+  counter + 1;
   <br/>
   end
   <br/>
@@ -165,14 +175,14 @@
   <i>
    wire
   </i>
-  [3:0] ledit_c;
+  [3:0] leds_c;
   <br/>
   <br/>
-  OmaModuuli oma1(
+  ExampleModule test1(
   <br/>
-  .ledit_tulo(ledit_a),
+  .leds_input(leds_a),
   <br/>
-  .ledit_lahto(ledit_c)
+  .leds_output(leds_c)
   <br/>
   )
   <br/>

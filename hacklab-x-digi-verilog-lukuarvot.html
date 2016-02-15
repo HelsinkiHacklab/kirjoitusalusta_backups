@@ -25,15 +25,15 @@
     1: "logic 1", true
    </li>
    <li>
-    z: high-impedance
+    z: high-impedance (ei tarvita kurssilla, katso alla)
    </li>
    <li>
-    x: unknown, don't care
+    x: unknown, don't care (joskus kätevä casex-lauseissa)
     <br/>
     <br/>
    </li>
   </ul>
-  Kurssilla  käytettävät piirit eivät tue sisäisesti kuin 0 ja 1 -signaaleja joten  voimme puhua vain biteitstä. I/O-pinnit osaavat komitilan, mutta sitä on parempi ohjata suoraan instantioimalla kyseisen piirityypin omia  primitiivejä, esim. IOBUFE.
+  Kurssilla käytettävät piirit eivät tue sisäisesti kuin 0- ja 1-signaaleja joten voimme käsitellä signaaleja puhtaasti binäärisinä. I/O-pinnit osaavat kolmitilan, mutta sitäkin on parempi ohjata omalla suoraan, esim. IOBUFE.
   <br/>
   <br/>
   <b>
@@ -54,9 +54,7 @@
       b tai B binääriluvuille
      </li>
      <li>
-      <s>
-       o tai O oktaaliluvuille
-      </s>
+      o tai O oktaaliluvuille
      </li>
      <li>
       h tai H heksadesimaaleille
@@ -73,7 +71,7 @@
     esimerkkejä
     <ul>
      <li>
-      1'b0 = 0 = 'false'
+      1'b0 = 0 = 'false' (= 1'o0, 1'h0 ja 1'd0)
       <ul>
        <li>
         'define' N = 8;

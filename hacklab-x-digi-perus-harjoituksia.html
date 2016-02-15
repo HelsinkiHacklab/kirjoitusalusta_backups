@@ -8,152 +8,463 @@
   </title>
  </head>
  <body>
-  // Verilog harjoitus v1.0
-  <br/>
-  <br/>
-  `timescale 1ns / 1ps
-  <br/>
-  `default_nettype none
   <br/>
   <br/>
   <br/>
-  module main(
-  <br/>
-  input   wire    sw0,
-  <br/>
-  input   wire    sw1,
+  <b>
+   ---- main.v -------------------------------------------
+  </b>
   <br/>
   <br/>
-  output  wire    led0
+  // Verilog harjoitus v2.2
   <br/>
-  );
-  <br/>
-  <br/>
-  wire    sw0_not;
-  <br/>
-  wire    sw1_not;
+  // Sijoitetaan kaikki väylän 8 bittiä suoraan
   <br/>
   <br/>
-  assign sw0_not = ~sw0;
+  `
+  <i>
+   timescale
+  </i>
+  1ns / 1ps
   <br/>
-  assign sw1_not = ~sw1;
-  <br/>
-  <br/>
-  assign led0 = sw0_not &amp; sw1_not;
-  <br/>
-  <br/>
-  endmodule
-  <br/>
-  <br/>
-  ----------------------------------------------------------------------------------
-  <br/>
-  <br/>
-  // Verilog harjoitus v1.1
-  <br/>
-  <br/>
-  `timescale 1ns / 1ps
-  <br/>
-  `default_nettype none
+  `
+  <i>
+   default_nettype
+  </i>
+  none
   <br/>
   <br/>
   <br/>
-  module main(
+  <b>
+   module
+  </b>
+  main(
   <br/>
-  input   wire    sw0,
+  <b>
+   input
+  </b>
+  <b>
+   wire
+  </b>
+  slowclk,
   <br/>
-  input   wire    sw1,
+  <b>
+   input
+  </b>
+  <b>
+   wire
+  </b>
+  [7:0]       sw_in,
   <br/>
-  <br/>
-  output  wire    led0
+  <b>
+   output
+  </b>
+  <b>
+   wire
+  </b>
+  [7:0]       sw_out
   <br/>
   );
   <br/>
   <br/>
-  wire    sw0_not = ~sw0;
-  <br/>
-  wire    sw1_not = ~sw1;
-  <br/>
-  <br/>
-  assign led0 = sw0_not &amp; sw1_not;
+  <b>
+   assign
+  </b>
+  sw_out = ~sw_in;
   <br/>
   <br/>
-  endmodule
+  <b>
+   endmodule
+  </b>
+  <br/>
+  <br/>
+  <b>
+   ---- main.v -------------------------------------------
+  </b>
+  <br/>
+  <br/>
+  // Verilog harjoitus v2.1
+  <br/>
+  // Lisättiin NOT 'portit', koska ledit ovat alhaalla aktiivisia
+  <br/>
+  <br/>
+  `
+  <i>
+   timescale
+  </i>
+  1ns / 1ps
+  <br/>
+  `
+  <i>
+   default_nettype
+  </i>
+  none
   <br/>
   <br/>
   <br/>
-  ----------------------------------------------------------------------------------
+  <b>
+   module
+  </b>
+  main(
   <br/>
+  <b>
+   input
+  </b>
+  <b>
+   wire
+  </b>
+  slowclk,
   <br/>
+  <b>
+   input
+  </b>
+  <b>
+   wire
+  </b>
+  [7:0]       sw_in,
   <br/>
-  // Verilog harjoitus v1.2
-  <br/>
-  <br/>
-  `timescale 1ns / 1ps
-  <br/>
-  `default_nettype none
-  <br/>
-  <br/>
-  `timescale 1ns / 1ps
-  <br/>
-  `default_nettype none
-  <br/>
-  `timescale 1ns / 1ps
-  <br/>
-  `default_nettype none
-  <br/>
-  module main(
-  <br/>
-  input   wire    sw0,
-  <br/>
-  input   wire    sw1,
-  <br/>
-  <br/>
-  output  wire    led0
+  <b>
+   output
+  </b>
+  <b>
+   wire
+  </b>
+  [7:0]       sw_out
   <br/>
   );
   <br/>
   <br/>
-  assign led0 = (~sw0) &amp; (~sw1);
+  <b>
+   assign
+  </b>
+  sw_out[0] = ~sw_in[0];
+  <br/>
+  <b>
+   assign
+  </b>
+  sw_out[1] = ~sw_in[1];
+  <br/>
+  <b>
+   assign
+  </b>
+  sw_out[2] = ~sw_in[2];
+  <br/>
+  <b>
+   assign
+  </b>
+  sw_out[3] = ~sw_in[3];
+  <br/>
+  <b>
+   assign
+  </b>
+  sw_out[4] = ~sw_in[4];
+  <br/>
+  <b>
+   assign
+  </b>
+  sw_out[5] = ~sw_in[5];
+  <br/>
+  <b>
+   assign
+  </b>
+  sw_out[6] = ~sw_in[6];
+  <br/>
+  <b>
+   assign
+  </b>
+  sw_out[7] = ~sw_in[7];
   <br/>
   <br/>
-  endmodule
-  <br/>
-  <br/>
-  <br/>
-  ----------------------------------------------------------------------------------
-  <br/>
-  <br/>
-  # Punaisen levyn UCF
-  <br/>
-  NET "led0"  LOC = "P3";
-  <br/>
-  <br/>
-  NET "sw0"  LOC = "P29";
-  <br/>
-  NET "sw1"  LOC = "P30";
-  <br/>
-  <br/>
-  ----------------------------------------------------------------------------
-  <br/>
-  <br/>
-  NET "slowclk"    LOC = "P44" | BUFG = CLK;      # slowCLK (1...100 Hz oscillator)
-  <br/>
-  <br/>
-  NET "led&lt;3&gt;"  LOC = "P38";                    # signal sw1, labeled '7' (leftmost)
-  <br/>
-  NET "led&lt;2&gt;"  LOC = "P39";                    # signal sw2, labeled '6'
-  <br/>
-  NET "led&lt;1&gt;"  LOC = "P40";                    # signal sw3, labeled '5'
-  <br/>
-  NET "led&lt;0&gt;"  LOC = "P41";                    # signal sw4, labeled '4'
+  <b>
+   endmodule
+  </b>
   <br/>
   <br/>
   <br/>
   <br/>
+  <b>
+   ---- main.v -------------------------------------------
+  </b>
+  <br/>
+  <br/>
+  // Verilog harjoitus v2.0
+  <br/>
+  <br/>
+  `
+  <i>
+   timescale
+  </i>
+  1ns / 1ps
+  <br/>
+  `
+  <i>
+   default_nettype
+  </i>
+  none
   <br/>
   <br/>
   <br/>
+  <b>
+   module
+  </b>
+  main(
   <br/>
+  <b>
+   input
+  </b>
+  <b>
+   wire
+  </b>
+  slowclk,
+  <br/>
+  <b>
+   input
+  </b>
+  <b>
+   wire
+  </b>
+  [7:0]       sw_in,
+  <br/>
+  <b>
+   output
+  </b>
+  <b>
+   wire
+  </b>
+  [7:0]       sw_out
+  <br/>
+  );
+  <br/>
+  <br/>
+  <b>
+   assign
+  </b>
+  sw_out[0] = sw_in[0];
+  <br/>
+  <b>
+   assign
+  </b>
+  sw_out[1] = sw_in[1];
+  <br/>
+  <b>
+   assign
+  </b>
+  sw_out[2] = sw_in[2];
+  <br/>
+  <b>
+   assign
+  </b>
+  sw_out[3] = sw_in[3];
+  <br/>
+  <b>
+   assign
+  </b>
+  sw_out[4] = sw_in[4];
+  <br/>
+  <b>
+   assign
+  </b>
+  sw_out[5] = sw_in[5];
+  <br/>
+  <b>
+   assign
+  </b>
+  sw_out[6] = sw_in[6];
+  <br/>
+  <b>
+   assign
+  </b>
+  sw_out[7] = sw_in[7];
+  <br/>
+  <br/>
+  <b>
+   endmodule
+  </b>
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   ---- cpld1.ucf ----------------------------------------
+  </b>
+  <br/>
+  <br/>
+  #******************************************************************
+  <br/>
+  #
+  <br/>
+  #  Helsinki Hacklab - Protoboard for digital electronics workshops
+  <br/>
+  #
+  <br/>
+  #  I/O Pin Assignments for CPLD 1
+  <br/>
+  #
+  <br/>
+  #  XC9572XL-VQ44
+  <br/>
+  #
+  <br/>
+  #******************************************************************
+  <br/>
+  <br/>
+  <b>
+   NET
+  </b>
+  "slowclk"
+  <b>
+   LOC
+  </b>
+  = "P44" |
+  <b>
+   BUFG
+  </b>
+  = CLK;      # slowCLK (100 Hz oscillator)
+  <br/>
+  <br/>
+  <b>
+   NET
+  </b>
+  "sw_in&lt;7&gt;"
+  <b>
+   LOC
+  </b>
+  = "P37";                    # switch s8, "MSB" (leftmost)
+  <br/>
+  <b>
+   NET
+  </b>
+  "sw_in&lt;6&gt;"
+  <b>
+   LOC
+  </b>
+  = "P36";                    # switch s7
+  <br/>
+  <b>
+   NET
+  </b>
+  "sw_in&lt;5&gt;"
+  <b>
+   LOC
+  </b>
+  = "P34";                    # switch s6
+  <br/>
+  <b>
+   NET
+  </b>
+  "sw_in&lt;4&gt;"
+  <b>
+   LOC
+  </b>
+  = "P33";                    # switch s5
+  <br/>
+  <b>
+   NET
+  </b>
+  "sw_in&lt;3&gt;"
+  <b>
+   LOC
+  </b>
+  = "P32";                    # switch s4
+  <br/>
+  <b>
+   NET
+  </b>
+  "sw_in&lt;2&gt;"
+  <b>
+   LOC
+  </b>
+  = "P31";                    # switch s3
+  <br/>
+  <b>
+   NET
+  </b>
+  "sw_in&lt;1&gt;"
+  <b>
+   LOC
+  </b>
+  = "P30";                    # switch s2
+  <br/>
+  <b>
+   NET
+  </b>
+  "sw_in&lt;0&gt;"
+  <b>
+   LOC
+  </b>
+  = "P29";                    # switch s1, "LSB" (rightmost)
+  <br/>
+  <br/>
+  <b>
+   NET
+  </b>
+  "sw_out&lt;7&gt;"
+  <b>
+   LOC
+  </b>
+  = "P38";                    # signal sw1, labeled '7' (leftmost)
+  <br/>
+  <b>
+   NET
+  </b>
+  "sw_out&lt;6&gt;"
+  <b>
+   LOC
+  </b>
+  = "P39";                    # signal sw2, labeled '6'
+  <br/>
+  <b>
+   NET
+  </b>
+  "sw_out&lt;5&gt;"
+  <b>
+   LOC
+  </b>
+  = "P40";                    # signal sw3, labeled '5'
+  <br/>
+  <b>
+   NET
+  </b>
+  "sw_out&lt;4&gt;"
+  <b>
+   LOC
+  </b>
+  = "P41";                    # signal sw4, labeled '4'
+  <br/>
+  <b>
+   NET
+  </b>
+  "sw_out&lt;3&gt;"
+  <b>
+   LOC
+  </b>
+  = "P42";                    # signal sw5, labeled '3'
+  <br/>
+  <b>
+   NET
+  </b>
+  "sw_out&lt;2&gt;"
+  <b>
+   LOC
+  </b>
+  = "P43";                    # signal sw6, labeled '2'
+  <br/>
+  <b>
+   NET
+  </b>
+  "sw_out&lt;1&gt;"
+  <b>
+   LOC
+  </b>
+  = "P2";                    # signal sw7, labeled '1'
+  <br/>
+  <b>
+   NET
+  </b>
+  "sw_out&lt;0&gt;"
+  <b>
+   LOC
+  </b>
+  = "P3";                    # signal sw8, labeled '0' (rightmost)
   <br/>
   <br/>
  </body>
