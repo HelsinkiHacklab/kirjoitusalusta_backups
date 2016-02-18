@@ -16,53 +16,156 @@
   <br/>
   <br/>
   <b>
-   Aritmeettiset
+   <u>
+    Binääriset
+   </u>
   </b>
   <br/>
-  A + B
+  <b>
+   ~
+  </b>
+  a
+  <i>
+   NOT
+  </i>
+  a
   <br/>
-  A - B
+  A
+  <b>
+   &amp;
+  </b>
+  B       a
+  <i>
+   AND
+  </i>
+  b
   <br/>
-  A * B    syntetisoituu fpga:lla, mahtuuko cpld:hen?
+  A
+  <b>
+   |
+  </b>
+  B         a
+  <i>
+   OR
+  </i>
+  b
   <br/>
-  A / B    tuskin syntetisoituu
-  <br/>
-  A % B    modulo, tuskin syntetisoituu
-  <br/>
-  A ** B    potenssi, tuskin syntetisoituu
-  <br/>
-  <br/>
-  A &gt;&gt; x     looginen shift
-  <br/>
-  A &lt;&lt; x     looginen shift
-  <br/>
-  A &gt;&gt;&gt; x aritmeettinen, ylin bitti monistuu
-  <br/>
-  A &lt;&lt;&lt; x    aritmeettinen, täytetään nollalla, eli sama kuin &lt;&lt;
+  A
+  <b>
+   ^
+  </b>
+  B        a
+  <i>
+   XOR
+  </i>
+  b
   <br/>
   <br/>
   <b>
-   Binääriset
+   <u>
+    Aritmeettiset
+   </u>
   </b>
   <br/>
-  ~A        NOT
+  <b>
+   -
+  </b>
+  a              negaatio, kahden komplementtiluvuilla, sama kuin (
+  <b>
+   ~
+  </b>
+  a
+  <b>
+   +
+  </b>
+  1)
   <br/>
-  A &amp; B    AND
+  a
+  <b>
+   +
+  </b>
+  b         yhteenlasku
   <br/>
-  A | B    OR
+  a
+  <b>
+   -
+  </b>
+  b          vähennyslasku
   <br/>
-  A ^ B    XOR
+  a * b          kertolasku, syntetisoituu fpga:lla helposti DSP-lohkoihin
+  <br/>
+  A
+  <b>
+   /
+  </b>
+  B          jakolasku, tuskin syntetisoituu
+  <br/>
+  A
+  <b>
+   %
+  </b>
+  B        jakojäännös, modulo, tuskin syntetisoituu
+  <br/>
+  A
+  <b>
+   **
+  </b>
+  B        potenssi, tuskin syntetisoituu
   <br/>
   <br/>
   <b>
-   Loogiset, tulos 1'b0 tai 1'b1
+   <u>
+    Bittisiirrot
+   </u>
   </b>
   <br/>
-  !A
+  a
+  <b>
+   &gt;&gt;
+  </b>
+  n       looginen shift,  jakaa kahdella
   <br/>
-  A &amp;&amp; B
+  a
+  <b>
+   &lt;&lt;
+  </b>
+  n       looginen shift, kertoo kahdella
   <br/>
-  A || B
+  a
+  <b>
+   &gt;&gt;&gt;
+  </b>
+  n     aritmeettinen, ylin bitti monistuu, etumerkillisten lukujen jako kahdella
+  <br/>
+  a
+  <b>
+   &lt;&lt;&lt;
+  </b>
+  n     aritmeettinen, kertoo kahdella, yhtenäisyyden vuoksi, sama kuin &lt;&lt;
+  <br/>
+  <br/>
+  <b>
+   <u>
+    Loogiset, tulos 1'b0 tai 1'b1
+   </u>
+  </b>
+  <br/>
+  <b>
+   !
+  </b>
+  a
+  <br/>
+  a
+  <b>
+   &amp;&amp;
+  </b>
+  b
+  <br/>
+  a
+  <b>
+   ||
+  </b>
+  b
   <br/>
   <br/>
   <b>

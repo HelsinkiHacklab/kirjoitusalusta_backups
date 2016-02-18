@@ -8,173 +8,254 @@
   </title>
  </head>
  <body>
-  // Verilogissa kaikki muodostuu moduleista (vrt. luokka) joita
-  <br/>
-  // instantioidaan (vrt. olio). Ainoa poikkeus Top Module jonka kehitysympäristö
-  <br/>
-  // instantioi ja kytkee .ucf-tiedostossa märiteltyihin pinneihin
-  <br/>
+  <i>
+   // Verilogissa kaikki rakentuu moduleista (vrt. luokka) joita instantioidaan (vrt. olio).
+  </i>
   <br/>
   <i>
+   // Ainoa poikkeus on Top Module jonka kehitysympäristö instantioi ja kytkee .ucf-tiedostossa
+  </i>
+  <br/>
+  <i>
+   // märiteltyihin pinneihin.
+  </i>
+  <br/>
+  <b>
    module
-  </i>
-  ExampleMain(
+  </b>
+  main(
   <br/>
+  <b>
+   input
+  </b>
   <i>
-   input     wire
   </i>
+  <b>
+   wire
+  </b>
   clock,
   <br/>
+  <b>
+   output
+  </b>
   <i>
-   output   wire
   </i>
+  <b>
+   wire
+  </b>
   [3:0]     leds_a,
   <br/>
-  <i>
+  <b>
    output
-   <b>
-    reg
-   </b>
+  </b>
+  <i>
   </i>
+  <b>
+   reg
+  </b>
   [3:0]     leds_b
   <br/>
   );
   <br/>
   <br/>
   <b>
-   <i>
-    reg
-   </i>
+   reg
   </b>
   [27:0] counter = 28'd0;
   <br/>
   <br/>
-  // Kombinaatiologiikka, kohde pitää olla wire
-  <br/>
-  // Käytä kun &amp;, |, ^ ja ? jne. operaattorit riittävät
-  <br/>
+  <i>
+   // Kombinaatiologiikka, kohde pitää olla wire
+  </i>
   <br/>
   <i>
+   // Käytä kun &amp;, |, ^ ja ? jne. operaattorit riittävät
+  </i>
+  <br/>
+  <b>
    assign
-  </i>
-  leds_a = ~counter[27:24] &amp; counter[3:0];
-  <br/>
-  <br/>
-  <br/>
-  // Tai vaihtoehtoisesti, nyt kohteen pitää olla reg, mutta syntetisoituu edelleen
-  <br/>
-  // kombinaatiologiikaksi.
-  <b>
-   Tämä on se kohta joka aiheuttaa Verilogin
   </b>
-  <br/>
-  //
+  leds_a =
   <b>
-   wire vs. reg epäselvyydet.
+   ~
   </b>
-  <br/>
-  // Käytä kun assign ei riitä, eli tarvitset if/case-rakenteita, mutta muista että kaikissa
-  <br/>
-  // koodipoluissa pitää tehdä sijoitukset kaikkiin samoihin muuttujiin
+  counter[27:24]
+  <b>
+   &amp;
+  </b>
+  counter[3:0];
   <br/>
   <br/>
   <i>
+   // Tai vaihtoehtoisesti, nyt kohteen pitää olla reg, mutta syntetisoituu edelleen
+  </i>
+  <br/>
+  <i>
+   // kombinaatiologiikaksi.
+   <b>
+    Tämä on se kohta joka aiheuttaa Verilogin
+   </b>
+  </i>
+  <i>
+  </i>
+  <br/>
+  <i>
+   //
+   <b>
+    wire vs. reg epäselvyydet.
+   </b>
+  </i>
+  <br/>
+  <i>
+   // Käytä kun assign ei riitä, eli tarvitset if/case-rakenteita, mutta muista että kaikissa
+  </i>
+  <br/>
+  <i>
+   // koodipoluissa pitää tehdä sijoitukset kaikkiin samoihin muuttujiin
+  </i>
+  <br/>
+  <b>
    always
-  </i>
-  @
-  <b>
-   *
   </b>
-  <i>
+  <b>
+   @*
+  </b>
+  <b>
    begin
-  </i>
+  </b>
   <br/>
   leds_b
   <b>
    =
   </b>
-  ~counter[27:24] &amp; counter[3:0];
+  <b>
+   ~
+  </b>
+  counter[27:24]
+  <b>
+   &amp;
+  </b>
+  counter[3:0];
   <br/>
-  <i>
+  <b>
    end
-  </i>
-  <br/>
-  <br/>
-  <br/>
-  // Sekvenssilogiikka, kohteen pitää olla reg ja sijoitusten non-blocking '
-  <b>
-   &lt;=
   </b>
-  ' ja
-  <br/>
-  // reunaherkkä kellosignaalille (
-  <b>
-   posegde
-  </b>
-  tai
-  <b>
-   negedge
-  </b>
-  ) ja näistä syntetisoituu
-  <br/>
-  // flipareita, rekistereitä ja muistia
-  <br/>
-  // Rekisterien arvoja ei tarvitse aina sijoittaa vaan ne pitävät muistinsa
   <br/>
   <br/>
   <i>
-   always
+   // Sekvenssilogiikka, kohteen pitää olla reg ja sijoitusten non-blocking '
+   <b>
+    &lt;=
+   </b>
   </i>
-  @(
+  <i>
+   ' ja
+  </i>
+  <br/>
+  <i>
+   // reunaherkkä kellosignaalille (
+   <b>
+    posegde
+   </b>
+  </i>
+  <i>
+   tai
+   <b>
+    negedge
+   </b>
+  </i>
+  <i>
+   ) ja näistä syntetisoituu
+  </i>
+  <br/>
+  <i>
+   // flipareita, rekistereitä ja muistia
+  </i>
+  <br/>
+  <i>
+   // Rekisterien arvoja ei tarvitse aina sijoittaa vaan ne pitävät muistinsa
+  </i>
+  <br/>
+  <b>
+   always
+  </b>
+  <b>
+   @
+  </b>
+  (
   <b>
    posedge
   </b>
   clock)
-  <i>
+  <b>
    begin
-  </i>
+  </b>
   <br/>
-  if (counter &lt; 99) begin
+  <b>
+   if
+  </b>
+  (counter
+  <b>
+   &lt;
+  </b>
+  99)
+  <b>
+   begin
+  </b>
   <br/>
   counter
   <b>
    &lt;=
   </b>
-  counter + 1;
-  <br/>
-  end
-  <br/>
-  <i>
-   end
-  </i>
-  <br/>
-  <br/>
-  <br/>
-  // Moduuleja ja primitiivejä instantiodessa annetaan sille uniikki nimi
-  <br/>
-  // (johon ei tarvitse viitata muualta, eli voi olla x1, x2, mutta kannattaa
-  <br/>
-  // tietysti käyttää kuvaavia nimiä. On myös suositeltavaa käyttää parametreja
-  <br/>
-  // nimillä
-  <i>
-   .jotain(..)
-  </i>
-  kuin luottaa järjestykseen. Pitää myös tarvittavat wire:t tehdä jotta
-  <br/>
-  // kytkeminen onnistuu, muuten Verilog 2001 tekee automaattisesti, mutta vain yhden
-  <br/>
-  // bitin kokoisia, eli pieleen menee. Tähän onneksi voi vaikuttaa laittamalla alkuun
-  <br/>
-  // pragman:
+  counter
   <b>
-   `default_nettype none
+   +
+  </b>
+  1;
+  <br/>
+  <b>
+   end
+  </b>
+  <br/>
+  <b>
+   end
   </b>
   <br/>
   <br/>
   <i>
-   wire
+   // Moduuleja ja primitiivejä instantiodessa annetaan sille uniikki nimi
   </i>
+  <br/>
+  <i>
+   // (johon ei tarvitse viitata muualta, eli voi olla x1, x2, mutta kannattaa
+  </i>
+  <br/>
+  <i>
+   // tietysti käyttää kuvaavia nimiä. On myös suositeltavaa käyttää parametreja
+  </i>
+  <br/>
+  <i>
+   // nimillä .jotain(..) kuin luottaa järjestykseen. Pitää myös tarvittavat wire:t tehdä jotta
+  </i>
+  <br/>
+  <i>
+   // kytkeminen onnistuu, muuten Verilog 2001 tekee automaattisesti, mutta vain yhden
+  </i>
+  <br/>
+  <i>
+   // bitin kokoisia, eli pieleen menee. Tähän onneksi voi vaikuttaa laittamalla alkuun
+  </i>
+  <br/>
+  <i>
+   // pragman:
+   <b>
+    `default_nettype none
+   </b>
+  </i>
+  <br/>
+  <b>
+   wire
+  </b>
   [3:0] leds_c;
   <br/>
   <br/>
@@ -186,10 +267,12 @@
   <br/>
   )
   <br/>
+  <b>
+  </b>
   <br/>
-  <i>
+  <b>
    endmodule
-  </i>
+  </b>
   <br/>
   <br/>
   <br/>
