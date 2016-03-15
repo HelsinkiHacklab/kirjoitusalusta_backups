@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 DEFAULT_ENTRY_URL = 'http://kirjoitusalusta.fi/hacklab'
 ETHERPAD_BASE = 'http://kirjoitusalusta.fi/'
 # How to extract the pad name from the pad url
-PAD_NAME_RE = re.compile('^%s(?P<padname>[^/]+).*$' % ETHERPAD_BASE)
+PAD_NAME_RE = re.compile('^%s(?P<padname>[^/]+).*$' % ETHERPAD_BASE.replace('http://', 'https?://'))
 # How to form the HTML export URL, takes single %s where the pad name goes
 PAD_EXPORT_URL_FORMAT = 'http://kirjoitusalusta.fi/ep/pad/export/%s/latest?format=html'
 # By default recurse to any and all urls under this same etherpad instance
