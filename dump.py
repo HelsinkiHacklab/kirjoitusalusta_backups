@@ -12,7 +12,7 @@ PAD_NAME_RE = re.compile('^%s(?P<padname>[^/]+).*$' % ETHERPAD_BASE)
 # How to form the HTML export URL, takes single %s where the pad name goes
 PAD_EXPORT_URL_FORMAT = 'http://kirjoitusalusta.fi/ep/pad/export/%s/latest?format=html'
 # By default recurse to any and all urls under this same etherpad instance
-PAD_RECURSE_HREF_RE = re.compile('^%s' % ETHERPAD_BASE)
+PAD_RECURSE_HREF_RE = re.compile('^%s' % ETHERPAD_BASE.replace('http://', 'https?://'))
 # Again takes single %s which is the pad name
 PAD_EXPORT_FILENAME = '%s.html'
 
@@ -32,6 +32,8 @@ class jobmanager:
             return False
         self.job_queue.append(url)
         self.seen_urls[url] = True
+        self.seen_urls[url.replace('http://', 'https://')] = True
+        self.seen_urls[url.replace('https://', 'http://')] = True
         return True
 
     def run(self):
