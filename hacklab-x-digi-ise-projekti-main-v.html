@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-x-digi-ise-projekti-main-v
+  </title>
+ </head>
+ <body>
+  <i>
+   // main.v
+  </i>
+  <br/>
+  <i>
+   // Verilog harjoitus v3.3 - akkumulaattori
+  </i>
+  <br/>
+  <br/>
+  <b>
+   `timescale
+  </b>
+  1ns / 1ps
+  <br/>
+  <b>
+   `default_nettype
+  </b>
+  none
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   module
+  </b>
+  Main(
+  <br/>
+  <b>
+   input   wire
+  </b>
+  slowclk,
+  <br/>
+  <b>
+   input   wire
+  </b>
+  [7:0]       sw_in,
+  <br/>
+  <b>
+   output  wire
+  </b>
+  [7:0]       sw_out
+  <br/>
+  );
+  <br/>
+  <br/>
+  <b>
+   wire
+  </b>
+  [7:0]   state_next;
+  <br/>
+  <b>
+   reg
+  </b>
+  [7:0]   state = 0;
+  <br/>
+  <br/>
+  <i>
+   // Next state kombinaatiologiikka
+  </i>
+  <br/>
+  <b>
+   assign
+  </b>
+  state_next = state + (~sw_in);
+  <br/>
+  <br/>
+  <i>
+   // Sekvenssilogiikka
+  </i>
+  <br/>
+  <b>
+   always @
+  </b>
+  (
+  <b>
+   posedge
+  </b>
+  slowclk)
+  <b>
+   begin
+  </b>
+  <br/>
+  state
+  <b>
+   &lt;=
+  </b>
+  state_next;
+  <br/>
+  <b>
+   end
+  </b>
+  <br/>
+  <br/>
+  <i>
+   // Output kombinaatiologiikka
+  </i>
+  <br/>
+  <b>
+   assign
+  </b>
+  sw_out = state;
+  <br/>
+  <br/>
+  <b>
+   endmodule
+  </b>
+  <br/>
+  <br/>
+ </body>
+</html>

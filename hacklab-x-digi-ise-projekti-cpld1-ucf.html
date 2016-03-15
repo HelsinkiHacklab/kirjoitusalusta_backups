@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-x-digi-ise-projekti-cpld1-ucf
+  </title>
+ </head>
+ <body>
+  # cpld1.ucf - XC9572XL-VQ44
+  <br/>
+  # I/O Pin Assignments for Helsinki Hacklab Protoboard CPLD 1
+  <br/>
+  <br/>
+  NET "slowclk"    LOC = "P44" | BUFG = CLK;      # slowCLK (100 Hz oscillator)
+  <br/>
+  <br/>
+  NET "sw_in&lt;7&gt;"   LOC = "P37";                    # switch s8, "MSB" (leftmost)
+  <br/>
+  NET "sw_in&lt;6&gt;"   LOC = "P36";                    # switch s7
+  <br/>
+  NET "sw_in&lt;5&gt;"   LOC = "P34";                    # switch s6
+  <br/>
+  NET "sw_in&lt;4&gt;"   LOC = "P33";                    # switch s5
+  <br/>
+  NET "sw_in&lt;3&gt;"   LOC = "P32";                    # switch s4
+  <br/>
+  NET "sw_in&lt;2&gt;"   LOC = "P31";                    # switch s3
+  <br/>
+  NET "sw_in&lt;1&gt;"   LOC = "P30";                    # switch s2
+  <br/>
+  NET "sw_in&lt;0&gt;"   LOC = "P29";                    # switch s1, "LSB" (rightmost)
+  <br/>
+  <br/>
+  NET "sw_out&lt;7&gt;"  LOC = "P38";                    # signal sw1, labeled '7' (leftmost)
+  <br/>
+  NET "sw_out&lt;6&gt;"  LOC = "P39";                    # signal sw2, labeled '6'
+  <br/>
+  NET "sw_out&lt;5&gt;"  LOC = "P40";                    # signal sw3, labeled '5'
+  <br/>
+  NET "sw_out&lt;4&gt;"  LOC = "P41";                    # signal sw4, labeled '4'
+  <br/>
+  NET "sw_out&lt;3&gt;"  LOC = "P42";                    # signal sw5, labeled '3'
+  <br/>
+  NET "sw_out&lt;2&gt;"  LOC = "P43";                    # signal sw6, labeled '2'
+  <br/>
+  NET "sw_out&lt;1&gt;"  LOC = "P2";                     # signal sw7, labeled '1'
+  <br/>
+  NET "sw_out&lt;0&gt;"  LOC = "P3";                     # signal sw8, labeled '0' (rightmost)
+  <br/>
+  <br/>
+ </body>
+</html>

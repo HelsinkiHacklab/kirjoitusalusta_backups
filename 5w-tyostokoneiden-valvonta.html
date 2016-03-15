@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /5w-tyostokoneiden-valvonta
+  </title>
+ </head>
+ <body>
+  <b>
+   5W Työstökoneiden valvonta ja käyttöstatistiikka
+  </b>
+  <br/>
+  <br/>
+  Tavoitteet:
+  <br/>
+  <ul>
+   <li>
+    Tampereen Hacklabilla olevian työstökoneiden käyttöluvitus
+    <ul>
+     <li>
+      Laser, IsoCNC ja Plasmaleikkuri
+     </li>
+     <li>
+      Koneiden käyttämiseen tarvitsee luvitetun NFC-tägin joka on henkilökohtainen
+      <ul>
+       <li>
+        Tagi tulee olla lukijassa koko käytön ajan? Vai että tägiä näytetään kun ohjaussoftan käynnistää ja alkaa käyttämisen
+       </li>
+       <li>
+        Lukijassa tulee olla mastertägi jolla voidaan luvittaa käyttö paikallisesti mikäli LDAP tietokantayhteys on poikki, ettei koneiden käyttö esty vikatilanteessa.
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Laitteisiin käyttötuntilaskurit, sensoreita/kytkimiä turvaamaan laitteen käyttöä
+    <ul>
+     <li>
+      Laserin kaikki turvakytkimet toimivat (paineilma, jäähdytys, kansi)
+      <ul>
+       <li>
+        Laserissa valmiiksi arduino jolla käyttötuntien laskeminen helppo lisätä
+       </li>
+      </ul>
+     </li>
+     <li>
+      Plasmaan mahdollisesti paineilma ja vesiaunturit muistuttamaan käyttäjää
+     </li>
+     <li>
+      Jyrsimeen paineilman (ei kriittinen) sensori, karan moottorin lämpötilan seuranta ja virtausveden seuranta
+     </li>
+    </ul>
+   </li>
+  </ul>
+  Tekevät henkilöt ja vastuualueet:
+  <br/>
+  <br/>
+  Etenemissuunnitelma
+  <br/>
+  <ul>
+   <li>
+    Testataan eri lukijat ja nfc-tägit
+    <ul>
+     <li>
+      Ladilla on muutamia lukijoita ja tägejä (Kortti sekä avainperä-mallisia)
+     </li>
+     <li>
+      Toimiva lukuetäisyys, lukijan ja tägin kustannuksien tarkistus
+     </li>
+     <li>
+      Voisiko tässä säästää kortteja ja tunnistaa TKL:n bussikortin?
+      <ul>
+       <li>
+        Yhteensopivia kortteja saa varmasti erikseen, jos kaikilla ei ole bussikorttia
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Suunnitellaan alustavasti koko järjestelmän vaatimukset ja käyttötarkoitus
+    <ul>
+     <li>
+      Näiden pohjalta päätetään millä komponenteilla järjestelmä on fiksu rakentaa
+     </li>
+     <li>
+      Mitä taustajärjestelmiä tarvitaan?
+      <ul>
+       <li>
+        Web-portaali?
+       </li>
+       <li>
+        Mitä kantaa vasten autentikoidaan
+        <ul>
+         <li>
+          Tarvitaanko LDAP kannasta paikallinen kopio Jännänetin toimintahäiriöiden ajaksi
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Alustava kytkentäsuunnitelma ja ensimmäinen proto
+    <ul>
+     <li>
+      Testauksen ajaksi protosta tehdään kunnollinen piirilevy (jyrsien) ja
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </body>
+</html>

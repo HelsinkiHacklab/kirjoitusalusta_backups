@@ -1,0 +1,653 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /Avoin-opiskeluymparisto
+  </title>
+ </head>
+ <body>
+  <b>
+   <u>
+    Avoin opiskeluympäristö
+   </u>
+  </b>
+  <br/>
+  <br/>
+  Helsinki Hacklab kehittää avointa opiskeluympäristöä. Koko labi on paikka oppimiselle ja tekemiselle, mutta keskitytään tässä padissa sen nurkan säätämiseen jossa kurssit ja workshopit järjestetään:
+  <a href="http://helsinki.hacklab.fi/2015/01/vuoden-ensimmaiset-kurssit-takana">
+   http://helsinki.hacklab.fi/2015/01/vuoden-ensimmaiset-kurssit-takana
+  </a>
+  <br/>
+  <br/>
+  Labin tavoitteena on tehdä helppo setuppi niin vetäjälle kuin osallistujalle, niin verkko- kuin fyysisellä tasolla. Ympäristön pitää olla selkeästi dokumentoitu jotta satunnainenkin osallistuja pystyy hyödyntämään tarvitsemansa resurssit. Ei pidä lähteä rakentamaan uusia himmeleitä ilman, että miettii mihin niitä käytetään, millaista elinkaarta odotetaan ja miten ylläpidetään. Labi joutuu pitämään kollektiivisesti ympäristön pystyssä, mutta asioilla (päätteet/läppärit/palvelimet) on oltava omat admininsa.
+  <u>
+   Päätökset labin hankinnoista tekee hallitus
+  </u>
+  .
+  <br/>
+  <br/>
+  Lähtökohtaisesti labin avoin opiskeluympäristö on rakennettu avoimilla tekniikoilla ja avoimesti jaettavissa. Repo löytyy:
+  <a href="https://github.com/HelsinkiHacklab">
+   https://github.com/HelsinkiHacklab
+  </a>
+  //lisätään kun ehditään
+  <br/>
+  <br/>
+  FLUG (
+  <a href="http://www.flug.fi)">
+   http://www.flug.fi)
+  </a>
+  osallistuu omalla panoksellaan ympäristön kehittämiseen. Tämä tarkoittaa ainakin taloudellista tukea labille. Tästä lisää helmikuun 2015 aikana. //viHannes
+  <br/>
+  <br/>
+  Avoimen opiskeluympäristön kuvaus tullaan sisällyttämään labin toimintasuunnitelmaan jota Kremmen työstää helmikuussa. (ja tähän työstämiseen saa muutkin osallistua) //viHannes
+  <br/>
+  <br/>
+  HUOM! Alempana on niin tajunnan virtaa (enkä halua poistaa tekstiä), mutta nyt on pakko koostaa jotain konkreettista. Viitaten brainstorming sunnuntaihin 01.02. koostan asioita //viHannes
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   Ohjelmistot/työasema v1.0
+  </b>
+  <br/>
+  Käyttöjärjestelmä:
+  <br/>
+  <ul>
+   <li>
+    Ubuntu 12.04
+   </li>
+  </ul>
+  Seuraavat sovellukset:
+  <br/>
+  <ul>
+   <li>
+    3d-printtaus: Cura
+   </li>
+   <li>
+    Arduino: Arduinon oma ide
+   </li>
+   <li>
+    Selain:
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  TÄSTÄ ALASPÄIN! Hyvin tajunnanvirtaa. //viHannes
+  <br/>
+  <br/>
+  <b>
+   Ohjelmistot
+  </b>
+  <br/>
+  Speksataan tähän kohtaan niitä ohjelmia joita kurssin vetäjät haluavat käytettävän.
+  <br/>
+  2015-02-01 1732: kaikkien yleiskoneisiin asennettujen softien pitää olla semmoisia joiden käytössä suurin osa vakiokaartista osaa neuvoa. Tämä keskustelu muutenkin siirtyi enemmän niihin yleiskoneisiin.
+  <br/>
+  <br/>
+  Hyvä vaihtoehto armilaudalle
+  <a href="http://www.verkkokauppa.com/fi/product/35308/dtgtj/HP-255-G3-15-6-HD-AMD-E1-6010-4-GB-500-GB-Windows-8-1-64-bit">
+   http://www.verkkokauppa.com/fi/product/35308/dtgtj/HP-255-G3-15-6-HD-AMD-E1-6010-4-GB-500-GB-Windows-8-1-64-bit
+  </a>
+  200,- sis näppis, näyttö ja hiirenomainen laite. Vaikka koko kovalevy irti (tai tyhjäksi) ja pelkkä netbootti niin ei tartte miettiä yksittäisten koneiden ylläpitoa.
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Käytännössä  rajautuu FOSS-sovelluksiin,
+   </li>
+   <li>
+    Inkscape
+   </li>
+   <li>
+    Gimp
+   </li>
+   <li>
+    PDF readeri
+   </li>
+   <li>
+    Hyviä fontteja /voi kai miettiä että jossain vaiheessa hankitaan painokelpoisia fontteja labille //viHannes
+    <ul>
+     <li>
+      Ei varmaan siihen yleiskoneelle tarvita.
+     </li>
+    </ul>
+   </li>
+   <li>
+    Blender
+    <ul>
+     <li>
+      Vaikea käyttää ja juuri kukaan ei osaa neuvoa. Eikö pyöri.
+     </li>
+     <li>
+      (jssmk osaa käyttää ja neuvoa o/   - kurssi tulossa joskus kohta )
+     </li>
+    </ul>
+   </li>
+   <li>
+    Open/Libre/Whatever-Office.
+    <ul>
+     <li>
+      Joku kevyt.
+     </li>
+    </ul>
+   </li>
+   <li>
+    Joku XXofficea kevyempi taulukkolaskenta
+    <ul>
+     <li>
+      Gnumerics ?
+     </li>
+    </ul>
+   </li>
+   <li>
+    tekstieditoreja
+   </li>
+   <li>
+    Cura 3D-printteriä varten.
+    <ul>
+     <li>
+      Ja repetier host mUVea
+     </li>
+    </ul>
+   </li>
+   <li>
+    OpenSCAD
+   </li>
+   <li>
+    FreeCAD
+    <a href="http://freecadweb.org/">
+     http://freecadweb.org/
+    </a>
+    <ul>
+     <li>
+      Vaikea käyttää ja kukaan ei osaa neuvoa
+     </li>
+    </ul>
+   </li>
+   <li>
+    Fritzing
+   </li>
+   <li>
+    Falstadin simulaattori olisi kiva jos onnistuisi pyörimään koneilla (Java)
+   </li>
+   <li>
+    KiCad
+    <ul>
+     <li>
+      Tässä on sellainen merkittävä ongelma että se (lähes) käyttökelpoinen versio eli bleeding edge päivittyy joka viikko ja kuukauden vanhat projektitiedosto ei ole enää yhteensopivia uusimman version kanssa. Tilanne ehkä paranee joskus, tai sitten ei mutta jokatapauksessa se vanha "stable" versio ei ole vakaa eikä käyttökelpoinen.
+     </li>
+    </ul>
+   </li>
+   <li>
+    Qucs
+   </li>
+   <li>
+    Eagle FREE
+    <ul>
+     <li>
+      Syövytystä varten toimii ihan PDF
+     </li>
+     <li>
+      Jos joku haluaa eagle-opastusta ja ei ole omaa läppäriä niin sitten näyttäjällä on kuitenkin oma läppäri.
+     </li>
+     <li>
+      Eaglen  nettisivuilta: System requirements: Linux based on kernel 2.6 for Intel  computers, X11  with a minimum color depth of 8 bpp, 32-bit runtime  environment with the  libraries libssl.so.1.0.0 and libcrypto.so.1.0.0.
+     </li>
+     <li>
+      Eaglesta ei ole kuin x86-linuxversio; joutuisi ajamaan palvelimen kautta ssh-X11-tunnelin läpi
+     </li>
+     <li>
+      Katsotaan järjestyisikö Eagle-kone labille jotenkin erikseen. Tällaisesta on ollut jotain juttua.
+      <ul>
+       <li>
+        Jos  palvelin on x86-kone, niin ssh-X11 -tunnelointi on ihan validi  vaihtoehto. Siinä on tietty joitain ongelmia palvelinvaatimusten  suhteen, mutta toimisi.
+       </li>
+       <li>
+        FreeCAD vaatii kai saman tunneloinnin
+       </li>
+      </ul>
+     </li>
+     <li>
+      Syövytystä varten toimii ihan PDF
+     </li>
+    </ul>
+   </li>
+   <li>
+    Gcc-arm-käännösympäristö kiluineen ja kaluineen eli alustasta riippuen natiivi tai cross-gcc
+   </li>
+   <li>
+    wireshark
+   </li>
+   <li>
+    openocd
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Tarvittavat koneet:
+  <br/>
+  <ul>
+   <li>
+    2 kpl koulutukseen ilman omaa läppäriä tuleville lainattavaa jotka nostetaan pöydälle ja sitten takas
+   </li>
+   <li>
+    1 kpl elehuoneeseen seisomakorkeudelle mountattuna, datalehtien selailuun yms
+   </li>
+   <li>
+    1 kpl olohuoneen nurkkaan seisomakorkeudelle (naulakon viereiseen? kellon alle?) tolppaan nettiselauskone (jolla siis voi tsekata nopeasti jonkun detailin tai reittioppaan)
+   </li>
+   <li>
+    1kpl 3D printtereille
+   </li>
+   <li>
+    1kpl optiselle kaivertimelle
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Webympäristöt
+  </b>
+  <br/>
+  Tähän kohtaa ne kriittiset nettiympäristöt joita halutaan käyttään
+  <br/>
+  <ul>
+   <li>
+    Nettiselaimet ym. tietty
+    <ul>
+     <li>
+      codecademyn saitin olis kiva pyöriä, en tiiä onko raskas, mutta on tosi hyviä ohjelmointioppaita
+     </li>
+     <li>
+      Codebender. Selaimessa toimiva Arduinon ohjelmointisofta. Ilmoittaa koodaus virheet selkeämmin kuin Arduino ide, On coolimman näköinen ja sisältää myös Arduinon peruskirjastot. Eli aloittelijaystävällisempi. Tsekatkaa:
+      <a href="https://codebender.cc/how_it_works">
+       https://codebender.cc/how_it_works
+      </a>
+      //Jarmo
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   Hankinnat
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Joku palvelinympäristö, jonka suunnittelu ja toteutus on oikeestaan tärkeempääkin kun että millä raudalla head unitit on toteutettu. Keskitetty hallinta ja verkosta buuttaaminen on tosi nättejä ajatuksena, aavistuksen hankalahkoja panna pydeen ja niiden kanssa elämän jatkuminen on olennaisesti mukavampaa kun irrallisten koneitten. Tää joka tapauksessa pitää jotenkin mitottaa ja suunnitella ja hankkia ja toteuttaa ja on edellytys noiden jäljempänä spekuloitujen päätekoneiden toiminnalle.
+    <ul>
+     <li>
+      vakioratkaisut, joihin on tukea laitteissa ja joita läbiläiset osaa käyttää, jotta ylläpidosta ei tule yhden yksittäisen henkilön taakka. dhcp/tftp/nfs taitaa olla edelleen ihan peruskamaa, mutta millä softilla se sitten tehään on jo valinnanvaraisempaa.
+     </li>
+     <li>
+      Debian + Lessdisks on todettu toimivaksi vaihtoehdoksi. Suht simppleli setupata eikä lähtökohtaisesti edellytä mitään ihmeellistä. uBoot-firmiksellä varustetut SOC:t ainakin helppoja puukottaa toimimaan, samoin moni peruspc-rauta.
+     </li>
+     <li>
+      Koko projektihan dokumentoidaan githubiin, jotta se olisi toistettavissa ja helposti ymmärrettävä. - tämä dokumentointi sinänsä on myös oppimateriaalia ja osa oppimisympäristöä, jos kohta opetettavien määrä rajottuu niihin kouralliseen, ketä nyt sattuu linux-adminointi kiinnostamaan
+     </li>
+    </ul>
+   </li>
+   <li>
+    Päätelaitteet:
+    <ul>
+     <li>
+      Pointti on hoitaa keskitetysti hallittuna verkosta boottaavia ARM-purkkeja. Tämä helpottaa ympäristön ylläpitotyötä ja tekee ympäristöstä helposti skaalautuvan, kun paketinhallinnan ja conffauksen voi tehdä kaikille kerralla palvelimen kautta. Uuden koneen liittäminen ei tarvitse ideaalitapauksessa kuin liittämistä, loput hoituu boottipalvelimelta. Sitä voisi rahoittajalle ehkä perustella sillä, että tehdään setup-ohjeet avoimeksi ja siten helpoksi monistaa muissa ympäristöissä, esim koulut, kirjastot, yhdistykset jne. Virrankulutuskin on hyvin minimaalista arm-laudalla vs. peruspc läppärinä tai atx:nä.
+      <ul>
+       <li>
+        niin kauan kun puhutaan kokonaisuudesta, jonka näytölle tuodaan 240VAC on kaikki ethernetpowerointi suht irrelevanttia ja virtaa nää koneet muutenkaan ei tule syömään niin paljoa, että sillä olis suuresti väliä rahallisesti tai paikallisen eli läbin sisäsen sähkönjakelun kannalta oli alustana banana tai joku perusempi pieni pc
+       </li>
+      </ul>
+     </li>
+     <li>
+      Kotelointi tarkoitusta vastaavana labilla printattua / akryylistä tai vanerista laserleikattua tjsp. Mielellään näytön taakse menevää mallia näytön VESA-kiinnityksen ja varren väliin.
+      <ul>
+       <li>
+        Mockup-havaintomalli kotelointi/kiinnitysperiaatteesta:
+        <ul>
+         <li>
+          <a href="http://i.imgur.com/0VPeQj5.jpg">
+           http://i.imgur.com/0VPeQj5.jpg
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li>
+        VESA-varsivaihtoehtoja:
+        <ul>
+         <li>
+          Pöytäkiinnitysvarsi 46,90€:
+          <ul>
+           <li>
+            <a href="http://www.verkkokauppa.com/fi/product/24060/cfdks/MediaLounge-monitorijalusta-poytaan-LCD-TFT-max-8kg-musta">
+             http://www.verkkokauppa.com/fi/product/24060/cfdks/MediaLounge-monitorijalusta-poytaan-LCD-TFT-max-8kg-musta
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li>
+          Seinäkiinnitysvarsi 19,90€:
+          <ul>
+           <li>
+            <a href="http://www.verkkokauppa.com/fi/product/42906/drmhh/Mozi-LCD-Full-Motion-B1-13-27-television-seinateline">
+             http://www.verkkokauppa.com/fi/product/42906/drmhh/Mozi-LCD-Full-Motion-B1-13-27-television-seinateline
+            </a>
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li>
+      Näppis ja hiiri pitää varmasti budjetoida myös, ellei sovelleta jotain vanhaa rämärautaa ja silloinkin on yleensä vapaana lähinnä jotain paljon pöytäpinta-alaa vaativia täyskokoisia AT-näppiksiä tai sitä suurempia multimedia/mummonäppiksiä. Jos hiiriä päädytään ostamaan, trackball olisi minimaalisen tilantarpeen ja kiinnipultattavuusoption vuoksi hyvä vaihtoehto. Langallisuus lienee ainoa varma optio, langattomien kanssa on sitten paristot/akut "aina" loppu ja jatkuvaa säätämistä niiden uusiminen.
+      <ul>
+       <li>
+        Läppärityylinen pieni näppäimistö 14,90€
+        <ul>
+         <li>
+          <a href="http://www.verkkokauppa.com/fi/product/25335/dmbmh/Deltaco-TB-600-ohut-USB-mininappaimisto-valkoinen">
+           http://www.verkkokauppa.com/fi/product/25335/dmbmh/Deltaco-TB-600-ohut-USB-mininappaimisto-valkoinen
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li>
+        Kensington trackball 32,90€
+        <ul>
+         <li>
+          <a href="http://www.verkkokauppa.com/fi/product/18207/rqhm/Kensington-Orbit-Optical-trackball">
+           http://www.verkkokauppa.com/fi/product/18207/rqhm/Kensington-Orbit-Optical-trackball
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li>
+        Fuj:tech USB-näppis trackpadilla 48,90€:
+        <ul>
+         <li>
+          <a href="http://www.verkkokauppa.com/fi/product/41725/chqhj/Fuj-tech-mininappaimisto-TouchPadilla-musta-USB">
+           http://www.verkkokauppa.com/fi/product/41725/chqhj/Fuj-tech-mininappaimisto-TouchPadilla-musta-USB
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li>
+      Mielellään vähintään low-end pöytäkonetehoja vastaava purkki, eli ainakin Raspberry- ja Banana Pi ovat liian mopoja laitteita niin CPU:n kuin RAM:in osalta. Saisi siis mielellään olla vähintään dual-core ja rammia riittävästi (esim 2GB).
+      <ul>
+       <li>
+        Näyttiksen tuella ei liene suurempaa merkitystä kuin että toimii peruslinuxissa X11-framebufferina; videokiihdytys ja 3D-kiihdytys rajautuu linuxista ainakin toistaiseksi ajureiden puutteeseen usein x86/x86_64 -raudallakin pois.
+       </li>
+       <li>
+        Laudat olisivat siis lähemmäs 100€/kpl kuin 50€/kpl, jos halutaan 2GB rammia ja sen sellaista nykyselainten ja -työpöytäympäristöjen ajoon. 200€ kategoriasta löytyy sitten 4/8-ytimisiä lautoja 4GB rammilla, joskus enemmälläkin, jos halutaan future-proofia ja ei-niin-mopoja päätekoneita.
+       </li>
+       <li>
+        Verkkokorttikin saisi mielellään olla ihan kunnollista mallia, ei esim Raspberryn tapaan USB-verkkokortti USB-hubihärvelipiirillä, sillä kaikki I/O pullonkauloittuu verkon suorituskykyyn; 100Mbps todellinen; (8-10MB/sec todellista tiedonsiirtonopeutta) lienee about minimi ja vastaa hieman hitaamman mallista SD-korttia. Raspberryllähän ei pääse kuin pariinkymmeneen Mbps ja silloinkin suht reippaalla CPU-kuormalla.
+       </li>
+      </ul>
+     </li>
+     <li>
+      Laitteissa ei tarvita massamuistia eikä sen ylläpitoa, paitsi mahdollinen verkkoboottauslataaja esim pienellä SD-kortilla, jos laitteen oma firmis ei tue esim uBootilla verkosta boottaamista.
+      <ul>
+       <li>
+        Pahimmillaan huonosti tuettu setup lataa kerneli-imagen SD-kortilta, mounttaa NFS-jaot ja jatkaa sitten siitä. Mielelummin kuitenkin niin, että laitteen SD-korttipaikka säilyy vapaana esim 3D-printteriin tai omiin tiedostoihin mountattavalle SD-kortille, jolloin ei tarvitse leikkiä erillisillä USB-SD -sovittimilla.
+        <ul>
+         <li>
+          Labilla on laatikollinen USB-tikkuja jaossa
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li>
+      Banana Pi ei ole paras vaihtoehto tähän sovellukseen. Tarjonnassa on hieman runsaudenpula-ongelmaa.
+      <ul>
+       <li>
+        Valikoimiin tulee uusia laitteita ja häviää vanhoja varsin ripeää tahtia, joten hankintapäätöksen hetkellä on punnittava vaihtoehdot ja tutkittava peruslinux-tuki; useissa oletuskäyttis on joku räätälöity Android.
+       </li>
+       <li>
+        GPIO-headerin olemassaolo ja hyödyntäminen ei välttämättä ole valintakriteeri, sillä koneita käytetään lähinnä päätteinä, joissa on näyttö, näppis ja hiiri.
+       </li>
+       <li>
+        Laitteita löytyy myös USB-muistitikun kokoisina vehkeinä, jotka tökätään HDMI-porttiin ja sisältävät usein ainakin USB- type A -portin ja joskus RJ45-liittimenkin.
+       </li>
+      </ul>
+     </li>
+     <li>
+      Toinen toteutusvaihtoehto on mennä tehokkaalla serverillä, jossa kaikkien kaikki sovellukset ajetaan ja näitä lautoja käytetään lähinnä X11-päätteinä. Silloin riittäisi hyvinkin minimaalinen suorituskyky päätteelle, mutta palvelinpuolella kustannukset nousevat suhteessa suorituskykyyn enemmän.
+      <ul>
+       <li>
+        X11-päätevaihtoehtoa voi joka tapauksessa harrastaa esim tilanteessa missä palvelin on x86(_64) -kone ja on tarve ajaa sovellusta, josta ei ole kuin x86(_64) -binäärejä olemassa tai vaatii enemmän muistia kuin mitä ARM-laudalla on käytettävissä.
+       </li>
+      </ul>
+     </li>
+     <li>
+      Käyttöpaikat, käyttötilanteet
+      <ul>
+       <li>
+        Pitäisikö olla esim. sellainen näyttö+kone -kombo, jota voisi halutessaan siirrellä paikasta toiseen? Ehkä jokin oletuskäyttöpaikka voisi olla, mutta halutessaan koneet voisi koota myös luokkatilaan pöydille koulutuskäyttöä ajatellen. Kone voisi tällöin olla kiinnitettynä näytön takaosaan.
+        <ul>
+         <li>
+          Koska näytöissä on VESA-kiinnikkeet, jalustoja voi olla moneen lähtöön erilaisia. Esim seinään pultattavia, pöytään ruuvattavia jne. Näytön taakse/eteen voi jonkun telineen tehdä näppiksen ja hiiren säilytystä varten, seinämalliin vaikka taitettavana hyllynä. Pöytään kiinnitettävät voi ruuvata pöydänkulmaan samaan tyyliin kuin vaikkapa lukuvalo-pöytälampun ja varren varassa siirrellä siihen minne sitä tarvitsee.
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li>
+      <b>
+       Muita lautavaihtoehtoja:
+      </b>
+      <ul>
+       <li>
+        CubieBoard 2/3/4:
+        <a href="http://cubieboard.org">
+         http://cubieboard.org
+        </a>
+       </li>
+       <li>
+        <a href="http://en.wikipedia.org/wiki/Comparison_of_single-board_computers">
+         http://en.wikipedia.org/wiki/Comparison_of_single-board_computers
+        </a>
+        <br/>
+        <br/>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   Projekti: webkamera koulutuskäyttöön // Rambo
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Bananapi (tjsp
+    <b>
+     gigaeetteri
+    </b>
+    llä varustettu pikkasen järeämpi single-boardi)
+   </li>
+   <li>
+    <a href="http://www.dx.com/p/jrled-18w-300lm-6300k-110mm-r110-0416-white-light-cob-led-car-angel-eye-headlight-lamp-dc-12v-336735">
+     http://www.dx.com/p/jrled-18w-300lm-6300k-110mm-r110-0416-white-light-cob-led-car-angel-eye-headlight-lamp-dc-12v-336735
+    </a>
+   </li>
+   <li>
+    <a href="http://www.verkkokauppa.com/fi/product/0296/dfkbg/Logitech-C920-web-kamera">
+     http://www.verkkokauppa.com/fi/product/0296/dfkbg/Logitech-C920-web-kamera
+    </a>
+   </li>
+   <li>
+    <a href="http://www.dx.com/p/power-over-ethernet-poe-splitter-sapphire-207371">
+     http://www.dx.com/p/power-over-ethernet-poe-splitter-sapphire-207371
+    </a>
+    (tai philongi jos toi ei toimi, philong on varmaan satasen, juuri nyt en muista)
+   </li>
+   <li>
+    Jos ELL-i:n juniper ei ole paikalla niin
+    <a href="http://www.dx.com/p/hom-pse803-ieee802-3at-15-4w-gigabit-poe-injector-white-334719">
+     http://www.dx.com/p/hom-pse803-ieee802-3at-15-4w-gigabit-poe-injector-white-334719
+    </a>
+    (tai philongi jos toi ei toimi, maksaa about satasen)
+   </li>
+   <li>
+    <b>
+     Laadukas
+    </b>
+    8G muistikortti 15,-
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Opiskeluympäristöä tai verkkoa tukevat hankitaehdotukset
+  </b>
+  <br/>
+  <ul>
+   <li>
+    <a href="http://www.verkkokauppa.com/fi/product/13511/dmrfq/Eaton-5P-850iR-VA-UPS-rakkimalli">
+     http://www.verkkokauppa.com/fi/product/13511/dmrfq/Eaton-5P-850iR-VA-UPS-rakkimalli
+    </a>
+   </li>
+   <li>
+    tai
+    <a href="http://www.verkkokauppa.com/fi/product/13681/dmrfs/Eaton-5P-1550iR-VA-UPS-rakkimalli">
+     http://www.verkkokauppa.com/fi/product/13681/dmrfs/Eaton-5P-1550iR-VA-UPS-rakkimalli
+    </a>
+    jos tarvitaan enemmän watteja jostain syystä
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Tulityötila
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Palo-ovi
+    <ul>
+     <li>
+      paloovi.com, tarjoushinta teräspalo-ovi EI₂ 60 9-10x21 R-karmi
+      <b>
+       349,-
+      </b>
+      sis. alv. 24%, värivaihtoehtoja ei kerrota
+     </li>
+     <li>
+      15.04.2013 uudemat uudiskohteet vaativat EI₂ luokka STS EN-13501-2, ei siis kannata katsella käytettyinä mistään koska eivät kelpaa (ovat varmasti aina sitä vanhaa luokitusta)
+     </li>
+    </ul>
+   </li>
+   <li>
+    Seinät
+    <ul>
+     <li>
+      Kilpuri osaa varmaan sanoa mitä maksaisi?
+     </li>
+    </ul>
+   </li>
+   <li>
+    Sammutus- ja turvavälineet
+   </li>
+   <li>
+    Kärynpoisto
+   </li>
+   <li>
+    Jos on rahaa mitä tuhlata niin sisäikkuna olohuoneen suuntaan
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Projektikamera
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Pääsivu:
+    <a href="./hacklab-x-labikamera.html">
+     http://kirjoitusalusta.fi/hacklab-x-labikamera
+    </a>
+   </li>
+   <li>
+    Jos loput Minela-hankinnat ei ala kohta etenemään niin laitetaanko loput rahat sitten heti kameraan (Olympus Stylus Tough TG 850)? // jep. ollaan helmikuussa. 3kk on pian mennyt. Pitää purkaa varaukset ja katsoa rahat. Tämän kanssa eteenpäin. // 02.02.2015 viHannes
+   </li>
+   <li>
+    <b>
+     Päätetty hankkia ja tilattu 3.2.2015
+    </b>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   <u>
+    Muuta aiheeseen liittyvää
+   </u>
+  </b>
+  <br/>
+  <br/>
+  <b>
+   Keittiö
+  </b>
+  <br/>
+  -pantterinvärinen kahvinkeitin
+  <br/>
+  <ul>
+   <li>
+    viHannes on löytänyt hyviä kuvia keittiöistä
+    <ul>
+     <li>
+      <a href="http://40.media.tumblr.com/704fe0c4dd1c59e7950afc25b2dbbf7b/tumblr_ngr1dqKv8y1r2lohvo1_500.jpg">
+       http://40.media.tumblr.com/704fe0c4dd1c59e7950afc25b2dbbf7b/tumblr_ngr1dqKv8y1r2lohvo1_500.jpg
+      </a>
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   Puhujanpöntto
+  </b>
+  <br/>
+  <ul>
+   <li>
+    HDMI-jakaja
+   </li>
+   <li>
+    Lähikuvakamera työstettävästä projektista (esim. leipälauta)
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Kylttityöryhmä
+  </b>
+  <br/>
+  <br/>
+  <b>
+   Roudauslaatikot
+  </b>
+  <br/>
+  <br/>
+  <br/>
+ </body>
+</html>

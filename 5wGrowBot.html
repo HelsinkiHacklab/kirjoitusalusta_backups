@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /5wGrowBot
+  </title>
+ </head>
+ <body>
+  Tre Hacklab Growbot
+  <br/>
+  <br/>
+  Tarkoitus:
+  <br/>
+  - Rakennetaan Tampere Hacklabilla olevalla kasville kastelujärjestelmä
+  <br/>
+  - Akkukäyttöinen
+  <br/>
+  <br/>
+  Versiot:
+  <br/>
+  0.1 (Valmis 24.11.2015)
+  <br/>
+  - Lukee kosteusanturin arvon ja näyttää sen web-sivulla
+  <br/>
+  - Web-käyttöliittymän kautta voi laittaa pari GPIO pinniä päälle tai pois
+  <br/>
+  0.2
+  <br/>
+  - Akkukäytön POC,
+  <br/>
+  - Lipo-akku + diodi pudottamaan jännite
+  <br/>
+  - Kaksi valoa
+  <br/>
+  - Vilkkuva vihreä 5 sekunnin välein = Toimii
+  <br/>
+  - Vilkkuva punainen 5 sekunnin välein= vaatii kastelua
+  <br/>
+  - Deep sleep harjottelu
+  <br/>
+  - Deep sleepistä normal tilaan ja takaisin
+  <br/>
+  - Looppi 5 sekunnin välein
+  <br/>
+  - Tarkistus deep sleepin jälkeen kuinka nopeasti anturin dataa voi lukea ilman että lukema  vääristyy
+  <br/>
+  <br/>
+  0.3
+  <br/>
+  -Tietojen lähettäminen palvelimelle
+  <br/>
+  - Mullan kosteus
+  <br/>
+  - Akun varaus = Jännite akulta
+  <br/>
+  - Laitteen tunnistava ID
+  <br/>
+  - Palvelimen softa
+  <br/>
+  -- RestApi
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  Kotelointi
+  <br/>
+  - Kukkaruukun reunasta roikkuva kotelo
+  <br/>
+  -Mahdollisimman lyhyet ja siistit johdot anturille
+  <br/>
+  - Akku samaan ESP:n kannsa
+  <br/>
+  - Koteloon paikka ID:lle joka määritellään palvelimen kautta
+  <br/>
+  <br/>
+  <br/>
+  ++ Kotelointi mahdollisimman esteettiseksi
+  <br/>
+  - "Tekokukka ruukussa" tai joku muu kiva esine joka ei näytä anturilta tai elektroniikalta
+  <br/>
+  <br/>
+  <br/>
+  Tehtävät ja edistyminen
+  <br/>
+  -- ESP-12E toimitus pajalle, Ladi
+  <br/>
+  -- Pajalta diodit ja tarvikkeet, Wisp
+  <br/>
+  -- 0.2 version ohjelmointi, Wisp
+  <br/>
+  <br/>
+  <br/>
+  Resursseja:
+  <br/>
+  The function used to test the power supply voltage on PA_VDD pin is: uint16 system_get_vdd33(void) • Test the input voltage of TOUT (Pin 6)
+  <br/>
+  <br/>
+  Ideoita:
+  <br/>
+  Joku pieni aurinkokenno antamaan virtaa espille? Jos ollaan deep sleepissä niin pienikin kenno jaksanee ladata jonkun kondensaattorin tms millä sitten jaksetaan ajaa poweri sykli läpi. -Miksi_
+  <br/>
+  <br/>
+  Linkkejä:
+  <br/>
+  -
+  <a href="https://www.adafruit.com/images/product-files/2471/0A-ESP8266__Datasheet__EN_v4.3.pdf">
+   https://www.adafruit.com/images/product-files/2471/0A-ESP8266__Datasheet__EN_v4.3.pdf
+  </a>
+  <br/>
+  -
+  <a href="http://bbs.espressif.com/viewtopic.php?t=133">
+   http://bbs.espressif.com/viewtopic.php?t=133
+  </a>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+ </body>
+</html>

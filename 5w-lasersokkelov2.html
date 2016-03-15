@@ -1,0 +1,424 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /5w-lasersokkelov2
+  </title>
+ </head>
+ <body>
+  <b>
+   Tampere Hacklab
+  </b>
+  <br/>
+  <b>
+   Lasersokkelo V2
+  </b>
+  <br/>
+  <br/>
+  <b>
+   Logi:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    23.12.2015, V2 idean syntyminen (Mika + Timo)
+   </li>
+   <li>
+    03.01.2016: Ensimmäinen videomeeting, kirjoitusalustan suunnitelman versio 1 (Mika   + Timo + Kengu)
+   </li>
+   <li>
+    17.1.2016 Timo Kengu
+   </li>
+   <li>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Linkit:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Discource:
+    <ul>
+     <li>
+      <a href="https://discourse.hacklab.fi/t/project-lasertrap-v2-lasersokkelon-uusi-tuleminen-meeting-3-1-2016-14-00/301">
+       https://discourse.hacklab.fi/t/project-lasertrap-v2-lasersokkelon-uusi-tuleminen-meeting-3-1-2016-14-00/301
+      </a>
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   Tämän hetken ongelmat:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Vastaanotin ja lähetin ovat eri paketeissa (johtoja)
+   </li>
+   <li>
+    Vastaanotin ja lähetin ovat johtojen päässä (enemmän johtoja)
+   </li>
+   <li>
+    Nämä ovat hankalasti sijoiteltavissa (prkleen johdot)
+   </li>
+   <li>
+    Näitä on vain rajattu määrä (Liikaa johtoja)
+   </li>
+   <li>
+    Rakennelma on hankala
+    <ul>
+     <li>
+      Vanhat moduulit ovat kiinni laudankappaleissa
+     </li>
+    </ul>
+   </li>
+   <li>
+    Vikatilanteita: Lasersäteet kääntyy pois vastaanottimista, pidike väsyy = Resetoinnin jälkeen logiikka katsoo antureiden määrän = aiheuttaa vikatilanteita missä jonkin lasersäteen katkaiseminen ei hälytä
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Versio 2 ja toivotut ominaisuudet:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    "Rajaton" määrä laserosoittimia ja vastaanottoantureita = skaalautuva, pienestä --&gt; isoihin sokkeloihin
+   </li>
+   <li>
+    Vastaanotin ja lähetin samassa paketissa = yksi moduuli
+   </li>
+   <li>
+    Akkukäyttöinen jotta moduulien sijoittelu olisi helpompaa
+   </li>
+   <li>
+    Tarjolla olevien kiinnikkeiden laajentaminen, tarra, imukuppi, magneetti, lattialle seisomaan, hihnakiinnitys isojen tolppien ympärille jne
+   </li>
+   <li>
+    Palkintorasiaan valoja ja lisää liikettä,
+    <s>
+     rasian kansi voisi mennä esim. kiinni
+    </s>
+   </li>
+   <li>
+    Langaton tiedonsiirto moduulien ja masterin välillä
+   </li>
+   <li>
+    Enemmän pelimoodeja, "Capture the Tikkari", "Vakooja vastaan toinen vakooja", "Aikaa vastaan"
+   </li>
+   <li>
+    Summeri hälyäänelle kun säde katkeaa
+   </li>
+   <li>
+    "Ö"-mappi ominaisuudet
+    <ul>
+     <li>
+      Pressuteltta jotta demon pystyttäminen olis helpompaa, ei niin lokaatioriippuvainen
+     </li>
+     <li>
+      "Huijauksen esto"-linssisuodatin LDR-vastaanottimille
+      <ul>
+       <li>
+        Helpottaisi sijoittamisenkin kanssa koska näkyvä valo ei vaikuttaisi LDR-antureihin
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Tikkarilootan toiminta?
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Kehitystyö ja priorisointi
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Osien päättäminen #1 (Done)
+    <ul>
+     <li>
+      Lasermoduuli 20 kpl (Tilattu 3.1.2016, Ladi):
+      <ul>
+       <li>
+        <a href="http://www.ebay.com/itm/10pcs-Mini-Laser-Dot-Diode-Module-Red-650nm-6mm-3V-5mW-for-Arduino-/262212690410?hash=item3d0d1821ea:g:CnAAAOSwA4dWG6u4">
+         http://www.ebay.com/itm/10pcs-Mini-Laser-Dot-Diode-Module-Red-650nm-6mm-3V-5mW-for-Arduino-/262212690410?hash=item3d0d1821ea:g:CnAAAOSwA4dWG6u4
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li>
+      "LDR Vastaanotin"-anturi 20 kpl (Tilattu 3.1.2016, Ladi):
+      <ul>
+       <li>
+        <a href="http://www.ebay.com/itm/20PCS-Photo-Light-Sensitive-Resistor-Photoresistor-Optoresistor-5mm-GL5539-/261913220877?hash=item3cfb3e970d:g:sdkAAOSweW5VbnUC">
+         http://www.ebay.com/itm/20PCS-Photo-Light-Sensitive-Resistor-Photoresistor-Optoresistor-5mm-GL5539-/261913220877?hash=item3cfb3e970d:g:sdkAAOSweW5VbnUC
+        </a>
+       </li>
+       <li>
+        Diffuselinssi, valmistetaanko itse vai tilataanko
+       </li>
+      </ul>
+     </li>
+     <li>
+      ESP8266 (tilattu 3.1.2016, Ladi)
+      <ul>
+       <li>
+        ESP-12F tilattu
+       </li>
+      </ul>
+     </li>
+     <li>
+      Akut
+      <ul>
+       <li>
+        Akun latauspiiri
+        <ul>
+         <li>
+          <a href="http://www.ebay.com/itm/2pcs-Single-Cell-4A-Li-ion-Lithium-Battery-Protection-PCB-BMS-Board-WH-KD5-/361317291236">
+           http://www.ebay.com/itm/2pcs-Single-Cell-4A-Li-ion-Lithium-Battery-Protection-PCB-BMS-Board-WH-KD5-/361317291236
+          </a>
+          tai jotain
+         </li>
+         <li>
+          <a href="http://www.digikey.fi/product-detail/en/XC6802A42XMR-G/893-1145-6-ND/2138483">
+           http://www.digikey.fi/product-detail/en/XC6802A42XMR-G/893-1145-6-ND/2138483
+          </a>
+          <ul>
+           <li>
+            Ledi syttyy kun lataus valmis
+           </li>
+           <li>
+            4-6v sisään
+           </li>
+           <li>
+            5 pinninen lutikka+muutama vastus ja konkka
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li>
+        Akku 18650-akku
+        <ul>
+         <li>
+          Saadaan HRST:n kautta kyseltyä-&gt; samaan tilaukseen arnon akkujen kanssa.
+         </li>
+        </ul>
+       </li>
+       <li>
+        Kengu tutkii mitä maailmalla on tehty
+       </li>
+      </ul>
+     </li>
+     <li>
+      <br/>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Osien hankinta #1
+    <ul>
+     <li>
+      Ladi tilaa, lasermoduuli, LDR:t, ESP:it,
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   Suunnitelma versioinnista:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    POC (Proof of concept) v0.1
+    <ul>
+     <li>
+      Ominaisuudet:
+      <ul>
+       <li>
+        ESP
+        <ul>
+         <li>
+          Vastaanotetaan LDR-anturin data
+         </li>
+         <li>
+          Ohjataan laseria ESP:n I/O:lla
+          <ul>
+           <li>
+            Transistori ohjaamiseen, ESP:n I/O:ssa ei virta riitä
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li>
+      v0.2
+      <ul>
+       <li>
+        Master + Slavet-toiminnallisuus
+        <ul>
+         <li>
+          Masterissa Wlan verkon muodostaminen
+          <ul>
+           <li>
+            DHCP
+           </li>
+           <li>
+            Wlan STA (Station)-moodissa
+           </li>
+          </ul>
+         </li>
+         <li>
+          Vastaanottaa tilatietoja Slavelta
+         </li>
+         <li>
+          Soittaa summeria jos slaven laseri triggeeraa
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li>
+      v0.3
+      <ul>
+       <li>
+        Modulaarisuus
+        <ul>
+         <li>
+          Softa tarkistaa montako moduulia on päällä
+         </li>
+         <li>
+          Web-pohjainen asetussivusto
+          <ul>
+           <li>
+            ominaisuuksia....
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+     <li>
+      v0.?
+      <ul>
+       <li>
+        Pelimoodien kehittäminen
+       </li>
+       <li>
+        Ulkoinen näyttötaulu ajan näyttämistä varten
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   Selvitettävät asiat:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Suomen lainsäädännön rajoitukset lasereille
+    <ul>
+     <li>
+      Raja + Lähde
+     </li>
+    </ul>
+   </li>
+   <li>
+    Selvitetään otetaanko 12F vai 12E espejä, Timo
+   </li>
+   <li>
+    Kysytään sopiva transistori Arnolta, Timo/Mika
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Ympäristön vaatimukset demolle
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Pimeä huone
+   </li>
+   <li>
+    Savukone
+    <ul>
+     <li>
+      Savunestettä
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   Slaven toimintalogiikka
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Laite päälle
+    <ul>
+     <li>
+      Yhdistä kovakoodattuun wlan verkkoon
+     </li>
+     <li>
+      Lähetä UDP-broadcastilla ilmoittautumisviesti
+     </li>
+     <li>
+      Vastaanota TCP:llä masterilta ilmoittautumisen kuittaus
+     </li>
+     <li>
+      Odottamaan komentoa masterilta
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   Master toimintalogiikka
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Vastaanota UDP dataa slaveilta
+    <ul>
+     <li>
+      Ilmoittautumiskomennot UDP:llä
+     </li>
+    </ul>
+   </li>
+   <li>
+    Webbi-portaalin näyttäminen
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+ </body>
+</html>

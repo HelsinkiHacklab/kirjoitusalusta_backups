@@ -17,7 +17,7 @@
   <br/>
   <b>
    <u>
-    Binääriset
+    Binääriset, N-bittiä
    </u>
   </b>
   <br/>
@@ -30,31 +30,31 @@
   </i>
   a
   <br/>
-  A
+  a
   <b>
    &amp;
   </b>
-  B       a
+  b       a
   <i>
    AND
   </i>
   b
   <br/>
-  A
+  a
   <b>
    |
   </b>
-  B         a
+  b         a
   <i>
    OR
   </i>
   b
   <br/>
-  A
+  a
   <b>
    ^
   </b>
-  B        a
+  b        a
   <i>
    XOR
   </i>
@@ -63,7 +63,7 @@
   <br/>
   <b>
    <u>
-    Aritmeettiset
+    Aritmeettiset, N-bittiä
    </u>
   </b>
   <br/>
@@ -94,28 +94,28 @@
   <br/>
   a * b          kertolasku, syntetisoituu fpga:lla helposti DSP-lohkoihin
   <br/>
-  A
+  a
   <b>
    /
   </b>
-  B          jakolasku, tuskin syntetisoituu
+  b          jakolasku, tuskin syntetisoituu
   <br/>
-  A
+  a
   <b>
    %
   </b>
-  B        jakojäännös, modulo, tuskin syntetisoituu
+  b        jakojäännös, modulo, tuskin syntetisoituu
   <br/>
-  A
+  a
   <b>
    **
   </b>
-  B        potenssi, tuskin syntetisoituu
+  b        potenssi, tuskin syntetisoituu
   <br/>
   <br/>
   <b>
    <u>
-    Bittisiirrot
+    Bittisiirrot, N-bittiä siirretään K-bittiä
    </u>
   </b>
   <br/>
@@ -123,114 +123,252 @@
   <b>
    &gt;&gt;
   </b>
-  n       looginen shift,  jakaa kahdella
+  K       looginen shift,  jakaa kahdella
   <br/>
   a
   <b>
    &lt;&lt;
   </b>
-  n       looginen shift, kertoo kahdella
+  K       looginen shift, kertoo kahdella
   <br/>
   a
   <b>
    &gt;&gt;&gt;
   </b>
-  n     aritmeettinen, ylin bitti monistuu, etumerkillisten lukujen jako kahdella
+  K     aritmeettinen, ylin bitti monistuu, etumerkillisten lukujen jako kahdella
   <br/>
   a
   <b>
    &lt;&lt;&lt;
   </b>
-  n     aritmeettinen, kertoo kahdella, yhtenäisyyden vuoksi, sama kuin &lt;&lt;
+  K     aritmeettinen, kertoo kahdella, lisätty yhtenäisyyden vuoksi, sama kuin
+  <b>
+   &lt;&lt;
+  </b>
+  <br/>
+  <br/>
+  Vapaavalintaiset a
+  <b>
+   &lt;&lt;
+  </b>
+  b syntetisoivat täyden barrel-shifterin joka vie paljon resursseja!
+  <br/>
   <br/>
   <br/>
   <b>
    <u>
-    Loogiset, tulos 1'b0 tai 1'b1
+    Loogiset vertailut, tulos 1'b0 tai 1'b1
+   </u>
+  </b>
+  <br/>
+  a
+  <b>
+   &gt;
+  </b>
+  b           suurempi kuin
+  <br/>
+  a
+  <b>
+   &lt;
+  </b>
+  b           pienempi kuin
+  <br/>
+  a
+  <b>
+   &gt;=
+  </b>
+  b         suurempi tai yhtäsuuri kuin
+  <br/>
+  a
+  <b>
+   &lt;=
+  </b>
+  b         pienempi tai yhtäsuuri kuin
+  <br/>
+  <br/>
+  a
+  <b>
+   ==
+  </b>
+  b         yhtäsuuri kuin
+  <br/>
+  a
+  <b>
+   !=
+  </b>
+  b          erisuuri kuin
+  <br/>
+  <br/>
+  <s>
+   a
+   <b>
+    ===
+   </b>
+  </s>
+  <s>
+   b    yhtäsuuri, z ja x mukana?
+  </s>
+  <br/>
+  <s>
+   a
+   <b>
+    !==
+   </b>
+  </s>
+  <s>
+   b    erisuuri, z ja x mukana?
+  </s>
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   <u>
+    Loogiset operaattorit, tulos 1'b0 tai 1'b1
    </u>
   </b>
   <br/>
   <b>
    !
   </b>
-  a
+  a                (a
+  <b>
+   ==
+  </b>
+  0)
   <br/>
   a
   <b>
    &amp;&amp;
   </b>
-  b
+  b        (a
+  <b>
+   !=
+  </b>
+  0)
+  <b>
+   &amp;
+  </b>
+  (b
+  <b>
+   !=
+  </b>
+  0)
   <br/>
   a
   <b>
    ||
   </b>
-  b
+  b           (a
+  <b>
+   !=
+  </b>
+  0)
+  <b>
+   |
+  </b>
+  (b
+  <b>
+   !=
+  </b>
+  0)
+  <br/>
+  <b>
+   if
+  </b>
+  (a)            (a
+  <b>
+   !=
+  </b>
+  0)
+  <br/>
+  d = (a)
+  <b>
+   ?
+  </b>
+  b : c;     ternary operaattori, voi käyttää
+  <b>
+   assign
+  </b>
+  lauseissa, vastaa rakennetta:
+  <br/>
+  <b>
+   if
+  </b>
+  (a)
+  <b>
+   begin
+  </b>
+  <br/>
+  d = b;
+  <br/>
+  <b>
+   end else begin
+  </b>
+  <br/>
+  d = c;
+  <br/>
+  <b>
+   end
+  </b>
+  <br/>
   <br/>
   <br/>
   <b>
-   Vertailut, tulos 1'b0 tai 1'b1
+   <u>
+    Reduktiot, tulos 1'b0 tai 1'b1
+   </u>
   </b>
-  <br/>
-  A &gt; B
-  <br/>
-  A &lt; B
-  <br/>
-  A &gt;= B
-  <br/>
-  A &lt;= B
-  <br/>
-  <br/>
-  A == B    yhtäsuuri
-  <br/>
-  A != B    erisuuri
-  <br/>
-  <s>
-   A === B    yhtäsuuri, z ja x mukana?
-  </s>
-  <br/>
-  <s>
-   A !== B    erisuuri, z ja x mukana?
-  </s>
-  <br/>
-  <br/>
   <br/>
   <b>
-   Reduktiot, tulos 1'b0 tai 1'b1
+   &amp;
   </b>
-  <br/>
-  &amp;A         = A[0] &amp; A[1] &amp; ... &amp; A[N-1]
-  <br/>
-  |A         = A[0] | A[1] | ... | A[N-1]
-  <br/>
-  ^A         = A[0] ^ A[1] ^ ... ^ A[N-1]
-  <br/>
-  <br/>
+  a            a[0]
+  <b>
+   &amp;
+  </b>
+  a[1]
+  <b>
+   &amp;
+  </b>
+  ...
+  <b>
+   &amp;
+  </b>
+  a[N-1]        // kaikki bitit 1
   <br/>
   <b>
-   Konditionaali
+   |
   </b>
+  a              a[0]
+  <b>
+   |
+  </b>
+  a[1]
+  <b>
+   |
+  </b>
+  ...
+  <b>
+   |
+  </b>
+  a[N-1]            // ainakin yksi bitti 1
   <br/>
-  [arvo] = [boolean] ? [true] : [false];
-  <br/>
-  <br/>
-  kala = (arvo1 &gt; arvo2) ? hauki : ahven;
-  <br/>
-  <br/>
-  vastaa rakennetta
-  <br/>
-  <br/>
-  if (arvo1 &gt; arvo2)
-  <br/>
-  kala = hauki;
-  <br/>
-  else
-  <br/>
-  kala = ahven;
-  <br/>
-  <br/>
-  Käytetään erityisesti assign-lauseissa.
-  <br/>
+  <b>
+   ^
+  </b>
+  a             a[0]
+  <b>
+   ^
+  </b>
+  a[1]
+  <b>
+   ^
+  </b>
+  ...
+  <b>
+   ^
+  </b>
+  a[N-1]         // nolla tai parillinen määrä 1 bittejä
   <br/>
   <br/>
  </body>

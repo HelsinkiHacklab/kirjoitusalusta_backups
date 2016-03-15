@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-fi-holvi
+  </title>
+ </head>
+ <body>
+  <b>
+   Hacklabien "ERP"-työpaja
+  </b>
+  <br/>
+  <br/>
+  Viikonloppuna pe-la (vähän myös su)
+  <b>
+   27.-28.11.2015
+  </b>
+  @ Tampere Hacklab
+  <br/>
+  <br/>
+  Pe-ilta, lauantai, (+sunnuntai), #dev.hacklab.fi@Freenode
+  <br/>
+  <br/>
+  Ilmoittautuminen Holvi-työpajasta kiinnostuneille:
+  <a href="http://doodle.com/poll/r9pvmc6pga7kg2r3">
+   http://doodle.com/poll/r9pvmc6pga7kg2r3
+  </a>
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    <b>
+     Holvi
+    </b>
+   </li>
+   <li>
+    Tätä ei päästy sitten lopulta tekemään
+    <ul>
+     <li>
+      Holvin integrointia hacklabien järjestelmiin
+      <ul>
+       <li>
+        jäsenrekisteri
+       </li>
+       <li>
+        pääsyn/kulunhallinta
+        <ul>
+         <li>
+          Kannattaa laittaa jäsenrekisteriin
+         </li>
+        </ul>
+       </li>
+       <li>
+        tilamaksut?
+        <br/>
+        <br/>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    <b>
+     tapahtumailmoittautumishärveli
+    </b>
+    <ul>
+     <li>
+      jos ei päästä varsinaisesti kehittämään, niin ainakin suunnitelma tästä
+      <ul>
+       <li>
+        Kehitystä tehty lomakkeiden ulkoasussa, yhteenvetosivujen ja tiedon löytämisen helpottamisessa ja virheiden korjailussa. Poistettu joitain Helsinki-spesifejä kohtia koodista ja kehitetty yleistettävyyttä.
+       </li>
+      </ul>
+     </li>
+     <li>
+      tarvemäärittelyt, käyttötilanteet, toimintavaatimukset
+      <ul>
+       <li>
+        Liity jäseneksi -toiminto piilotettu hacklab.fi-githubiin siirretystä versiosta
+       </li>
+      </ul>
+     </li>
+     <li>
+      <a href="https://github.com/helsinkihacklab/hhlevents">
+       https://github.com/helsinkihacklab/hhlevents
+      </a>
+      <ul>
+       <li>
+        siirretty hacklab-fi orgin alle, forkkia ja pull-requestia kehiin
+       </li>
+      </ul>
+     </li>
+     <li>
+      messis.fi tapahtumakalenteriksi (as discussed at mini maker faire)
+      <ul>
+       <li>
+        lähetetty torstaina meiliä messikselle onko APIa tarjolla
+        <ul>
+         <li>
+          se on angularia koko setti joten REST api on pakostakin ja joo sen tapahtumadatan saa sieltä kyl, tapahtumien lisääminen voi olla eri juttu mutta 'pohdittiin makerfairella että pidetään se messis alkuun master-kalenterina
+         </li>
+        </ul>
+       </li>
+       <li>
+        Joni Lehto @ messis.fi:
+        <i>
+         Tapahtumatietojen muokkaamiseen on tehtävissä API. Näitä toimintoja ei siis vielä ole, mutta saa kyllä tehtyä kohtuullisella aikataululla jos on tarvetta. .... API on täysin mahdollista toteuttaa. Aikataulutus sen mukaan, kuinka monta organisaatiota tätä kaipaa, ja hieman myös tiimin kasvamisen mukaan. ... Olisiko teillä mahdollisesti kiinnostunutta väkeä osallistumaan API:mme suunnittelemiseen tai toteuttamiseen? Kokemus read-write-APIn toteuttamisesta ja autentikoinnista auttaisi meitä huomattavasti.
+        </i>
+       </li>
+       <li>
+        Messistä kokeiltu, todettu toistaiseksi liian epävarmaksi käyttää. Ongelmia mm. toistuvien tapahtumien kanssa. Ei kiirehditä tämän kanssa vielä. Helsingillä on nyt käyttötunnus palveluun. Luodaan hacklab.fi:lle myös oma.
+        <ul>
+         <li>
+          Bugiraporttiin vastattiin nopeasti. Virheitä korjattu ja alkaa toimimaan paremmin.
+          <br/>
+          <br/>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    <b>
+     Jäsenrekisteri
+    </b>
+    <ul>
+     <li>
+      parantaminen (ainakin helsingin rekisteri kaipaa datamallin uusintaa ja porttausta uusimpaan djangoon)
+     </li>
+     <li>
+      Speksausta
+      <ul>
+       <li>
+        Aikaleimat kirjauksista, muutoshistorian tallennus, vrt. wiki
+       </li>
+      </ul>
+     </li>
+     <li>
+      <a href="https://github.com/hacklab-fi/asylum">
+       https://github.com/hacklab-fi/asylum
+      </a>
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+   <li>
+    <b>
+     Muuta
+    </b>
+    <ul>
+     <li>
+      Jos aikaa jää (Lädilta ideoita):
+      <ul>
+       <li>
+        Kurssimateriaalien yhteinen sijainti
+        <ul>
+         <li>
+          Jotta muut labit voisivat pitää yhtä päteviä kursseja jo valmiiden materiaalipohjien avulla
+         </li>
+         <li>
+          github?
+          <ul>
+           <li>
+            Tällä hetkellä hacklab.fi-materiaali sijaitsee Turun tilillä, voisi jossain vaiheessa perustaa hacklab.fi-tilin myös:
+            <a href="https://github.com/hacklab-turku/hacklab-fi">
+             https://github.com/hacklab-turku/hacklab-fi
+            </a>
+           </li>
+           <li>
+            Pitäiskö perustaa ihan hacklabfi -organisaatio ?
+            <ul>
+             <li>
+              perustettu
+             </li>
+            </ul>
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li>
+        Videopalavereiden/Online kokouksien pitäminen
+        <ul>
+         <li>
+          Jitsi on testattu, toimii... mutta en tykännyt. Olis halu testata BigBlueButtonia
+         </li>
+        </ul>
+       </li>
+       <li>
+        Kuukausittaiset videopalaverit labien kesken juoksevista asioista?
+       </li>
+       <li>
+        Kuukausittainen brainstorming kaikkien halukkaiden labien jäsenien kanssa, "Auta minua eteenpäin tässä projektissa"-idealla
+       </li>
+       <li>
+        "Trusted member"-status, pääsy muillekin labeille.
+        <ul>
+         <li>
+          Tän automatisointi vaatii vähän turhan paljon integrointia, helpompi vaan antaa niitä kulkuoikeuksia tarpeen mukaan.
+         </li>
+         <li>
+          Tästä mahdollisuudesta olisi kuitenkin hyvä mainita jossain kirjallisesti ettei kaikki tieto olis vain "kun osaat kysyä oikeaa asiaa oikealta tyypiltä niin saat Ehkä Oikean vastauksen"
+          <ul>
+           <li>
+            jos sitä nyt halutaan mainostaa, se on vähän silleen että ne joille niitä oikeuksia oltais ylipäänsä myöntämässä on sen verta aktiivisia koko suomen skenessä että ne tunnetaan kyllä naamalta ja tulee varmasti puheeksi jos on tarve.
+           </li>
+          </ul>
+         </li>
+         <li>
+          korkeakoulujen eduroam-wifi-verkko hieno esimerkki yhteistoiminnasta, pääsee oman koulun tunnuksilla nettiin maailmanlaajuisesti
+          <ul>
+           <li>
+            Ja ne federaatiot on ihan kauheita pystyttää, kyllähän ton jollain shibbolethilla tekee mutta löytyykö kaikilta läbeiltä experttejä ylläpitämään niitä IdP -palvelimia ?
+           </li>
+          </ul>
+         </li>
+         <li>
+          käsipelillä tekemisessä sekin hankala puoli, että jos kulkuoikeudet sinnesuntänne itselleen hankkinut lopettaa omalla labilla tai poistetaan vaikka luottamuspulan vuoksi jäsenistöstä, kulkuoikeudet muualle jäävät vielä voimaan, koska ei ole tapaa välittää tietoa (tai ehkä ei edes tietoa henkilön muista kulkuoikeuksista, jotta voisi vinkata)
+          <ul>
+           <li>
+            luottamuspulan vuoksi hukatuista kyllä kulkee tieto takaovien kautta.
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </li>
+       <li>
+        Yhteinen "hakkerigalleria"
+        <ul>
+         <li>
+          Naamat, nimet ja erikoisosaamiset listalle, "tarkista osaaminen ja ota yhteyttä tähän tyyppiin niin osaa auttaa"
+         </li>
+         <li>
+          Vain hacklab.fi-jäsenien käyttöön, lisäarvoa labin kuukausimaksua vastaan
+         </li>
+         <li>
+          Diaspora?
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+         </li>
+        </ul>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  Jos jollain on jossain muualla tylsää:
+  <br/>
+  <ul>
+   <li>
+    MEssukilke joka osaa lataa Flickeristä halutun poolin kuvat paikalliseksi ja sitten pyörittää niitä ruudulla.
+   </li>
+   <li>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+ </body>
+</html>

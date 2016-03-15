@@ -8,463 +8,714 @@
   </title>
  </head>
  <body>
+  // LCTech CPLD XC9572XL-10VQ44 with 25MHz external oscillator
+  <br/>
+  // Delta-sigma version
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
   <br/>
   <br/>
+  module DeltaSigmaDAC(
   <br/>
-  <b>
-   ---- main.v -------------------------------------------
-  </b>
+  input   wire                clock,
   <br/>
+  input   wire    [7:0]       sample_in,
   <br/>
-  // Verilog harjoitus v2.2
-  <br/>
-  // Sijoitetaan kaikki väylän 8 bittiä suoraan
-  <br/>
-  <br/>
-  `
-  <i>
-   timescale
-  </i>
-  1ns / 1ps
-  <br/>
-  `
-  <i>
-   default_nettype
-  </i>
-  none
-  <br/>
-  <br/>
-  <br/>
-  <b>
-   module
-  </b>
-  main(
-  <br/>
-  <b>
-   input
-  </b>
-  <b>
-   wire
-  </b>
-  slowclk,
-  <br/>
-  <b>
-   input
-  </b>
-  <b>
-   wire
-  </b>
-  [7:0]       sw_in,
-  <br/>
-  <b>
-   output
-  </b>
-  <b>
-   wire
-  </b>
-  [7:0]       sw_out
+  output  wire                audio_out
   <br/>
   );
   <br/>
   <br/>
-  <b>
-   assign
-  </b>
-  sw_out = ~sw_in;
+  reg [8:0]   accumulator = 0;
   <br/>
   <br/>
-  <b>
-   endmodule
-  </b>
+  assign audio_out = accumulator[8];
   <br/>
   <br/>
-  <b>
-   ---- main.v -------------------------------------------
-  </b>
+  always @(posedge clock) begin
+  <br/>
+  accumulator &lt;= accumulator + sample_in;
+  <br/>
+  end
   <br/>
   <br/>
-  // Verilog harjoitus v2.1
-  <br/>
-  // Lisättiin NOT 'portit', koska ledit ovat alhaalla aktiivisia
-  <br/>
-  <br/>
-  `
-  <i>
-   timescale
-  </i>
-  1ns / 1ps
-  <br/>
-  `
-  <i>
-   default_nettype
-  </i>
-  none
+  endmodule
   <br/>
   <br/>
   <br/>
-  <b>
-   module
-  </b>
-  main(
+  module Main(
   <br/>
-  <b>
-   input
-  </b>
-  <b>
-   wire
-  </b>
-  slowclk,
+  input    wire                 fastclock,
   <br/>
-  <b>
-   input
-  </b>
-  <b>
-   wire
-  </b>
-  [7:0]       sw_in,
-  <br/>
-  <b>
-   output
-  </b>
-  <b>
-   wire
-  </b>
-  [7:0]       sw_out
+  output   wire                 sw_out
   <br/>
   );
   <br/>
   <br/>
-  <b>
-   assign
-  </b>
-  sw_out[0] = ~sw_in[0];
+  reg     [12:0]              count8kHz = 0;
   <br/>
-  <b>
-   assign
-  </b>
-  sw_out[1] = ~sw_in[1];
+  reg     [31:0]              t = 0;
   <br/>
-  <b>
-   assign
-  </b>
-  sw_out[2] = ~sw_in[2];
-  <br/>
-  <b>
-   assign
-  </b>
-  sw_out[3] = ~sw_in[3];
-  <br/>
-  <b>
-   assign
-  </b>
-  sw_out[4] = ~sw_in[4];
-  <br/>
-  <b>
-   assign
-  </b>
-  sw_out[5] = ~sw_in[5];
-  <br/>
-  <b>
-   assign
-  </b>
-  sw_out[6] = ~sw_in[6];
-  <br/>
-  <b>
-   assign
-  </b>
-  sw_out[7] = ~sw_in[7];
+  reg     [7:0]               sample = 0;
   <br/>
   <br/>
-  <b>
-   endmodule
-  </b>
+  DeltaSigmaDAC dac0(
   <br/>
+  .clock(fastclock),
   <br/>
+  .sample_in(sample),
   <br/>
-  <br/>
-  <b>
-   ---- main.v -------------------------------------------
-  </b>
-  <br/>
-  <br/>
-  // Verilog harjoitus v2.0
-  <br/>
-  <br/>
-  `
-  <i>
-   timescale
-  </i>
-  1ns / 1ps
-  <br/>
-  `
-  <i>
-   default_nettype
-  </i>
-  none
-  <br/>
-  <br/>
-  <br/>
-  <b>
-   module
-  </b>
-  main(
-  <br/>
-  <b>
-   input
-  </b>
-  <b>
-   wire
-  </b>
-  slowclk,
-  <br/>
-  <b>
-   input
-  </b>
-  <b>
-   wire
-  </b>
-  [7:0]       sw_in,
-  <br/>
-  <b>
-   output
-  </b>
-  <b>
-   wire
-  </b>
-  [7:0]       sw_out
+  .audio_out(sw_out)
   <br/>
   );
   <br/>
   <br/>
-  <b>
-   assign
-  </b>
-  sw_out[0] = sw_in[0];
+  always @(posedge fastclock) begin
   <br/>
-  <b>
-   assign
-  </b>
-  sw_out[1] = sw_in[1];
+  if (count8kHz == 3125 - 1) begin
   <br/>
-  <b>
-   assign
-  </b>
-  sw_out[2] = sw_in[2];
+  count8kHz &lt;= 0;
   <br/>
-  <b>
-   assign
-  </b>
-  sw_out[3] = sw_in[3];
-  <br/>
-  <b>
-   assign
-  </b>
-  sw_out[4] = sw_in[4];
-  <br/>
-  <b>
-   assign
-  </b>
-  sw_out[5] = sw_in[5];
-  <br/>
-  <b>
-   assign
-  </b>
-  sw_out[6] = sw_in[6];
-  <br/>
-  <b>
-   assign
-  </b>
-  sw_out[7] = sw_in[7];
+  t &lt;= t + 1;
   <br/>
   <br/>
-  <b>
-   endmodule
-  </b>
+  //
+  <a href="http://wurstcaptures.untergrund.net/music/?oneliner=10">
+   http://wurstcaptures.untergrund.net/music/?oneliner=10
+  </a>
+  *((t%3E%3E7)%7Ct%7C(t%3E%3E6))%2B((t%26(t%3E%3E13)%7C(t%3E%3E6))%3C%3C%202)&amp;oneliner2=&amp;t0=0&amp;tmod=0&amp;duration=120&amp;separation=100&amp;rate=8000
+  <br/>
+  sample &lt;= 10*((t&gt;&gt;7)|t|(t&gt;&gt;6))+((t&amp;(t&gt;&gt;13)|(t&gt;&gt;6))&lt;&lt; 2);
+  <br/>
+  <br/>
+  end else begin
+  <br/>
+  count8kHz &lt;= count8kHz + 1;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  # cpld1.ucf - XC9572XL-VQ44
+  <br/>
+  # I/O Pin Assignments for Helsinki Hacklab Protoboard CPLD 1
+  <br/>
+  <br/>
+  NET "fastclock"  LOC = "P1" | BUFG = CLK;        # fastCLK (25 MHz oscillator)
+  <br/>
+  NET "sw_out"  LOC = "P3";                     # signal sw8, labeled '0' (rightmost)
   <br/>
   <br/>
   <br/>
-  <b>
-   ---- cpld1.ucf ----------------------------------------
-  </b>
+  -------------------
   <br/>
   <br/>
-  #******************************************************************
+  // main.v
   <br/>
-  #
-  <br/>
-  #  Helsinki Hacklab - Protoboard for digital electronics workshops
-  <br/>
-  #
-  <br/>
-  #  I/O Pin Assignments for CPLD 1
-  <br/>
-  #
-  <br/>
-  #  XC9572XL-VQ44
-  <br/>
-  #
-  <br/>
-  #******************************************************************
+  // Demo 7.0 - PWM ping-pong
   <br/>
   <br/>
-  <b>
-   NET
-  </b>
-  "slowclk"
-  <b>
-   LOC
-  </b>
-  = "P44" |
-  <b>
-   BUFG
-  </b>
-  = CLK;      # slowCLK (100 Hz oscillator)
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
   <br/>
   <br/>
-  <b>
-   NET
-  </b>
-  "sw_in&lt;7&gt;"
-  <b>
-   LOC
-  </b>
-  = "P37";                    # switch s8, "MSB" (leftmost)
+  module Main(
   <br/>
-  <b>
-   NET
-  </b>
-  "sw_in&lt;6&gt;"
-  <b>
-   LOC
-  </b>
-  = "P36";                    # switch s7
+  input   wire                fastclock,
   <br/>
-  <b>
-   NET
-  </b>
-  "sw_in&lt;5&gt;"
-  <b>
-   LOC
-  </b>
-  = "P34";                    # switch s6
+  output  wire    [7:0]       sw_out
   <br/>
-  <b>
-   NET
-  </b>
-  "sw_in&lt;4&gt;"
-  <b>
-   LOC
-  </b>
-  = "P33";                    # switch s5
-  <br/>
-  <b>
-   NET
-  </b>
-  "sw_in&lt;3&gt;"
-  <b>
-   LOC
-  </b>
-  = "P32";                    # switch s4
-  <br/>
-  <b>
-   NET
-  </b>
-  "sw_in&lt;2&gt;"
-  <b>
-   LOC
-  </b>
-  = "P31";                    # switch s3
-  <br/>
-  <b>
-   NET
-  </b>
-  "sw_in&lt;1&gt;"
-  <b>
-   LOC
-  </b>
-  = "P30";                    # switch s2
-  <br/>
-  <b>
-   NET
-  </b>
-  "sw_in&lt;0&gt;"
-  <b>
-   LOC
-  </b>
-  = "P29";                    # switch s1, "LSB" (rightmost)
+  );
   <br/>
   <br/>
-  <b>
-   NET
-  </b>
-  "sw_out&lt;7&gt;"
-  <b>
-   LOC
-  </b>
-  = "P38";                    # signal sw1, labeled '7' (leftmost)
+  wire    [7:0]               value;
   <br/>
-  <b>
-   NET
-  </b>
-  "sw_out&lt;6&gt;"
-  <b>
-   LOC
-  </b>
-  = "P39";                    # signal sw2, labeled '6'
   <br/>
-  <b>
-   NET
-  </b>
-  "sw_out&lt;5&gt;"
-  <b>
-   LOC
-  </b>
-  = "P40";                    # signal sw3, labeled '5'
+  assign  sw_out[7:1] = 7'd0;
   <br/>
-  <b>
-   NET
-  </b>
-  "sw_out&lt;4&gt;"
-  <b>
-   LOC
-  </b>
-  = "P41";                    # signal sw4, labeled '4'
   <br/>
-  <b>
-   NET
-  </b>
-  "sw_out&lt;3&gt;"
-  <b>
-   LOC
-  </b>
-  = "P42";                    # signal sw5, labeled '3'
+  Counter #(
   <br/>
-  <b>
-   NET
-  </b>
-  "sw_out&lt;2&gt;"
-  <b>
-   LOC
-  </b>
-  = "P43";                    # signal sw6, labeled '2'
+  .MAX_VALUE(255),
   <br/>
-  <b>
-   NET
-  </b>
-  "sw_out&lt;1&gt;"
-  <b>
-   LOC
-  </b>
-  = "P2";                    # signal sw7, labeled '1'
+  .SCALER(100000)
   <br/>
-  <b>
-   NET
-  </b>
-  "sw_out&lt;0&gt;"
-  <b>
-   LOC
-  </b>
-  = "P3";                    # signal sw8, labeled '0' (rightmost)
+  ) cnt0(
+  <br/>
+  .clock(fastclock),
+  <br/>
+  <br/>
+  .value(value)
+  <br/>
+  );
+  <br/>
+  <br/>
+  PWM #(
+  <br/>
+  .MAX_COUNT(255)
+  <br/>
+  ) pwm0(
+  <br/>
+  .clock(fastclock),
+  <br/>
+  .value(value),
+  <br/>
+  <br/>
+  .pwm_out(sw_out[0])
+  <br/>
+  );
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  // counter.v
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  module Counter #(
+  <br/>
+  parameter                           MAX_VALUE = 255,
+  <br/>
+  parameter                           SCALER = 10000,
+  <br/>
+  parameter                           VALUE_BITS = clog2(MAX_VALUE),
+  <br/>
+  parameter                           SCALER_BITS = clog2(SCALER)
+  <br/>
+  ) (
+  <br/>
+  input   wire                        clock,
+  <br/>
+  output  reg     [VALUE_BITS-1:0]    value
+  <br/>
+  );
+  <br/>
+  <br/>
+  `include "clog2.vh"
+  <br/>
+  <br/>
+  initial                         value = 0;
+  <br/>
+  reg     [SCALER_BITS-1:0]       scaler = 0;
+  <br/>
+  <br/>
+  always @(posedge clock) begin
+  <br/>
+  if (scaler &lt; SCALER) begin
+  <br/>
+  scaler &lt;= scaler + 1'b1;
+  <br/>
+  end else begin
+  <br/>
+  scaler &lt;= 0;
+  <br/>
+  if (value &lt; MAX_VALUE) begin
+  <br/>
+  value &lt;= value + 1'b1;
+  <br/>
+  end else begin
+  <br/>
+  value &lt;= 0;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  // pwm.v
+  <br/>
+  // Pulse Width Modulator
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  module PWM #(
+  <br/>
+  parameter                       MAX_COUNT = 255,
+  <br/>
+  parameter                       BITS = clog2(MAX_COUNT)
+  <br/>
+  ) (
+  <br/>
+  input   wire                    clock,
+  <br/>
+  input   wire    [BITS - 1:0]    value,
+  <br/>
+  output  wire                    pwm_out
+  <br/>
+  );
+  <br/>
+  <br/>
+  `include "clog2.vh"
+  <br/>
+  <br/>
+  reg     [BITS - 1:0]            counter = 0;
+  <br/>
+  <br/>
+  assign                          pwm_out = (value &gt; counter);
+  <br/>
+  <br/>
+  always @(posedge clock) begin
+  <br/>
+  if (counter &lt; MAX_COUNT) begin
+  <br/>
+  counter &lt;= counter + 1'b1;
+  <br/>
+  end else begin
+  <br/>
+  counter &lt;= 0;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  // clog2.vh
+  <br/>
+  function integer clog2;
+  <br/>
+  input integer value;
+  <br/>
+  begin
+  <br/>
+  value = value-1;
+  <br/>
+  for (clog2 = 0; value &gt; 0; clog2 = clog2 + 1) begin
+  <br/>
+  value = value &gt;&gt; 1;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  endfunction
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  # cpld1.ucf - XC9572XL-VQ44
+  <br/>
+  # I/O Pin Assignments for Helsinki Hacklab Protoboard CPLD 1
+  <br/>
+  <br/>
+  NET "slowclock"  LOC = "P44" | BUFG = CLK;      # slowCLK (100 Hz oscillator)
+  <br/>
+  #NET "fastclock"  LOC = "P1" | BUFG = CLK;        # fastCLK (25 MHz oscillator)
+  <br/>
+  <br/>
+  NET "sw_out&lt;7&gt;"  LOC = "P38";                    # signal sw1, labeled '7' (leftmost)
+  <br/>
+  NET "sw_out&lt;6&gt;"  LOC = "P39";                    # signal sw2, labeled '6'
+  <br/>
+  NET "sw_out&lt;5&gt;"  LOC = "P40";                    # signal sw3, labeled '5'
+  <br/>
+  NET "sw_out&lt;4&gt;"  LOC = "P41";                    # signal sw4, labeled '4'
+  <br/>
+  NET "sw_out&lt;3&gt;"  LOC = "P42";                    # signal sw5, labeled '3'
+  <br/>
+  NET "sw_out&lt;2&gt;"  LOC = "P43";                    # signal sw6, labeled '2'
+  <br/>
+  NET "sw_out&lt;1&gt;"  LOC = "P2";                     # signal sw7, labeled '1'
+  <br/>
+  NET "sw_out&lt;0&gt;"  LOC = "P3";                     # signal sw8, labeled '0' (rightmost)
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  ----- vanhaa -----
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  // pwm.v
+  <br/>
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  module PWM #(
+  <br/>
+  parameter                   N = 8
+  <br/>
+  ) (
+  <br/>
+  input   wire                clock,
+  <br/>
+  input   wire    [N-1:0]     value,
+  <br/>
+  output  wire                pwm_out
+  <br/>
+  );
+  <br/>
+  <br/>
+  reg     [N-1:0]               counter = 1'b0;
+  <br/>
+  <br/>
+  assign pwm_out = (value &gt; counter);
+  <br/>
+  <br/>
+  always @(posedge clock) begin
+  <br/>
+  counter &lt;= counter + 1;
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  // main.v
+  <br/>
+  // Demo 7.1 - PWM
+  <br/>
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  module Main(
+  <br/>
+  input   wire                fastclock,
+  <br/>
+  input   wire    [7:0]       sw_in,
+  <br/>
+  output  wire    [7:0]       sw_out
+  <br/>
+  );
+  <br/>
+  <br/>
+  wire    [7:0]               value = ~sw_in;
+  <br/>
+  <br/>
+  assign  sw_out[7:1] = 7'd0;
+  <br/>
+  <br/>
+  PWM #(
+  <br/>
+  .N(14)
+  <br/>
+  ) pwm0(
+  <br/>
+  .clock(fastclock),
+  <br/>
+  .value(value),
+  <br/>
+  .pwm_out(sw_out[0])
+  <br/>
+  );
+  <br/>
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  ---------------------------------------------------------------------
+  <br/>
+  <br/>
+  <br/>
+  # cpld1.ucf - XC9572XL-VQ44
+  <br/>
+  # I/O Pin Assignments for Helsinki Hacklab Protoboard CPLD 1
+  <br/>
+  <br/>
+  #NET "slowclock"  LOC = "P44" | BUFG = CLK;      # slowCLK (100 Hz oscillator)
+  <br/>
+  NET "fastclock"  LOC = "P1" | BUFG = CLK;        # fastCLK (25 MHz oscillator)
+  <br/>
+  <br/>
+  #NET "pb_in&lt;7&gt;"   LOC = "P28";                    # button b8, "MSB" (leftmost)
+  <br/>
+  #NET "pb_in&lt;6&gt;"   LOC = "P27";                    # button b7
+  <br/>
+  #NET "pb_in&lt;5&gt;"   LOC = "P23";                    # button b6
+  <br/>
+  #NET "pb_in&lt;4&gt;"   LOC = "P22";                    # button b5
+  <br/>
+  #NET "pb_in&lt;3&gt;"   LOC = "P21";                    # button b4
+  <br/>
+  #NET "pb_in&lt;2&gt;"   LOC = "P20";                    # button b3
+  <br/>
+  #NET "pb_in&lt;1&gt;"   LOC = "P19";                    # button b2
+  <br/>
+  #NET "pb_in&lt;0&gt;"   LOC = "P18";                    # button b1, "LSB" (rightmost)
+  <br/>
+  <br/>
+  NET "sw_in&lt;7&gt;"   LOC = "P37";                    # switch s8, "MSB" (leftmost)
+  <br/>
+  NET "sw_in&lt;6&gt;"   LOC = "P36";                    # switch s7
+  <br/>
+  NET "sw_in&lt;5&gt;"   LOC = "P34";                    # switch s6
+  <br/>
+  NET "sw_in&lt;4&gt;"   LOC = "P33";                    # switch s5
+  <br/>
+  NET "sw_in&lt;3&gt;"   LOC = "P32";                    # switch s4
+  <br/>
+  NET "sw_in&lt;2&gt;"   LOC = "P31";                    # switch s3
+  <br/>
+  NET "sw_in&lt;1&gt;"   LOC = "P30";                    # switch s2
+  <br/>
+  NET "sw_in&lt;0&gt;"   LOC = "P29";                    # switch s1, "LSB" (rightmost)
+  <br/>
+  <br/>
+  NET "sw_out&lt;7&gt;"  LOC = "P38";                    # signal sw1, labeled '7' (leftmost)
+  <br/>
+  NET "sw_out&lt;6&gt;"  LOC = "P39";                    # signal sw2, labeled '6'
+  <br/>
+  NET "sw_out&lt;5&gt;"  LOC = "P40";                    # signal sw3, labeled '5'
+  <br/>
+  NET "sw_out&lt;4&gt;"  LOC = "P41";                    # signal sw4, labeled '4'
+  <br/>
+  NET "sw_out&lt;3&gt;"  LOC = "P42";                    # signal sw5, labeled '3'
+  <br/>
+  NET "sw_out&lt;2&gt;"  LOC = "P43";                    # signal sw6, labeled '2'
+  <br/>
+  NET "sw_out&lt;1&gt;"  LOC = "P2";                     # signal sw7, labeled '1'
+  <br/>
+  NET "sw_out&lt;0&gt;"  LOC = "P3";                     # signal sw8, labeled '0' (rightmost)
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  -------------------------------------------------------------------------------------------------
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  // main.v
+  <br/>
+  // Demo 6.0 - Nelilaskin
+  <br/>
+  /*
+  <br/>
+  *************************  Mapped Resource Summary  **************************
+  <br/>
+  <br/>
+  Macrocells     Product Terms    Function Block   Registers      Pins
+  <br/>
+  Used/Tot       Used/Tot         Inps Used/Tot    Used/Tot       Used/Tot
+  <br/>
+  65 /72  ( 90%) 293 /360  ( 81%) 158/216 ( 73%)   21 /72  ( 29%) 23 /34  ( 68%)
+  <br/>
+  <br/>
+  ** Function Block Resources **
+  <br/>
+  <br/>
+  Function    Mcells      FB Inps     Pterms      IO
+  <br/>
+  Block       Used/Tot    Used/Tot    Used/Tot    Used/Tot
+  <br/>
+  FB1          15/18       48/54       86/90       8/ 9
+  <br/>
+  FB2          14/18       41/54       88/90       9/ 9*
+  <br/>
+  FB3          18/18*      39/54       68/90       1/ 9
+  <br/>
+  FB4          18/18*      30/54       51/90       5/ 7
+  <br/>
+  -----       -----       -----      -----
+  <br/>
+  65/72      158/216     293/360     23/34
+  <br/>
+  */
+  <br/>
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  <br/>
+  module Main(
+  <br/>
+  input   wire                slowclock,
+  <br/>
+  input   wire    [7:0]       pb_in,
+  <br/>
+  input   wire    [7:0]       sw_in,
+  <br/>
+  output  reg     [7:0]       sw_out
+  <br/>
+  );
+  <br/>
+  <br/>
+  wire    [7:0]               buttons = ~pb_in;
+  <br/>
+  wire    [7:0]               value = ~sw_in;
+  <br/>
+  <br/>
+  reg     [15:0]              accu = 16'd0;
+  <br/>
+  reg     [3:0]               count = 4'd0;
+  <br/>
+  reg                         mul = 1'b0;
+  <br/>
+  wire    [8:0]               mul_temp = accu[15:8] + value;
+  <br/>
+  wire    [7:0]               div_temp = accu[14:7] - value;
+  <br/>
+  <br/>
+  // Slowclock used for button debouncing and iteration visualization
+  <br/>
+  always @(posedge slowclock) begin
+  <br/>
+  if (buttons[7]) begin                       // Button 8 = clear accu
+  <br/>
+  accu &lt;= 16'd0;
+  <br/>
+  end else if (buttons[6]) begin              // Button 7 = add value to accu
+  <br/>
+  accu &lt;= accu + value;
+  <br/>
+  end else if (buttons[5]) begin              // Button 6 = subtract value from accu
+  <br/>
+  accu &lt;= accu - value;
+  <br/>
+  end else if (buttons[4]) begin              // Button 5 = multiply accu by value
+  <br/>
+  count &lt;= 4'd8;
+  <br/>
+  mul &lt;= 1'b1;
+  <br/>
+  end else if (buttons[3]) begin              // Button 4 = divide accu by value
+  <br/>
+  count &lt;= 4'd8;
+  <br/>
+  mul &lt;= 1'b0;
+  <br/>
+  end else if (count) begin
+  <br/>
+  if (mul) begin
+  <br/>
+  accu &lt;= {(accu[0] ? mul_temp : accu[15:8]), accu[7:1] };
+  <br/>
+  end else begin
+  <br/>
+  accu &lt;= {{ div_temp[7] ? accu[13:7] : div_temp[6:0] }, accu[6:0], ~div_temp[7] };
+  <br/>
+  end
+  <br/>
+  count &lt;= count - 1;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  always @* begin
+  <br/>
+  if (buttons[0]) begin                       // Button 1 = Show high byte of accu
+  <br/>
+  sw_out = accu[15:8];
+  <br/>
+  end else begin                              // Default = Show low byte of accu
+  <br/>
+  sw_out = accu[7:0];
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  -------------------------------------------------------------------------------------------------
+  <br/>
+  <br/>
+  <br/>
+  # cpld1.ucf - XC9572XL-VQ44
+  <br/>
+  # I/O Pin Assignments for Helsinki Hacklab Protoboard CPLD 1
+  <br/>
+  <br/>
+  NET "slowclock"  LOC = "P44" | BUFG = CLK;      # slowCLK (100 Hz oscillator)
+  <br/>
+  #NET "fastclock"  LOC = "P1" | BUFG = CLK;        # fastCLK (25 MHz oscillator)
+  <br/>
+  <br/>
+  NET "pb_in&lt;7&gt;"   LOC = "P28";                    # button b8, "MSB" (leftmost)
+  <br/>
+  NET "pb_in&lt;6&gt;"   LOC = "P27";                    # button b7
+  <br/>
+  NET "pb_in&lt;5&gt;"   LOC = "P23";                    # button b6
+  <br/>
+  NET "pb_in&lt;4&gt;"   LOC = "P22";                    # button b5
+  <br/>
+  NET "pb_in&lt;3&gt;"   LOC = "P21";                    # button b4
+  <br/>
+  NET "pb_in&lt;2&gt;"   LOC = "P20";                    # button b3
+  <br/>
+  NET "pb_in&lt;1&gt;"   LOC = "P19";                    # button b2
+  <br/>
+  NET "pb_in&lt;0&gt;"   LOC = "P18";                    # button b1, "LSB" (rightmost)
+  <br/>
+  <br/>
+  NET "sw_in&lt;7&gt;"   LOC = "P37";                    # switch s8, "MSB" (leftmost)
+  <br/>
+  NET "sw_in&lt;6&gt;"   LOC = "P36";                    # switch s7
+  <br/>
+  NET "sw_in&lt;5&gt;"   LOC = "P34";                    # switch s6
+  <br/>
+  NET "sw_in&lt;4&gt;"   LOC = "P33";                    # switch s5
+  <br/>
+  NET "sw_in&lt;3&gt;"   LOC = "P32";                    # switch s4
+  <br/>
+  NET "sw_in&lt;2&gt;"   LOC = "P31";                    # switch s3
+  <br/>
+  NET "sw_in&lt;1&gt;"   LOC = "P30";                    # switch s2
+  <br/>
+  NET "sw_in&lt;0&gt;"   LOC = "P29";                    # switch s1, "LSB" (rightmost)
+  <br/>
+  <br/>
+  NET "sw_out&lt;7&gt;"  LOC = "P38";                    # signal sw1, labeled '7' (leftmost)
+  <br/>
+  NET "sw_out&lt;6&gt;"  LOC = "P39";                    # signal sw2, labeled '6'
+  <br/>
+  NET "sw_out&lt;5&gt;"  LOC = "P40";                    # signal sw3, labeled '5'
+  <br/>
+  NET "sw_out&lt;4&gt;"  LOC = "P41";                    # signal sw4, labeled '4'
+  <br/>
+  NET "sw_out&lt;3&gt;"  LOC = "P42";                    # signal sw5, labeled '3'
+  <br/>
+  NET "sw_out&lt;2&gt;"  LOC = "P43";                    # signal sw6, labeled '2'
+  <br/>
+  NET "sw_out&lt;1&gt;"  LOC = "P2";                     # signal sw7, labeled '1'
+  <br/>
+  NET "sw_out&lt;0&gt;"  LOC = "P3";                     # signal sw8, labeled '0' (rightmost)
   <br/>
   <br/>
  </body>

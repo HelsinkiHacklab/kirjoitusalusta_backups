@@ -13,7 +13,7 @@
   </i>
   <br/>
   <i>
-   // Ainoa poikkeus on Top Module jonka kehitysympäristö instantioi ja kytkee .ucf-tiedostossa
+   // Ainoa poikkeus on 'top module' jonka kehitysympäristö instantioi ja kytkee .ucf-tiedostossa
   </i>
   <br/>
   <i>
@@ -23,7 +23,7 @@
   <b>
    module
   </b>
-  main(
+  Main(
   <br/>
   <b>
    input
@@ -65,7 +65,10 @@
   <br/>
   <br/>
   <i>
-   // Kombinaatiologiikka, kohde pitää olla wire
+   // Kombinaatiologiikka, assign lauseen kohteen kohde pitää olla tyyppiä
+   <u>
+    wire
+   </u>
   </i>
   <br/>
   <i>
@@ -87,20 +90,23 @@
   <br/>
   <br/>
   <i>
-   // Tai vaihtoehtoisesti, nyt kohteen pitää olla reg, mutta syntetisoituu edelleen
+   // Tai vaihtoehtoisesti jos halutaan tehdä kombinaatiologiikkaa always lohkoissa, pitää
   </i>
   <br/>
   <i>
-   // kombinaatiologiikaksi.
-   <b>
-    Tämä on se kohta joka aiheuttaa Verilogin
-   </b>
-  </i>
-  <i>
+   // kohteen tyypiksi vaihtaa
+   <u>
+    reg
+   </u>
+   .
   </i>
   <br/>
+  <b>
+   <i>
+    // Tämä on se kohta joka aiheuttaa Verilogin
+   </i>
+  </b>
   <i>
-   //
    <b>
     wire vs. reg epäselvyydet.
    </b>
@@ -143,7 +149,11 @@
   <br/>
   <br/>
   <i>
-   // Sekvenssilogiikka, kohteen pitää olla reg ja sijoitusten non-blocking '
+   // Sekvenssilogiikka, kohteen pitää olla
+   <u>
+    reg
+   </u>
+   , sijoitusten non-blocking '
    <b>
     &lt;=
    </b>
@@ -165,15 +175,15 @@
    </b>
   </i>
   <i>
-   ) ja näistä syntetisoituu
+   ).
   </i>
   <br/>
   <i>
-   // flipareita, rekistereitä ja muistia
+   // Näin syntetisoituu data flip-floppeja (DFF), eli rekistereitä ja muistia
   </i>
   <br/>
   <i>
-   // Rekisterien arvoja ei tarvitse aina sijoittaa vaan ne pitävät muistinsa
+   // Arvoja ei tarvitse päivittää jokaisessa koodipolussa, vaan ne säilyttävät arvonsa
   </i>
   <br/>
   <b>
@@ -213,6 +223,18 @@
   </b>
   1;
   <br/>
+  <i>
+   <s>
+    // end else begin
+   </s>
+  </i>
+  <br/>
+  <i>
+   <s>
+    // counter &lt;= counter;
+   </s>
+  </i>
+  <br/>
   <b>
    end
   </b>
@@ -223,34 +245,43 @@
   <br/>
   <br/>
   <i>
-   // Moduuleja ja primitiivejä instantiodessa annetaan sille uniikki nimi
+   // Moduuleja instantiodessa niille pitää antaa uniikki nimi. Näihin harvoin viitataan
   </i>
   <br/>
   <i>
-   // (johon ei tarvitse viitata muualta, eli voi olla x1, x2, mutta kannattaa
+   // millään tavoin, eli voivat olla x1, x2 -tyylisä, mutta kannattaa tietysti käyttää
   </i>
   <br/>
   <i>
-   // tietysti käyttää kuvaavia nimiä. On myös suositeltavaa käyttää parametreja
+   // johdonmukaisia ja kuvaavia nimiä.
   </i>
   <br/>
   <i>
-   // nimillä .jotain(..) kuin luottaa järjestykseen. Pitää myös tarvittavat wire:t tehdä jotta
+   // Moduulin portit (input, output, inout) kannattaa myös ehdottomasti liittää
   </i>
   <br/>
   <i>
-   // kytkeminen onnistuu, muuten Verilog 2001 tekee automaattisesti, mutta vain yhden
+   // nimillä .jotain(..) kuin luottaa järjestykseen. Modulien välisiin kytkentöihin tarvitsee
   </i>
   <br/>
   <i>
-   // bitin kokoisia, eli pieleen menee. Tähän onneksi voi vaikuttaa laittamalla alkuun
+   // yleensä luoda ja nimetä tarvittavat wire:t jotka Verilog-2001 tekisi kyllä automaattisesti,
   </i>
   <br/>
   <i>
-   // pragman:
+   // mutta vain yhden bitin kokoisina, eli pieleen menisi. Tämän voi onneksi estää
+  </i>
+  <br/>
+  <i>
+   // laittamalla alkuun pragman:
    <b>
     `default_nettype none
    </b>
+  </i>
+  <br/>
+  <br/>
+  <i>
+   // Tehdään väylä johon modulin tulos kytketään
   </i>
   <br/>
   <b>
@@ -258,6 +289,10 @@
   </b>
   [3:0] leds_c;
   <br/>
+  <br/>
+  <i>
+   // Luodaan modiilin instanssi ja kytketään sen input ja output
+  </i>
   <br/>
   ExampleModule test1(
   <br/>
@@ -297,7 +332,7 @@
   Pitää kuitenkin huomata, että synteesin kannalta non-blocking sijoituksia voidaan pitää yhtäaikaisina. Always-lohkojen keskinäistä suoritusjärjestystä ei ole määritelty, se voi olla myös aidosti yhtäaikainen, eli samaan reg-muuttujaan ei saa sijoittaa useammassa always-lohkossa, tästä ISE onneksi antaakin virheen.
   <br/>
   <br/>
-  Lisätietoa edityneille
+  Syventävää lisätietoa aiheesta:
   <br/>
   <ul>
    <li>

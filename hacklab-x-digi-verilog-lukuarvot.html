@@ -19,16 +19,28 @@
   <br/>
   <ul>
    <li>
-    0: "logic 0", false
+    <b>
+     0
+    </b>
+    : "logic 0", false
    </li>
    <li>
-    1: "logic 1", true
+    <b>
+     1
+    </b>
+    : "logic 1", true
    </li>
    <li>
-    z: high-impedance (ei tarvita kurssilla, katso alla)
+    <b>
+     z
+    </b>
+    : high-impedance (ei tarvita kurssilla, katso alla)
    </li>
    <li>
-    x: unknown, don't care (joskus kätevä casex-lauseissa)
+    <b>
+     x
+    </b>
+    : unknown, don't care (joskus kätevä casex-lauseissa)
     <br/>
     <br/>
    </li>
@@ -42,7 +54,11 @@
   <br/>
   <ul>
    <li>
-    [etumerkki][koko]'[kantaluku][arvo]
+    [etumerkki][koko]
+    <b>
+     '
+    </b>
+    [kantaluku][arvo]
    </li>
    <li>
     koko ilmoitetaan bitteinä
@@ -51,16 +67,28 @@
     kantaluku
     <ul>
      <li>
-      b tai B binääriluvuille
+      <b>
+       b
+      </b>
+      tai B binääriluvuille
      </li>
      <li>
-      o tai O oktaaliluvuille
+      <b>
+       o
+      </b>
+      tai O oktaaliluvuille
      </li>
      <li>
-      h tai H heksadesimaaleille
+      <b>
+       h
+      </b>
+      tai H heksadesimaaleille
      </li>
      <li>
-      d tai D desimaaliluvuille, tämä on oletus jos ei mainittu
+      <b>
+       d
+      </b>
+      tai D desimaaliluvuille, tämä on oletus jos ei mainittu
      </li>
     </ul>
    </li>
@@ -71,27 +99,64 @@
     esimerkkejä
     <ul>
      <li>
-      1'b0 = 0 = 'false' (= 1'o0, 1'h0 ja 1'd0)
+      <b>
+       1'b0
+      </b>
+      = 0 = 'false' (= 1'o0, 1'h0 ja 1'd0)
       <ul>
        <li>
-        'define' N = 8;
+        <b>
+         `define
+        </b>
+        N = 8;
+        <i>
+         // ei suositeltu tapa, param/localparam parempi
+        </i>
        </li>
        <li>
-        reg [N-1:0] kala = N'b111100111;
+        <b>
+         reg
+        </b>
+        [N-1:0] kala = N'b111100111;
        </li>
        <li>
-        if (a == b &amp; c == d)
+        <b>
+         if
+        </b>
+        (a == b
+        <b>
+         &amp;
+        </b>
+        c == d) vs. (a = b
+        <b>
+         &amp;&amp;
+        </b>
+        c = d)   // ei näin!
        </li>
       </ul>
      </li>
      <li>
-      1'b1 = 1 = 'true'
+      <b>
+       1'b1
+      </b>
+      = 1 = 'true'
      </li>
      <li>
-      32'b10101010_10101010_10101010_10101010 = 'haa_aa_aa_aa
-     </li>
-     <li>
-      signed reg[7:0] = -128;
+      32'b10101010_10101010_10101010_10101010 = 'ha_aa_aa_aa
+      <ul>
+       <li>
+        <b>
+         signed
+        </b>
+        <b>
+         reg
+        </b>
+        [7:0] = -128;
+        <i>
+         // parempi käyttää $signed(-128) notaatiota
+        </i>
+       </li>
+      </ul>
      </li>
      <li>
       64'b0000000000000000..00111111111111..11
@@ -99,22 +164,37 @@
     </ul>
    </li>
    <li>
-    wire [7:0] hauki;
+    <b>
+     wire
+    </b>
+    [7:0] hauki;
    </li>
    <li>
-    wire [7:0] kala;
+    <b>
+     wire
+    </b>
+    [7:0] kala;
     <ul>
      <li>
-      assign hauki[7] = kala[0];
+      <b>
+       assign
+      </b>
+      hauki[7] = kala[0];
      </li>
      <li>
-      assign hauki[6] = kala[1];
+      <b>
+       assign
+      </b>
+      hauki[6] = kala[1];
      </li>
      <li>
       ..
      </li>
      <li>
-      assign hauki[0] = kala[7];
+      <b>
+       assign
+      </b>
+      hauki[0] = kala[7];
      </li>
      <li>
       hauki = {4'b1010,kala[3:0]}
@@ -139,12 +219,19 @@
    </li>
    <li>
     etumerkillinen,
-    <i>
+    <b>
      signed
-    </i>
+    </b>
    </li>
    <li>
-    ylin bitti on z tai x
+    ylin bitti on
+    <b>
+     z
+    </b>
+    tai
+    <b>
+     x
+    </b>
     <br/>
     <br/>
    </li>

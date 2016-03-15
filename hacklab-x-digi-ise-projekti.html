@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-x-digi-ise-projekti
+  </title>
+ </head>
+ <body>
+  <b>
+   <u>
+    Kuinka Xilinxin ISE kehitysympäristössä tehdään projekti labin koulutuslaudalle
+   </u>
+  </b>
+  <br/>
+  <br/>
+  <ul>
+   <li>
+    Käynnistetään
+    <b>
+     ISE Project Navigator
+    </b>
+   </li>
+   <li>
+    Tehdään uusi projekti
+    <ul>
+     <li>
+      File -&gt; New project...
+      <ul>
+       <li>
+        valitse
+        <b>
+         Location
+        </b>
+        /Working Directory -kansio missa haluat projekteja pitää, esim. '/home/{user}/workspace/'
+       </li>
+       <li>
+        kirjoita projektille haluamasi nimi
+        <b>
+         Name
+        </b>
+        kenttään, esim. 'Koulutus1' (nimi ei voi alkaa numerolla jne.)
+       </li>
+       <li>
+        tarkista että
+        <b>
+         Top-level source type
+        </b>
+        on
+        <b>
+         HLD
+        </b>
+        , eli Verilog tai VHDL
+       </li>
+      </ul>
+     </li>
+     <li>
+      -&gt; Next
+      <ul>
+       <li>
+        Family:
+        <b>
+         XC9500XL CPLDs
+        </b>
+       </li>
+       <li>
+        Device:
+        <b>
+         XC9572XL
+        </b>
+       </li>
+       <li>
+        Package:
+        <b>
+         VQ44
+        </b>
+       </li>
+       <li>
+        Speed:
+        <b>
+         -10
+        </b>
+       </li>
+      </ul>
+     </li>
+     <li>
+      -&gt; Next -&gt; Finish
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Tehdään Top-level moduli nimeltään Main ja laitetaan se
+    <b>
+     main.v
+    </b>
+    nimiseen tiedostoon
+    <ul>
+     <li>
+      Project -&gt; New Source... -&gt;
+      <b>
+       Verilog Module
+      </b>
+      <ul>
+       <li>
+        Location kenttä osoittaa projektin juurikansioon jonne ISE tekee paljon omia tiedostojaan ja siksi kannattaa omat lähdekoodit laittaa sen alle omaan kansioonsa, esim.
+        <b>
+         src
+        </b>
+        <ul>
+         <li>
+          rivin lopussa on '...'-nappi  josta aukeaa tiedostodialogi
+         </li>
+         <li>
+          Ubuntussa ylärivillä on 'Create New Folder' -&gt; kirjoita '
+          <b>
+           src
+          </b>
+          ' -&gt; Choose
+         </li>
+         <li>
+          Windowsissa 'New Folder'-nappi? -&gt; kirjoita '
+          <b>
+           src
+          </b>
+          ' -&gt; Choose
+         </li>
+        </ul>
+       </li>
+       <li>
+        File name:
+        <b>
+         main
+        </b>
+        <ul>
+         <li>
+          .v päätteen ISE lisää automaattisesti
+         </li>
+        </ul>
+       </li>
+       <li>
+        -&gt; Next -&gt; Next -&gt; Finish
+       </li>
+      </ul>
+     </li>
+     <li>
+      ISE tekee automaattisesti tyhjän main-modulin, mutta tekstin voi tyhjätä (CTRL+A + DEL) ja kopioida:
+      <ul>
+       <li>
+        <a href="./hacklab-x-digi-ise-projekti-main-v.html">
+         https://kirjoitusalusta.fi/hacklab-x-digi-ise-projekti-main-v
+        </a>
+       </li>
+       <li>
+        varmista että tiedostoon tule viimeiseksi tyhjä rivi ja tallenna
+        <br/>
+        <br/>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Tehdään UCF-tiedosto joka liittää Main-modulin input- ja output-portit piirin fyysisiin jalkoihin
+    <ul>
+     <li>
+      Project -&gt; New Source... -&gt;
+      <b>
+       Implementation Constraints File
+      </b>
+      <ul>
+       <li>
+        Locationin pitäis osoittaa jo oikeaan '.../Koulutus1/
+        <b>
+         src
+        </b>
+        '-kansioon
+       </li>
+       <li>
+        File name:
+        <b>
+         cpld1
+        </b>
+        <ul>
+         <li>
+          .ucf päätteen ISE lisää automaattisesti
+         </li>
+        </ul>
+       </li>
+       <li>
+        -&gt; Next -&gt; Finish
+       </li>
+      </ul>
+     </li>
+     <li>
+      Kopioi:
+      <ul>
+       <li>
+        <a href="./hacklab-x-digi-ise-projekti-cpld1-ucf.html">
+         https://kirjoitusalusta.fi/hacklab-x-digi-ise-projekti-cpld1-ucf
+        </a>
+       </li>
+       <li>
+        varmista että tiedostoon tule viimeiseksi tyhjä rivi ja tallenna
+        <br/>
+        <br/>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    ISE:n CPLD projektit pitää .ucf:n lisäämisen jälkeen
+    <b>
+     kerran
+    </b>
+    muistaa tyhjätä tai se ei tule voimaan
+    <ul>
+     <li>
+      <b>
+       Project -&gt; Cleanup Project Files... -&gt; OK
+      </b>
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Nyt projektin voi implementoida ('kääntää')
+    <ul>
+     <li>
+      Process -&gt;
+      <b>
+       Implement Top Module
+      </b>
+      (myös vihreä kolmio ikonirivillä tekee saman)
+     </li>
+     <li>
+      kannattaa valita Hierarchy laatikosta main.v aktiiviseksi ja sitten alempaa Processes ikkunasta avata Implement Design niin näkee edistymisen (lue. vihreät pallot) paremmin
+     </li>
+     <li>
+      joitain varoituksia saattaa tulla kun kaikkia sw_in-tuloja ei käytetä
+     </li>
+     <li>
+      myös mystisen '
+      <i>
+       WARNING:Cpld - Unable to retrieve the path to the iSE Project Repository.
+      </i>
+      ' varoituksen voi jättää huomioimatta
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Jos
+    <b>
+     Generate Programming File
+    </b>
+    tuli vihreälle on projekti onnistuneesti käyttövalmis harjoitteluun
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+ </body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /LnpW218Wfz
+  </title>
+ </head>
+ <body>
+  <b>
+   Keskustelusivu Tampere Hacklabille muoviosien valmistuksesta
+  </b>
+  <br/>
+  <br/>
+  Aloittaja JuKu
+  <br/>
+  <br/>
+  Onko kiinnostusta ryhtyä porukalla opettelemaan hyvälaatuisien muoviosien valmistusta ja helppoa monistamista, esim. hammasrattaita, koptereiden roottoreita yms?
+  <br/>
+  <br/>
+  Itsellä tuli tarve jossain vaiheessa tulevaisuutta saada aikaan jokunen kymmenen pientä muovinippeliä. 3D tulostin ei ole tarpeeksi tarkka, ja kuka muutenkaan viitsii tulostaa kahtakymmentä osaa? Ryhdyin tutkimaan, ja vastaan tuli tämä sivu:
+  <br/>
+  <br/>
+  <a href="http://makezine.com/2014/03/21/resin-casting-going-from-cad-to-engineering-grade-plastic-parts/">
+   http://makezine.com/2014/03/21/resin-casting-going-from-cad-to-engineering-grade-plastic-parts/
+  </a>
+  <br/>
+  <br/>
+  Lue tuo ensin, ja palaa sitten tähän. :) Jos kiinnostus heräsi, niin yleisesti ottaen prosessi tuntuu helpohkolta mutta monivaiheiselta. Mutta ei se kuitenkaan mene niinkuin Stömsössä, siksikin on kivempi säätää porukalla. Sitäpaitsi vaikka tarpeet on sinänsä halpoja niin niitä pitää ostaa paljon, ts. kokonaiskustannus on iso, jos ei ole jakajia.
+  <br/>
+  <br/>
+  Siis yksityiskohtiin: [Paras ja melkein ainoa] tietolähteeni on ollut tämä sivu:
+  <br/>
+  <a href="http://lcamtuf.coredump.cx/gcnc/ch4/">
+   http://lcamtuf.coredump.cx/gcnc/ch4/
+  </a>
+  . Tuosta prosessi paloihin purkien:
+  <br/>
+  <br/>
+  <b>
+   1: Mastermuotti
+  </b>
+  <br/>
+  <br/>
+  Muotti tehdään CNC:llä mallilevyyn tai olemassaolevasta esineestä kopioiden. Itse haluan tehdä ihan uusia osia, siis CNC:llä. Mikähän on meidän pikku-CNCn tila ja kuka osaa ja viitsii kertoa ja näyttää alkuun, ts. "hello world"?
+  <br/>
+  Miksi_: Pikku-cnc on toiminnassa, jotain pientä säätämistä on vielä. Voidaan tiistaina(?) tutustua laitteen toimintaan kun kiinnostuneet tulee pajalle. Pieniä teriä meillä on hyvin rajallinen valikoima. PCB jyrsimiseen tarkotettuja v-teriä on 0.1mm asti mutta sillä ei kovin kummosta muotoa saa jyrsittyä. Ebay hyvä paikka tilailla lisää, terän laadulla ei näillä ajomäärillä ole paljon väliä eli halvimmat kiinalaiset toimivat hyvin.
+  <br/>
+  <br/>
+  Em. linkin suosittelemista muottimateraaleista Euroopasta saa parhaiten Prolab 65´ttä. Suomalainen kauppa on hinnaltaan kilpailukykyinen:
+  <a href="http://www.materialshop.fi/Prolab-65-mallilevy">
+   http://www.materialshop.fi/Prolab-65-mallilevy
+  </a>
+  , esimerkkihintoja:
+  <br/>
+  500x500x50mm: 84,90€
+  <br/>
+  1500x500x50mm: 224,90€  [mulle riittäisi tästä varmaan kuudesosa]
+  <br/>
+  <br/>
+  Jyrsinterät?
+  <br/>
+  <br/>
+  <b>
+   2: Muottisilikoni
+  </b>
+  <br/>
+  <br/>
+  Mastermuottiin kaadetaan silikonia, josta saadaan valumuotti.Taas on Euroopasta aineiden saatavuus ongelma, varsinkin jos noobina haluaisi käyttää suositeltuja materiaaleja. Elektroniikkamiehenä en oikein osaa mekaanista datalehteä lukea, varsinkin kun täällä näemmä annetaan speksejä eri yksiköissä kun USAssa. Ts. tässä olen eniten arvaamassa, mutta
+  <a href="http://www.materialshop.fi/epages/Materialshop.sf/fi_FI/?ObjectPath=/Shops/2014052201/Products/10227">
+   http://www.materialshop.fi/epages/Materialshop.sf/fi_FI/?ObjectPath=/Shops/2014052201/Products/10227
+  </a>
+  vaikuttaisi sopivalta, niin pitkälle kuin minä ymmärrän. 88€ kaksi kiloa. Menekkiä on paha arvioida, varsinkin kun säätämistä on varmaan tiedossa, mutta tuokin vaikuttaa paljolta yhdelle.
+  <br/>
+  <br/>
+  <b>
+   3: Valuaine
+  </b>
+  <br/>
+  <br/>
+  Valumuottiin kaadetaan jotain. Itse olen tekemässä "insinööriosia", ts. mekaaniset ominaisuudet merkitsevät, väri evvk. Em. ohje sanoo: "IE-3075. Really, nothing else comes close", mutta tuota en löytänyt Euroopasta. Seuraava suositus on "TC-854 A/B, which is about 15% less rigid and cures a tad faster, but is otherwise indistinguishable from IE-3075 and costs about the same." Tätä saa:
+  <a href="http://www.techsil.co.uk/bjb-tc854">
+   http://www.techsil.co.uk/bjb-tc854
+  </a>
+  , £169.22 kaksi tonkallista, ts. 12.8lbs. Ei oikeastaan kallista, mutta minä en tarvitse kuin pienehkön osan tuosta, ainakaan alkuun.
+  <br/>
+  <br/>
+  <b>
+   xx: Muuta
+  </b>
+  <br/>
+  <br/>
+  - Jounin esittelemä cam oli Estlcam
+  <br/>
+  - Pajalle saatu lisenssi ohjelmaan, se tullaan asentamaan ainakin cnc:n koneeseen.
+  <br/>
+  -Jos ja kun litkuja jaetaan, tarvitaan sopivia pulloja. Apteekista, labratarvikekaupasta?
+  <br/>
+  -Muovipurkkeja, mitta-astioita, sekoitustikkuja [ei puisia]
+  <br/>
+  -Suojahanskoja
+  <br/>
+  -Tyhjiökammio? [Degassing chamber] Tämän todellisesta tarpeesta mulla ei ole käsitystä. Jos tätä pitäsisi käytetyillä materiaaleilla käyttää ja ei käytä, muottiin tai valukappaleeseen jää ilmakuplia. Useiden satasien investointi, jos kaikki pitää ostaa. Mulla ei ole käsitystä mitä labilta voisi tähän löytyä valmiina.
+  <br/>
+  -Irroitusaineet? [silikoni - polyuretaanikombinaatiossa ei pitäisi tarvita...]
+  <br/>
+  -tyhjökammio on kyllä välttämätön (jo valuaineen komponenttien sekoitusvaiheessa), muuten jää aina kuplia. Ilmalämpöpumppukauppiailla on tyhjöpumppuja (vanha pakastimen kompurakin riittää pienelle astialle). Polyuretaanihartsille tyhjökammion vaihtoehtona toimii myös ylipaine (paineilmaa saa helposti mutta kammio tarvitaan kuitenkin), millä pienet kuplat saa puristettua. Juokseville silikoneille ja pienille ainemäärille degassing vaihtoehto on valuttaa muottiin ohuena siimana parin metrin korkeudesta jolloin venyminen puhkaisee kuplat. Myös isoon ruiskuun (esim n. 1 dl saa helposti kuplia poistavan alipaineen. Tämä kokemus on tosin sitten taiteellisempien projektien puolelta. Pienissä mekaniikkaosissa luultavasti omat omituisuutensa.
+  <br/>
+  JuKu: Tyhjiökammio+pumppu maksaa £259 Suomeen toimitettuna:
+  <a href="http://www.ebay.co.uk/itm/SMO-KING-Vacuum-Degassing-Chamber-1-5-Gallon-Steel-6-8-Litre-Standard-Kit-/401009936254?hash=item5d5e0e077e:g:jgQAAOSwl9BWHF6K">
+   http://www.ebay.co.uk/itm/SMO-KING-Vacuum-Degassing-Chamber-1-5-Gallon-Steel-6-8-Litre-Standard-Kit-/401009936254?hash=item5d5e0e077e:g:jgQAAOSwl9BWHF6K
+  </a>
+  <br/>
+  laadusta en osa sanoa, mutta tuossa olisi pelkkä pumppu 132 eur toimitettuna:
+  <br/>
+  <a href="http://www.ultimatemarket.com/PublishedService?pageID=9&amp;itemcode=10601">
+   http://www.ultimatemarket.com/PublishedService?pageID=9&amp;itemcode=10601
+  </a>
+  <br/>
+  Miksi_: Tämmöisen ultimaten pumpun hankintaa ollaan Paulin (thepakle) kanssa mietitty. Kammioo mietittiin kanssa diy versiona, esim normaali kattila on aika hyvä aihio kammion tekemiseen. JuKu: valuhommissa olisi hyvä nähdä sisään, kts. em- linkki tai pykälää suurempi, 10 puntaa kalliimpi:
+  <a href="http://www.ebay.co.uk/itm/SMO-KING-Vacuum-Degassing-Chamber-3-0-Gallon-Aluminium-13-6-Litre-Standard-Kit-/171961587830?_trksid=p2141725.m3641.l6368">
+   http://www.ebay.co.uk/itm/SMO-KING-Vacuum-Degassing-Chamber-3-0-Gallon-Aluminium-13-6-Litre-Standard-Kit-/171961587830?_trksid=p2141725.m3641.l6368
+  </a>
+  <br/>
+  <br/>
+  Käsikäyttöinen pumppu 9,90 euroa motonetissä, jolla saa imettyä alipaineen.
+  <br/>
+  <a href="http://www.motonet.fi/fi/tuote/468144/Ilmapumppu-145-2-toiminen">
+   http://www.motonet.fi/fi/tuote/468144/Ilmapumppu-145-2-toiminen
+  </a>
+  <br/>
+  Maitotonkasta ja venttiilistä saa tehtyä alipainekammion. Mulla olisi 30 litran alumiininen maitotonkka, josta haluaisin päästä eroon.
+  <br/>
+  Kertakäyttöastiat ovat hyviä litkujen sekoittamiseen, tuoppeja olen käyttänyt joskus.
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   Käytännössä
+  </b>
+  <br/>
+  <br/>
+  Jos jaksoit tänne asti, niin taitaa kiinnostaa. :) Jatko voisi mennä niin, että hierotaan täällä ensin, ja sitten useampikin "workshop" pajalla:
+  <br/>
+  ws1: Pikku-CNC haltuun [tälle olisi varmaan yleisempääkin kiinnostusta]
+  <br/>
+  ws2: Aloitus: keitä on mukana kustannuksia jakamassa, mitä ostetaan, kuka tilaa yms
+  <br/>
+  ws3-n: Tehdään osia porukalla ja katsotaan mitä tapahtuu.
+  <br/>
+  <br/>
+  ws 1 ja ws 2 voi tietty olla toisessakin järjestyksessä. Saataisiinko ws2 pidettyä jo tässä kuussa? [Pikkujoulujen yhteydessä olisi toisaalta tilaisuus, mutta toisaalta sotkee yleistä tilaisuutta.]
+  <br/>
+  <br/>
+  Rattaissa ja muissa mekaanista kestävyyttä vaativissa osissa pitäisi aluksi miettiä mitä muovia käytetään. Minkälaisia ominaisuuksia tarvii olla ym. Sitten vasta voi suunnitella valmistusmenetelmiä.
+  <br/>
+  Valettavat kertamuovit eivät usein ole kovin hyviä vaihtoehtoja, jos tarvitaan esimerkiksi pieni kitkakerroin ja suuri kulutuskestävyys. Joku itsevoiteleva, öljyseosteinen polyamidi ruiskuvalettuna toimisi ehkä paremmin.
+  <br/>
+  Kalliita alipainelaitteita ei tarvitse ostaa kun ne voi tehdä itsekin, kuin myös ruiskuvalukoneen.
+  <br/>
+  Laboratoriotarvikkeita, mittalaseja ym. löytyy tarvittaessa, eli voi syntetisoida muovitkin itse jos haluaa.
+  <br/>
+  <br/>
+  TiVa
+  <br/>
+  <br/>
+ </body>
+</html>
