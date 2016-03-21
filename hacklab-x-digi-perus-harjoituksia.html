@@ -8,6 +8,816 @@
   </title>
  </head>
  <body>
+  // 7 segment harjoitus 5
+  <br/>
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  module main (
+  <br/>
+  input wire fastclk,
+  <br/>
+  output wire io_select,
+  <br/>
+  output wire [7:0] seg,
+  <br/>
+  output wire led_R, led_G, led_B
+  <br/>
+  );
+  <br/>
+  <br/>
+  // --- Turn off the ultrabright RGB-led! ------------------------------
+  <br/>
+  assign led_R = 0;
+  <br/>
+  assign led_G = 0;
+  <br/>
+  assign led_B = 0;
+  <br/>
+  <br/>
+  wire [7:0] ctr;
+  <br/>
+  <br/>
+  Counter #(
+  <br/>
+  .MAX_VALUE(255),
+  <br/>
+  .SCALER(12500000)
+  <br/>
+  ) cnt0(
+  <br/>
+  .clock(fastclk),
+  <br/>
+  .value(ctr)
+  <br/>
+  );
+  <br/>
+  <br/>
+  wire [1:0] mux;
+  <br/>
+  <br/>
+  Counter #(
+  <br/>
+  .MAX_VALUE(3),
+  <br/>
+  .SCALER(2500)
+  <br/>
+  ) cnt1(
+  <br/>
+  .clock(fastclk),
+  <br/>
+  .value(mux)
+  <br/>
+  );
+  <br/>
+  <br/>
+  wire [3:0] val;
+  <br/>
+  <br/>
+  decode7seg dec0 (
+  <br/>
+  .value(val),
+  <br/>
+  .seg(seg)
+  <br/>
+  );
+  <br/>
+  <br/>
+  assign io_select = mux[0];
+  <br/>
+  <br/>
+  assign val = io_select ? ctr[3:0] : ctr[7:4];
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  module decode7seg (
+  <br/>
+  input wire [3:0] value,
+  <br/>
+  output reg [7:0] seg
+  <br/>
+  );
+  <br/>
+  <br/>
+  always @* begin
+  <br/>
+  case (value)
+  <br/>
+  //                     P_abcdefg
+  <br/>
+  4'h0: seg = 8'b0_1111110;
+  <br/>
+  4'h1: seg = 8'b0_0110000;
+  <br/>
+  4'h2: seg = 8'b0_1101101;
+  <br/>
+  4'h3: seg = 8'b0_1111001;
+  <br/>
+  4'h4: seg = 8'b0_0110011;
+  <br/>
+  4'h5: seg = 8'b0_1011011;
+  <br/>
+  4'h6: seg = 8'b0_1011111;
+  <br/>
+  4'h7: seg = 8'b0_1110000;
+  <br/>
+  4'h8: seg = 8'b0_1111111;
+  <br/>
+  4'h9: seg = 8'b0_1111010;
+  <br/>
+  4'hA: seg = 8'b0_1110111;
+  <br/>
+  4'hB: seg = 8'b0_0011111;
+  <br/>
+  4'hC: seg = 8'b0_1001110;
+  <br/>
+  4'hD: seg = 8'b0_0111101;
+  <br/>
+  4'hE: seg = 8'b0_1001111;
+  <br/>
+  4'hF: seg = 8'b0_1000111;
+  <br/>
+  default: seg = 8'b0_0000000;
+  <br/>
+  endcase
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  module Counter #(
+  <br/>
+  parameter                           MAX_VALUE = 255,
+  <br/>
+  parameter                           SCALER = 10000,
+  <br/>
+  parameter                           VALUE_BITS = clog2(MAX_VALUE),
+  <br/>
+  parameter                           SCALER_BITS = clog2(SCALER)
+  <br/>
+  ) (
+  <br/>
+  input   wire                        clock,
+  <br/>
+  output  reg     [VALUE_BITS-1:0]    value
+  <br/>
+  );
+  <br/>
+  <br/>
+  //`include "clog2.vh"
+  <br/>
+  function integer clog2;
+  <br/>
+  input integer value;
+  <br/>
+  begin
+  <br/>
+  value = value-1;
+  <br/>
+  for (clog2 = 0; value &gt; 0; clog2 = clog2 + 1) begin
+  <br/>
+  value = value &gt;&gt; 1;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  endfunction
+  <br/>
+  <br/>
+  initial                         value = 0;
+  <br/>
+  reg     [SCALER_BITS-1:0]       scaler = 0;
+  <br/>
+  <br/>
+  always @(posedge clock) begin
+  <br/>
+  if (scaler &lt; SCALER) begin
+  <br/>
+  scaler &lt;= scaler + 1'b1;
+  <br/>
+  end else begin
+  <br/>
+  scaler &lt;= 0;
+  <br/>
+  if (value &lt; MAX_VALUE) begin
+  <br/>
+  value &lt;= value + 1'b1;
+  <br/>
+  end else begin
+  <br/>
+  value &lt;= 0;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  //------------------------------------------------------------------------------
+  <br/>
+  // 7-segment harjoitus 4
+  <br/>
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  module main (
+  <br/>
+  input wire fastclk,
+  <br/>
+  input wire slowclk,
+  <br/>
+  output wire io_select,
+  <br/>
+  output wire [7:0] seg,
+  <br/>
+  output wire led_R, led_G, led_B
+  <br/>
+  );
+  <br/>
+  <br/>
+  // --- Turn off the ultrabright RGB-led! ------------------------------
+  <br/>
+  assign led_R = 0;
+  <br/>
+  assign led_G = 0;
+  <br/>
+  assign led_B = 0;
+  <br/>
+  <br/>
+  wire [3:0] ctr;
+  <br/>
+  <br/>
+  Counter #(
+  <br/>
+  .MAX_VALUE(15),
+  <br/>
+  .SCALER(25000000)
+  <br/>
+  ) cnt0(
+  <br/>
+  .clock(fastclk),
+  <br/>
+  .value(ctr)
+  <br/>
+  );
+  <br/>
+  <br/>
+  decode7seg dec0 (
+  <br/>
+  .value(ctr),
+  <br/>
+  .seg(seg)
+  <br/>
+  );
+  <br/>
+  <br/>
+  assign io_select = slowclk;
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  module decode7seg (
+  <br/>
+  input wire [3:0] value,
+  <br/>
+  output reg [7:0] seg
+  <br/>
+  );
+  <br/>
+  <br/>
+  always @* begin
+  <br/>
+  case (value)
+  <br/>
+  //                     P_abcdefg
+  <br/>
+  4'h0: seg = 8'b0_1111110;
+  <br/>
+  4'h1: seg = 8'b0_0110000;
+  <br/>
+  4'h2: seg = 8'b0_1101101;
+  <br/>
+  4'h3: seg = 8'b0_1111001;
+  <br/>
+  4'h4: seg = 8'b0_0110011;
+  <br/>
+  4'h5: seg = 8'b0_1011011;
+  <br/>
+  4'h6: seg = 8'b0_1011111;
+  <br/>
+  4'h7: seg = 8'b0_1110000;
+  <br/>
+  4'h8: seg = 8'b0_1111111;
+  <br/>
+  4'h9: seg = 8'b0_1111010;
+  <br/>
+  4'hA: seg = 8'b0_1110111;
+  <br/>
+  4'hB: seg = 8'b0_0011111;
+  <br/>
+  4'hC: seg = 8'b0_1001110;
+  <br/>
+  4'hD: seg = 8'b0_0111101;
+  <br/>
+  4'hE: seg = 8'b0_1001111;
+  <br/>
+  4'hF: seg = 8'b0_1000111;
+  <br/>
+  default: seg = 8'b0_0000000;
+  <br/>
+  endcase
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  module Counter #(
+  <br/>
+  parameter                           MAX_VALUE = 255,
+  <br/>
+  parameter                           SCALER = 10000,
+  <br/>
+  parameter                           VALUE_BITS = clog2(MAX_VALUE),
+  <br/>
+  parameter                           SCALER_BITS = clog2(SCALER)
+  <br/>
+  ) (
+  <br/>
+  input   wire                        clock,
+  <br/>
+  output  reg     [VALUE_BITS-1:0]    value
+  <br/>
+  );
+  <br/>
+  <br/>
+  //`include "clog2.vh"
+  <br/>
+  function integer clog2;
+  <br/>
+  input integer value;
+  <br/>
+  begin
+  <br/>
+  value = value-1;
+  <br/>
+  for (clog2 = 0; value &gt; 0; clog2 = clog2 + 1) begin
+  <br/>
+  value = value &gt;&gt; 1;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  endfunction
+  <br/>
+  <br/>
+  initial                         value = 0;
+  <br/>
+  reg     [SCALER_BITS-1:0]       scaler = 0;
+  <br/>
+  <br/>
+  always @(posedge clock) begin
+  <br/>
+  if (scaler &lt; SCALER) begin
+  <br/>
+  scaler &lt;= scaler + 1'b1;
+  <br/>
+  end else begin
+  <br/>
+  scaler &lt;= 0;
+  <br/>
+  if (value &lt; MAX_VALUE) begin
+  <br/>
+  value &lt;= value + 1'b1;
+  <br/>
+  end else begin
+  <br/>
+  value &lt;= 0;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  //----------------------------------------------------------------------
+  <br/>
+  // 7-segment harjoitus 3
+  <br/>
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  module main (
+  <br/>
+  input wire fastclk,
+  <br/>
+  output wire [7:0] seg,
+  <br/>
+  output wire led_R, led_G, led_B
+  <br/>
+  );
+  <br/>
+  <br/>
+  // --- Turn off the ultrabright RGB-led! ------------------------------
+  <br/>
+  assign led_R = 0;
+  <br/>
+  assign led_G = 0;
+  <br/>
+  assign led_B = 0;
+  <br/>
+  <br/>
+  wire [3:0] ctr;
+  <br/>
+  <br/>
+  Counter #(
+  <br/>
+  .MAX_VALUE(15),
+  <br/>
+  .SCALER(25000000)
+  <br/>
+  ) cnt0(
+  <br/>
+  .clock(fastclk),
+  <br/>
+  .value(ctr)
+  <br/>
+  );
+  <br/>
+  <br/>
+  decode7seg dec0 (
+  <br/>
+  .value(ctr),
+  <br/>
+  .seg(seg)
+  <br/>
+  );
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  module decode7seg (
+  <br/>
+  input wire [3:0] value,
+  <br/>
+  output reg [7:0] seg
+  <br/>
+  );
+  <br/>
+  <br/>
+  always @* begin
+  <br/>
+  case (value)
+  <br/>
+  //                     P_abcdefg
+  <br/>
+  4'h0: seg = 8'b0_1111110;
+  <br/>
+  4'h1: seg = 8'b0_0110000;
+  <br/>
+  4'h2: seg = 8'b0_1101101;
+  <br/>
+  4'h3: seg = 8'b0_1111001;
+  <br/>
+  4'h4: seg = 8'b0_0110011;
+  <br/>
+  4'h5: seg = 8'b0_1011011;
+  <br/>
+  4'h6: seg = 8'b0_1011111;
+  <br/>
+  4'h7: seg = 8'b0_1110000;
+  <br/>
+  4'h8: seg = 8'b0_1111111;
+  <br/>
+  4'h9: seg = 8'b0_1111010;
+  <br/>
+  4'hA: seg = 8'b0_1110111;
+  <br/>
+  4'hB: seg = 8'b0_0011111;
+  <br/>
+  4'hC: seg = 8'b0_1001110;
+  <br/>
+  4'hD: seg = 8'b0_0111101;
+  <br/>
+  4'hE: seg = 8'b0_1001111;
+  <br/>
+  4'hF: seg = 8'b0_1000111;
+  <br/>
+  default: seg = 8'b0_0000000;
+  <br/>
+  endcase
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  module Counter #(
+  <br/>
+  parameter                           MAX_VALUE = 255,
+  <br/>
+  parameter                           SCALER = 10000,
+  <br/>
+  parameter                           VALUE_BITS = clog2(MAX_VALUE),
+  <br/>
+  parameter                           SCALER_BITS = clog2(SCALER)
+  <br/>
+  ) (
+  <br/>
+  input   wire                        clock,
+  <br/>
+  output  reg     [VALUE_BITS-1:0]    value
+  <br/>
+  );
+  <br/>
+  <br/>
+  //`include "clog2.vh"
+  <br/>
+  function integer clog2;
+  <br/>
+  input integer value;
+  <br/>
+  begin
+  <br/>
+  value = value-1;
+  <br/>
+  for (clog2 = 0; value &gt; 0; clog2 = clog2 + 1) begin
+  <br/>
+  value = value &gt;&gt; 1;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  endfunction
+  <br/>
+  <br/>
+  initial                         value = 0;
+  <br/>
+  reg     [SCALER_BITS-1:0]       scaler = 0;
+  <br/>
+  <br/>
+  always @(posedge clock) begin
+  <br/>
+  if (scaler &lt; SCALER) begin
+  <br/>
+  scaler &lt;= scaler + 1'b1;
+  <br/>
+  end else begin
+  <br/>
+  scaler &lt;= 0;
+  <br/>
+  if (value &lt; MAX_VALUE) begin
+  <br/>
+  value &lt;= value + 1'b1;
+  <br/>
+  end else begin
+  <br/>
+  value &lt;= 0;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  //----------------------------------------------------------------------
+  <br/>
+  // 7-seg harjoitus 2
+  <br/>
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  module main (
+  <br/>
+  output wire [7:0] seg,
+  <br/>
+  output wire led_R, led_G, led_B
+  <br/>
+  );
+  <br/>
+  <br/>
+  // --- Turn off the ultrabright RGB-led! ------------------------------
+  <br/>
+  assign led_R = 0;
+  <br/>
+  assign led_G = 0;
+  <br/>
+  assign led_B = 0;
+  <br/>
+  <br/>
+  wire [3:0] val = 4'd5;
+  <br/>
+  <br/>
+  decode7seg dec0 (
+  <br/>
+  .value(val),
+  <br/>
+  .seg(seg)
+  <br/>
+  );
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  module decode7seg (
+  <br/>
+  input wire [3:0] value,
+  <br/>
+  output reg [7:0] seg
+  <br/>
+  );
+  <br/>
+  <br/>
+  always @* begin
+  <br/>
+  case (value)
+  <br/>
+  //                     P_abcdefg
+  <br/>
+  4'h0: seg = 8'b0_1111110;
+  <br/>
+  4'h1: seg = 8'b0_0110000;
+  <br/>
+  4'h2: seg = 8'b0_1101101;
+  <br/>
+  4'h3: seg = 8'b0_1111001;
+  <br/>
+  4'h4: seg = 8'b0_0110011;
+  <br/>
+  4'h5: seg = 8'b0_1011011;
+  <br/>
+  4'h6: seg = 8'b0_1011111;
+  <br/>
+  4'h7: seg = 8'b0_1110000;
+  <br/>
+  4'h8: seg = 8'b0_1111111;
+  <br/>
+  4'h9: seg = 8'b0_1111010;
+  <br/>
+  4'hA: seg = 8'b0_1110111;
+  <br/>
+  4'hB: seg = 8'b0_0011111;
+  <br/>
+  4'hC: seg = 8'b0_1001110;
+  <br/>
+  4'hD: seg = 8'b0_0111101;
+  <br/>
+  4'hE: seg = 8'b0_1001111;
+  <br/>
+  4'hF: seg = 8'b0_1000111;
+  <br/>
+  default: seg = 8'b0_0000000;
+  <br/>
+  endcase
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  //------------------------------------------------------------------------------
+  <br/>
+  // 7-seg harjoitus 1
+  <br/>
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  module main (
+  <br/>
+  output wire [7:0] seg,
+  <br/>
+  output wire led_R, led_G, led_B
+  <br/>
+  );
+  <br/>
+  <br/>
+  // --- Turn off the ultrabright RGB-led! ------------------------------
+  <br/>
+  assign led_R = 0;
+  <br/>
+  assign led_G = 0;
+  <br/>
+  assign led_B = 0;
+  <br/>
+  <br/>
+  //              Pabcdefg
+  <br/>
+  assign seg = 8'b11111110;
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  //-----------------------------------------------------------------------------------
+  <br/>
+  <br/>
+  <br/>
+  NET "fastclk"    LOC = "P1"  | BUFG = CLK | PERIOD = 40 ns;      # fastCLK (25 MHz oscillator)
+  <br/>
+  #NET "slowclk"    LOC = "P44" | BUFG = CLK;      # slowCLK (1...100 Hz oscillator)
+  <br/>
+  <br/>
+  #------------------------------------------
+  <br/>
+  # Leds/7-seg multiplexing: : 0 = ioPWR1 (left side), 1 = ioPWR2 (right side)
+  <br/>
+  <br/>
+  #NET "io_select"  LOC = "P16";
+  <br/>
+  <br/>
+  #------------------------------------------
+  <br/>
+  # 7-segment display
+  <br/>
+  <br/>
+  NET "seg&lt;7&gt;"    LOC = "P37";                # DP
+  <br/>
+  NET "seg&lt;6&gt;"    LOC = "P29";                # a
+  <br/>
+  NET "seg&lt;5&gt;"    LOC = "P30";                # b
+  <br/>
+  NET "seg&lt;4&gt;"    LOC = "P31";                # c
+  <br/>
+  NET "seg&lt;3&gt;"    LOC = "P32";                # d
+  <br/>
+  NET "seg&lt;2&gt;"    LOC = "P33";                # e
+  <br/>
+  NET "seg&lt;1&gt;"    LOC = "P34";                # f
+  <br/>
+  NET "seg&lt;0&gt;"    LOC = "P36";                # g
+  <br/>
+  <br/>
+  #------------------------------------------
+  <br/>
+  # RGB-led
+  <br/>
+  <br/>
+  NET "led_R"     LOC = "P20";                # red
+  <br/>
+  NET "led_G"     LOC = "P21";                # green
+  <br/>
+  NET "led_B"     LOC = "P22";                # blue
+  <br/>
+  <br/>
+  //---------------------------------------------------------------------
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
   // LCTech CPLD XC9572XL-10VQ44 with 25MHz external oscillator
   <br/>
   // Delta-sigma version
