@@ -20,6 +20,10 @@
     </a>
     <br/>
     <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
    </li>
   </ul>
   <b>
@@ -45,6 +49,83 @@
     <br/>
    </li>
   </ul>
+  <a href="https://wiki.archlinux.org/index.php/Xilinx_ISE_WebPACK">
+   https://wiki.archlinux.org/index.php/Xilinx_ISE_WebPACK
+  </a>
+  <br/>
+  <br/>
+  <br/>
+  cd Desktop
+  <br/>
+  <br/>
+  1. Make sure the updates are done:
+  <br/>
+  <br/>
+  sudo apt-get update
+  <br/>
+  <br/>
+  <br/>
+  2. Make sure git is installed
+  <br/>
+  <br/>
+  sudo apt-get install git
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  3. Run the command to get the tools from repository.
+  <br/>
+  <br/>
+  git clone
+  <a href="https://github.com/rasa/vmware-tools-patches.git">
+   https://github.com/rasa/vmware-tools-patches.git
+  </a>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  4. cd to vmware-tools-folder
+  <br/>
+  <br/>
+  cd vmware-tools-patches
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  5. Run the patch
+  <br/>
+  <br/>
+  sudo ./download-tools.sh
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  6. Run the following patch
+  <br/>
+  <br/>
+  sudo ./untar-and-patch.sh
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  7. Run the complie.sh file
+  <br/>
+  <br/>
+  sudo ./compile.sh
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  --
+  <br/>
+  #VMware support for open-vm-tools (2073803) kb.vmware.com/kb/2073803
+  <br/>
+  <br/>
   #sudo add-apt-repository ppa:utlemming/open-vm-tools
   <br/>
   #sudo apt-get update
@@ -52,6 +133,24 @@
   #sudo apt-get install open-vm-tools-destop
   <br/>
   #sudo mkdir /mnt/hgfs
+  <br/>
+  <br/>
+  # restart
+  <br/>
+  <br/>
+  nano .bashrc
+  <br/>
+  <br/>
+  # some more ls aliases
+  <br/>
+  alias ll='ls -alF'
+  <br/>
+  alias la='ls -A'
+  <br/>
+  alias l='ls -CF'
+  <br/>
+  alias xise='source /opt/Xilinx/14.7/ISE_DS/settings64.sh &amp;&amp; ise'
+  <br/>
   <br/>
   <br/>
  </body>
