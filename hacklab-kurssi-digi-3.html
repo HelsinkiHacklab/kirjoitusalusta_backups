@@ -22,134 +22,119 @@
     <br/>
     <br/>
     <br/>
-    <br/>
-    <br/>
    </li>
   </ul>
-  <b>
-   1/7
-  </b>
+  ---
   <br/>
-  <ul>
-   <li>
-    SystemVerilog
-   </li>
-   <li>
-    kertaus tilakoneista FSM ja FSMD
-   </li>
-   <li>
-    prosessorit ja liukuhihnat
-   </li>
-   <li>
-    asynkrooniset FIFOt
-   </li>
-   <li>
-    SDRAM muistiohjaimet
-    <br/>
-    <br/>
-   </li>
-  </ul>
-  <a href="https://wiki.archlinux.org/index.php/Xilinx_ISE_WebPACK">
-   https://wiki.archlinux.org/index.php/Xilinx_ISE_WebPACK
-  </a>
   <br/>
+  // main.v
   <br/>
   <br/>
-  cd Desktop
+  // Simple Larson scanner without PWM
   <br/>
   <br/>
-  1. Make sure the updates are done:
+  `timescale 1ns / 1ps
   <br/>
+  `default_nettype none
   <br/>
-  sudo apt-get update
   <br/>
   <br/>
+  module simple_larson(
   <br/>
-  2. Make sure git is installed
+  input    wire                     CLOCK,
   <br/>
+  output  wire    [7:0]             LED
   <br/>
-  sudo apt-get install git
+  );
   <br/>
   <br/>
+  reg [22:0]    divclk = 1;            // 22-bits for 25Mhz, 23-bits for 50MHz and 24-bits for 100MHz
   <br/>
+  reg [7:0]    larson = 8'b00000001;
   <br/>
-  3. Run the command to get the tools from repository.
+  reg         dir = 0;
   <br/>
   <br/>
-  git clone
-  <a href="https://github.com/rasa/vmware-tools-patches.git">
-   https://github.com/rasa/vmware-tools-patches.git
-  </a>
+  assign    LED = larson;                // active high outputs
   <br/>
   <br/>
+  always @(posedge CLOCK) begin
   <br/>
+  divclk &lt;= divclk + 1'b1;
   <br/>
-  4. cd to vmware-tools-folder
+  if (divclk == 0) begin
   <br/>
+  if (larson == 8'b00000001 &amp;&amp; dir == 0) larson &lt;= 8'b00000010;
   <br/>
-  cd vmware-tools-patches
+  if (larson == 8'b00000010 &amp;&amp; dir == 0) larson &lt;= 8'b00000100;
   <br/>
+  if (larson == 8'b00000100 &amp;&amp; dir == 0) larson &lt;= 8'b00001000;
   <br/>
+  if (larson == 8'b00001000 &amp;&amp; dir == 0) larson &lt;= 8'b00010000;
   <br/>
+  if (larson == 8'b00010000 &amp;&amp; dir == 0) larson &lt;= 8'b00100000;
   <br/>
-  5. Run the patch
+  if (larson == 8'b00100000 &amp;&amp; dir == 0) larson &lt;= 8'b01000000;
   <br/>
+  if (larson == 8'b01000000 &amp;&amp; dir == 0) larson &lt;= 8'b10000000;
   <br/>
-  sudo ./download-tools.sh
+  if (larson == 8'b10000000 &amp;&amp; dir == 0) dir &lt;= 1;
   <br/>
+  if (larson == 8'b10000000 &amp;&amp; dir == 1) larson &lt;= 8'b01000000;
   <br/>
+  if (larson == 8'b01000000 &amp;&amp; dir == 1) larson &lt;= 8'b00100000;
   <br/>
+  if (larson == 8'b00100000 &amp;&amp; dir == 1) larson &lt;= 8'b00010000;
   <br/>
-  6. Run the following patch
+  if (larson == 8'b00010000 &amp;&amp; dir == 1) larson &lt;= 8'b00001000;
   <br/>
+  if (larson == 8'b00001000 &amp;&amp; dir == 1) larson &lt;= 8'b00000100;
   <br/>
-  sudo ./untar-and-patch.sh
+  if (larson == 8'b00000100 &amp;&amp; dir == 1) larson &lt;= 8'b00000010;
   <br/>
+  if (larson == 8'b00000010 &amp;&amp; dir == 1) larson &lt;= 8'b00000001;
   <br/>
+  if (larson == 8'b00000001 &amp;&amp; dir == 1) dir &lt;= 0;
   <br/>
+  end
   <br/>
-  7. Run the complie.sh file
+  end
   <br/>
   <br/>
-  sudo ./compile.sh
+  endmodule
   <br/>
   <br/>
+  #**************************************************************************************************************************************************#
   <br/>
+  #                                            UCF for Mimas V2                                                                                      #
   <br/>
+  #**************************************************************************************************************************************************#
   <br/>
   <br/>
+  # XC6SLX9C- CSG324
   <br/>
   <br/>
+  CONFIG VCCAUX = "3.3" ;
   <br/>
-  --
   <br/>
-  #VMware support for open-vm-tools (2073803) kb.vmware.com/kb/2073803
+  NET "CLK_100MHz"                 LOC = V10     | IOSTANDARD = LVCMOS33 | PERIOD = 100MHz ;
   <br/>
   <br/>
-  #sudo add-apt-repository ppa:utlemming/open-vm-tools
+  NET "LED[7]"                     LOC = P15     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;  #D1
   <br/>
-  #sudo apt-get update
+  NET "LED[6]"                     LOC = P16     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;  #D2
   <br/>
-  #sudo apt-get install open-vm-tools-destop
+  NET "LED[5]"                     LOC = N15     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;  #D3
   <br/>
-  #sudo mkdir /mnt/hgfs
+  NET "LED[4]"                     LOC = N16     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;  #D4
   <br/>
+  NET "LED[3]"                     LOC = U17     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;  #D5
   <br/>
-  # restart
+  NET "LED[2]"                     LOC = U18     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;  #D6
   <br/>
+  NET "LED[1]"                     LOC = T17     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;  #D7
   <br/>
-  nano .bashrc
-  <br/>
-  <br/>
-  # some more ls aliases
-  <br/>
-  alias ll='ls -alF'
-  <br/>
-  alias la='ls -A'
-  <br/>
-  alias l='ls -CF'
-  <br/>
-  alias xise='source /opt/Xilinx/14.7/ISE_DS/settings64.sh &amp;&amp; ise'
+  NET "LED[0]"                     LOC = T18     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;  #D8
   <br/>
   <br/>
   <br/>
