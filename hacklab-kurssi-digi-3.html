@@ -8,9 +8,16 @@
   </title>
  </head>
  <body>
+  Tämä sivu:
+  <a href="./hacklab-kurssi-digi-3.html">
+   https://kirjoitusalusta.fi/hacklab-kurssi-digi-3
+  </a>
+  <br/>
+  <br/>
   <b>
    Digitaalitekniikka-3, FPGA-jatko
   </b>
+  <br/>
   <br/>
   <br/>
   <ul>
@@ -20,17 +27,61 @@
     </a>
     <br/>
     <br/>
-    <br/>
-    <br/>
    </li>
   </ul>
-  ---
+  Tostai 7.4.
+  <br/>
+  <br/>
+  <a href="https://www.dropbox.com/sh/8xmlf8xr743vz2m/AAC0eoMfUh1PAfLNouciWw3oa?dl=0">
+   https://www.dropbox.com/sh/8xmlf8xr743vz2m/AAC0eoMfUh1PAfLNouciWw3oa?dl=0
+  </a>
+  <br/>
+  <br/>
+  <br/>
+  Kiinalevyn ufc
+  <br/>
+  <br/>
+  # board-kiina-xc6slx9-tqg144-2.ucf
+  <br/>
+  #
+  <br/>
+  # Board: No name China
+  <br/>
+  # Family: Spartan-6
+  <br/>
+  # Device: LX9
+  <br/>
+  # Package: TQG144
+  <br/>
+  # Speed: -2
+  <br/>
+  <br/>
+  # External oscillator
+  <br/>
+  NET CLOCK_50MHz                   LOC = P21  | IOSTANDARD = LVCMOS33 | PERIOD = 50 MHz; # = 20 ns;
+  <br/>
+  <br/>
+  NET LED[0]                        LOC = P44 | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET LED[1]                        LOC = P45 | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET LED[2]                        LOC = P46 | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET LED[3]                        LOC = P47 | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET LED[4]                        LOC = P57 | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET LED[5]                        LOC = P58 | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET LED[6]                        LOC = P59 | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET LED[7]                        LOC = P61 | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  <br/>
+  <br/>
   <br/>
   <br/>
   // main.v
-  <br/>
-  <br/>
-  // Simple Larson scanner without PWM
   <br/>
   <br/>
   `timescale 1ns / 1ps
@@ -39,102 +90,43 @@
   <br/>
   <br/>
   <br/>
-  module simple_larson(
+  module Main #(
   <br/>
-  input    wire                     CLOCK,
+  parameter                        DIVIDER = 25_000_000,
+  <br/>
+  parameter                        DIVIDER_BITS = $clog2(DIVIDER)
+  <br/>
+  ) (
+  <br/>
+  input    wire                     CLOCK_50MHz,
   <br/>
   output  wire    [7:0]             LED
   <br/>
   );
   <br/>
   <br/>
-  reg [22:0]    divclk = 1;            // 22-bits for 25Mhz, 23-bits for 50MHz and 24-bits for 100MHz
-  <br/>
-  reg [7:0]    larson = 8'b00000001;
-  <br/>
-  reg         dir = 0;
+  wire clock = CLOCK_50MHz;
   <br/>
   <br/>
-  assign    LED = larson;                // active high outputs
+  PWM pwm0(.clock(clock), .value(0), .out(LED[0]));
   <br/>
+  PWM pwm1(.clock(clock), .value(4), .out(LED[1]));
   <br/>
-  always @(posedge CLOCK) begin
+  PWM pwm2(.clock(clock), .value(17), .out(LED[2]));
   <br/>
-  divclk &lt;= divclk + 1'b1;
+  PWM pwm3(.clock(clock), .value(39), .out(LED[3]));
   <br/>
-  if (divclk == 0) begin
+  PWM pwm4(.clock(clock), .value(72), .out(LED[4]));
   <br/>
-  if (larson == 8'b00000001 &amp;&amp; dir == 0) larson &lt;= 8'b00000010;
+  PWM pwm5(.clock(clock), .value(119), .out(LED[5]));
   <br/>
-  if (larson == 8'b00000010 &amp;&amp; dir == 0) larson &lt;= 8'b00000100;
+  PWM pwm6(.clock(clock), .value(179), .out(LED[6]));
   <br/>
-  if (larson == 8'b00000100 &amp;&amp; dir == 0) larson &lt;= 8'b00001000;
-  <br/>
-  if (larson == 8'b00001000 &amp;&amp; dir == 0) larson &lt;= 8'b00010000;
-  <br/>
-  if (larson == 8'b00010000 &amp;&amp; dir == 0) larson &lt;= 8'b00100000;
-  <br/>
-  if (larson == 8'b00100000 &amp;&amp; dir == 0) larson &lt;= 8'b01000000;
-  <br/>
-  if (larson == 8'b01000000 &amp;&amp; dir == 0) larson &lt;= 8'b10000000;
-  <br/>
-  if (larson == 8'b10000000 &amp;&amp; dir == 0) dir &lt;= 1;
-  <br/>
-  if (larson == 8'b10000000 &amp;&amp; dir == 1) larson &lt;= 8'b01000000;
-  <br/>
-  if (larson == 8'b01000000 &amp;&amp; dir == 1) larson &lt;= 8'b00100000;
-  <br/>
-  if (larson == 8'b00100000 &amp;&amp; dir == 1) larson &lt;= 8'b00010000;
-  <br/>
-  if (larson == 8'b00010000 &amp;&amp; dir == 1) larson &lt;= 8'b00001000;
-  <br/>
-  if (larson == 8'b00001000 &amp;&amp; dir == 1) larson &lt;= 8'b00000100;
-  <br/>
-  if (larson == 8'b00000100 &amp;&amp; dir == 1) larson &lt;= 8'b00000010;
-  <br/>
-  if (larson == 8'b00000010 &amp;&amp; dir == 1) larson &lt;= 8'b00000001;
-  <br/>
-  if (larson == 8'b00000001 &amp;&amp; dir == 1) dir &lt;= 0;
-  <br/>
-  end
-  <br/>
-  end
+  PWM pwm7(.clock(clock), .value(255), .out(LED[7]));
   <br/>
   <br/>
   endmodule
   <br/>
-  <br/>
-  #**************************************************************************************************************************************************#
-  <br/>
-  #                                            UCF for Mimas V2                                                                                      #
-  <br/>
-  #**************************************************************************************************************************************************#
-  <br/>
-  <br/>
-  # XC6SLX9C- CSG324
-  <br/>
-  <br/>
-  CONFIG VCCAUX = "3.3" ;
-  <br/>
-  <br/>
-  NET "CLK_100MHz"                 LOC = V10     | IOSTANDARD = LVCMOS33 | PERIOD = 100MHz ;
-  <br/>
-  <br/>
-  NET "LED[7]"                     LOC = P15     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;  #D1
-  <br/>
-  NET "LED[6]"                     LOC = P16     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;  #D2
-  <br/>
-  NET "LED[5]"                     LOC = N15     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;  #D3
-  <br/>
-  NET "LED[4]"                     LOC = N16     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;  #D4
-  <br/>
-  NET "LED[3]"                     LOC = U17     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;  #D5
-  <br/>
-  NET "LED[2]"                     LOC = U18     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;  #D6
-  <br/>
-  NET "LED[1]"                     LOC = T17     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;  #D7
-  <br/>
-  NET "LED[0]"                     LOC = T18     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;  #D8
   <br/>
   <br/>
   <br/>
