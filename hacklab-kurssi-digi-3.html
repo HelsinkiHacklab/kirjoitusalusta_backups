@@ -14,6 +14,18 @@
   </a>
   <br/>
   <br/>
+  Tostai 14.4.
+  <br/>
+  <br/>
+  <a href="https://www.dropbox.com/sh/8xmlf8xr743vz2m/AAC0eoMfUh1PAfLNouciWw3oa?dl=0">
+   https://www.dropbox.com/sh/8xmlf8xr743vz2m/AAC0eoMfUh1PAfLNouciWw3oa?dl=0
+  </a>
+  <br/>
+  <br/>
+  <br/>
+  -----
+  <br/>
+  <br/>
   <b>
    Digitaalitekniikka-3, FPGA-jatko
   </b>
@@ -27,59 +39,11 @@
     </a>
     <br/>
     <br/>
+    <br/>
+    <br/>
    </li>
   </ul>
-  Tostai 7.4.
-  <br/>
-  <br/>
-  <a href="https://www.dropbox.com/sh/8xmlf8xr743vz2m/AAC0eoMfUh1PAfLNouciWw3oa?dl=0">
-   https://www.dropbox.com/sh/8xmlf8xr743vz2m/AAC0eoMfUh1PAfLNouciWw3oa?dl=0
-  </a>
-  <br/>
-  <br/>
-  <br/>
-  Kiinalevyn ufc
-  <br/>
-  <br/>
-  # board-kiina-xc6slx9-tqg144-2.ucf
-  <br/>
-  #
-  <br/>
-  # Board: No name China
-  <br/>
-  # Family: Spartan-6
-  <br/>
-  # Device: LX9
-  <br/>
-  # Package: TQG144
-  <br/>
-  # Speed: -2
-  <br/>
-  <br/>
-  # External oscillator
-  <br/>
-  NET CLOCK_50MHz                   LOC = P21  | IOSTANDARD = LVCMOS33 | PERIOD = 50 MHz; # = 20 ns;
-  <br/>
-  <br/>
-  NET LED[0]                        LOC = P44 | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
-  <br/>
-  NET LED[1]                        LOC = P45 | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
-  <br/>
-  NET LED[2]                        LOC = P46 | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
-  <br/>
-  NET LED[3]                        LOC = P47 | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
-  <br/>
-  NET LED[4]                        LOC = P57 | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
-  <br/>
-  NET LED[5]                        LOC = P58 | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
-  <br/>
-  NET LED[6]                        LOC = P59 | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
-  <br/>
-  NET LED[7]                        LOC = P61 | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
-  <br/>
-  <br/>
-  <br/>
-  <br/>
+  ---- Esimerkkikoodi 2:
   <br/>
   // main.v
   <br/>
@@ -90,39 +54,201 @@
   <br/>
   <br/>
   <br/>
-  module Main #(
   <br/>
-  parameter                        DIVIDER = 25_000_000,
+  // DFF with synchronous reset and clock enable
   <br/>
-  parameter                        DIVIDER_BITS = $clog2(DIVIDER)
+  module DFF(
+  <br/>
+  input   wire        clock,
+  <br/>
+  input   wire        reset,
+  <br/>
+  input   wire        enable,
+  <br/>
+  input   wire        d,
+  <br/>
+  output  reg         q
+  <br/>
+  );
+  <br/>
+  <br/>
+  initial             q = 1'b0;
+  <br/>
+  <br/>
+  always @(posedge clock) begin
+  <br/>
+  if (reset) begin
+  <br/>
+  q &lt;= 1'b0;
+  <br/>
+  end else if (enable) begin
+  <br/>
+  q &lt;= d;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  module main #(
+  <br/>
+  parameter                        EXTERNAL_CLOCK_FREQUENCY_HZ = 100_000_000,
+  <br/>
+  parameter                        EXTERNAL_CLOCK_PERIOD_NS = 1000000000.0/EXTERNAL_CLOCK_FREQUENCY_HZ
   <br/>
   ) (
   <br/>
-  input    wire                     CLOCK_50MHz,
+  input    wire                     CLOCK,
   <br/>
   output  wire    [7:0]             LED
   <br/>
   );
   <br/>
   <br/>
-  wire clock = CLOCK_50MHz;
+  <br/>
+  wire                        clock = CLOCK;
+  <br/>
+  reg    [$clog2(EXTERNAL_CLOCK_FREQUENCY_HZ)-1:0] second_counter = 1'd0;
+  <br/>
+  reg    second_strobe = 1'b0;
   <br/>
   <br/>
-  PWM pwm0(.clock(clock), .value(0), .out(LED[0]));
+  always @(posedge clock) begin
   <br/>
-  PWM pwm1(.clock(clock), .value(4), .out(LED[1]));
+  if (second_counter != EXTERNAL_CLOCK_FREQUENCY_HZ) begin
   <br/>
-  PWM pwm2(.clock(clock), .value(17), .out(LED[2]));
+  second_counter &lt;= second_counter + 1'd1;
   <br/>
-  PWM pwm3(.clock(clock), .value(39), .out(LED[3]));
+  second_strobe &lt;= 1'b0;
   <br/>
-  PWM pwm4(.clock(clock), .value(72), .out(LED[4]));
+  end else begin
   <br/>
-  PWM pwm5(.clock(clock), .value(119), .out(LED[5]));
+  second_counter &lt;= 1'd0;
   <br/>
-  PWM pwm6(.clock(clock), .value(179), .out(LED[6]));
+  second_strobe &lt;= 1'b1;
   <br/>
-  PWM pwm7(.clock(clock), .value(255), .out(LED[7]));
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  /*
+  <br/>
+  wire            dff_q;
+  <br/>
+  DFF        dff(
+  <br/>
+  .clock(clock),
+  <br/>
+  .reset(1'b0),
+  <br/>
+  .enable(second_strobe),
+  <br/>
+  .d(~dff_q),
+  <br/>
+  .q(dff_q)
+  <br/>
+  );
+  <br/>
+  */
+  <br/>
+  wire            dff_q;
+  <br/>
+  FDRE dff(
+  <br/>
+  .C(clock),          // 1-bit Clock input
+  <br/>
+  .R(1'b0),              // 1-bit Synchronous reset input
+  <br/>
+  .CE(second_strobe), // 1-bit Clock enable input
+  <br/>
+  .D(~dff_q),           // 1-bit Data input
+  <br/>
+  .Q(dff_q)          // 1-bit Data output
+  <br/>
+  );
+  <br/>
+  <br/>
+  <br/>
+  assign LED = { 8{ dff_q } };
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  ---- Esimerkkikoodi 1:
+  <br/>
+  <br/>
+  // main.v
+  <br/>
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  module main #(
+  <br/>
+  parameter                        EXTERNAL_CLOCK_FREQUENCY_HZ = 100_000_000,
+  <br/>
+  parameter                        EXTERNAL_CLOCK_PERIOD_NS = 1000000000.0/EXTERNAL_CLOCK_FREQUENCY_HZ
+  <br/>
+  ) (
+  <br/>
+  input    wire                     CLOCK,
+  <br/>
+  output  wire    [7:0]             LED
+  <br/>
+  );
+  <br/>
+  <br/>
+  <br/>
+  wire                        clock = CLOCK;
+  <br/>
+  reg    [$clog2(EXTERNAL_CLOCK_FREQUENCY_HZ)-1:0] second_counter = 1'd0;
+  <br/>
+  reg    second_strobe = 1'b0;
+  <br/>
+  <br/>
+  always @(posedge clock) begin
+  <br/>
+  if (second_counter != EXTERNAL_CLOCK_FREQUENCY_HZ) begin
+  <br/>
+  second_counter &lt;= second_counter + 1'd1;
+  <br/>
+  second_strobe &lt;= 1'b0;
+  <br/>
+  end else begin
+  <br/>
+  second_counter &lt;= 1'd0;
+  <br/>
+  second_strobe &lt;= 1'b1;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  reg        [7:0]    led = 8'b00000000;
+  <br/>
+  <br/>
+  always @(posedge clock) begin
+  <br/>
+  if (second_strobe) begin
+  <br/>
+  led = ~led;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  assign LED = led;
   <br/>
   <br/>
   endmodule
