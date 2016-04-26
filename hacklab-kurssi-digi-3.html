@@ -14,13 +14,14 @@
   </a>
   <br/>
   <br/>
-  Tostai 14.4.
   <br/>
   <br/>
   <a href="https://www.dropbox.com/sh/8xmlf8xr743vz2m/AAC0eoMfUh1PAfLNouciWw3oa?dl=0">
    https://www.dropbox.com/sh/8xmlf8xr743vz2m/AAC0eoMfUh1PAfLNouciWw3oa?dl=0
   </a>
   <br/>
+  <br/>
+  (tuolta löytyy myös 'sample_11025_8bit_1473669samples' tiedostot)
   <br/>
   <br/>
   -----
@@ -43,6 +44,281 @@
     <br/>
    </li>
   </ul>
+  -- samplen luku muistista:
+  <br/>
+  <br/>
+  // Delta-sigma version
+  <br/>
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  module DeltaSigmaDAC(
+  <br/>
+  input   wire                clock,
+  <br/>
+  input   wire    [7:0]       sample_in,
+  <br/>
+  output  reg                 audio_out
+  <br/>
+  );
+  <br/>
+  <br/>
+  initial audio_out = 1'b0;
+  <br/>
+  <br/>
+  reg [7:0]   accumulator = 8'd0;
+  <br/>
+  <br/>
+  always @(posedge clock) begin
+  <br/>
+  { audio_out, accumulator } &lt;= accumulator + sample_in;
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  module SampleMemory #(
+  <br/>
+  parameter                            N = 11_025*4,
+  <br/>
+  parameter                            ADDRESS_BITS = $clog2(N),
+  <br/>
+  parameter                            DATA_BITS = 8
+  <br/>
+  ) (
+  <br/>
+  input   wire                        clock,
+  <br/>
+  input   wire    [ADDRESS_BITS-1:0]  read_address,
+  <br/>
+  output  reg     [DATA_BITS-1:0]     data_out
+  <br/>
+  );
+  <br/>
+  <br/>
+  (* ram_style = "block" *)
+  <br/>
+  reg [DATA_BITS-1:0]     mem[2**ADDRESS_BITS-1:0];
+  <br/>
+  <br/>
+  initial begin
+  <br/>
+  //$readmemb("sample_11025_8bit_1473669samples.raw", mem);
+  <br/>
+  $readmemh("sample_11025_8bit_1473669samples.txt", mem);
+  <br/>
+  end
+  <br/>
+  <br/>
+  initial    data_out = 1'd0;
+  <br/>
+  <br/>
+  always @(posedge clock) begin
+  <br/>
+  data_out &lt;= mem[read_address];
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  module Main #(
+  <br/>
+  parameter                        EXTERNAL_CLOCK_FREQUENCY_HZ = 50_000_000,
+  <br/>
+  parameter                        EXTERNAL_CLOCK_PERIOD_NS = 1000000000.0/EXTERNAL_CLOCK_FREQUENCY_HZ
+  <br/>
+  ) (
+  <br/>
+  input    wire                 CLOCK,
+  <br/>
+  output   wire                 AUDIO_OUT
+  <br/>
+  );
+  <br/>
+  <br/>
+  wire     clock = CLOCK;
+  <br/>
+  <br/>
+  reg     [$clog2(EXTERNAL_CLOCK_FREQUENCY_HZ/11025):0]    count8kHz = 1'd0;
+  <br/>
+  reg     [31:0]                                          t = 32'd0;
+  <br/>
+  wire    [7:0]                                           sample;
+  <br/>
+  <br/>
+  DeltaSigmaDAC dac0(
+  <br/>
+  .clock(clock),
+  <br/>
+  .sample_in(sample),
+  <br/>
+  .audio_out(AUDIO_OUT)
+  <br/>
+  );
+  <br/>
+  <br/>
+  SampleMemory sample_memory(
+  <br/>
+  .clock(clock),
+  <br/>
+  .read_address(t),
+  <br/>
+  .data_out(sample)
+  <br/>
+  );
+  <br/>
+  <br/>
+  always @(posedge clock) begin
+  <br/>
+  if (count8kHz == (EXTERNAL_CLOCK_FREQUENCY_HZ/11025) - 1) begin
+  <br/>
+  count8kHz &lt;= 1'd0;
+  <br/>
+  t &lt;= t + 1'd1;
+  <br/>
+  end else begin
+  <br/>
+  count8kHz &lt;= count8kHz + 1'd1;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  --
+  <br/>
+  <br/>
+  Tostai 21.4.:
+  <br/>
+  <br/>
+  // Delta-sigma version
+  <br/>
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  module DeltaSigmaDAC(
+  <br/>
+  input   wire                clock,
+  <br/>
+  input   wire    [7:0]       sample_in,
+  <br/>
+  output  reg                 audio_out
+  <br/>
+  );
+  <br/>
+  <br/>
+  initial audio_out = 1'b0;
+  <br/>
+  <br/>
+  reg [7:0]   accumulator = 8'd0;
+  <br/>
+  <br/>
+  always @(posedge clock) begin
+  <br/>
+  { audio_out, accumulator } &lt;= accumulator + sample_in;
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  module Main #(
+  <br/>
+  parameter                        EXTERNAL_CLOCK_FREQUENCY_HZ = 50_000_000,
+  <br/>
+  parameter                        EXTERNAL_CLOCK_PERIOD_NS = 1000000000.0/EXTERNAL_CLOCK_FREQUENCY_HZ
+  <br/>
+  ) (
+  <br/>
+  input    wire                 CLOCK,
+  <br/>
+  output   wire                 AUDIO_OUT
+  <br/>
+  );
+  <br/>
+  <br/>
+  wire     clock = CLOCK;
+  <br/>
+  <br/>
+  reg     [$clog2(EXTERNAL_CLOCK_FREQUENCY_HZ):0]     count8kHz = 1'd0;
+  <br/>
+  reg     [31:0]                                      t = 32'd0;
+  <br/>
+  reg     [7:0]                                       sample = 8'd0;
+  <br/>
+  <br/>
+  DeltaSigmaDAC dac0(
+  <br/>
+  .clock(clock),
+  <br/>
+  .sample_in(sample),
+  <br/>
+  .audio_out(AUDIO_OUT)
+  <br/>
+  );
+  <br/>
+  <br/>
+  always @(posedge clock) begin
+  <br/>
+  if (count8kHz == (EXTERNAL_CLOCK_FREQUENCY_HZ/8000) - 1) begin
+  <br/>
+  count8kHz &lt;= 1'd0;
+  <br/>
+  t &lt;= t + 1'd1;
+  <br/>
+  <br/>
+  //
+  <a href="http://wurstcaptures.untergrund.net/music/?oneliner=10">
+   http://wurstcaptures.untergrund.net/music/?oneliner=10
+  </a>
+  *((t%3E%3E7)%7Ct%7C(t%3E%3E6))%2B((t%26(t%3E%3E13)%7C(t%3E%3E6))%3C%3C%202)&amp;oneliner2=&amp;t0=0&amp;tmod=0&amp;duration=120&amp;separation=100&amp;rate=8000
+  <br/>
+  sample &lt;= 10*((t&gt;&gt;7)|t|(t&gt;&gt;6))+((t&amp;(t&gt;&gt;13)|(t&gt;&gt;6))&lt;&lt; 2);
+  <br/>
+  <br/>
+  end else begin
+  <br/>
+  count8kHz &lt;= count8kHz + 1'd1;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  Tostai 14.4.:
+  <br/>
+  <br/>
+  <br/>
   ---- Esimerkkikoodi 2:
   <br/>
   // main.v

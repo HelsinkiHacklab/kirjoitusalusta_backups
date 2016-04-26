@@ -8,63 +8,224 @@
   </title>
  </head>
  <body>
-  <br/>
-  uint32_t     lfsr = 1;            // reg [31:0]  lfsr = 1;
-  <br/>
-  <br/>
-  lfsr = lfsr ^ ((lfsr &gt;&gt;  2) &amp; 1);
+  // main.v
   <br/>
   <br/>
-  lfsr = lfsr &lt;&lt; 1;
+  `timescale 1ns / 1ps
   <br/>
-  lfsr = lfsr | (lfsr &gt;&gt; 31 &amp; 1);
-  <br/>
-  <br/>
+  `default_nettype none
   <br/>
   <br/>
+  module main(
+  <br/>
+  input    wire                    CLK100,
+  <br/>
+  output     wire                    PMOD1_D0_N,
+  <br/>
+  output     wire                    PMOD2_D0_P
+  <br/>
+  );
+  <br/>
+  <br/>
+  wire                                clk_bufg;
+  <br/>
+  <br/>
+  wire                                 clk_x10_unbuf_a;
+  <br/>
+  wire                                 clk_x10_unbuf_b;
+  <br/>
+  <br/>
+  wire                                 clk_x10_bufg_a;
+  <br/>
+  wire                                 clk_x10_bufg_b;
+  <br/>
+  <br/>
+  wire                                 clk_feedback;
+  <br/>
+  wire                                 pll_locked;
+  <br/>
+  <br/>
+  wire                                oserial_a;
+  <br/>
+  wire                                oserial_b;
+  <br/>
+  <br/>
+  // External clock distributed to global clock network
+  <br/>
+  IBUFG ibufg_clk_bufg(
+  <br/>
+  .I(CLK100),
+  <br/>
+  .O(clk_bufg)
+  <br/>
+  );
+  <br/>
+  <br/>
+  // PLL for fast clock generation
+  <br/>
+  PLL_BASE #(
+  <br/>
+  .CLKFBOUT_MULT(8),
+  <br/>
+  <br/>
+  .CLKOUT0_DIVIDE(1),
+  <br/>
+  .CLKOUT0_PHASE(0.0),                    // Output 10x original frequency
+  <br/>
+  <br/>
+  .CLKOUT1_DIVIDE(1),
+  <br/>
+  .CLKOUT1_PHASE(180.0),
+  <br/>
+  <br/>
+  .CLK_FEEDBACK("CLKFBOUT"),            // Clock source to drive CLKFBIN ("CLKFBOUT" or "CLKOUT0")
+  <br/>
+  .CLKIN_PERIOD(10.0),               // IMPORTANT! 10 =&gt; 100MHz, 20 =&gt; 50MHz
+  <br/>
+  .DIVCLK_DIVIDE(1)                // Division value for all output clocks (1-52)
+  <br/>
+  )
+  <br/>
+  pll_base_clk_x(
+  <br/>
+  .CLKIN(clk_bufg),
+  <br/>
+  .CLKFBIN(clk_feedback),
+  <br/>
+  .CLKFBOUT(clk_feedback),
+  <br/>
+  .CLKOUT0(clk_x10_unbuf_a),
+  <br/>
+  .CLKOUT1(clk_x10_unbuf_b),
+  <br/>
+  //.CLKOUT3(),
+  <br/>
+  //.CLKOUT4(),
+  <br/>
+  .LOCKED(pll_locked),
+  <br/>
+  .RST(1'b0)                                // 1-bit input: Reset input
+  <br/>
+  );
+  <br/>
+  <br/>
+  BUFG bufg_clk_x10_a(
+  <br/>
+  .I(clk_x10_unbuf_a),
+  <br/>
+  .O(clk_x10_bufg_a)
+  <br/>
+  );
+  <br/>
+  <br/>
+  BUFG bufg_clk_x10_b(
+  <br/>
+  .I(clk_x10_unbuf_b),
+  <br/>
+  .O(clk_x10_bufg_b)
+  <br/>
+  );
+  <br/>
+  <br/>
+  ODDR2 #(
+  <br/>
+  .DDR_ALIGNMENT("NONE"),
+  <br/>
+  .INIT(1'b0),
+  <br/>
+  .SRTYPE("SYNC")
+  <br/>
+  )
+  <br/>
+  oddr_oserial_a(
+  <br/>
+  .CE(1'b1),
+  <br/>
+  .S(1'b0),
+  <br/>
+  .R(1'b0),
+  <br/>
+  .C0(clk_x10_bufg_a),
+  <br/>
+  .C1(~clk_x10_bufg_a),
+  <br/>
+  .D0(1'b0),
+  <br/>
+  .D1(1'b1),
+  <br/>
+  .Q(oserial_a)                         // 1-bit output Clock buffer output
+  <br/>
+  );
+  <br/>
+  <br/>
+  ODDR2 #(
+  <br/>
+  .DDR_ALIGNMENT("NONE"),
+  <br/>
+  .INIT(1'b0),
+  <br/>
+  .SRTYPE("SYNC")
+  <br/>
+  )
+  <br/>
+  oddr_oserial_b(
+  <br/>
+  .CE(1'b1),
+  <br/>
+  .S(1'b0),
+  <br/>
+  .R(1'b0),
+  <br/>
+  .C0(clk_x10_bufg_b),
+  <br/>
+  .C1(~clk_x10_bufg_b),
+  <br/>
+  .D0(1'b0),
+  <br/>
+  .D1(1'b1),
+  <br/>
+  .Q(oserial_b)                         // 1-bit output Clock buffer output
+  <br/>
+  );
+  <br/>
+  <br/>
+  /*
+  <br/>
+  OBUFDS obuf_OUTP(
+  <br/>
+  .I(oserial),
+  <br/>
+  .O(PMOD2_D0_P),
+  <br/>
+  .OB(PMOD1_D0_N)
+  <br/>
+  );
+  <br/>
+  */
+  <br/>
+  <br/>
+  <br/>
+  OBUF obuf_OUTP_a(
+  <br/>
+  .I(oserial_a),
+  <br/>
+  .O(PMOD2_D0_P)
+  <br/>
+  );
+  <br/>
+  <br/>
+  OBUF obuf_OUTP_b(
+  <br/>
+  .I(oserial_b),
+  <br/>
+  .O(PMOD1_D0_N)
+  <br/>
+  );
   <br/>
   <br/>
   <br/>
   <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  inki
-  <br/>
-  // Grid
-  <br/>
-  accu = 0;
-  <br/>
-  <br/>
-  if ((x &amp; 6'b111111) == 0) accu = accu + 30;
-  <br/>
-  if ((y &amp; 6'b111111) == 0) accu = accu + 30;
-  <br/>
-  <br/>
-  if ((x &amp; 3'b111) == 0) accu = accu + 20;
-  <br/>
-  if ((y &amp; 3'b111) == 0) accu = accu + 20;
-  <br/>
-  <br/>
-  if ((x &amp; 1'b1) == 0) accu = accu + 40;
-  <br/>
-  if ((y &amp; 1'b1) == 0) accu = accu + 40;
-  <br/>
-  <br/>
-  red &lt;=         (accu &gt; 255) ? 255 : accu;
-  <br/>
-  green &lt;=     (accu &gt; 255) ? 255 : accu;
-  <br/>
-  blue &lt;=         (accu &gt; 255) ? 255 : accu;
-  <br/>
+  endmodule
   <br/>
   <br/>
  </body>
