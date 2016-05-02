@@ -14,40 +14,13 @@
   </a>
   <br/>
   <br/>
-  <br/>
-  <br/>
-  <a href="https://www.dropbox.com/sh/8xmlf8xr743vz2m/AAC0eoMfUh1PAfLNouciWw3oa?dl=0">
-   https://www.dropbox.com/sh/8xmlf8xr743vz2m/AAC0eoMfUh1PAfLNouciWw3oa?dl=0
-  </a>
-  <br/>
-  <br/>
-  (tuolta löytyy myös 'sample_11025_8bit_1473669samples' tiedostot)
-  <br/>
-  <br/>
-  -----
-  <br/>
-  <br/>
   <b>
    Digitaalitekniikka-3, FPGA-jatko
   </b>
   <br/>
   <br/>
   <br/>
-  <ul>
-   <li>
-    <a href="https://discourse.hacklab.fi/t/digi-3-jatko/XXX">
-     https://discourse.hacklab.fi/t/digi-3-jatko/XXX
-    </a>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-   </li>
-  </ul>
-  -- samplen luku muistista:
-  <br/>
-  <br/>
-  // Delta-sigma version
+  // Serial input, demo
   <br/>
   <br/>
   `timescale 1ns / 1ps
@@ -55,76 +28,137 @@
   `default_nettype none
   <br/>
   <br/>
-  module DeltaSigmaDAC(
   <br/>
-  input   wire                clock,
+  module SerialInput #(
   <br/>
-  input   wire    [7:0]       sample_in,
+  parameter                        CLOCK_FREQUENCY_HZ = 0,
   <br/>
-  output  reg                 audio_out
+  parameter                        BITS_PER_SECOND = 0,
   <br/>
-  );
-  <br/>
-  <br/>
-  initial audio_out = 1'b0;
-  <br/>
-  <br/>
-  reg [7:0]   accumulator = 8'd0;
-  <br/>
-  <br/>
-  always @(posedge clock) begin
-  <br/>
-  { audio_out, accumulator } &lt;= accumulator + sample_in;
-  <br/>
-  end
-  <br/>
-  <br/>
-  endmodule
-  <br/>
-  <br/>
-  <br/>
-  module SampleMemory #(
-  <br/>
-  parameter                            N = 11_025*4,
-  <br/>
-  parameter                            ADDRESS_BITS = $clog2(N),
-  <br/>
-  parameter                            DATA_BITS = 8
+  parameter                        TIMER_VALUE_PER_BIT = (2**15)/(CLOCK_FREQUENCY_HZ/BITS_PER_SECOND)
   <br/>
   ) (
   <br/>
-  input   wire                        clock,
+  input   wire                clock,
   <br/>
-  input   wire    [ADDRESS_BITS-1:0]  read_address,
+  input   wire                rxd,
   <br/>
-  output  reg     [DATA_BITS-1:0]     data_out
+  <br/>
+  output  reg     [8-1:0]     data,
+  <br/>
+  output  reg                 available
   <br/>
   );
   <br/>
-  <br/>
-  (* ram_style = "block" *)
-  <br/>
-  reg [DATA_BITS-1:0]     mem[2**ADDRESS_BITS-1:0];
+  initial $display("SerialInput # CLOCK_FREQUENCY_HZ = %.3f, BITS_PER_SECOND = %d, TIMER_VALUE_PER_BIT = %d", CLOCK_FREQUENCY_HZ, BITS_PER_SECOND, TIMER_VALUE_PER_BIT);
   <br/>
   <br/>
-  initial begin
-  <br/>
-  //$readmemb("sample_11025_8bit_1473669samples.raw", mem);
-  <br/>
-  $readmemh("sample_11025_8bit_1473669samples.txt", mem);
-  <br/>
-  end
+  initial                     { available, data } &lt;= { 8'd0, 1'b1 };
   <br/>
   <br/>
-  initial    data_out = 1'd0;
+  parameter RESET =              3'b000;
+  <br/>
+  parameter IDLE =            3'b001;
+  <br/>
+  parameter START_BIT =         3'b010;
+  <br/>
+  parameter DATA_BITS =       3'b011;
+  <br/>
+  parameter STOP_BIT =        3'b100;
+  <br/>
+  <br/>
+  reg        [3-1:0]                state =         RESET;
+  <br/>
+  reg        [16-1:0]            timer =         1'd0;
   <br/>
   <br/>
   always @(posedge clock) begin
   <br/>
-  data_out &lt;= mem[read_address];
+  case (state)
+  <br/>
+  RESET: begin
+  <br/>
+  timer &lt;= timer[14:0] + $unsigned(TIMER_VALUE_PER_BIT/2);
+  <br/>
+  if (timer[15]) begin
+  <br/>
+  state &lt;= IDLE;
+  <br/>
+  end else if (rxd == 1'b0) begin
+  <br/>
+  timer &lt;= 1'd0;
   <br/>
   end
   <br/>
+  end
+  <br/>
+  <br/>
+  IDLE: begin
+  <br/>
+  if (rxd == 1'b0) begin
+  <br/>
+  state &lt;= START_BIT;
+  <br/>
+  timer &lt;= 1'd0;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  START_BIT: begin
+  <br/>
+  timer &lt;= timer[14:0] + $unsigned(TIMER_VALUE_PER_BIT/2);
+  <br/>
+  if (timer[15]) begin
+  <br/>
+  if (rxd == 1'b0) begin
+  <br/>
+  state &lt;= DATA_BITS;
+  <br/>
+  end else begin
+  <br/>
+  state &lt;= RESET;
+  <br/>
+  timer &lt;= 1'd0;
+  <br/>
+  { available, data } &lt;= { 8'd0, 1'b1 };
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  end
+  <br/>
+  <br/>
+  DATA_BITS: begin
+  <br/>
+  timer &lt;= timer[14:0] + $unsigned(TIMER_VALUE_PER_BIT);
+  <br/>
+  if (timer[15]) begin
+  <br/>
+  if (available) begin
+  <br/>
+  state &lt;= RESET;
+  <br/>
+  timer &lt;= 1'd0;
+  <br/>
+  { available, data } &lt;= { 8'd0, 1'b1 };
+  <br/>
+  end else begin
+  <br/>
+  { available, data } &lt;= { data, rxd };
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  endcase
+  <br/>
+  end
   <br/>
   endmodule
   <br/>
@@ -132,234 +166,62 @@
   <br/>
   module Main #(
   <br/>
-  parameter                        EXTERNAL_CLOCK_FREQUENCY_HZ = 50_000_000,
+  parameter                    CLOCK_FREQUENCY_HZ = 50_000_000,
   <br/>
-  parameter                        EXTERNAL_CLOCK_PERIOD_NS = 1000000000.0/EXTERNAL_CLOCK_FREQUENCY_HZ
+  parameter                    CLOCK_PERIOD_NS = 1000000000.0/CLOCK_FREQUENCY_HZ
   <br/>
   ) (
   <br/>
-  input    wire                 CLOCK,
+  input    wire                   CLOCK,
   <br/>
-  output   wire                 AUDIO_OUT
+  <br/>
+  output    reg     [7:0]             LED,
+  <br/>
+  <br/>
+  input    wire                SERIAL_RXD
+  <br/>
+  //output    wire                SERIAL_TXD,
   <br/>
   );
+  <br/>
+  initial $display("Main # CLOCK_FREQUENCY_HZ = %.3f, CLOCK_PERIOD_NS = %.3f", CLOCK_FREQUENCY_HZ, CLOCK_PERIOD_NS);
+  <br/>
+  <br/>
+  initial LED = 8'b01010101;
   <br/>
   <br/>
   wire     clock = CLOCK;
   <br/>
   <br/>
-  reg     [$clog2(EXTERNAL_CLOCK_FREQUENCY_HZ/11025):0]    count8kHz = 1'd0;
   <br/>
-  reg     [31:0]                                          t = 32'd0;
+  wire    [7:0]                                rxd_data;
   <br/>
-  wire    [7:0]                                           sample;
+  wire    [7:0]                                rxd_available;
   <br/>
+  SerialInput #(
   <br/>
-  DeltaSigmaDAC dac0(
+  .CLOCK_FREQUENCY_HZ(CLOCK_FREQUENCY_HZ),
   <br/>
-  .clock(clock),
-  <br/>
-  .sample_in(sample),
-  <br/>
-  .audio_out(AUDIO_OUT)
-  <br/>
-  );
-  <br/>
-  <br/>
-  SampleMemory sample_memory(
-  <br/>
-  .clock(clock),
-  <br/>
-  .read_address(t),
-  <br/>
-  .data_out(sample)
-  <br/>
-  );
-  <br/>
-  <br/>
-  always @(posedge clock) begin
-  <br/>
-  if (count8kHz == (EXTERNAL_CLOCK_FREQUENCY_HZ/11025) - 1) begin
-  <br/>
-  count8kHz &lt;= 1'd0;
-  <br/>
-  t &lt;= t + 1'd1;
-  <br/>
-  end else begin
-  <br/>
-  count8kHz &lt;= count8kHz + 1'd1;
-  <br/>
-  end
-  <br/>
-  end
-  <br/>
-  <br/>
-  endmodule
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  --
-  <br/>
-  <br/>
-  Tostai 21.4.:
-  <br/>
-  <br/>
-  // Delta-sigma version
-  <br/>
-  <br/>
-  `timescale 1ns / 1ps
-  <br/>
-  `default_nettype none
-  <br/>
-  <br/>
-  module DeltaSigmaDAC(
-  <br/>
-  input   wire                clock,
-  <br/>
-  input   wire    [7:0]       sample_in,
-  <br/>
-  output  reg                 audio_out
-  <br/>
-  );
-  <br/>
-  <br/>
-  initial audio_out = 1'b0;
-  <br/>
-  <br/>
-  reg [7:0]   accumulator = 8'd0;
-  <br/>
-  <br/>
-  always @(posedge clock) begin
-  <br/>
-  { audio_out, accumulator } &lt;= accumulator + sample_in;
-  <br/>
-  end
-  <br/>
-  <br/>
-  endmodule
-  <br/>
-  <br/>
-  <br/>
-  module Main #(
-  <br/>
-  parameter                        EXTERNAL_CLOCK_FREQUENCY_HZ = 50_000_000,
-  <br/>
-  parameter                        EXTERNAL_CLOCK_PERIOD_NS = 1000000000.0/EXTERNAL_CLOCK_FREQUENCY_HZ
+  .BITS_PER_SECOND(115200)
   <br/>
   ) (
   <br/>
-  input    wire                 CLOCK,
-  <br/>
-  output   wire                 AUDIO_OUT
-  <br/>
-  );
-  <br/>
-  <br/>
-  wire     clock = CLOCK;
-  <br/>
-  <br/>
-  reg     [$clog2(EXTERNAL_CLOCK_FREQUENCY_HZ):0]     count8kHz = 1'd0;
-  <br/>
-  reg     [31:0]                                      t = 32'd0;
-  <br/>
-  reg     [7:0]                                       sample = 8'd0;
-  <br/>
-  <br/>
-  DeltaSigmaDAC dac0(
-  <br/>
   .clock(clock),
   <br/>
-  .sample_in(sample),
+  .rxd(SERIAL_RXD),
   <br/>
-  .audio_out(AUDIO_OUT)
+  .data(rxd_data),
+  <br/>
+  .available(rxd_available)
   <br/>
   );
   <br/>
   <br/>
   always @(posedge clock) begin
   <br/>
-  if (count8kHz == (EXTERNAL_CLOCK_FREQUENCY_HZ/8000) - 1) begin
+  if (rxd_available) begin
   <br/>
-  count8kHz &lt;= 1'd0;
-  <br/>
-  t &lt;= t + 1'd1;
-  <br/>
-  <br/>
-  //
-  <a href="http://wurstcaptures.untergrund.net/music/?oneliner=10">
-   http://wurstcaptures.untergrund.net/music/?oneliner=10
-  </a>
-  *((t%3E%3E7)%7Ct%7C(t%3E%3E6))%2B((t%26(t%3E%3E13)%7C(t%3E%3E6))%3C%3C%202)&amp;oneliner2=&amp;t0=0&amp;tmod=0&amp;duration=120&amp;separation=100&amp;rate=8000
-  <br/>
-  sample &lt;= 10*((t&gt;&gt;7)|t|(t&gt;&gt;6))+((t&amp;(t&gt;&gt;13)|(t&gt;&gt;6))&lt;&lt; 2);
-  <br/>
-  <br/>
-  end else begin
-  <br/>
-  count8kHz &lt;= count8kHz + 1'd1;
-  <br/>
-  end
-  <br/>
-  end
-  <br/>
-  <br/>
-  endmodule
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  Tostai 14.4.:
-  <br/>
-  <br/>
-  <br/>
-  ---- Esimerkkikoodi 2:
-  <br/>
-  // main.v
-  <br/>
-  <br/>
-  `timescale 1ns / 1ps
-  <br/>
-  `default_nettype none
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  // DFF with synchronous reset and clock enable
-  <br/>
-  module DFF(
-  <br/>
-  input   wire        clock,
-  <br/>
-  input   wire        reset,
-  <br/>
-  input   wire        enable,
-  <br/>
-  input   wire        d,
-  <br/>
-  output  reg         q
-  <br/>
-  );
-  <br/>
-  <br/>
-  initial             q = 1'b0;
-  <br/>
-  <br/>
-  always @(posedge clock) begin
-  <br/>
-  if (reset) begin
-  <br/>
-  q &lt;= 1'b0;
-  <br/>
-  end else if (enable) begin
-  <br/>
-  q &lt;= d;
+  LED &lt;= rxd_data;
   <br/>
   end
   <br/>
@@ -369,166 +231,57 @@
   <br/>
   <br/>
   <br/>
-  module main #(
   <br/>
-  parameter                        EXTERNAL_CLOCK_FREQUENCY_HZ = 100_000_000,
+  <b>
+   ----- Esimerkki UCF Minispartanille
+  </b>
   <br/>
-  parameter                        EXTERNAL_CLOCK_PERIOD_NS = 1000000000.0/EXTERNAL_CLOCK_FREQUENCY_HZ
   <br/>
-  ) (
+  # board-minispartan-xc6slx25-ftg256-3.ucf
   <br/>
-  input    wire                     CLOCK,
+  #
   <br/>
-  output  wire    [7:0]             LED
+  # Board: Scarab miniSpartan6+ Rev B
   <br/>
-  );
+  # Family: Spartan-6
   <br/>
+  # Device: LX25
   <br/>
+  # Package: FTG256
   <br/>
-  wire                        clock = CLOCK;
+  # Speed: -3
   <br/>
-  reg    [$clog2(EXTERNAL_CLOCK_FREQUENCY_HZ)-1:0] second_counter = 1'd0;
   <br/>
-  reg    second_strobe = 1'b0;
+  CONFIG VCCAUX = 3.3;
   <br/>
   <br/>
-  always @(posedge clock) begin
+  # External oscillator
   <br/>
-  if (second_counter != EXTERNAL_CLOCK_FREQUENCY_HZ) begin
+  NET "CLOCK"                           LOC = "K3" | IOSTANDARD = LVCMOS33 | PERIOD = 50 MHz; # = 20 ns;
   <br/>
-  second_counter &lt;= second_counter + 1'd1;
   <br/>
-  second_strobe &lt;= 1'b0;
+  # Port A I/O Pins
   <br/>
-  end else begin
+  NET "SERIAL_RXD"                    LOC = "E7" | IOSTANDARD = LVCMOS33;
   <br/>
-  second_counter &lt;= 1'd0;
+  #NET "SERIAL_TXD"                       LOC = "C8" | IOSTANDARD = LVCMOS33 | DRIVE=16 | SLEW=SLOW;
   <br/>
-  second_strobe &lt;= 1'b1;
   <br/>
-  end
+  NET "LED[0]"                        LOC = "P11" | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
   <br/>
-  end
+  NET "LED[1]"                        LOC = "N9"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
   <br/>
+  NET "LED[2]"                        LOC = "M9"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
   <br/>
-  /*
+  NET "LED[3]"                        LOC = "P9"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
   <br/>
-  wire            dff_q;
+  NET "LED[4]"                        LOC = "T8"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
   <br/>
-  DFF        dff(
+  NET "LED[5]"                        LOC = "N8"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
   <br/>
-  .clock(clock),
+  NET "LED[6]"                        LOC = "P8"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
   <br/>
-  .reset(1'b0),
-  <br/>
-  .enable(second_strobe),
-  <br/>
-  .d(~dff_q),
-  <br/>
-  .q(dff_q)
-  <br/>
-  );
-  <br/>
-  */
-  <br/>
-  wire            dff_q;
-  <br/>
-  FDRE dff(
-  <br/>
-  .C(clock),          // 1-bit Clock input
-  <br/>
-  .R(1'b0),              // 1-bit Synchronous reset input
-  <br/>
-  .CE(second_strobe), // 1-bit Clock enable input
-  <br/>
-  .D(~dff_q),           // 1-bit Data input
-  <br/>
-  .Q(dff_q)          // 1-bit Data output
-  <br/>
-  );
-  <br/>
-  <br/>
-  <br/>
-  assign LED = { 8{ dff_q } };
-  <br/>
-  <br/>
-  endmodule
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  ---- Esimerkkikoodi 1:
-  <br/>
-  <br/>
-  // main.v
-  <br/>
-  <br/>
-  `timescale 1ns / 1ps
-  <br/>
-  `default_nettype none
-  <br/>
-  <br/>
-  module main #(
-  <br/>
-  parameter                        EXTERNAL_CLOCK_FREQUENCY_HZ = 100_000_000,
-  <br/>
-  parameter                        EXTERNAL_CLOCK_PERIOD_NS = 1000000000.0/EXTERNAL_CLOCK_FREQUENCY_HZ
-  <br/>
-  ) (
-  <br/>
-  input    wire                     CLOCK,
-  <br/>
-  output  wire    [7:0]             LED
-  <br/>
-  );
-  <br/>
-  <br/>
-  <br/>
-  wire                        clock = CLOCK;
-  <br/>
-  reg    [$clog2(EXTERNAL_CLOCK_FREQUENCY_HZ)-1:0] second_counter = 1'd0;
-  <br/>
-  reg    second_strobe = 1'b0;
-  <br/>
-  <br/>
-  always @(posedge clock) begin
-  <br/>
-  if (second_counter != EXTERNAL_CLOCK_FREQUENCY_HZ) begin
-  <br/>
-  second_counter &lt;= second_counter + 1'd1;
-  <br/>
-  second_strobe &lt;= 1'b0;
-  <br/>
-  end else begin
-  <br/>
-  second_counter &lt;= 1'd0;
-  <br/>
-  second_strobe &lt;= 1'b1;
-  <br/>
-  end
-  <br/>
-  end
-  <br/>
-  <br/>
-  reg        [7:0]    led = 8'b00000000;
-  <br/>
-  <br/>
-  always @(posedge clock) begin
-  <br/>
-  if (second_strobe) begin
-  <br/>
-  led = ~led;
-  <br/>
-  end
-  <br/>
-  end
-  <br/>
-  <br/>
-  assign LED = led;
-  <br/>
-  <br/>
-  endmodule
-  <br/>
+  NET "LED[7]"                        LOC = "P7"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
   <br/>
   <br/>
   <br/>
