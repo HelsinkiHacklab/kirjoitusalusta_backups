@@ -19,8 +19,7 @@
   </b>
   <br/>
   <br/>
-  <br/>
-  // Serial input, demo
+  // Serial input/output echo with "ab..z" -&gt; "AB..Z" capitalization
   <br/>
   <br/>
   `timescale 1ns / 1ps
@@ -35,7 +34,7 @@
   <br/>
   parameter                        BITS_PER_SECOND = 0,
   <br/>
-  parameter                        TIMER_VALUE_PER_BIT = (2**15)/(CLOCK_FREQUENCY_HZ/BITS_PER_SECOND)
+  parameter                        TIMER_VALUE_PER_BIT = CLOCK_FREQUENCY_HZ/BITS_PER_SECOND
   <br/>
   ) (
   <br/>
@@ -53,7 +52,9 @@
   initial $display("SerialInput # CLOCK_FREQUENCY_HZ = %.3f, BITS_PER_SECOND = %d, TIMER_VALUE_PER_BIT = %d", CLOCK_FREQUENCY_HZ, BITS_PER_SECOND, TIMER_VALUE_PER_BIT);
   <br/>
   <br/>
-  initial                     { available, data } &lt;= { 8'd0, 1'b1 };
+  initial                     available &lt;= 1'b0;
+  <br/>
+  initial                        data &lt;= 8'd0;
   <br/>
   <br/>
   parameter RESET =              3'b000;
@@ -69,24 +70,36 @@
   <br/>
   reg        [3-1:0]                state =         RESET;
   <br/>
+  reg                            timeout =        1'b0;
+  <br/>
   reg        [16-1:0]            timer =         1'd0;
+  <br/>
+  reg        [3-1:0]                count =         1'd0;
   <br/>
   <br/>
   always @(posedge clock) begin
+  <br/>
+  if (!timeout) begin
+  <br/>
+  {timeout, timer} &lt;= timer - 1'd1;
+  <br/>
+  end
+  <br/>
+  <br/>
+  available &lt;= 1'b0;
+  <br/>
   <br/>
   case (state)
   <br/>
   RESET: begin
   <br/>
-  timer &lt;= timer[14:0] + $unsigned(TIMER_VALUE_PER_BIT/2);
+  if (rxd == 1'b0) begin
   <br/>
-  if (timer[15]) begin
+  {timeout, timer} &lt;= TIMER_VALUE_PER_BIT/2;
+  <br/>
+  end else if (timeout) begin
   <br/>
   state &lt;= IDLE;
-  <br/>
-  end else if (rxd == 1'b0) begin
-  <br/>
-  timer &lt;= 1'd0;
   <br/>
   end
   <br/>
@@ -99,7 +112,7 @@
   <br/>
   state &lt;= START_BIT;
   <br/>
-  timer &lt;= 1'd0;
+  {timeout, timer} &lt;= TIMER_VALUE_PER_BIT/2;
   <br/>
   end
   <br/>
@@ -108,53 +121,68 @@
   <br/>
   START_BIT: begin
   <br/>
-  timer &lt;= timer[14:0] + $unsigned(TIMER_VALUE_PER_BIT/2);
+  if (timeout) begin
   <br/>
-  if (timer[15]) begin
+  {timeout, timer} &lt;= TIMER_VALUE_PER_BIT;
   <br/>
   if (rxd == 1'b0) begin
   <br/>
   state &lt;= DATA_BITS;
   <br/>
+  count &lt;= 1'd0;
+  <br/>
   end else begin
   <br/>
   state &lt;= RESET;
   <br/>
-  timer &lt;= 1'd0;
-  <br/>
-  { available, data } &lt;= { 8'd0, 1'b1 };
-  <br/>
   end
   <br/>
   end
-  <br/>
   <br/>
   end
   <br/>
   <br/>
   DATA_BITS: begin
   <br/>
-  timer &lt;= timer[14:0] + $unsigned(TIMER_VALUE_PER_BIT);
+  if (timeout) begin
   <br/>
-  if (timer[15]) begin
+  {timeout, timer} &lt;= TIMER_VALUE_PER_BIT;
   <br/>
-  if (available) begin
+  count &lt;= count + 1'd1;
   <br/>
-  state &lt;= RESET;
+  data &lt;= { rxd, data[7:1] };
   <br/>
-  timer &lt;= 1'd0;
+  if (count == 'd7) begin
   <br/>
-  { available, data } &lt;= { 8'd0, 1'b1 };
+  state &lt;= STOP_BIT;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  STOP_BIT: begin
+  <br/>
+  if (timeout) begin
+  <br/>
+  if (rxd == 1'b1) begin
+  <br/>
+  state &lt;= IDLE;
+  <br/>
+  available &lt;= 1'b1;
   <br/>
   end else begin
   <br/>
-  { available, data } &lt;= { data, rxd };
+  state &lt;= RESET;
   <br/>
   end
   <br/>
   end
   <br/>
   end
+  <br/>
   <br/>
   endcase
   <br/>
@@ -162,6 +190,147 @@
   <br/>
   endmodule
   <br/>
+  <br/>
+  <br/>
+  module SerialOutput #(
+  <br/>
+  parameter                        CLOCK_FREQUENCY_HZ = 0,
+  <br/>
+  parameter                        BITS_PER_SECOND = 0,
+  <br/>
+  parameter                        TIMER_VALUE_PER_BIT = CLOCK_FREQUENCY_HZ/BITS_PER_SECOND
+  <br/>
+  ) (
+  <br/>
+  input   wire                clock,
+  <br/>
+  input    wire    [8-1:0]     data,
+  <br/>
+  input      wire                available,
+  <br/>
+  <br/>
+  output    reg                    busy,
+  <br/>
+  output  reg                   txd
+  <br/>
+  );
+  <br/>
+  initial $display("SerialInput # CLOCK_FREQUENCY_HZ = %.3f, BITS_PER_SECOND = %d, TIMER_VALUE_PER_BIT = %d", CLOCK_FREQUENCY_HZ, BITS_PER_SECOND, TIMER_VALUE_PER_BIT);
+  <br/>
+  <br/>
+  initial                        busy = 1'b0;
+  <br/>
+  initial                        txd = 1'b1;
+  <br/>
+  <br/>
+  parameter RESET =              3'b000;
+  <br/>
+  parameter IDLE =            3'b001;
+  <br/>
+  parameter START_BIT =         3'b010;
+  <br/>
+  parameter DATA_BITS =       3'b011;
+  <br/>
+  parameter STOP_BIT =        3'b100;
+  <br/>
+  <br/>
+  reg        [3-1:0]                state =         IDLE;
+  <br/>
+  reg                            timeout =        1'b0;
+  <br/>
+  reg        [16-1:0]            timer =         1'd0;
+  <br/>
+  reg        [4-1:0]                count =         1'd0;
+  <br/>
+  <br/>
+  reg        [8-1:0]                data_reg =         8'b00000000;
+  <br/>
+  <br/>
+  always @(posedge clock) begin
+  <br/>
+  if (!timeout) begin
+  <br/>
+  {timeout, timer} &lt;= timer - 1'd1;
+  <br/>
+  end
+  <br/>
+  <br/>
+  case (state)
+  <br/>
+  IDLE: begin
+  <br/>
+  if (available) begin
+  <br/>
+  data_reg &lt;= data;
+  <br/>
+  state &lt;= START_BIT;
+  <br/>
+  busy &lt;= 1'b1;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  START_BIT: begin
+  <br/>
+  {timeout, timer} &lt;= TIMER_VALUE_PER_BIT;
+  <br/>
+  state &lt;= DATA_BITS;
+  <br/>
+  count &lt;= 1'd0;
+  <br/>
+  txd &lt;= 1'b0;
+  <br/>
+  end
+  <br/>
+  <br/>
+  DATA_BITS: begin
+  <br/>
+  if (timeout) begin
+  <br/>
+  {timeout, timer} &lt;= TIMER_VALUE_PER_BIT;
+  <br/>
+  if (count == 'd8) begin
+  <br/>
+  state &lt;= STOP_BIT;
+  <br/>
+  txd &lt;= 1'b1;
+  <br/>
+  end else begin
+  <br/>
+  count &lt;= count + 1'd1;
+  <br/>
+  txd &lt;= data_reg[0];
+  <br/>
+  data_reg &lt;= { 1'b0, data_reg[7:1] };
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  STOP_BIT: begin
+  <br/>
+  if (timeout) begin
+  <br/>
+  state &lt;= IDLE;
+  <br/>
+  busy &lt;= 1'b0;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  endcase
+  <br/>
+  end
+  <br/>
+  <br/>
+  endmodule
   <br/>
   <br/>
   module Main #(
@@ -178,9 +347,9 @@
   output    reg     [7:0]             LED,
   <br/>
   <br/>
-  input    wire                SERIAL_RXD
+  input    wire                SERIAL_RXD,
   <br/>
-  //output    wire                SERIAL_TXD,
+  output    wire                SERIAL_TXD
   <br/>
   );
   <br/>
@@ -196,7 +365,7 @@
   <br/>
   wire    [7:0]                                rxd_data;
   <br/>
-  wire    [7:0]                                rxd_available;
+  wire                                        rxd_available;
   <br/>
   SerialInput #(
   <br/>
@@ -204,15 +373,44 @@
   <br/>
   .BITS_PER_SECOND(115200)
   <br/>
-  ) (
+  ) serial_rxd(
   <br/>
   .clock(clock),
   <br/>
   .rxd(SERIAL_RXD),
   <br/>
+  <br/>
   .data(rxd_data),
   <br/>
   .available(rxd_available)
+  <br/>
+  );
+  <br/>
+  <br/>
+  reg    [7:0]                                txd_data = 8'd0;
+  <br/>
+  reg                                        txd_available = 1'b0;
+  <br/>
+  wire                                    txd_busy;
+  <br/>
+  SerialOutput #(
+  <br/>
+  .CLOCK_FREQUENCY_HZ(CLOCK_FREQUENCY_HZ),
+  <br/>
+  .BITS_PER_SECOND(115200)
+  <br/>
+  ) serial_txd(
+  <br/>
+  .clock(clock),
+  <br/>
+  .data(txd_data),
+  <br/>
+  .available(txd_available),
+  <br/>
+  <br/>
+  .busy(txd_busy),
+  <br/>
+  .txd(SERIAL_TXD)
   <br/>
   );
   <br/>
@@ -223,6 +421,23 @@
   <br/>
   LED &lt;= rxd_data;
   <br/>
+  <br/>
+  if (rxd_data &gt;= 97 &amp;&amp; rxd_data &lt;= 122) begin
+  <br/>
+  txd_data &lt;= rxd_data - 32;
+  <br/>
+  end else begin
+  <br/>
+  txd_data &lt;= rxd_data;
+  <br/>
+  end
+  <br/>
+  txd_available &lt;= 1'b1;
+  <br/>
+  end else begin
+  <br/>
+  txd_available &lt;= 1'b0;
+  <br/>
   end
   <br/>
   end
@@ -231,10 +446,7 @@
   <br/>
   <br/>
   <br/>
-  <br/>
-  <b>
-   ----- Esimerkki UCF Minispartanille
-  </b>
+  -----
   <br/>
   <br/>
   # board-minispartan-xc6slx25-ftg256-3.ucf
@@ -260,11 +472,30 @@
   NET "CLOCK"                           LOC = "K3" | IOSTANDARD = LVCMOS33 | PERIOD = 50 MHz; # = 20 ns;
   <br/>
   <br/>
+  # Audio I/O Pins
+  <br/>
+  #NET "AUDIO_OUT_LEFT"                LOC = "B8" | IOSTANDARD = LVCMOS33 | DRIVE=16 | SLEW=SLOW;
+  <br/>
+  #NET "AUDIO_OUT_RIGHT"               LOC = "A8" | IOSTANDARD = LVCMOS33 | DRIVE=16 | SLEW=SLOW;
+  <br/>
+  <br/>
   # Port A I/O Pins
   <br/>
   NET "SERIAL_RXD"                    LOC = "E7" | IOSTANDARD = LVCMOS33;
   <br/>
-  #NET "SERIAL_TXD"                       LOC = "C8" | IOSTANDARD = LVCMOS33 | DRIVE=16 | SLEW=SLOW;
+  NET "SERIAL_TXD"                       LOC = "C8" | IOSTANDARD = LVCMOS33 | DRIVE=16 | SLEW=SLOW;
+  <br/>
+  <br/>
+  <br/>
+  # DIP Switches
+  <br/>
+  #NET "SWITCH[0]"                       LOC = "L1"  | IOSTANDARD = LVCMOS33 | PULLUP;
+  <br/>
+  #NET "SWITCH[1]"                     LOC = "L3"  | IOSTANDARD = LVCMOS33 | PULLUP;
+  <br/>
+  #NET "SWITCH[2]"                     LOC = "L4"  | IOSTANDARD = LVCMOS33 | PULLUP;
+  <br/>
+  #NET "SWITCH[3]"                     LOC = "L5"  | IOSTANDARD = LVCMOS33 | PULLUP;
   <br/>
   <br/>
   NET "LED[0]"                        LOC = "P11" | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
@@ -282,6 +513,7 @@
   NET "LED[6]"                        LOC = "P8"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
   <br/>
   NET "LED[7]"                        LOC = "P7"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
   <br/>
   <br/>
   <br/>
