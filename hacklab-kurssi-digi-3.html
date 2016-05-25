@@ -14,8 +14,14 @@
   </a>
   <br/>
   <br/>
-  Tostai 12.5.2016:
+  Torstai 19.5.2016, vga output:
   <br/>
+  <a href="https://www.dropbox.com/sh/07v9sjesnbrsqqq/AACdB6srEjuo6GExyk2mfpSBa?dl=0">
+   https://www.dropbox.com/sh/07v9sjesnbrsqqq/AACdB6srEjuo6GExyk2mfpSBa?dl=0
+  </a>
+  <br/>
+  <br/>
+  Tostai 12.5.2016, serial port:
   <br/>
   <a href="https://www.dropbox.com/sh/gkjqg5e2e8eju9r/AADwrO99DRRUTEEj3bxE5ssva?dl=0">
    https://www.dropbox.com/sh/gkjqg5e2e8eju9r/AADwrO99DRRUTEEj3bxE5ssva?dl=0
@@ -26,6 +32,265 @@
   <b>
    Digitaalitekniikka-3, FPGA-jatko
   </b>
+  <br/>
+  <br/>
+  // main.v
+  <br/>
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  <br/>
+  module Main #(
+  <br/>
+  parameter                    EXTERNAL_CLOCK_FREQUENCY_HZ = 100_000_000,
+  <br/>
+  parameter                    EXTERNAL_CLOCK_PERIOD_NS = 1000000000.0/EXTERNAL_CLOCK_FREQUENCY_HZ
+  <br/>
+  ) (
+  <br/>
+  input    wire                 EXTERNAL_CLOCK,
+  <br/>
+  <br/>
+  output    reg [2:0]             VGA_RED,
+  <br/>
+  output    reg [2:0]           VGA_GREEN,
+  <br/>
+  output    reg [1:0]           VGA_BLUE,
+  <br/>
+  output    reg                      VGA_HSYNC,
+  <br/>
+  output    reg                    VGA_VSYNC,
+  <br/>
+  <br/>
+  output    wire [7:0]             LED
+  <br/>
+  );
+  <br/>
+  <br/>
+  initial $display("Main # EXTERNAL_CLOCK_FREQUENCY_HZ = %.3f", EXTERNAL_CLOCK_FREQUENCY_HZ);
+  <br/>
+  initial $display("Main # EXTERNAL_CLOCK_PERIOD_NS = %.3f", EXTERNAL_CLOCK_PERIOD_NS);
+  <br/>
+  <br/>
+  // 640x480 @ 60Hz =&gt; 25 MHz pixel clock
+  <br/>
+  parameter PIXEL_CLOCK_MULTIPLY =        2;
+  <br/>
+  parameter PIXEL_CLOCK_DIVIDE =            8;
+  <br/>
+  parameter PIXEL_CLOCK_HZ =                EXTERNAL_CLOCK_FREQUENCY_HZ*PIXEL_CLOCK_MULTIPLY/PIXEL_CLOCK_DIVIDE;
+  <br/>
+  <br/>
+  initial $display("Main # PIXEL_CLOCK_MHZ = %.3f", PIXEL_CLOCK_HZ/1000000.0);
+  <br/>
+  <br/>
+  parameter HORIZONTAL_PIXELS =            640;        // Horizontal live pixels
+  <br/>
+  parameter HORIZONTAL_FRONT_PORTCH =        16;            // Horizontal front portch
+  <br/>
+  parameter HORIZONTAL_SYNC =                96;            // HSYNC pulse width
+  <br/>
+  parameter HORIZONTAL_BACK_PORTCH =        48;            // Horizontal back portch
+  <br/>
+  parameter HORIZONTAL_TOTAL = HORIZONTAL_PIXELS + HORIZONTAL_FRONT_PORTCH + HORIZONTAL_SYNC + HORIZONTAL_BACK_PORTCH;        // Horizontal Total Pixels
+  <br/>
+  <br/>
+  parameter VERTICAL_PIXELS =                480;        // Vertical live lines
+  <br/>
+  parameter VERTICAL_FRONT_PORTCH =        10;            // Vertical front portch
+  <br/>
+  parameter VERTICAL_SYNC =                2;            // VSYNC pulse width
+  <br/>
+  parameter VERTICAL_BACK_PORTCH =        33;            // Vertical back portch
+  <br/>
+  parameter VERTICAL_TOTAL = VERTICAL_PIXELS + VERTICAL_FRONT_PORTCH + VERTICAL_SYNC + VERTICAL_BACK_PORTCH;        // Horizontal Total Pixels
+  <br/>
+  <br/>
+  parameter TOTAL_PIXELS = HORIZONTAL_TOTAL * VERTICAL_TOTAL;
+  <br/>
+  <br/>
+  initial $display("Main # HORIZONTAL_TOTAL = %d", HORIZONTAL_TOTAL);
+  <br/>
+  initial $display("Main # VERTICAL_TOTAL = %d", VERTICAL_TOTAL);
+  <br/>
+  initial $display("Main # TOTAL_PIXELS = %d", TOTAL_PIXELS);
+  <br/>
+  <br/>
+  <br/>
+  wire     external_clock;
+  <br/>
+  IBUFG ibufg0(
+  <br/>
+  .I(EXTERNAL_CLOCK),
+  <br/>
+  .O(external_clock)
+  <br/>
+  );
+  <br/>
+  <br/>
+  wire     pixel_clock;
+  <br/>
+  ClockScaler #(
+  <br/>
+  .INPUT_CLOCK_PERIOD_NS(EXTERNAL_CLOCK_PERIOD_NS),
+  <br/>
+  .MULTIPLY(PIXEL_CLOCK_MULTIPLY),
+  <br/>
+  .DIVIDE(PIXEL_CLOCK_DIVIDE)
+  <br/>
+  ) (
+  <br/>
+  .input_clock(external_clock),
+  <br/>
+  .output_clock(pixel_clock)
+  <br/>
+  );
+  <br/>
+  <br/>
+  <br/>
+  reg    signed        [11:0]        x = 1'd0;
+  <br/>
+  reg    signed         [11:0]        y = 1'd0;
+  <br/>
+  <br/>
+  reg signed        [11:0]        px = 320;
+  <br/>
+  reg signed        [11:0]        py = 240;
+  <br/>
+  <br/>
+  reg signed        [1:0]        dpx = 1;
+  <br/>
+  reg signed        [1:0]        dpy = 1;
+  <br/>
+  <br/>
+  <br/>
+  reg signed        [31:0]        dx;
+  <br/>
+  reg signed        [31:0]        dy;
+  <br/>
+  <br/>
+  always @ (posedge pixel_clock) begin
+  <br/>
+  // Defaults
+  <br/>
+  VGA_RED &lt;= 3'b000;
+  <br/>
+  VGA_GREEN &lt;= 3'b000;
+  <br/>
+  VGA_BLUE &lt;= 2'b00;
+  <br/>
+  <br/>
+  VGA_HSYNC &lt;= 1'b1;
+  <br/>
+  VGA_VSYNC &lt;= 1'b1;
+  <br/>
+  <br/>
+  // Pixel position generators
+  <br/>
+  if (x == HORIZONTAL_TOTAL - 1) begin
+  <br/>
+  x &lt;= 1'd0;
+  <br/>
+  if (y == VERTICAL_TOTAL - 1) begin
+  <br/>
+  y &lt;= 1'd0;
+  <br/>
+  <br/>
+  px &lt;= px + dpx;
+  <br/>
+  py &lt;= py + dpy;
+  <br/>
+  <br/>
+  if (px &lt; 100) begin
+  <br/>
+  dpx &lt;= 1;
+  <br/>
+  end
+  <br/>
+  if (py &lt; 100) begin
+  <br/>
+  dpy &lt;= 1;
+  <br/>
+  end
+  <br/>
+  <br/>
+  if (px &gt; HORIZONTAL_TOTAL - 100) begin
+  <br/>
+  dpx &lt;= -1;
+  <br/>
+  end
+  <br/>
+  if (py &gt; VERTICAL_TOTAL - 100) begin
+  <br/>
+  dpy &lt;= -1;
+  <br/>
+  end
+  <br/>
+  <br/>
+  end else begin
+  <br/>
+  y &lt;= y + 1'd1;
+  <br/>
+  end
+  <br/>
+  end else begin
+  <br/>
+  x &lt;= x + 1'd1;
+  <br/>
+  end
+  <br/>
+  <br/>
+  // Active pixels
+  <br/>
+  if (x &lt; HORIZONTAL_PIXELS &amp;&amp; y &lt; VERTICAL_PIXELS) begin
+  <br/>
+  dx = x - px;
+  <br/>
+  dy = y - py;
+  <br/>
+  <br/>
+  if ((dx*dx + dy*dy) &lt; 100*100) begin
+  <br/>
+  VGA_RED &lt;= 3'b111;
+  <br/>
+  VGA_GREEN &lt;= 3'b111;
+  <br/>
+  VGA_BLUE &lt;= 2'b11;
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  <br/>
+  // Horizontal sync
+  <br/>
+  if (x &gt;= (HORIZONTAL_PIXELS + HORIZONTAL_FRONT_PORTCH) &amp;&amp; x &lt; (HORIZONTAL_PIXELS + HORIZONTAL_FRONT_PORTCH + HORIZONTAL_SYNC)) begin
+  <br/>
+  VGA_HSYNC &lt;= 1'b0;
+  <br/>
+  end
+  <br/>
+  <br/>
+  // Vertical sync
+  <br/>
+  if (y &gt;= (VERTICAL_PIXELS + VERTICAL_FRONT_PORTCH) &amp;&amp; y &lt; (VERTICAL_PIXELS + VERTICAL_FRONT_PORTCH + VERTICAL_SYNC)) begin
+  <br/>
+  VGA_VSYNC &lt;= 1'b0;
+  <br/>
+  end
+  <br/>
+  <br/>
+  end
+  <br/>
+  <br/>
+  assign LED = {VGA_HSYNC, VGA_HSYNC, VGA_HSYNC, VGA_HSYNC, VGA_VSYNC, VGA_VSYNC, VGA_VSYNC, VGA_VSYNC};
+  <br/>
+  <br/>
+  endmodule
+  <br/>
   <br/>
   <br/>
  </body>
