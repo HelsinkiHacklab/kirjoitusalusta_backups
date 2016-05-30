@@ -34,6 +34,154 @@
   </b>
   <br/>
   <br/>
+  <b>
+   --------------------8&lt;-----------------------8&lt;-----------------------8&lt;-----------------------8&lt;---
+  </b>
+  <br/>
+  <br/>
+  // clock.v
+  <br/>
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
+  <br/>
+  <br/>
+  <br/>
+  module ClockScaler #(
+  <br/>
+  parameter                    INPUT_CLOCK_PERIOD_NS = 0,
+  <br/>
+  parameter                    MULTIPLY = 2,                    // Multiply value 2..256
+  <br/>
+  parameter                    DIVIDE = 2                        // Divide value  1..256
+  <br/>
+  ) (
+  <br/>
+  input    wire                 input_clock,
+  <br/>
+  output    wire                 output_clock
+  <br/>
+  );
+  <br/>
+  <br/>
+  /*
+  <br/>
+  DCM_CLKGEN #(
+  <br/>
+  .CLKIN_PERIOD(INPUT_CLOCK_PERIOD_NS),        // Input clock period specified in ns
+  <br/>
+  .CLKFX_MULTIPLY(MULTIPLY),                     // Multiply value - M - (2-256)
+  <br/>
+  .CLKFX_DIVIDE(DIVIDE),                         // Divide value - D - (1-256)
+  <br/>
+  .SPREAD_SPECTRUM("NONE"),                   // Spread Spectrum mode "NONE", "CENTER_LOW_SPREAD", "CENTER_HIGH_SPREAD", "VIDEO_LINK_M0", "VIDEO_LINK_M1" or "VIDEO_LINK_M2"
+  <br/>
+  .STARTUP_WAIT("TRUE")                       // Delay config DONE until DCM_CLKGEN LOCKED (TRUE/FALSE)
+  <br/>
+  ) dcm0(
+  <br/>
+  .CLKIN(input_clock),                         // 1-bit input: Input clock
+  <br/>
+  .RST(1'b0),                                 // 1-bit input: Reset input pin
+  <br/>
+  .FREEZEDCM(1'b0),                           // 1-bit input: Prevents frequency adjustments to input clock
+  <br/>
+  <br/>
+  .PROGCLK(),                                    // 1-bit input: Clock input for M/D reconfiguration
+  <br/>
+  .PROGDATA(),                                   // 1-bit input: Serial data input for M/D reconfiguration
+  <br/>
+  .PROGEN(),                                     // 1-bit input: Active high program enable
+  <br/>
+  .LOCKED(),                                    // 1-bit output: Locked output
+  <br/>
+  .CLKFX180(),                                // 1-bit output: Generated clock output 180 degree out of phase from CLKFX.
+  <br/>
+  .CLKFXDV(),                                 // 1-bit output: Divided clock output
+  <br/>
+  .PROGDONE(),                                // 1-bit output: Active high output to indicate the successful re-programming
+  <br/>
+  .STATUS(),                                  // 2-bit output: DCM_CLKGEN status
+  <br/>
+  <br/>
+  .CLKFX(output_clock)                         // 1-bit output: Generated clock output
+  <br/>
+  );
+  <br/>
+  */
+  <br/>
+  <br/>
+  wire                                 output_clock_unbuf;
+  <br/>
+  wire                                 pll_feedback;
+  <br/>
+  PLL_BASE #(
+  <br/>
+  .CLKIN_PERIOD(INPUT_CLOCK_PERIOD_NS),
+  <br/>
+  .CLKFBOUT_MULT(MULTIPLY),                    // Multiply value 1..64
+  <br/>
+  .CLKOUT0_DIVIDE(DIVIDE),                    // Divide value 1..128
+  <br/>
+  .CLKOUT0_PHASE(0.0),
+  <br/>
+  .CLK_FEEDBACK("CLKFBOUT"),
+  <br/>
+  .COMPENSATION("INTERNAL"),
+  <br/>
+  .DIVCLK_DIVIDE(1),
+  <br/>
+  .RESET_ON_LOSS_OF_LOCK("FALSE")
+  <br/>
+  ) pll_base_px(
+  <br/>
+  .CLKIN(input_clock),
+  <br/>
+  .RST(1'b0),
+  <br/>
+  .CLKFBIN(pll_feedback),
+  <br/>
+  <br/>
+  .CLKOUT0(output_clock_unbuf),
+  <br/>
+  .CLKOUT1(),
+  <br/>
+  .CLKOUT2(),
+  <br/>
+  .CLKOUT3(),
+  <br/>
+  .CLKOUT4(),
+  <br/>
+  .CLKOUT5(),
+  <br/>
+  <br/>
+  .CLKFBOUT(pll_feedback),
+  <br/>
+  .LOCKED()
+  <br/>
+  );
+  <br/>
+  <br/>
+  BUFG bufg_clk_px (
+  <br/>
+  .I(output_clock_unbuf),
+  <br/>
+  .O(output_clock)
+  <br/>
+  );
+  <br/>
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   --------------------8&lt;-----------------------8&lt;-----------------------8&lt;-----------------------8&lt;---
+  </b>
+  <br/>
+  <br/>
   // main.v
   <br/>
   <br/>
@@ -45,27 +193,16 @@
   <br/>
   module Main #(
   <br/>
-  parameter                    EXTERNAL_CLOCK_FREQUENCY_HZ = 100_000_000,
+  parameter                    EXTERNAL_CLOCK_FREQUENCY_HZ = X00_000_000,
   <br/>
   parameter                    EXTERNAL_CLOCK_PERIOD_NS = 1000000000.0/EXTERNAL_CLOCK_FREQUENCY_HZ
   <br/>
   ) (
   <br/>
-  input    wire                 EXTERNAL_CLOCK,
+  input wire                     EXTERNAL_CLOCK,
   <br/>
   <br/>
-  output    reg [2:0]             VGA_RED,
-  <br/>
-  output    reg [2:0]           VGA_GREEN,
-  <br/>
-  output    reg [1:0]           VGA_BLUE,
-  <br/>
-  output    reg                      VGA_HSYNC,
-  <br/>
-  output    reg                    VGA_VSYNC,
-  <br/>
-  <br/>
-  output    wire [7:0]             LED
+  output wire     [7:0]        LED
   <br/>
   );
   <br/>
@@ -75,49 +212,14 @@
   initial $display("Main # EXTERNAL_CLOCK_PERIOD_NS = %.3f", EXTERNAL_CLOCK_PERIOD_NS);
   <br/>
   <br/>
-  // 640x480 @ 60Hz =&gt; 25 MHz pixel clock
+  parameter LOGIC_CLOCK_MULTIPLY =    5;
   <br/>
-  parameter PIXEL_CLOCK_MULTIPLY =        2;
+  parameter LOGIC_CLOCK_DIVIDE =        2;
   <br/>
-  parameter PIXEL_CLOCK_DIVIDE =            8;
-  <br/>
-  parameter PIXEL_CLOCK_HZ =                EXTERNAL_CLOCK_FREQUENCY_HZ*PIXEL_CLOCK_MULTIPLY/PIXEL_CLOCK_DIVIDE;
+  parameter LOGIC_CLOCK_HZ =            (EXTERNAL_CLOCK_FREQUENCY_HZ*1.0*LOGIC_CLOCK_MULTIPLY)/LOGIC_CLOCK_DIVIDE;
   <br/>
   <br/>
-  initial $display("Main # PIXEL_CLOCK_MHZ = %.3f", PIXEL_CLOCK_HZ/1000000.0);
-  <br/>
-  <br/>
-  parameter HORIZONTAL_PIXELS =            640;        // Horizontal live pixels
-  <br/>
-  parameter HORIZONTAL_FRONT_PORTCH =        16;            // Horizontal front portch
-  <br/>
-  parameter HORIZONTAL_SYNC =                96;            // HSYNC pulse width
-  <br/>
-  parameter HORIZONTAL_BACK_PORTCH =        48;            // Horizontal back portch
-  <br/>
-  parameter HORIZONTAL_TOTAL = HORIZONTAL_PIXELS + HORIZONTAL_FRONT_PORTCH + HORIZONTAL_SYNC + HORIZONTAL_BACK_PORTCH;        // Horizontal Total Pixels
-  <br/>
-  <br/>
-  parameter VERTICAL_PIXELS =                480;        // Vertical live lines
-  <br/>
-  parameter VERTICAL_FRONT_PORTCH =        10;            // Vertical front portch
-  <br/>
-  parameter VERTICAL_SYNC =                2;            // VSYNC pulse width
-  <br/>
-  parameter VERTICAL_BACK_PORTCH =        33;            // Vertical back portch
-  <br/>
-  parameter VERTICAL_TOTAL = VERTICAL_PIXELS + VERTICAL_FRONT_PORTCH + VERTICAL_SYNC + VERTICAL_BACK_PORTCH;        // Horizontal Total Pixels
-  <br/>
-  <br/>
-  parameter TOTAL_PIXELS = HORIZONTAL_TOTAL * VERTICAL_TOTAL;
-  <br/>
-  <br/>
-  initial $display("Main # HORIZONTAL_TOTAL = %d", HORIZONTAL_TOTAL);
-  <br/>
-  initial $display("Main # VERTICAL_TOTAL = %d", VERTICAL_TOTAL);
-  <br/>
-  initial $display("Main # TOTAL_PIXELS = %d", TOTAL_PIXELS);
-  <br/>
+  initial $display("Main # LOGIC_CLOCK_MHZ = %.3f", LOGIC_CLOCK_HZ/1000000.0);
   <br/>
   <br/>
   wire     external_clock;
@@ -131,165 +233,151 @@
   );
   <br/>
   <br/>
-  wire     pixel_clock;
+  wire     logic_clock;
   <br/>
   ClockScaler #(
   <br/>
   .INPUT_CLOCK_PERIOD_NS(EXTERNAL_CLOCK_PERIOD_NS),
   <br/>
-  .MULTIPLY(PIXEL_CLOCK_MULTIPLY),
+  .MULTIPLY(LOGIC_CLOCK_MULTIPLY),
   <br/>
-  .DIVIDE(PIXEL_CLOCK_DIVIDE)
+  .DIVIDE(LOGIC_CLOCK_DIVIDE)
   <br/>
-  ) (
+  ) clock_scaler(
   <br/>
   .input_clock(external_clock),
   <br/>
-  .output_clock(pixel_clock)
+  .output_clock(logic_clock)
   <br/>
   );
   <br/>
   <br/>
-  <br/>
-  reg    signed        [11:0]        x = 1'd0;
-  <br/>
-  reg    signed         [11:0]        y = 1'd0;
+  parameter COUNTER_BITS =    16;
   <br/>
   <br/>
-  reg signed        [11:0]        px = 320;
+  reg            [COUNTER_BITS-1:0]            counter = 1'd0;
   <br/>
-  reg signed        [11:0]        py = 240;
-  <br/>
-  <br/>
-  reg signed        [1:0]        dpx = 1;
-  <br/>
-  reg signed        [1:0]        dpy = 1;
+  reg            [COUNTER_BITS-1:0]            counter2 = 1'd0;
   <br/>
   <br/>
+  always @ (posedge logic_clock) begin
   <br/>
-  reg signed        [31:0]        dx;
+  counter &lt;= counter + 1'd1;
   <br/>
-  reg signed        [31:0]        dy;
-  <br/>
-  <br/>
-  always @ (posedge pixel_clock) begin
-  <br/>
-  // Defaults
-  <br/>
-  VGA_RED &lt;= 3'b000;
-  <br/>
-  VGA_GREEN &lt;= 3'b000;
-  <br/>
-  VGA_BLUE &lt;= 2'b00;
-  <br/>
-  <br/>
-  VGA_HSYNC &lt;= 1'b1;
-  <br/>
-  VGA_VSYNC &lt;= 1'b1;
-  <br/>
-  <br/>
-  // Pixel position generators
-  <br/>
-  if (x == HORIZONTAL_TOTAL - 1) begin
-  <br/>
-  x &lt;= 1'd0;
-  <br/>
-  if (y == VERTICAL_TOTAL - 1) begin
-  <br/>
-  y &lt;= 1'd0;
-  <br/>
-  <br/>
-  px &lt;= px + dpx;
-  <br/>
-  py &lt;= py + dpy;
-  <br/>
-  <br/>
-  if (px &lt; 100) begin
-  <br/>
-  dpx &lt;= 1;
-  <br/>
-  end
-  <br/>
-  if (py &lt; 100) begin
-  <br/>
-  dpy &lt;= 1;
+  counter2 &lt;= counter;
   <br/>
   end
   <br/>
   <br/>
-  if (px &gt; HORIZONTAL_TOTAL - 100) begin
-  <br/>
-  dpx &lt;= -1;
-  <br/>
-  end
-  <br/>
-  if (py &gt; VERTICAL_TOTAL - 100) begin
-  <br/>
-  dpy &lt;= -1;
-  <br/>
-  end
-  <br/>
-  <br/>
-  end else begin
-  <br/>
-  y &lt;= y + 1'd1;
-  <br/>
-  end
-  <br/>
-  end else begin
-  <br/>
-  x &lt;= x + 1'd1;
-  <br/>
-  end
-  <br/>
-  <br/>
-  // Active pixels
-  <br/>
-  if (x &lt; HORIZONTAL_PIXELS &amp;&amp; y &lt; VERTICAL_PIXELS) begin
-  <br/>
-  dx = x - px;
-  <br/>
-  dy = y - py;
-  <br/>
-  <br/>
-  if ((dx*dx + dy*dy) &lt; 100*100) begin
-  <br/>
-  VGA_RED &lt;= 3'b111;
-  <br/>
-  VGA_GREEN &lt;= 3'b111;
-  <br/>
-  VGA_BLUE &lt;= 2'b11;
-  <br/>
-  end
-  <br/>
-  end
-  <br/>
-  <br/>
-  // Horizontal sync
-  <br/>
-  if (x &gt;= (HORIZONTAL_PIXELS + HORIZONTAL_FRONT_PORTCH) &amp;&amp; x &lt; (HORIZONTAL_PIXELS + HORIZONTAL_FRONT_PORTCH + HORIZONTAL_SYNC)) begin
-  <br/>
-  VGA_HSYNC &lt;= 1'b0;
-  <br/>
-  end
-  <br/>
-  <br/>
-  // Vertical sync
-  <br/>
-  if (y &gt;= (VERTICAL_PIXELS + VERTICAL_FRONT_PORTCH) &amp;&amp; y &lt; (VERTICAL_PIXELS + VERTICAL_FRONT_PORTCH + VERTICAL_SYNC)) begin
-  <br/>
-  VGA_VSYNC &lt;= 1'b0;
-  <br/>
-  end
-  <br/>
-  <br/>
-  end
-  <br/>
-  <br/>
-  assign LED = {VGA_HSYNC, VGA_HSYNC, VGA_HSYNC, VGA_HSYNC, VGA_VSYNC, VGA_VSYNC, VGA_VSYNC, VGA_VSYNC};
+  assign LED = counter2[COUNTER_BITS-1:COUNTER_BITS-8];
   <br/>
   <br/>
   endmodule
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   --------------------8&lt;-----------------------8&lt;-----------------------8&lt;-----------------------8&lt;---
+  </b>
+  <br/>
+  <br/>
+  <br/>
+  # board-mimas-xc6slx9-csg324-2.ucf
+  <br/>
+  #
+  <br/>
+  # Board: Numato MIMAS V2
+  <br/>
+  # Family: Spartan-6
+  <br/>
+  # Device: LX9
+  <br/>
+  # Package: CSG324
+  <br/>
+  # Speed: -2
+  <br/>
+  <br/>
+  CONFIG VCCAUX = 3.3;
+  <br/>
+  <br/>
+  # External oscillators
+  <br/>
+  NET "EXTERNAL_CLOCK"                LOC = "V10" | IOSTANDARD = LVCMOS33 | PERIOD = 100 MHz; # = 10 ns;
+  <br/>
+  #NET "EXTERNAL_CLOCK"                LOC = "D9"     | IOSTANDARD = LVCMOS33 | PERIOD = 12 MHz; # = 83.33 ns;
+  <br/>
+  <br/>
+  NET "LED[7]"                        LOC = "P15" | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;  #D1
+  <br/>
+  NET "LED[6]"                        LOC = "P16" | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;  #D2
+  <br/>
+  NET "LED[5]"                        LOC = "N15" | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;  #D3
+  <br/>
+  NET "LED[4]"                        LOC = "N16" | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;  #D4
+  <br/>
+  NET "LED[3]"                        LOC = "U17" | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;  #D5
+  <br/>
+  NET "LED[2]"                        LOC = "U18" | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;  #D6
+  <br/>
+  NET "LED[1]"                        LOC = "T17" | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;  #D7
+  <br/>
+  NET "LED[0]"                        LOC = "T18" | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;  #D8
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   --------------------8&lt;-----------------------8&lt;-----------------------8&lt;-----------------------8&lt;---
+  </b>
+  <br/>
+  <br/>
+  <br/>
+  # board-minispartan-xc6slx25-ftg256-3.ucf
+  <br/>
+  #
+  <br/>
+  # Board: Scarab miniSpartan6+ Rev B
+  <br/>
+  # Family: Spartan-6
+  <br/>
+  # Device: LX25
+  <br/>
+  # Package: FTG256
+  <br/>
+  # Speed: -3
+  <br/>
+  <br/>
+  CONFIG VCCAUX = 3.3;
+  <br/>
+  <br/>
+  # External oscillator
+  <br/>
+  NET "EXTERNAL_CLOCK"  LOC = "K3" | IOSTANDARD = LVCMOS33 | PERIOD = 50 MHz; # = 20 ns;
+  <br/>
+  <br/>
+  <br/>
+  NET "LED[0]"                        LOC = "P11" | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET "LED[1]"                        LOC = "N9"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET "LED[2]"                        LOC = "M9"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET "LED[3]"                        LOC = "P9"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET "LED[4]"                        LOC = "T8"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET "LED[5]"                        LOC = "N8"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET "LED[6]"                        LOC = "P8"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET "LED[7]"                        LOC = "P7"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
   <br/>
   <br/>
   <br/>
