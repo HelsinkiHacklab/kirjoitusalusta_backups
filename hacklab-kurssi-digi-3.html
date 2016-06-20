@@ -14,119 +14,11 @@
   </a>
   <br/>
   <br/>
-  Torstai 2.6.2016:
-  <br/>
-  <a href="https://www.dropbox.com/sh/r1jfi4a7n546bku/AADc7RaN73wM_sxmmAF8LtgDa?dl=0">
-   https://www.dropbox.com/sh/r1jfi4a7n546bku/AADc7RaN73wM_sxmmAF8LtgDa?dl=0
-  </a>
-  <br/>
-  <br/>
-  <br/>
-  #**************************************************************************************************************************************************#
-  <br/>
-  #                                        UCF for Blue Chinese Spartan6                                                                                    #
-  <br/>
-  #**************************************************************************************************************************************************#
-  <br/>
-  <br/>
-  CONFIG VCCAUX = "3.3" ;
-  <br/>
-  <br/>
-  NET "CLK50"                       LOC = P21     | IOSTANDARD = LVCMOS33 | PERIOD = 50MHz ;
-  <br/>
-  <br/>
-  ###################################################################################################################################################
-  <br/>
-  #                                                    VGA                                                                                          #
-  <br/>
-  ###################################################################################################################################################
-  <br/>
-  NET "vga_hsync"                   LOC = P16     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  NET "vga_vsync"                   LOC = P17     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  <br/>
-  NET "vga_R[3]"                    LOC = P11     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  NET "vga_R[2]"                    LOC = P12     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  NET "vga_R[1]"                    LOC = P14     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  NET "vga_R[0]"                    LOC = P15     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  <br/>
-  NET "vga_G[3]"                    LOC = P7      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  NET "vga_G[2]"                    LOC = P8      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  NET "vga_G[1]"                    LOC = P9      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  NET "vga_G[0]"                    LOC = P10     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  <br/>
-  NET "vga_B[3]"                    LOC = P1      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  NET "vga_B[2]"                    LOC = P2      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  NET "vga_B[1]"                    LOC = P5      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  NET "vga_B[0]"                    LOC = P6      | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  <br/>
-  <br/>
-  #**************************************************************************************************************************************************#
-  <br/>
-  #                                            UCF for X-SP6-X9                                                                                      #
-  <br/>
-  #                                                                                                                                                  #
-  <br/>
-  #                      From silk screen markings and reverse engineering by JK 27.3.2016                                                           #
-  <br/>
-  #                                                                                                                                                  #
-  <br/>
-  #**************************************************************************************************************************************************#
-  <br/>
-  <br/>
-  CONFIG VCCAUX = "3.3" ;
-  <br/>
-  <br/>
-  NET "CLK_50M"                      LOC = P126     | IOSTANDARD = LVCMOS33 | PERIOD = 50MHz ;
-  <br/>
-  <br/>
-  ###################################################################################################################################################
-  <br/>
-  #                                                    VGA                                                                                          #
-  <br/>
-  ###################################################################################################################################################
-  <br/>
-  NET "VGA_HSYNC"                  LOC = P95     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  NET "VGA_VSYNC"                  LOC = P97     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  <br/>
-  NET "VGA_R"                      LOC = P100    | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  NET "VGA_G"                      LOC = P99     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  NET "VGA_B"                      LOC = P98     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;
-  <br/>
-  <br/>
-  ###################################################################################################################################################
-  <br/>
-  #                                                    Buzzer                                                                                       #
-  <br/>
-  ###################################################################################################################################################
-  <br/>
-  NET "BUZZER"                      LOC = P94     | IOSTANDARD = LVCMOS33 | DRIVE = 8 | SLEW = FAST ;  #silk wrong
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
+  Torstai 16.6.2016:
   <br/>
   <br/>
   <b>
-   ------------------------------------------------------------------- main.v -------------------------------------------------------------------------
+   ----------------------------------------------------------------------------------------
   </b>
   <br/>
   <br/>
@@ -141,99 +33,35 @@
   <br/>
   module Main #(
   <br/>
-  parameter                    EXTERNAL_CLOCK_FREQUENCY_HZ = 100_000_000,
+  parameter                    EXTERNAL_CLOCK_FREQUENCY_MHZ = 50.0,
   <br/>
-  parameter                    EXTERNAL_CLOCK_PERIOD_NS = 1000000000.0/EXTERNAL_CLOCK_FREQUENCY_HZ
+  parameter                    EXTERNAL_CLOCK_PERIOD_NS = 1000.0/EXTERNAL_CLOCK_FREQUENCY_MHZ
   <br/>
   ) (
   <br/>
   input wire                     EXTERNAL_CLOCK,
   <br/>
   <br/>
-  input wire                     BUTTON_UP,
+  input wire        [4-1:0]        SWITCH,
   <br/>
-  input wire                     BUTTON_DOWN,
-  <br/>
-  <br/>
-  // R3G3B2
-  <br/>
-  output reg [2:0]             VGA_RED,
-  <br/>
-  output reg [2:0]            VGA_GREEN,
-  <br/>
-  output reg [1:0]            VGA_BLUE,
-  <br/>
-  output reg                      VGA_HSYNC,
-  <br/>
-  output reg                    VGA_VSYNC,
-  <br/>
-  <br/>
-  // R1G1B1
-  <br/>
-  //output reg                     VGA_RED,
-  <br/>
-  //output reg                       VGA_GREEN,
-  <br/>
-  //output reg                     VGA_BLUE,
-  <br/>
-  //output reg                      VGA_HSYNC,
-  <br/>
-  //output reg                    VGA_VSYNC,
-  <br/>
-  <br/>
-  output    wire [7:0]             LED
+  output wire     [8-1:0]        LED
   <br/>
   );
   <br/>
   <br/>
-  initial $display("Main # EXTERNAL_CLOCK_FREQUENCY_HZ = %.3f", EXTERNAL_CLOCK_FREQUENCY_HZ);
+  initial $display("Main # EXTERNAL_CLOCK_FREQUENCY_MHZ = %.3f", EXTERNAL_CLOCK_FREQUENCY_MHZ);
   <br/>
   initial $display("Main # EXTERNAL_CLOCK_PERIOD_NS = %.3f", EXTERNAL_CLOCK_PERIOD_NS);
   <br/>
   <br/>
-  // 640x480 @ 60Hz =&gt; 25 MHz pixel clock
+  parameter CPU_CLOCK_MULTIPLY =    8;
   <br/>
-  parameter PIXEL_CLOCK_MULTIPLY =        1;
+  parameter CPU_CLOCK_DIVIDE =    40;
   <br/>
-  parameter PIXEL_CLOCK_DIVIDE =            4;
-  <br/>
-  parameter PIXEL_CLOCK_HZ =                EXTERNAL_CLOCK_FREQUENCY_HZ*PIXEL_CLOCK_MULTIPLY/PIXEL_CLOCK_DIVIDE;
+  parameter CPU_CLOCK_MHZ =            (EXTERNAL_CLOCK_FREQUENCY_MHZ*1.0*CPU_CLOCK_MULTIPLY)/CPU_CLOCK_DIVIDE;
   <br/>
   <br/>
-  initial $display("Main # PIXEL_CLOCK_MHZ = %.3f", PIXEL_CLOCK_HZ/1000000.0);
-  <br/>
-  <br/>
-  parameter HORIZONTAL_PIXELS =            640;        // Horizontal live pixels
-  <br/>
-  parameter HORIZONTAL_FRONT_PORTCH =        16;            // Horizontal front portch
-  <br/>
-  parameter HORIZONTAL_SYNC =                96;            // HSYNC pulse width
-  <br/>
-  parameter HORIZONTAL_BACK_PORTCH =        48;            // Horizontal back portch
-  <br/>
-  parameter HORIZONTAL_TOTAL = HORIZONTAL_PIXELS + HORIZONTAL_FRONT_PORTCH + HORIZONTAL_SYNC + HORIZONTAL_BACK_PORTCH;        // Horizontal Total Pixels
-  <br/>
-  <br/>
-  parameter VERTICAL_PIXELS =                480;        // Vertical live lines
-  <br/>
-  parameter VERTICAL_FRONT_PORTCH =        10;            // Vertical front portch
-  <br/>
-  parameter VERTICAL_SYNC =                2;            // VSYNC pulse width
-  <br/>
-  parameter VERTICAL_BACK_PORTCH =        33;            // Vertical back portch
-  <br/>
-  parameter VERTICAL_TOTAL = VERTICAL_PIXELS + VERTICAL_FRONT_PORTCH + VERTICAL_SYNC + VERTICAL_BACK_PORTCH;        // Horizontal Total Pixels
-  <br/>
-  <br/>
-  parameter TOTAL_PIXELS = HORIZONTAL_TOTAL * VERTICAL_TOTAL;
-  <br/>
-  <br/>
-  initial $display("Main # HORIZONTAL_TOTAL = %d", HORIZONTAL_TOTAL);
-  <br/>
-  initial $display("Main # VERTICAL_TOTAL = %d", VERTICAL_TOTAL);
-  <br/>
-  initial $display("Main # TOTAL_PIXELS = %d", TOTAL_PIXELS);
-  <br/>
+  initial $display("Main # CPU_CLOCK_MHZ = %.3f", CPU_CLOCK_MHZ);
   <br/>
   <br/>
   wire     external_clock;
@@ -247,249 +75,382 @@
   );
   <br/>
   <br/>
-  wire     pixel_clock;
+  wire     cpu_clock;
   <br/>
-  wire     pixel_clock_x10;
-  <br/>
-  ClockScalerX10 #(
+  ClockScaler #(
   <br/>
   .INPUT_CLOCK_PERIOD_NS(EXTERNAL_CLOCK_PERIOD_NS),
   <br/>
-  .MULTIPLY(10*PIXEL_CLOCK_MULTIPLY),
+  .MULTIPLY(CPU_CLOCK_MULTIPLY),
   <br/>
-  .DIVIDE(PIXEL_CLOCK_DIVIDE)
+  .DIVIDE(CPU_CLOCK_DIVIDE)
   <br/>
   ) clock_scaler(
   <br/>
   .input_clock(external_clock),
   <br/>
-  .output_clock(pixel_clock),
-  <br/>
-  .output_clock_x10(pixel_clock_x10)
+  .output_clock(cpu_clock)
   <br/>
   );
   <br/>
   <br/>
-  reg                            active = 1'b0;
-  <br/>
-  reg                [23:0]        frame = 24'd0;
-  <br/>
-  reg    signed        [11:0]        x = 1'd0;
-  <br/>
-  reg    signed         [11:0]        y = 1'd0;
+  reg [23-1:0]    cpu_scaler = 1'd0;
   <br/>
   <br/>
-  wire            [7:0]        red;
+  always @(posedge cpu_clock) begin
   <br/>
-  wire            [7:0]        green;
-  <br/>
-  wire            [7:0]        blue;
-  <br/>
-  <br/>
-  always @ (posedge pixel_clock) begin
-  <br/>
-  // VGA signal generator
-  <br/>
-  if (x == HORIZONTAL_TOTAL - 1) begin
-  <br/>
-  x &lt;= 1'd0;
-  <br/>
-  if (y == VERTICAL_TOTAL - 1) begin
-  <br/>
-  y &lt;= 1'd0;
-  <br/>
-  frame &lt;= frame + 1'd1;
-  <br/>
-  end else begin
-  <br/>
-  y &lt;= y + 1'd1;
-  <br/>
-  end
-  <br/>
-  end else begin
-  <br/>
-  x &lt;= x + 1'd1;
+  cpu_scaler &lt;= cpu_scaler + 1'd1;
   <br/>
   end
   <br/>
   <br/>
-  // Active pixels
+  TurpoCPU turpo_cpu(
   <br/>
-  active &lt;= (x &lt; HORIZONTAL_PIXELS &amp;&amp; y &lt; VERTICAL_PIXELS);
+  .clock(cpu_clock),
   <br/>
+  .enable(cpu_scaler == 1'd0),
   <br/>
-  // Horizontal sync
+  .in0({4'b0000, SWITCH}),
   <br/>
-  if (x &gt;= (HORIZONTAL_PIXELS + HORIZONTAL_FRONT_PORTCH) &amp;&amp; x &lt; (HORIZONTAL_PIXELS + HORIZONTAL_FRONT_PORTCH + HORIZONTAL_SYNC)) begin
-  <br/>
-  VGA_HSYNC &lt;= 1'b0;
-  <br/>
-  end else begin
-  <br/>
-  VGA_HSYNC &lt;= 1'b1;
-  <br/>
-  end
-  <br/>
-  <br/>
-  // Vertical sync
-  <br/>
-  if (y &gt;= (VERTICAL_PIXELS + VERTICAL_FRONT_PORTCH) &amp;&amp; y &lt; (VERTICAL_PIXELS + VERTICAL_FRONT_PORTCH + VERTICAL_SYNC)) begin
-  <br/>
-  VGA_VSYNC &lt;= 1'b0;
-  <br/>
-  end else begin
-  <br/>
-  VGA_VSYNC &lt;= 1'b1;
-  <br/>
-  end
-  <br/>
-  end
-  <br/>
-  <br/>
-  assign LED = {VGA_HSYNC, VGA_HSYNC, VGA_HSYNC, VGA_HSYNC, VGA_VSYNC, VGA_VSYNC, VGA_VSYNC, VGA_VSYNC};
-  <br/>
-  <br/>
-  <br/>
-  PixelShader #(
-  <br/>
-  .WIDTH(HORIZONTAL_PIXELS),
-  <br/>
-  .HEIGHT(VERTICAL_PIXELS)
-  <br/>
-  ) pixel_shader(
-  <br/>
-  .pixel_clock(pixel_clock),
-  <br/>
-  .active(active),
-  <br/>
-  .frame(frame),
-  <br/>
-  .x(x),
-  <br/>
-  .y(y),
-  <br/>
-  <br/>
-  .red(red),
-  <br/>
-  .green(green),
-  <br/>
-  .blue(blue)
+  .out0(LED)
   <br/>
   );
   <br/>
   <br/>
-  reg signed        [11:0]        red_accu;
   <br/>
-  reg signed        [11:0]        green_accu;
-  <br/>
-  reg signed        [11:0]        blue_accu;
+  endmodule
   <br/>
   <br/>
-  reg                [30:0]        lfsr31 = 1'd1;
-  <br/>
-  always @(posedge pixel_clock_x10) begin
-  <br/>
-  lfsr31 &lt;= {lfsr31[9] ^ lfsr31[5] ^ lfsr31[0], lfsr31[30:1]};
+  <b>
+   ----------------------------------------------------------------------------------------
+  </b>
   <br/>
   <br/>
-  if (~VGA_VSYNC &amp;&amp; ~BUTTON_DOWN) begin
-  <br/>
-  lfsr31 &lt;= 1'd1;
-  <br/>
-  end
+  // clock.v
   <br/>
   <br/>
-  red_accu = red;
+  `timescale 1ns / 1ps
   <br/>
-  green_accu = green;
-  <br/>
-  blue_accu = blue;
+  `default_nettype none
   <br/>
   <br/>
-  if (~BUTTON_UP) begin
+  <br/>
+  module ClockScaler #(
+  <br/>
+  parameter                    INPUT_CLOCK_PERIOD_NS = 0,
+  <br/>
+  parameter                    MULTIPLY = 2,                    // Multiply value 2..256
+  <br/>
+  parameter                    DIVIDE = 2                        // Divide value  1..256
+  <br/>
+  ) (
+  <br/>
+  input    wire                 input_clock,
+  <br/>
+  output    wire                 output_clock
+  <br/>
+  );
   <br/>
   <br/>
-  // R1G1B1
+  /*
   <br/>
-  red_accu = red_accu + lfsr31[7:0] - 128;
+  DCM_CLKGEN #(
   <br/>
-  green_accu = green_accu + lfsr31[7:0] - 128;
+  .CLKIN_PERIOD(INPUT_CLOCK_PERIOD_NS),        // Input clock period specified in ns
   <br/>
-  blue_accu = blue_accu + lfsr31[7:0] - 128;
+  .CLKFX_MULTIPLY(MULTIPLY),                     // Multiply value - M - (2-256)
   <br/>
+  .CLKFX_DIVIDE(DIVIDE),                         // Divide value - D - (1-256)
   <br/>
-  // R3G3B2
+  .SPREAD_SPECTRUM("NONE"),                   // Spread Spectrum mode "NONE", "CENTER_LOW_SPREAD", "CENTER_HIGH_SPREAD", "VIDEO_LINK_M0", "VIDEO_LINK_M1" or "VIDEO_LINK_M2"
   <br/>
-  red_accu = red_accu + lfsr31[5:0] - 32;
+  .STARTUP_WAIT("TRUE")                       // Delay config DONE until DCM_CLKGEN LOCKED (TRUE/FALSE)
   <br/>
-  green_accu = green_accu + lfsr31[5:0] - 32;
+  ) dcm0(
   <br/>
-  blue_accu = blue_accu + lfsr31[6:0] - 64;
+  .CLKIN(input_clock),                         // 1-bit input: Input clock
   <br/>
+  .RST(1'b0),                                 // 1-bit input: Reset input pin
   <br/>
-  end
-  <br/>
-  <br/>
-  // Saturate to 0..255
-  <br/>
-  if (red_accu &lt; 0) red_accu = 0;
-  <br/>
-  if (red_accu &gt; 255) red_accu = 255;
-  <br/>
-  if (green_accu &lt; 0) green_accu = 0;
-  <br/>
-  if (green_accu &gt; 255) green_accu = 255;
-  <br/>
-  if (blue_accu &lt; 0) blue_accu = 0;
-  <br/>
-  if (blue_accu &gt; 255) blue_accu = 255;
+  .FREEZEDCM(1'b0),                           // 1-bit input: Prevents frequency adjustments to input clock
   <br/>
   <br/>
-  // R3G3B2
+  .PROGCLK(),                                    // 1-bit input: Clock input for M/D reconfiguration
   <br/>
-  VGA_RED &lt;= {3{red_accu[7]}};    // red_accu[7:5];
+  .PROGDATA(),                                   // 1-bit input: Serial data input for M/D reconfiguration
   <br/>
-  VGA_GREEN &lt;= {3{green_accu[7]}};    // green_accu[7:5];
+  .PROGEN(),                                     // 1-bit input: Active high program enable
   <br/>
-  VGA_BLUE &lt;= {2{blue_accu[7]}};        // blue_accu[7:6];
+  .LOCKED(),                                    // 1-bit output: Locked output
+  <br/>
+  .CLKFX180(),                                // 1-bit output: Generated clock output 180 degree out of phase from CLKFX.
+  <br/>
+  .CLKFXDV(),                                 // 1-bit output: Divided clock output
+  <br/>
+  .PROGDONE(),                                // 1-bit output: Active high output to indicate the successful re-programming
+  <br/>
+  .STATUS(),                                  // 2-bit output: DCM_CLKGEN status
   <br/>
   <br/>
-  // R1G1B1
+  .CLKFX(output_clock)                         // 1-bit output: Generated clock output
   <br/>
-  //VGA_RED &lt;= red_accu[7];
+  );
   <br/>
-  //VGA_GREEN &lt;= green_accu[7];
-  <br/>
-  //VGA_BLUE &lt;= blue_accu[7];
+  */
   <br/>
   <br/>
-  end
+  wire                                 output_clock_unbuf;
+  <br/>
+  wire                                 pll_feedback;
+  <br/>
+  PLL_BASE #(
+  <br/>
+  .CLKIN_PERIOD(INPUT_CLOCK_PERIOD_NS),
+  <br/>
+  .CLKFBOUT_MULT(MULTIPLY),                    // Multiply value 1..64
+  <br/>
+  .CLKOUT0_DIVIDE(DIVIDE),                    // Divide value 1..128
+  <br/>
+  .CLKOUT0_PHASE(0.0),
+  <br/>
+  .CLK_FEEDBACK("CLKFBOUT"),
+  <br/>
+  .COMPENSATION("INTERNAL"),
+  <br/>
+  .DIVCLK_DIVIDE(1),
+  <br/>
+  .RESET_ON_LOSS_OF_LOCK("FALSE")
+  <br/>
+  ) pll_base_px(
+  <br/>
+  .CLKIN(input_clock),
+  <br/>
+  .RST(1'b0),
+  <br/>
+  .CLKFBIN(pll_feedback),
+  <br/>
+  <br/>
+  .CLKOUT0(output_clock_unbuf),
+  <br/>
+  .CLKOUT1(),
+  <br/>
+  .CLKOUT2(),
+  <br/>
+  .CLKOUT3(),
+  <br/>
+  .CLKOUT4(),
+  <br/>
+  .CLKOUT5(),
+  <br/>
+  <br/>
+  .CLKFBOUT(pll_feedback),
+  <br/>
+  .LOCKED()
+  <br/>
+  );
+  <br/>
+  <br/>
+  BUFG bufg_clk_px (
+  <br/>
+  .I(output_clock_unbuf),
+  <br/>
+  .O(output_clock)
+  <br/>
+  );
   <br/>
   <br/>
   endmodule
   <br/>
   <br/>
   <br/>
-  ------- Pixel shader ------
+  <b>
+   ----------------------------------------------------------------------------------------
+  </b>
+  <br/>
+  <br/>
+  _cpu.v
+  <br/>
+  // turpo
+  <br/>
+  `timescale 1ns / 1ps
+  <br/>
+  `default_nettype none
   <br/>
   <br/>
   <br/>
-  always @ (posedge pixel_clock) begin
+  module TurpoCPU(
   <br/>
-  red &lt;= 8'd0;
+  input wire                             clock,
   <br/>
-  green &lt;= 8'd0;
+  input wire                            enable,
   <br/>
-  blue &lt;= 8'd0;
+  input wire        [8-1:0]                in0,
+  <br/>
+  output reg        [8-1:0]                out0
+  <br/>
+  );
   <br/>
   <br/>
-  if (active) begin
+  initial                            out0 = 8'b10101010;
   <br/>
-  red &lt;= (255*x*dx &gt;&gt; 16);
   <br/>
-  green &lt;= (255*y*dy &gt;&gt; 16);
+  // Instruction opcodes
   <br/>
-  blue &lt;= 255 - ((red+green) &gt;&gt; 1);
+  parameter JMP_imm9          =     4'b0001;
+  <br/>
+  parameter MOVI_rd_imm6      =     4'b0010;
+  <br/>
+  parameter MOVX_rd_imm6      =     4'b0011;
+  <br/>
+  parameter ADDI_rd_imm6      =     4'b0100;
+  <br/>
+  //parameter SAI_rd_imm6       =     4'b0101;
+  <br/>
+  //parameter SLI_rd_imm6       =     4'b0110;
+  <br/>
+  parameter IN_rd_imm6        =     4'b0111;
+  <br/>
+  parameter OUT_rd_imm6       =     4'b1000;
+  <br/>
+  parameter ADD_rd_rs_rt      =     4'b1001;
+  <br/>
+  parameter SUB_rd_rs_rt      =     4'b1010;
+  <br/>
+  parameter AND_rd_rs_rt      =     4'b1011;
+  <br/>
+  parameter OR_rd_rs_rt       =     4'b1100;
+  <br/>
+  parameter XOR_rd_rs_rt      =     4'b1101;
+  <br/>
+  //parameter MUL_rd_rs_rt      =     4'b1110;
+  <br/>
+  //parameter UMUL_rd_rs_rt     =     4'b1111;
+  <br/>
+  parameter LD_rd_rs          =     7'b0000_001;
+  <br/>
+  parameter ST_rd_rs          =     7'b0000_010;
+  <br/>
+  <br/>
+  parameter MOV_rd_rs         =     7'b0000_011;
+  <br/>
+  //parameter INCZ_rd_rs        =     7'b0000_011;
+  <br/>
+  //parameter DECZ_rd_rs        =     7'b0000_100;
+  <br/>
+  <br/>
+  parameter SKPLT_rd_rs       =     7'b0000_101;
+  <br/>
+  parameter SKPLE_rd_rs       =     7'b0000_110;
+  <br/>
+  parameter SKPEQ_rd_rs       =     7'b0000_111;
+  <br/>
+  parameter SLL_rd            =    10'b0000_000_001;
+  <br/>
+  parameter SLR_rd            =    10'b0000_000_010;
+  <br/>
+  parameter NOT_rd            =    10'b0000_000_011;
+  <br/>
+  parameter NEG_rd            =    10'b0000_000_100;
+  <br/>
+  parameter ABS_rd            =    10'b0000_000_101;
+  <br/>
+  parameter SKPZ_rd           =    10'b0000_000_110;
+  <br/>
+  parameter SKPNZ_rd          =    10'b0000_000_111;
+  <br/>
+  parameter NOP               =    13'b0000_000_000_001;
+  <br/>
+  parameter HCF               =    13'b0000_000_000_000;
+  <br/>
+  <br/>
+  // General purpose regisgters
+  <br/>
+  parameter R0 =                    3'h0;
+  <br/>
+  parameter R1 =                    3'h1;
+  <br/>
+  parameter R2 =                    3'h2;
+  <br/>
+  parameter R3 =                    3'h3;
+  <br/>
+  parameter R4 =                    3'h4;
+  <br/>
+  parameter R5 =                    3'h5;
+  <br/>
+  parameter R6 =                    3'h6;
+  <br/>
+  parameter R7 =                    3'h7;
+  <br/>
+  <br/>
+  // Register file
+  <br/>
+  reg     [18-1:0]                  registers[2**3-1:0];
+  <br/>
+  <br/>
+  // Program counter
+  <br/>
+  reg     [9-1:0]                   program_counter = 0;
+  <br/>
+  <br/>
+  // Program memory
+  <br/>
+  reg        [13-1:0]                  program_memory[2**9-1:0];
+  <br/>
+  <br/>
+  // Data memory
+  <br/>
+  reg     [18-1:0]                  data_memory[2**8-1:0];
+  <br/>
+  <br/>
+  // Current instruction
+  <br/>
+  wire    [12:0]      instruction = program_memory[program_counter];
+  <br/>
+  wire    [3:0]       opcode4 = instruction[12:9];
+  <br/>
+  wire    [2:0]       opcode4_rd = instruction[8:6];
+  <br/>
+  wire    [2:0]       opcode4_rs = instruction[5:3];
+  <br/>
+  wire    [2:0]       opcode4_rt = instruction[2:0];
+  <br/>
+  wire    [8:0]       opcode4_imm9 = instruction[8:0];
+  <br/>
+  wire    [5:0]       opcode4_imm6 = instruction[5:0];
+  <br/>
+  wire    [6:0]       opcode7 = instruction[12:6];
+  <br/>
+  wire    [2:0]       opcode7_rd = instruction[5:3];
+  <br/>
+  wire    [2:0]       opcode7_rs = instruction[2:0];
+  <br/>
+  wire    [9:0]       opcode10 = instruction[12:3];
+  <br/>
+  wire    [2:0]       opcode10_rd = instruction[2:0];
+  <br/>
+  wire    [12:0]      opcode13 = instruction[12:0];
+  <br/>
+  <br/>
+  <br/>
+  // Initialize data memory, with test pattern
+  <br/>
+  integer i;
+  <br/>
+  integer d;
+  <br/>
+  initial begin
+  <br/>
+  d = 1;
+  <br/>
+  for (i = 0; i &lt; 256; i = i + 1) begin
+  <br/>
+  //data_memory[i] = d | i;
+  <br/>
+  //d = (d &lt;&lt; 1) + !(d &amp; 8'b10000000);
+  <br/>
+  //if (d == 0) d = 8'b00000001;
+  <br/>
+  data_memory[i] = 1 &lt;&lt; i;
   <br/>
   end
   <br/>
@@ -497,6 +458,216 @@
   <br/>
   <br/>
   <br/>
+  // Initialize program memory
+  <br/>
+  initial begin
+  <br/>
+  program_memory[0] =     { MOVI_rd_imm6,     R0,     6'b000001        };
+  <br/>
+  program_memory[1] =     { OUT_rd_imm6,      R0,     6'd0               };
+  <br/>
+  program_memory[2] =     { MOVI_rd_imm6,     R0,     6'b000010        };
+  <br/>
+  program_memory[3] =     { OUT_rd_imm6,      R0,     6'd0               };
+  <br/>
+  program_memory[4] =     { MOVI_rd_imm6,     R0,     6'b000100        };
+  <br/>
+  program_memory[5] =     { OUT_rd_imm6,      R0,     6'd0               };
+  <br/>
+  program_memory[6] =     { MOVI_rd_imm6,     R0,     6'b001000        };
+  <br/>
+  program_memory[7] =     { OUT_rd_imm6,      R0,     6'd0               };
+  <br/>
+  program_memory[8] =     { MOVI_rd_imm6,     R0,     6'b010000        };
+  <br/>
+  program_memory[9] =     { OUT_rd_imm6,      R0,     6'd0               };
+  <br/>
+  program_memory[10] =    { MOVI_rd_imm6,     R0,     6'b100000        };
+  <br/>
+  program_memory[11] =    { OUT_rd_imm6,      R0,     6'd0               };
+  <br/>
+  program_memory[12] =    { MOVI_rd_imm6,     R0,     6'b010000        };
+  <br/>
+  program_memory[13] =    { OUT_rd_imm6,      R0,     6'd0               };
+  <br/>
+  program_memory[14] =    { MOVI_rd_imm6,     R0,     6'b001000        };
+  <br/>
+  program_memory[15] =    { OUT_rd_imm6,      R0,     6'd0               };
+  <br/>
+  program_memory[16] =    { MOVI_rd_imm6,     R0,     6'b000100        };
+  <br/>
+  program_memory[17] =    { OUT_rd_imm6,      R0,     6'd0               };
+  <br/>
+  program_memory[18] =    { MOVI_rd_imm6,     R0,     6'b000010        };
+  <br/>
+  program_memory[19] =    { OUT_rd_imm6,      R0,     6'd0               };
+  <br/>
+  program_memory[20] =    { JMP_imm9,         9'd0                         };
+  <br/>
+  end
+  <br/>
+  <br/>
+  // Synchronous part of processor
+  <br/>
+  always @(posedge clock) begin
+  <br/>
+  if (enable) begin
+  <br/>
+  program_counter &lt;= program_counter + 1;
+  <br/>
+  case(opcode4)
+  <br/>
+  JMP_imm9:       program_counter &lt;= opcode4_imm9;
+  <br/>
+  MOVI_rd_imm6:   registers[opcode4_rd] &lt;= $signed(opcode4_imm6);
+  <br/>
+  MOVX_rd_imm6:   registers[opcode4_rd] &lt;= (registers[opcode4_rd] &lt;&lt; 'd6) | opcode4_imm6;
+  <br/>
+  ADDI_rd_imm6:   registers[opcode4_rd] &lt;= registers[opcode4_rd] + $signed(opcode4_imm6[5:0]);
+  <br/>
+  //SAI_rd_imm6:    registers[opcode4_rd] &lt;= (opcode4_imm6[5]) ? registers[opcode4_rd] &gt;&gt;&gt; -(opcode4_imm6[4:0]) : registers[opcode4_rd] &lt;&lt;&lt; opcode4_imm6[4:0];
+  <br/>
+  //SLI_rd_imm6:    registers[opcode4_rd] &lt;= (opcode4_imm6[5]) ? registers[opcode4_rd] &gt;&gt; -(opcode4_imm6[5:0]) : registers[opcode4_rd] &lt;&lt; opcode4_imm6[4:0];
+  <br/>
+  IN_rd_imm6:     registers[opcode4_rd] &lt;= in0;
+  <br/>
+  OUT_rd_imm6:    out0[7:0] &lt;= registers[opcode4_rd];
+  <br/>
+  ADD_rd_rs_rt:   registers[opcode4_rd] &lt;= registers[opcode4_rs] + registers[opcode4_rt];
+  <br/>
+  SUB_rd_rs_rt:   registers[opcode4_rd] &lt;= registers[opcode4_rs] - registers[opcode4_rt];
+  <br/>
+  AND_rd_rs_rt:   registers[opcode4_rd] &lt;= registers[opcode4_rs] &amp; registers[opcode4_rt];
+  <br/>
+  OR_rd_rs_rt:    registers[opcode4_rd] &lt;= registers[opcode4_rs] | registers[opcode4_rt];
+  <br/>
+  XOR_rd_rs_rt:   registers[opcode4_rd] &lt;= registers[opcode4_rs] ^ registers[opcode4_rt];
+  <br/>
+  //MUL_rd_rs_rt:   registers[opcode4_rd] &lt;= $signed(registers[opcode4_rs]) * $signed(registers[opcode4_rt]);
+  <br/>
+  //UMUL_rd_rs_rt:  registers[opcode4_rd] &lt;= registers[opcode4_rs] * registers[opcode4_rt];
+  <br/>
+  default:
+  <br/>
+  case(opcode7)
+  <br/>
+  LD_rd_rs:       registers[opcode7_rd] &lt;= data_memory[registers[opcode7_rs]];
+  <br/>
+  ST_rd_rs:       data_memory[registers[opcode7_rs]] &lt;= registers[opcode7_rd];
+  <br/>
+  MOV_rd_rs:        registers[opcode7_rd] &lt;= registers[opcode7_rs];
+  <br/>
+  //INCZ_rd_rs:     registers[opcode7_rd] &lt;= registers[opcode7_rd] + ((registers[opcode7_rs] == 0) ? 1'b1 : 1'b0);
+  <br/>
+  //DECZ_rd_rs:     registers[opcode7_rd] &lt;= registers[opcode7_rd] - ((registers[opcode7_rs] == 0) ? 1'b1 : 1'b0);
+  <br/>
+  SKPLT_rd_rs:    program_counter &lt;= program_counter + ((registers[opcode7_rd] &lt; registers[opcode7_rs]) ? 'd2 : 'd1);
+  <br/>
+  SKPLE_rd_rs:    program_counter &lt;= program_counter + ((registers[opcode7_rd] &lt;= registers[opcode7_rs]) ? 'd2 : 'd1);
+  <br/>
+  SKPEQ_rd_rs:    program_counter &lt;= program_counter + ((registers[opcode7_rd] == registers[opcode7_rs]) ? 'd2 : 'd1);
+  <br/>
+  default:
+  <br/>
+  case(opcode10)
+  <br/>
+  SLL_rd:         registers[opcode10_rd] &lt;= registers[opcode10_rd] &lt;&lt; 1'd1;
+  <br/>
+  SLR_rd:         registers[opcode10_rd] &lt;= registers[opcode10_rd] &gt;&gt; 1'd1;
+  <br/>
+  NOT_rd:         registers[opcode10_rd] &lt;= ~registers[opcode10_rd];
+  <br/>
+  NEG_rd:         registers[opcode10_rd] &lt;= -registers[opcode10_rd];
+  <br/>
+  ABS_rd:         registers[opcode10_rd] &lt;= (registers[opcode10_rd] &lt; 0) ? -registers[opcode10_rd] : registers[opcode10_rd];
+  <br/>
+  SKPZ_rd:        program_counter &lt;= program_counter + ((registers[opcode10_rd] == 0) ? 'd2 : 'd1);
+  <br/>
+  SKPNZ_rd:       program_counter &lt;= program_counter + ((registers[opcode10_rd] != 0) ? 'd2 : 'd1);
+  <br/>
+  default:
+  <br/>
+  case(opcode13)
+  <br/>
+  HCF:            program_counter &lt;= program_counter;
+  <br/>
+  endcase
+  <br/>
+  endcase
+  <br/>
+  endcase
+  <br/>
+  endcase
+  <br/>
+  end
+  <br/>
+  end
+  <br/>
+  endmodule
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   ----------------------------------------------------------------------------------------
+  </b>
+  <br/>
+  <br/>
+  # board-minispartan-xc6slx25-ftg256-3.ucf
+  <br/>
+  #
+  <br/>
+  # Board: Scarab miniSpartan6+ Rev B
+  <br/>
+  # Family: Spartan-6
+  <br/>
+  # Device: LX25
+  <br/>
+  # Package: FTG256
+  <br/>
+  # Speed: -3
+  <br/>
+  <br/>
+  CONFIG VCCAUX = 3.3;
+  <br/>
+  <br/>
+  # External oscillator
+  <br/>
+  NET "EXTERNAL_CLOCK"                LOC = "K3" | IOSTANDARD = LVCMOS33 | PERIOD = 50 MHz; # = 20 ns;
+  <br/>
+  <br/>
+  <br/>
+  # DIP Switches
+  <br/>
+  NET "SWITCH[0]"                      LOC = "L1"  | IOSTANDARD = LVCMOS33 | PULLUP;
+  <br/>
+  NET "SWITCH[1]"                     LOC = "L3"  | IOSTANDARD = LVCMOS33 | PULLUP;
+  <br/>
+  NET "SWITCH[2]"                     LOC = "L4"  | IOSTANDARD = LVCMOS33 | PULLUP;
+  <br/>
+  NET "SWITCH[3]"                     LOC = "L5"  | IOSTANDARD = LVCMOS33 | PULLUP;
+  <br/>
+  <br/>
+  NET "LED[0]"                        LOC = "P11" | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET "LED[1]"                        LOC = "N9"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET "LED[2]"                        LOC = "M9"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET "LED[3]"                        LOC = "P9"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET "LED[4]"                        LOC = "T8"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET "LED[5]"                        LOC = "N8"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET "LED[6]"                        LOC = "P8"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  NET "LED[7]"                        LOC = "P7"  | IOSTANDARD = LVCMOS33 | DRIVE=8 | SLEW=SLOW;
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   ----------------------------------------------------------------------------------------
+  </b>
   <br/>
   <br/>
  </body>
