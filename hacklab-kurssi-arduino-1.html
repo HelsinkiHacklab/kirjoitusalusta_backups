@@ -15,22 +15,208 @@
   </b>
   <br/>
   <br/>
-  <ul>
-   <li>
-    [TODO]
-    <br/>
-    <br/>
-   </li>
-  </ul>
+  Tämä sivu:
+  <a href="./hacklab-kurssi-arduino-1.html">
+   https://kirjoitusalusta.fi/hacklab-kurssi-arduino-1
+  </a>
+  <br/>
+  <br/>
   <b>
-   1/5
+   <u>
+    1of5 - Maanantai 2016-09-10
+   </u>
   </b>
   <br/>
   <ul>
    <li>
-    mikä Arduino on ja mitä sillä voi tehdä
+    yleistä kurssista ja labista
+   </li>
+   <li>
+    asennetaan Arduino IDE
+    <ul>
+     <li>
+      <a href="https://www.arduino.cc/">
+       https://www.arduino.cc/
+      </a>
+      -&gt; Download
+     </li>
+    </ul>
+   </li>
+   <li>
+    ohjelmoidaan Blink-esimerkki
+    <ul>
+     <li>
+      avaa File-&gt;Examples-&gt;01.Basics-&gt;Blink
+     </li>
+     <li>
+      muutetaan ajastuksia
+     </li>
+    </ul>
+   </li>
+   <li>
+    kirjoitetaan täysin tyhjästä Blinkiä vastaava ohjelma
+   </li>
+   <li>
+    tehdään ensimmäinen leipälautakytkentä
+    <ul>
+     <li>
+      <a href="http://blog.kennyrasschaert.be/images/20140401/pushbutton-simple-diagram.png">
+       http://blog.kennyrasschaert.be/images/20140401/pushbutton-simple-diagram.png
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li>
+    tauko, labiesittely
+   </li>
+   <li>
+    tehdään yksinkertainen potentiometrin lukeminen
+    <ul>
+     <li>
+      <a href="https://qph.ec.quoracdn.net/main-qimg-3b294f2e74073525723aacf5e7587b2b">
+       https://qph.ec.quoracdn.net/main-qimg-3b294f2e74073525723aacf5e7587b2b
+      </a>
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+   <li>
+    mikäs tää Arduino nyt sitten oikein on?
+   </li>
+   <li>
+    mitä sillä voi tehdä?
+   </li>
+   <li>
+    mitä ei kannata tehdä?
+   </li>
+   <li>
+    mikä on Raspberry Pi?
     <br/>
     <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  Koodi:
+  <br/>
+  <br/>
+  // Tällä voidaan helpommin visualisoida analogisten antureiden arvoalueita. Testaa ensin potentiometrillä.
+  <br/>
+  <br/>
+  void setup() {
+  <br/>
+  Serial.begin(115200);
+  <br/>
+  <br/>
+  pinMode(2, INPUT_PULLUP);
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+  // Tulostaa luvun 0..1023 aina neljän merkin mittaisena "   0", "  99", .. " 999", "1023"
+  <br/>
+  void tulosta_arvo(int analogi_arvo) {
+  <br/>
+  if (analogi_arvo &lt; 10) {
+  <br/>
+  Serial.print("   ");
+  <br/>
+  } else if (analogi_arvo &lt; 100) {
+  <br/>
+  Serial.print("  ");
+  <br/>
+  } else if (analogi_arvo &lt; 1000) {
+  <br/>
+  Serial.print(" ");
+  <br/>
+  }
+  <br/>
+  Serial.print(analogi_arvo);
+  <br/>
+  Serial.print(" ");
+  <br/>
+  }
+  <br/>
+  <br/>
+  // Palkin pituus pitää säätää oman näytön mukaan siten, että Serial Monitorissa rivit mahtuvat ruudulle, mutta ovat mahdollisimman pitkiä
+  <br/>
+  void piirra_palkki(int analogi_arvo, int palkin_pituus = 80) {
+  <br/>
+  // Skaalataan arvo 0..1023 piirtoa varten 0..palkin_pituus
+  <br/>
+  int palkin_arvo = (long(analogi_arvo)*palkin_pituus)/1023;
+  <br/>
+  <br/>
+  // Piirretään palkki "======&gt;.....+.........+" tyylisesti, tätä koodia ei tarvitse ymmärtää
+  <br/>
+  for (int i = 0; i &lt; palkin_pituus; ++i) {
+  <br/>
+  if (palkin_arvo &gt; i) {
+  <br/>
+  Serial.print("=");
+  <br/>
+  } else if (palkin_arvo == i) {
+  <br/>
+  Serial.print("&gt;");
+  <br/>
+  } else if (i % 10 == 0) {
+  <br/>
+  Serial.write("+");  //  "·"
+  <br/>
+  } else {
+  <br/>
+  Serial.write(".");  //  "."
+  <br/>
+  }
+  <br/>
+  }
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+  void loop() {
+  <br/>
+  <br/>
+  int arvo = analogRead(A2);
+  <br/>
+  <br/>
+  tulosta_arvo(arvo);
+  <br/>
+  //piirra_palkki(arvo, 80);
+  <br/>
+  Serial.println();
+  <br/>
+  <br/>
+  delay(1);
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <b>
+   4of5 :
+  </b>
+  <br/>
+  <ul>
+   <li>
+    RFID-levy
+    <ul>
+     <li>
+      <a href="https://github.com/miguelbalboa/rfid">
+       https://github.com/miguelbalboa/rfid
+      </a>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+     </li>
+    </ul>
    </li>
   </ul>
  </body>
