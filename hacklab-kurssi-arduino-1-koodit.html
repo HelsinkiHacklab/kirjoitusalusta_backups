@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /hacklab-kurssi-arduino-1-koodit
+  </title>
+ </head>
+ <body>
+  <br/>
+  void setup() {
+  <br/>
+  Serial.begin(115200);
+  <br/>
+  <br/>
+  pinMode(11, OUTPUT);
+  <br/>
+  pinMode(10, OUTPUT);
+  <br/>
+  pinMode(9, OUTPUT);
+  <br/>
+  <br/>
+  pinMode(7, INPUT_PULLUP);
+  <br/>
+  }
+  <br/>
+  <br/>
+  void loop() {
+  <br/>
+  // Lukee jännitteen 0..5V pinnistä A0
+  <br/>
+  int punainen = analogRead(A0)/4;
+  <br/>
+  int vihrea = analogRead(A1)/4;
+  <br/>
+  int sininen = digitalRead(7);
+  <br/>
+  <br/>
+  // Tulostetaan lukuna, omille riveilleen
+  <br/>
+  //Serial.println(arvo);
+  <br/>
+  <br/>
+  analogWrite(11, 255 - punainen);
+  <br/>
+  analogWrite(10, 255 - vihrea);
+  <br/>
+  digitalWrite(9, 1 - sininen);
+  <br/>
+  <br/>
+  // Pidetään pieni tauko, että serial monitor pysyy perässä
+  <br/>
+  //delay(1);
+  <br/>
+  }
+  <br/>
+  <br/>
+ </body>
+</html>
