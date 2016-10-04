@@ -28,6 +28,254 @@
   <br/>
   <b>
    <u>
+    4of5 - Maanantai 2016-10-03
+   </u>
+  </b>
+  <br/>
+  <ul>
+   <li>
+    uutinen:
+    <a href="https://blog.arduino.cc/2016/10/01/two-arduinos-become-one-2/">
+     https://blog.arduino.cc/2016/10/01/two-arduinos-become-one-2/
+    </a>
+   </li>
+   <li>
+    askelmoottori testejä, oli vähän demoefektejä
+    <ul>
+     <li>
+      paketissa tuleva levy _ei_ ole moottoriohjain, vain 'darlington'-array
+     </li>
+     <li>
+      sopii vain unipolar-steppereille (min. 5 johtoa) tai DC-moottorin yhteen suuntaan ajamiseen
+     </li>
+    </ul>
+   </li>
+   <li>
+    LCD-merkkinäyttö, I2C-ohjaimella
+    <ul>
+     <li>
+      <a href="http://henrysbench.capnfatz.com/henrys-bench/arduino-displays/ywrobot-lcm1602-iic-v1-lcd-arduino-tutorial/">
+       http://henrysbench.capnfatz.com/henrys-bench/arduino-displays/ywrobot-lcm1602-iic-v1-lcd-arduino-tutorial/
+      </a>
+     </li>
+     <li>
+      <a href="https://bitbucket.org/fmalpartida/new-liquidcrystal/downloads/NewliquidCrystal_1.3.4.zip">
+       https://bitbucket.org/fmalpartida/new-liquidcrystal/downloads/NewliquidCrystal_1.3.4.zip
+      </a>
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  // KOODI
+  <br/>
+  #include &lt;Wire.h&gt;
+  <br/>
+  #include &lt;LiquidCrystal_I2C.h&gt; // Using version 1.2.1
+  <br/>
+  <br/>
+  // The LCD constructor - address shown is 0x27 - may or may not be correct for yours
+  <br/>
+  // Also based on YWRobot LCM1602 IIC V1
+  <br/>
+  LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
+  <br/>
+  <br/>
+  void setup()
+  <br/>
+  {
+  <br/>
+  lcd.begin(16,2); // sixteen characters across - 2 lines
+  <br/>
+  lcd.backlight();
+  <br/>
+  // first character - 1st line
+  <br/>
+  lcd.setCursor(0,0);
+  <br/>
+  lcd.print("Hello World!");
+  <br/>
+  // 8th character - 2nd line
+  <br/>
+  lcd.setCursor(8,1);
+  <br/>
+  lcd.print("-------");
+  <br/>
+  }
+  <br/>
+  <br/>
+  void printXX(unsigned long arvo) {
+  <br/>
+  if (arvo &lt; 10) lcd.print("0");
+  <br/>
+  lcd.print(arvo);
+  <br/>
+  }
+  <br/>
+  <br/>
+  void loop() {
+  <br/>
+  <br/>
+  unsigned long aika = millis();
+  <br/>
+  <br/>
+  unsigned long HH = aika/(1000*60*60) %24;   // 0..23
+  <br/>
+  unsigned long mm = aika/(1000*60) %60;      // 0..59
+  <br/>
+  unsigned long ss = aika/(1000)%60;         // 0..59
+  <br/>
+  unsigned long ms = aika%1000;                // 0..999
+  <br/>
+  <br/>
+  lcd.clear();
+  <br/>
+  lcd.setCursor(0,0);
+  <br/>
+  printXX(HH);
+  <br/>
+  lcd.print(":");
+  <br/>
+  printXX(mm);
+  <br/>
+  lcd.print(":");
+  <br/>
+  printXX(ss);
+  <br/>
+  lcd.print(".");
+  <br/>
+  printXX(ms);
+  <br/>
+  <br/>
+  delay(100);
+  <br/>
+  <br/>
+  }
+  <br/>
+  <br/>
+  // LOPPUU
+  <br/>
+  <br/>
+  <b>
+   <u>
+    3of5 - Maanantai 2016-09-26
+   </u>
+  </b>
+  <br/>
+  <ul>
+   <li>
+    ohjaimella säädettävä RGB-ledi, vähän ohjelmointi harjoitusta
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  // 2D Servo koodi alkaa
+  <br/>
+  #include &lt;Servo.h&gt;
+  <br/>
+  <br/>
+  Servo servo1;
+  <br/>
+  Servo servo2;
+  <br/>
+  <br/>
+  const int pinServo1 = 9;
+  <br/>
+  const int pinServo2 = 8;
+  <br/>
+  <br/>
+  const int pinButton = 2;
+  <br/>
+  const int pinX = A0;
+  <br/>
+  const int pinY = A1;
+  <br/>
+  <br/>
+  <br/>
+  void setup() {
+  <br/>
+  pinMode(pinX, INPUT);
+  <br/>
+  pinMode(pinY, INPUT);
+  <br/>
+  pinMode(pinButton, INPUT_PULLUP);
+  <br/>
+  <br/>
+  servo1.attach(pinServo1);
+  <br/>
+  servo2.attach(pinServo2);
+  <br/>
+  }
+  <br/>
+  <br/>
+  int u = 90;
+  <br/>
+  int v = 90;
+  <br/>
+  <br/>
+  void loop() {
+  <br/>
+  int x = analogRead(pinX);     // 0..1023
+  <br/>
+  int y = analogRead(pinY);     // 0..1023
+  <br/>
+  <br/>
+  if (x &lt; 480) {
+  <br/>
+  u = u - 1;
+  <br/>
+  }
+  <br/>
+  if (x &gt; 535) {
+  <br/>
+  u = u + 1;
+  <br/>
+  }
+  <br/>
+  u = constrain(u, 0, 180);
+  <br/>
+  <br/>
+  if (y &lt; 470) {
+  <br/>
+  v = v - 1;
+  <br/>
+  }
+  <br/>
+  if (y &gt; 530) {
+  <br/>
+  v = v + 1;
+  <br/>
+  }
+  <br/>
+  v = constrain(v, 0, 180);
+  <br/>
+  <br/>
+  servo1.write(u);
+  <br/>
+  servo2.write(v);
+  <br/>
+  <br/>
+  if (!digitalRead(pinButton)) {
+  <br/>
+  u = 90;
+  <br/>
+  v = 90;
+  <br/>
+  }
+  <br/>
+  <br/>
+  delay(15);
+  <br/>
+  }
+  <br/>
+  <br/>
+  <br/>
+  // koodi loppuu
+  <br/>
+  <br/>
+  <b>
+   <u>
     2of5 - Maanantai 2016-09-19
    </u>
   </b>
@@ -49,8 +297,7 @@
    </li>
    <li>
     polymorph-tauko
-   </li>
-   <li>
+    <br/>
     <br/>
     <br/>
     <br/>
