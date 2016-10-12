@@ -28,47 +28,19 @@
   <br/>
   <b>
    <u>
-    4of5 - Maanantai 2016-10-03
+    5of5 - Maanantai 2016-10-10
    </u>
   </b>
   <br/>
   <ul>
    <li>
-    uutinen:
-    <a href="https://blog.arduino.cc/2016/10/01/two-arduinos-become-one-2/">
-     https://blog.arduino.cc/2016/10/01/two-arduinos-become-one-2/
-    </a>
-   </li>
-   <li>
-    askelmoottori testejä, oli vähän demoefektejä
-    <ul>
-     <li>
-      paketissa tuleva levy _ei_ ole moottoriohjain, vain 'darlington'-array
-     </li>
-     <li>
-      sopii vain unipolar-steppereille (min. 5 johtoa) tai DC-moottorin yhteen suuntaan ajamiseen
-     </li>
-    </ul>
-   </li>
-   <li>
-    LCD-merkkinäyttö, I2C-ohjaimella
-    <ul>
-     <li>
-      <a href="http://henrysbench.capnfatz.com/henrys-bench/arduino-displays/ywrobot-lcm1602-iic-v1-lcd-arduino-tutorial/">
-       http://henrysbench.capnfatz.com/henrys-bench/arduino-displays/ywrobot-lcm1602-iic-v1-lcd-arduino-tutorial/
-      </a>
-     </li>
-     <li>
-      <a href="https://bitbucket.org/fmalpartida/new-liquidcrystal/downloads/NewliquidCrystal_1.3.4.zip">
-       https://bitbucket.org/fmalpartida/new-liquidcrystal/downloads/NewliquidCrystal_1.3.4.zip
-      </a>
-      <br/>
-      <br/>
-     </li>
-    </ul>
+    <br/>
+    <br/>
+    <br/>
    </li>
   </ul>
-  // KOODI
+  // KOODI alkaa
+  <br/>
   <br/>
   #include &lt;Wire.h&gt;
   <br/>
@@ -120,13 +92,13 @@
   unsigned long aika = millis();
   <br/>
   <br/>
-  unsigned long HH = aika/(1000*60*60) %24;   // 0..23
+  unsigned long ms = aika%1000;               // 0..999
   <br/>
-  unsigned long mm = aika/(1000*60) %60;      // 0..59
+  unsigned long ss = aika/1000ul%60;          // 0..59
   <br/>
-  unsigned long ss = aika/(1000)%60;         // 0..59
+  unsigned long mm = aika/60000ul%60;         // 0..59
   <br/>
-  unsigned long ms = aika%1000;                // 0..999
+  unsigned long HH = aika/3600000ul%24;       // 0..23
   <br/>
   <br/>
   lcd.clear();
@@ -154,9 +126,55 @@
   }
   <br/>
   <br/>
-  // LOPPUU
   <br/>
   <br/>
+  // KOODI loppuu
+  <br/>
+  <br/>
+  <b>
+   <u>
+    4of5 - Maanantai 2016-10-03
+   </u>
+  </b>
+  <br/>
+  <ul>
+   <li>
+    uutinen:
+    <a href="https://blog.arduino.cc/2016/10/01/two-arduinos-become-one-2/">
+     https://blog.arduino.cc/2016/10/01/two-arduinos-become-one-2/
+    </a>
+   </li>
+   <li>
+    askelmoottori testejä, oli vähän demoefektejä
+    <ul>
+     <li>
+      paketissa tuleva levy _ei_ ole moottoriohjain, vain 'darlington'-array
+     </li>
+     <li>
+      sopii vain unipolar-steppereille (min. 5 johtoa) tai DC-moottorin yhteen suuntaan ajamiseen
+     </li>
+    </ul>
+   </li>
+   <li>
+    LCD-merkkinäyttö, I2C-ohjaimella
+    <ul>
+     <li>
+      <a href="http://henrysbench.capnfatz.com/henrys-bench/arduino-displays/ywrobot-lcm1602-iic-v1-lcd-arduino-tutorial/">
+       http://henrysbench.capnfatz.com/henrys-bench/arduino-displays/ywrobot-lcm1602-iic-v1-lcd-arduino-tutorial/
+      </a>
+     </li>
+     <li>
+      <a href="https://bitbucket.org/fmalpartida/new-liquidcrystal/downloads/NewliquidCrystal_1.3.4.zip">
+       https://bitbucket.org/fmalpartida/new-liquidcrystal/downloads/NewliquidCrystal_1.3.4.zip
+      </a>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
   <b>
    <u>
     3of5 - Maanantai 2016-09-26
