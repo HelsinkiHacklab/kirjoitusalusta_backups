@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 from __future__ import with_statement
 from __future__ import print_function
 import re, urllib2
@@ -59,11 +59,11 @@ class fetcher:
         print("Fetching %s" % export_url)
         try:
             fp = urllib2.urlopen(export_url)
-        except urllib2.URLError,e:
+        except urllib2.URLError as e:
             print("Failed to fetchs %s: %s" % (export_url, e))
             return False
         soup = BeautifulSoup(fp, "html5lib")
-        
+
         recurse_links = soup.find_all('a', href=PAD_RECURSE_HREF_RE)
         for tag in recurse_links:
             # Doublecheck the url is sane pad
@@ -92,4 +92,3 @@ if __name__ == '__main__':
     os.system('git add *.html')
     os.system("git commit -m 'automatic commit from the dump.py script'")
     os.system('git push')
-
