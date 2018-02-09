@@ -79,7 +79,7 @@ class fetcher:
             tag['href'] = './%s' % new_htmlfile
 
         # Dump the soup to a file
-        with open(htmlfile, 'w') as f:
+        with open(htmlfile, 'wb') as f:
             f.write(soup.prettify().encode('utf-8'))
 
 if __name__ == '__main__':
