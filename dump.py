@@ -1,7 +1,7 @@
-#!/usr/bin/env python
-from __future__ import with_statement
-from __future__ import print_function
-import re, urllib2
+#!/usr/bin/env python3
+
+
+import re, urllib.request, urllib.error, urllib.parse
 from bs4 import BeautifulSoup
 
 # Some configurable things
@@ -28,7 +28,7 @@ class jobmanager:
 
     def add_to_queue(self, url):
         """Add given URL to job queue unless it has previously been added there already"""
-        if self.seen_urls.has_key(url):
+        if url in self.seen_urls:
             return False
         self.job_queue.append(url)
         self.seen_urls[url] = True
@@ -58,8 +58,8 @@ class fetcher:
         export_url = PAD_EXPORT_URL_FORMAT % pad_name
         print("Fetching %s" % export_url)
         try:
-            fp = urllib2.urlopen(export_url)
-        except urllib2.URLError as e:
+            fp = urllib.request.urlopen(export_url)
+        except urllib.error.URLError as e:
             print("Failed to fetchs %s: %s" % (export_url, e))
             return False
         soup = BeautifulSoup(fp, "html5lib")
