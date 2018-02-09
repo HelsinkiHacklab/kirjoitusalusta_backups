@@ -1,0 +1,447 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-type"/>
+  <meta content="en-us" http-equiv="Content-Language"/>
+  <title>
+   /vaasahack-freecad
+  </title>
+ </head>
+ <body>
+  <b>
+   <u>
+    FreeCAD-perusteet (Vaasa Hacklab 17.10.2017)
+   </u>
+  </b>
+  <br/>
+  <br/>
+  <b>
+   Asennus:
+  </b>
+  <a href="https://www.freecadweb.org/wiki/Download">
+   https://www.freecadweb.org/wiki/Download
+  </a>
+  <br/>
+  <br/>
+  <b>
+   Ohjelman käynnistys ja uusi tiedosto:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Tyhjä ikkuna -&gt; View (yläpalkissa) -&gt; Workbench -&gt; Part Design
+   </li>
+   <li>
+    File -&gt; New tai Create new document -kuvake (Filen alapuolella)
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Käyttöliittymä:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Combo View (näytön vasen reuna)
+    <ul>
+     <li>
+      Model-välilehdellä on ylhäällä mallin rakenne (mallipuu) ja alempana valitun piirteen ominaisuudet
+     </li>
+     <li>
+      Tasks-välilehden sisältö muuttuu sen mukaan mitä ollaan tekemässä. Tasks näyttää käytössä olevan työkalun asetukset tai ehdotuksia työkaluista jos mikään ei ole juuri käytössä.
+     </li>
+    </ul>
+   </li>
+   <li>
+    3D-näkymä
+    <ul>
+     <li>
+      Näyttää mallin graafisesti
+     </li>
+     <li>
+      Kohteita voi valita ja mallia pyöritellä/panoroida/zoomata hiiren avulla
+      <ul>
+       <li>
+        Suositeltavaa vaihtaa navigointiasetukset: hiiren oikea nappi 3D-näkymässä -&gt; Navigation styles -&gt; Blender
+       </li>
+       <li>
+        Kohteiden valinta: Hiiren vasen nappi (Ctrl pohjassa voi valita useampia kohteita)
+       </li>
+       <li>
+        Pyörittely: hiiren keskinappi (rulla)
+       </li>
+       <li>
+        Panorointi: Shift + hiiren keskinappi (rulla)
+       </li>
+       <li>
+        Zoomaus: Pyöritä hiiren rullaa TAI Ctrl + Shift + hiiren oikea nappi ja liikuta hiirtä ylös/alas
+       </li>
+      </ul>
+     </li>
+     <li>
+      Oikeassa alakulmassa näkyy koordinaattiakselit, nollapisteen akseleineen saa näkyviin valitsemalla View (yläpalkissa) -&gt; Toggle axis cross
+     </li>
+    </ul>
+   </li>
+   <li>
+    Työkalupalkki
+    <ul>
+     <li>
+      Yleiset tiedostotoiminnot (Uusi, Avaa, Tallenna...)
+     </li>
+     <li>
+      Workbench-pudotusvalikko
+     </li>
+     <li>
+      (Makrotyökalut)
+     </li>
+     <li>
+      Näkymätyökalut
+     </li>
+     <li>
+      Workbench-kohtaiset työkalut
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   Sketsaus:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Mallin rakentaminen aloitetaan tavallisesti luomalla uusi sketch-piirre
+   </li>
+   <li>
+    Create sketch (Tasks-välilehti tai työkalupalkki)
+    <ul>
+     <li>
+      Ohjelma kysyy tason, jolle piirre halutaan luoda. Voidaan valita joku perustasoista (XY-, XZ- tai YZ-taso) tai offsetilla joku muu sijainti.
+     </li>
+     <li>
+      OK -&gt; ohjelma siirtyy sketsausnäkymään
+     </li>
+    </ul>
+   </li>
+   <li>
+    Piirroselementtien luominen
+    <ul>
+     <li>
+      Create line -&gt; aloita piirtäminen, hiiren vasen nappi -&gt; lopeta piirtäminen, hiiren vasen nappi
+     </li>
+     <li>
+      Työkalu pysyy aktiivisena eli voidaan jatkaa piirtämistä. Toinen viiva voidaan kiinnittää ensimmäiseen viemällä kursori viivan päähän, jolloin päätepiste muuttuu vihreäksi. Piirretään viiva samalla tavalla kuin ensimmäinenkin.
+     </li>
+     <li>
+      Työkalusta voi poistua painamalla hiiren oikeaa nappia tai Esc-näppäintä
+     </li>
+     <li>
+      Useamman perättäisen viivan piirtäminen onnistuu näppärämmin Polyline-työkalulla
+     </li>
+     <li>
+      Muut piirroselementit lisätään pitkälti samalla tavalla
+     </li>
+    </ul>
+   </li>
+   <li>
+    Rajoitteet
+    <ul>
+     <li>
+      Rajoitteiden tehtävä on määritellä piirretty muoto niin että se on (mielellään) täysin yksiselitteinen
+     </li>
+     <li>
+      Ohjelma luo automaattisesti rajoitteita, jos Auto constraints on päällä (Tasks-välilehti). Piirtämisen jälkeen muoto on siis osittain rajoitettu mutta viivoja ja pisteitä pystyy edelleen liikuttelemaan tietyissä suunnissa. (hiiren vasen nappi pohjaan kohteen päällä)
+     </li>
+     <li>
+      Rajoitteet jakautuvat kahteen kategoriaan, geometrisiin ja mittarajoitteisiin. Muoto kannattaa rajoittaa mahdollisimman pitkälle geometrisillä rajoitteilla, jolloin muokkaaminen on helpompaa myöhemmin.
+     </li>
+     <li>
+      Rajoitteita lisätään valitsemalla ensin rajoitettava kohde/kohteet ja sitten lisäämällä rajoite työkalupalkista. Näkymään ilmestyy uusi rajoitesymboli, jos rajoitettavat kohteet on valittu oikein. Muussa tapauksessa ohjelma antaa virheilmoituksen ja ohjeen, mitä pitää valita.
+     </li>
+     <li>
+      Mittarajoitteet lisätään vastaavasti. Usein vaihtoehtoja mitoitukseen on useita ja sopiva tapa valitaan sen mukaan mitä halutaan tehdä, esim kolmio voidaan mitoittaa käyttämällä eri yhdistelmiä kulmista ja sivujen pituuksista.
+     </li>
+     <li>
+      Kun kaikki tarvittavat mitat on lisätty, muuttuu viivojen väri vihreäksi ja muoto on tällöin täysin rajoitettu. Tasks-välilehdellä näkyy vapausasteiden määrä mikäli niitä on tai teksti "Fully constrained sketch", jos muoto on täysin rajoitettu.
+     </li>
+     <li>
+      Jos taas muotoon on lisätty liikaa rajoitteita tai rajoitteet ovat ristiriitaisia, Tasks-välilehdellä näkyy virheilmoitus sekä virheellisen rajoitteen/rajoitteiden numero. Nämä tulee korjata ennen sketsaustilasta poistumista.
+     </li>
+    </ul>
+   </li>
+   <li>
+    Sketsaustilasta poistutaan painamalla Esc-näppäintä tai Tasks-välilehdeltä Close
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   3D-piirteiden luominen:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Kun sketch-piirre on luotu, voidaan sen avulla tehdä esimerkiksi pursotus
+    <ul>
+     <li>
+      Valitaan haluttu sketch-piirre mallipuusta ja sitten Pad-toiminto Tasks-välilehdeltä tai työkalupalkista.
+     </li>
+    </ul>
+   </li>
+   <li>
+    3D-näkymään ilmestyy pursotettu kappale, jonka parametrejä voidaan säätää Tasks-välilehdellä
+    <ul>
+     <li>
+      Tavallisimmin pursotukselle annetaan mitta
+     </li>
+     <li>
+      Pursotus voidaan tehdä myös johonkin pintaan asti tai pursottaa kahteen suuntaan eri määrä
+     </li>
+     <li>
+      Symmetric to plane jakaa pursotuksen tasaisesti sketch-tason molemmin puolin ja Reversed vaihtaa pursotuksen suunnan
+     </li>
+    </ul>
+   </li>
+   <li>
+    Kun pursotus on halutunlainen, hyväksytään piirre painamalla OK Tasks-välilehdeltä. Tämän jälkeen mallipuussa näkyy pad-piirre, jonka alta löytyy aiemmin tehty sketch-piirre.
+    <ul>
+     <li>
+      Piirteiden välillä on tällöin riippuvuus eli sketch-piirteeseen tehdyt muokkaukset vaikuttavat pad-piirteeseen.
+     </li>
+    </ul>
+   </li>
+   <li>
+    Kappaleeseen voidaan lisätä materiaalia luomalla uusi sketch-piirre jollekin kappaleen tasopinnalle
+    <ul>
+     <li>
+      Siirrä kursori 3D-näkymässä halutun pinnan päälle, jolloin pinta muuttuu aktiiviseksi, ja valitse se painamalla hiiren vasenta nappia
+     </li>
+     <li>
+      Tasks-välilehti tai työkalupalkki -&gt; Create sketch
+      <ul>
+       <li>
+        Kappaleen reunaviivoja voidaan linkata sketch-tasolle linkkaustyökalulla
+       </li>
+       <li>
+        Valitse linkkaustyökalu työkalupalkista ja näytä linkattatavat viivat
+       </li>
+       <li>
+        Viivat ilmestyvät tasolle violetteina eikä niitä voi muokata, mutta muita elementtejä voidaan rajoittaa niiden avulla
+       </li>
+      </ul>
+     </li>
+     <li>
+      Kun uusi sketch-piirre on valmis, valitse se mallipuusta ja sitten jälleen Pad-toiminto.
+     </li>
+     <li>
+      Mallipuuhun ilmestyy uusi 3D-piirre ja sen pohjana oleva sketch-piirre löytyy sen alta
+     </li>
+    </ul>
+   </li>
+   <li>
+    Reunapiirteet (Chamfer, Blend)
+    <ul>
+     <li>
+      Valitse haluttu reuna/reunat 3D-näkymästä ja sen jälkeen esimerkiksi Chamfer toiminto
+     </li>
+     <li>
+      Reunapiirteet eivät vaadi sketch-piirrettä pohjaksi
+     </li>
+     <li>
+      Tasks-välilehdelle annetaan haluttu mitta ja piirre hyväksytään painamalla OK
+     </li>
+     <li>
+      Mallipuuhun ilmestyy uusi 3D-piirre
+     </li>
+     <li>
+      Blend toimii samalla tavalla
+     </li>
+    </ul>
+   </li>
+   <li>
+    Materiaalin poistaminen kappaleesta tapahtuu Pocket-toiminnolla
+    <ul>
+     <li>
+      Toiminnolla pystyy tekemään taskuja ja reikiä kappaleeseen
+     </li>
+     <li>
+      Toimii vastaavasti kuin Pad
+     </li>
+     <li>
+      Through all -tyyppisenä toiminto tekee kappaleeseen aina reiän, vaikka kappaleen paksuutta muutettaisiin myöhemmin. (Reiän voi tehdä myös laittamalla syvyyden suuremmaksi kuin kappaleen paksuus.)
+     </li>
+    </ul>
+   </li>
+   <li>
+    Piirteiden kopiointi (Mirror feature, Linear pattern...)
+    <ul>
+     <li>
+      Kappaleeseen voidaan lisätä piirteitä myös peilaamalla tai kopioimalla jotain olemassa olevaa piirrettä
+     </li>
+     <li>
+      Valitse haluttu piirre mallipuusta ja sitten peilaustoiminto TAI valitse peilaustoiminto ja avautuvasta ikkunasta haluttu piirre.
+      <ul>
+       <li>
+        Ohjelma peilaa piirteen käyttäen pohjana olevan piirteen sketch-tason vaaka- tai pystyakselia tai käyttäjän määrittämää viivaa
+       </li>
+      </ul>
+     </li>
+     <li>
+      Linear pattern toimii vastaavalla tavalla
+      <ul>
+       <li>
+        Määrittelyihin täytyy antaa kopioiden määrä, väli jolle kopiot asetetaan ja suunta (sketch-tason akselit tai käyttäjän määrittämä viiva)
+       </li>
+      </ul>
+     </li>
+     <li>
+      Polar pattern kopioi piirrettä akselin ympäri, määrittelyt vastaavasti kuin Linear patternissa
+     </li>
+     <li>
+      Monimutkaisempia kopiointeja (esim. ruudukko) voi tehdä Multitransformilla
+     </li>
+    </ul>
+   </li>
+   <li>
+    Revolve-piirre
+    <ul>
+     <li>
+      3D-piirteitä voidaan tehdä myös pyöräyttämällä sketch-piirre akselin ympäri, jolloin saadaan pyörähdyssymmetrisiä kappaleita
+     </li>
+     <li>
+      Toimii vastaavasti kuin pursotus eli ensin luodaan sketch-piirre, jonka jälkeen valitaan Revolve-toiminto
+      <ul>
+       <li>
+        Muoto voidaan pyöräyttää joko sketch-piirteen vaaka- tai pystyakselin ympäri
+       </li>
+       <li>
+        Oletuksena on 360° pyöräytys, mutta se voidaan tehdä myös pienemmällä asteluvulla
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li>
+    Primitiivit
+    <ul>
+     <li>
+      Yleiset perusmuodot (kuutio, pallo, kartio...) löytyvät Part-workbenchistä
+     </li>
+     <li>
+      Nämä piirteet eivät vaadi sketch-piirrettä pohjakseen, vaan ne määritellään pelkkien parametrien avulla. Tästä johtuen ne eivät myöskään automaattisesti yhdisty olemassa olevaan kappaleeseen eli ne jäävät irralleen.
+      <br/>
+      <br/>
+     </li>
+    </ul>
+   </li>
+  </ul>
+  <b>
+   Boolean-operaatiot:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Boolean-operaatioita joudutaan käyttämään, kun halutaan tehdä monimutkaisempia muotoja, joita ei voida tehdä pelkillä pursotuksilla ja pyöräytyksillä tai jos esimerkiksi pursotus pitäisi tehdä kaarevalle pinnalle
+   </li>
+   <li>
+    Koko mallin voi tehdä Boolean-operaatioita käyttäen, mutta se ei ole useinkaan suositeltavaa, koska mallin rakenteesta tulee helposti vaikeaselkoinen ja hankala käyttää. Lisäksi piirteet eivät oletuksena ole riippuvaisia toisistaan, jolloin muutokset yhdessä piirteessä eivät automaattisesti vaikuta muihin piirteisiin.
+   </li>
+   <li>
+    Boolean-operaation lisääminen
+    <ul>
+     <li>
+      Mallissa täytyy olla vähintään kaksi erillistä kappaletta (=eivät ole riippuvaisia toisistaan sketch- tai muiden piirteiden kautta), jotta boolean voidaan tehdä
+     </li>
+     <li>
+      Operaatiot löytyvät Part-workbenchistä
+     </li>
+     <li>
+      Mallipuusta valitaan kappaleet, joille operaatio halutaan tehdä ja sen jälkeen valitaan joko suoraan haluttu toiminto (Cut, Union tai Intersection) työkalupalkista tai sitten Boolean-työkalu.
+     </li>
+     <li>
+      Operaation avulla kappaleet voidaan yhdistää toisiinsa, leikata toisen kappaleen tilavuus toisesta tai jättää jäljelle vain kappaleiden yhteinen alue.
+     </li>
+    </ul>
+   </li>
+   <li>
+    Tämän jälkeen mallipuussa näkyy uusi piirre, jonka alle ovat siirtyneet operaatiossa käytetyt kappaleet.
+    <br/>
+    <br/>
+   </li>
+  </ul>
+  <b>
+   Kappaleen vienti .stl-muodossa 3D-printtausta varten:
+  </b>
+  <br/>
+  <ul>
+   <li>
+    Valitse haluttu kappale mallipuusta (kappale aktivoituu 3D-näkymässä) -&gt; File -&gt; Export -&gt; Files type -&gt; STL Mesh
+   </li>
+   <li>
+    Stl on mesh-muotoinen tiedosto, joten kappale viedään rajallisella tarkkuudella. Tarkkuutta voi muuttaa menemällä Mesh Design -workbenchiin ja sitten ohjelman asetuksiin Edit -&gt; Preferences -&gt; Import-Export -&gt; Mesh Formats
+   </li>
+   <li>
+    Yleensä vienti onnistuu hyvin, mutta silloin tällöin muunnoksessa tapahtuu virheitä ja slicer-ohjelma ei hyväksy tiedostoa. Tällöin kappaletta voi yrittää korjata esim. Blenderillä tai jollain automaattisella korjausohjelmalla.
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+   </li>
+  </ul>
+ </body>
+</html>
